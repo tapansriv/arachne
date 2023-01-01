@@ -1,0 +1,177 @@
+{
+   "name":  "Query", 
+   "result": 736.164583,
+   "timing": 736.164583,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE ss AS\n  (SELECT ca_county,\n          d_qoy,\n          d_year,\n          sum(ss_ext_sales_price) AS store_sales\n   FROM 'store_sales.parquet' ,\n        'date_dim.parquet' AS date_dim,\n        'customer_address.parquet' AS customer_address\n   WHERE ss_sold_date_sk = d_date_sk\n     AND ss_addr_sk=ca_address_sk\n   GROUP BY ca_county,\n            d_qoy,\n            d_year)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000687
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000042
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000042
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000524
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000045
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.086015
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.086010
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.001254,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":260.695208,
+         "cardinality":38787,
+         "extra_info": "#0\n#1\n#2\nsum(#3)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":5.838743,
+            "cardinality":2685600040,
+            "extra_info": "ca_county\nd_qoy\nd_year\nss_ext_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":138.373240,
+               "cardinality":2685600040,
+               "extra_info": "INNER\nss_addr_sk=ca_address_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":57.038635,
+                  "cardinality":2750387156,
+                  "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":238.344888,
+                     "cardinality":2879987999,
+                     "extra_info": "ss_ext_sales_price\nss_sold_date_sk\nss_addr_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.006240,
+                     "cardinality":146098,
+                     "extra_info": "d_qoy\nd_year\nd_date_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":1.320124,
+                  "cardinality":12000000,
+                  "extra_info": "ca_county\nca_address_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

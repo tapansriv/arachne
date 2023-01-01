@@ -1,0 +1,60 @@
+{
+    "name": "HASH_GROUP_BY",
+    "timing": 0.049682,
+    "cardinality": 2000,
+    "extra_info": "#0\nsum(#1)\nsum(#2)",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.003427,
+            "cardinality": 1000253,
+            "extra_info": "wp_web_page_sk\nwr_return_amt\nwr_net_loss\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 0.045303,
+                    "cardinality": 1000253,
+                    "extra_info": "INNER\nwr_web_page_sk=wp_web_page_sk\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_JOIN",
+                            "timing": 0.812137,
+                            "cardinality": 1024083,
+                            "extra_info": "INNER\nwr_returned_date_sk=d_date_sk\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 9.778873,
+                                    "cardinality": 71997522,
+                                    "extra_info": "wr_return_amt\nwr_net_loss\nwr_returned_date_sk\nwr_web_page_sk",
+                                    "timings": [],
+                                    "children": []
+                                },
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 0.006395,
+                                    "cardinality": 62,
+                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-22 00:00:00 AND d_date IS NOT NULL\n",
+                                    "timings": [],
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PARQUET_SCAN",
+                            "timing": 0.000182,
+                            "cardinality": 6000,
+                            "extra_info": "wp_web_page_sk",
+                            "timings": [],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

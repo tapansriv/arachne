@@ -1,0 +1,452 @@
+{
+   "name":  "Query", 
+   "result": 825.533306,
+   "timing": 825.533306,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001791
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000018
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000341
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000315
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000067
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000970
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000019
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000084
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000044
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "planner", 
+   "timing": 32.559039
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 32.559012
+   }
+   ],
+   "children": [
+    {
+      "name": "LIMIT",
+      "timing":0.000000,
+      "cardinality":0,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "SIMPLE_AGGREGATE",
+         "timing":0.001279,
+         "cardinality":0,
+         "extra_info": "count_star()",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.393422,
+            "cardinality":2471496,
+            "extra_info": "#0\n#1\n#2",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.009330,
+               "cardinality":1235748,
+               "extra_info": "#0\n#1\n#2\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":3.158504,
+                  "cardinality":1235748,
+                  "extra_info": "SEMI\n#0=#0\n#1=#1\n#2=#2\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":1.791897,
+                     "cardinality":5271761,
+                     "extra_info": "#0\n#1\n#2",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.074420,
+                        "cardinality":5271761,
+                        "extra_info": "#0\n#1\n#2\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":11.561820,
+                           "cardinality":5271761,
+                           "extra_info": "SEMI\n#0=#0\n#1=#1\n#2=#2\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_GROUP_BY",
+                              "timing":84.893183,
+                              "cardinality":38634909,
+                              "extra_info": "#0\n#1\n#2",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":5.883363,
+                                 "cardinality":539990893,
+                                 "extra_info": "c_last_name\nc_first_name\nd_date\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":35.448364,
+                                    "cardinality":539990893,
+                                    "extra_info": "INNER\nss_customer_sk=c_customer_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":5.425894,
+                                       "cardinality":553018161,
+                                       "extra_info": "ss_customer_sk\nd_date\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":40.360612,
+                                          "cardinality":553018161,
+                                          "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":231.690073,
+                                             "cardinality":2879987999,
+                                             "extra_info": "ss_sold_date_sk\nss_customer_sk",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":0.000062,
+                                             "cardinality":732,
+                                             "extra_info": "d_date_sk\nd_date\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":0.055256,
+                                                "cardinality":732,
+                                                "extra_info": "d_date_sk\nd_date\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":10.024104,
+                                       "cardinality":24000000,
+                                       "extra_info": "c_customer_sk\nc_first_name\nc_last_name",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "HASH_GROUP_BY",
+                              "timing":36.838351,
+                              "cardinality":53537892,
+                              "extra_info": "#0\n#1\n#2",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.605735,
+                                 "cardinality":285841773,
+                                 "extra_info": "c_last_name\nc_first_name\nd_date\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":14.020016,
+                                    "cardinality":285841773,
+                                    "extra_info": "INNER\ncs_bill_customer_sk=c_customer_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.525715,
+                                       "cardinality":286562330,
+                                       "extra_info": "cs_bill_customer_sk\nd_date\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":18.740594,
+                                          "cardinality":286562330,
+                                          "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":163.340334,
+                                             "cardinality":1439980416,
+                                             "extra_info": "cs_sold_date_sk\ncs_bill_customer_sk",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":0.000035,
+                                             "cardinality":732,
+                                             "extra_info": "d_date_sk\nd_date\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":0.006367,
+                                                "cardinality":732,
+                                                "extra_info": "d_date_sk\nd_date\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":3.314113,
+                                       "cardinality":24000000,
+                                       "extra_info": "c_customer_sk\nc_first_name\nc_last_name",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":22.609177,
+                     "cardinality":21755152,
+                     "extra_info": "#0\n#1\n#2",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":1.458750,
+                        "cardinality":144751347,
+                        "extra_info": "c_last_name\nc_first_name\nd_date\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":10.090329,
+                           "cardinality":144751347,
+                           "extra_info": "INNER\nws_bill_customer_sk=c_customer_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":1.350374,
+                              "cardinality":144769368,
+                              "extra_info": "ws_bill_customer_sk\nd_date\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":8.160418,
+                                 "cardinality":144769368,
+                                 "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":55.934231,
+                                    "cardinality":720000376,
+                                    "extra_info": "ws_sold_date_sk\nws_bill_customer_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.000033,
+                                    "cardinality":732,
+                                    "extra_info": "d_date_sk\nd_date\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.006253,
+                                       "cardinality":732,
+                                       "extra_info": "d_date_sk\nd_date\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":3.318149,
+                              "cardinality":24000000,
+                              "extra_info": "c_customer_sk\nc_first_name\nc_last_name",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

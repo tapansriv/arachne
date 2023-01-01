@@ -1,0 +1,630 @@
+{
+   "name":  "Query", 
+   "result": 114.106916,
+   "timing": 114.106916,
+   "cardinality": 0,
+   "extra-info": "SELECT COUNT(*)\nFROM (SELECT \"t5\".\"p_personid\" AS \"personid\", \"t8\".\"k_person2id\" AS \"friendid\"\nFROM (SELECT \"t1\".\"p_personid\"\nFROM (SELECT \"t\".\"p_personid\", \"t0\".\"pl_containerplaceid\"\nFROM (SELECT \"p_personid\", \"p_placeid\"\nFROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS \"t\"\nINNER JOIN (SELECT \"pl_placeid\", \"pl_containerplaceid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS \"t0\" ON \"t\".\"p_placeid\" = \"t0\".\"pl_placeid\") AS \"t1\"\nINNER JOIN (SELECT \"pl_placeid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place\nWHERE \"pl_name\" = 'China') AS \"t4\" ON \"t1\".\"pl_containerplaceid\" = \"t4\".\"pl_placeid\") AS \"t5\"\nINNER JOIN (SELECT \"k_person1id\", \"k_person2id\"\nFROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows\nWHERE \"k_creationdate\" >= 1354147200000 AND \"k_creationdate\" <= 1362441600000) AS \"t8\" ON \"t5\".\"p_personid\" = \"t8\".\"k_person1id\") AS \"t9\"\nINNER JOIN (SELECT \"t16\".\"p_personid\" AS \"personid\", \"t19\".\"k_person2id\" AS \"friendid\"\nFROM (SELECT \"t12\".\"p_personid\"\nFROM (SELECT \"t10\".\"p_personid\", \"t11\".\"pl_containerplaceid\"\nFROM (SELECT \"p_personid\", \"p_placeid\"\nFROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS \"t10\"\nINNER JOIN (SELECT \"pl_placeid\", \"pl_containerplaceid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS \"t11\" ON \"t10\".\"p_placeid\" = \"t11\".\"pl_placeid\") AS \"t12\"\nINNER JOIN (SELECT \"pl_placeid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place\nWHERE \"pl_name\" = 'China') AS \"t15\" ON \"t12\".\"pl_containerplaceid\" = \"t15\".\"pl_placeid\") AS \"t16\"\nINNER JOIN (SELECT \"k_person1id\", \"k_person2id\"\nFROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows\nWHERE \"k_creationdate\" >= 1354147200000 AND \"k_creationdate\" <= 1362441600000) AS \"t19\" ON \"t16\".\"p_personid\" = \"t19\".\"k_person1id\") AS \"t20\" ON \"t9\".\"friendid\" = \"t20\".\"personid\" AND \"t9\".\"personid\" < \"t20\".\"personid\"\nINNER JOIN (SELECT \"t27\".\"p_personid\" AS \"personid\", \"t30\".\"k_person2id\" AS \"friendid\"\nFROM (SELECT \"t23\".\"p_personid\"\nFROM (SELECT \"t21\".\"p_personid\", \"t22\".\"pl_containerplaceid\"\nFROM (SELECT \"p_personid\", \"p_placeid\"\nFROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS \"t21\"\nINNER JOIN (SELECT \"pl_placeid\", \"pl_containerplaceid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS \"t22\" ON \"t21\".\"p_placeid\" = \"t22\".\"pl_placeid\") AS \"t23\"\nINNER JOIN (SELECT \"pl_placeid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place\nWHERE \"pl_name\" = 'China') AS \"t26\" ON \"t23\".\"pl_containerplaceid\" = \"t26\".\"pl_placeid\") AS \"t27\"\nINNER JOIN (SELECT \"k_person1id\", \"k_person2id\"\nFROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows\nWHERE \"k_creationdate\" >= 1354147200000 AND \"k_creationdate\" <= 1362441600000) AS \"t30\" ON \"t27\".\"p_personid\" = \"t30\".\"k_person1id\") AS \"t31\" ON \"t20\".\"friendid\" = \"t31\".\"personid\" AND \"t20\".\"personid\" < \"t31\".\"personid\"\nINNER JOIN (SELECT \"t38\".\"p_personid\" AS \"personid\", \"t41\".\"k_person2id\" AS \"friendid\"\nFROM (SELECT \"t34\".\"p_personid\"\nFROM (SELECT \"t32\".\"p_personid\", \"t33\".\"pl_containerplaceid\"\nFROM (SELECT \"p_personid\", \"p_placeid\"\nFROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS \"t32\"\nINNER JOIN (SELECT \"pl_placeid\", \"pl_containerplaceid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS \"t33\" ON \"t32\".\"p_placeid\" = \"t33\".\"pl_placeid\") AS \"t34\"\nINNER JOIN (SELECT \"pl_placeid\"\nFROM '/mnt/disks/ldbc/parquet/place.parquet' AS place\nWHERE \"pl_name\" = 'China') AS \"t37\" ON \"t34\".\"pl_containerplaceid\" = \"t37\".\"pl_placeid\") AS \"t38\"\nINNER JOIN (SELECT \"k_person1id\", \"k_person2id\"\nFROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows\nWHERE \"k_creationdate\" >= 1354147200000 AND \"k_creationdate\" <= 1362441600000) AS \"t41\" ON \"t38\".\"p_personid\" = \"t41\".\"k_person1id\") AS \"t42\" ON \"t31\".\"friendid\" = \"t42\".\"personid\" AND \"t9\".\"personid\" = \"t42\".\"friendid\" AND \"t31\".\"personid\" < \"t42\".\"personid\"\n\n", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.005063
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000084
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000014
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000241
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000297
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.004336
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000026
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000129
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000073
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "planner", 
+   "timing": 0.016351
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 0.016337
+   }
+   ],
+   "children": [
+    {
+      "name": "UNGROUPED_AGGREGATE",
+      "timing":0.007646,
+      "cardinality":0,
+      "extra_info": "count_star()",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_JOIN",
+         "timing":1111.901745,
+         "cardinality":6597328,
+         "extra_info": "INNER\nfriendid = personid\npersonid = friendid\npersonid < personid\n\nEC = 9246722.000000\nCOST = 27740166.000000\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.004229,
+            "cardinality":1210584,
+            "extra_info": "personid\nfriendid\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.541152,
+               "cardinality":1210584,
+               "extra_info": "INNER\nk_person1id = p_personid\n\nEC = 9246722.000000\nCOST = 9246722.000000\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.020142,
+                  "cardinality":8945420,
+                  "extra_info": "k_person1id\nk_person2id\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":4.161687,
+                     "cardinality":8945420,
+                     "extra_info": "k_creationdate\nk_person1id\nk_person2id\n[INFOSEPARATOR]\nFilters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL\n\nEC=46233610\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000124,
+                  "cardinality":70838,
+                  "extra_info": "p_personid\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":0.003815,
+                     "cardinality":70838,
+                     "extra_info": "INNER\npl_containerplaceid = pl_placeid\n\nEC = 97540.000000\nCOST = 97540.000000\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000155,
+                        "cardinality":487700,
+                        "extra_info": "p_personid\npl_containerplaceid\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":0.003251,
+                           "cardinality":487700,
+                           "extra_info": "INNER\np_placeid = pl_placeid\n\nEC = 487700.000000\nCOST = 487700.000000\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.066176,
+                              "cardinality":487700,
+                              "extra_info": "p_personid\np_placeid\nEC=487700\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.000122,
+                              "cardinality":1460,
+                              "extra_info": "pl_placeid\npl_containerplaceid\nEC=1460\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000001,
+                        "cardinality":1,
+                        "extra_info": "pl_placeid\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.000238,
+                           "cardinality":1,
+                           "extra_info": "pl_name\npl_placeid\n[INFOSEPARATOR]\nFilters: pl_name=China AND pl_name IS NOT NULL\n\nEC=1460\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+,
+          {
+            "name": "HASH_JOIN",
+            "timing":214.311724,
+            "cardinality":1434582997,
+            "extra_info": "INNER\nfriendid = personid\npersonid < personid\n\nEC = 9246722.000000\nCOST = 18493444.000000\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.006164,
+               "cardinality":1210584,
+               "extra_info": "personid\nfriendid\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.885541,
+                  "cardinality":1210584,
+                  "extra_info": "INNER\nk_person1id = p_personid\n\nEC = 9246722.000000\nCOST = 9246722.000000\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.044866,
+                     "cardinality":8945420,
+                     "extra_info": "k_person1id\nk_person2id\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":5.236679,
+                        "cardinality":8945420,
+                        "extra_info": "k_creationdate\nk_person1id\nk_person2id\n[INFOSEPARATOR]\nFilters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL\n\nEC=46233610\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000080,
+                     "cardinality":70838,
+                     "extra_info": "p_personid\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":0.002774,
+                        "cardinality":70838,
+                        "extra_info": "INNER\npl_containerplaceid = pl_placeid\n\nEC = 97540.000000\nCOST = 97540.000000\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000113,
+                           "cardinality":487700,
+                           "extra_info": "p_personid\npl_containerplaceid\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.002592,
+                              "cardinality":487700,
+                              "extra_info": "INNER\np_placeid = pl_placeid\n\nEC = 487700.000000\nCOST = 487700.000000\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.027198,
+                                 "cardinality":487700,
+                                 "extra_info": "p_personid\np_placeid\nEC=487700\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.000142,
+                                 "cardinality":1460,
+                                 "extra_info": "pl_placeid\npl_containerplaceid\nEC=1460\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000001,
+                           "cardinality":1,
+                           "extra_info": "pl_placeid\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.000225,
+                              "cardinality":1,
+                              "extra_info": "pl_name\npl_placeid\n[INFOSEPARATOR]\nFilters: pl_name=China AND pl_name IS NOT NULL\n\nEC=1460\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "HASH_JOIN",
+               "timing":7.040390,
+               "cardinality":53632053,
+               "extra_info": "INNER\nfriendid = personid\npersonid < personid\n\nEC = 9246722.000000\nCOST = 9246722.000000\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.003538,
+                  "cardinality":1210584,
+                  "extra_info": "personid\nfriendid\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":0.701190,
+                     "cardinality":1210584,
+                     "extra_info": "INNER\nk_person1id = p_personid\n\nEC = 9246722.000000\nCOST = 9246722.000000\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.035571,
+                        "cardinality":8945420,
+                        "extra_info": "k_person1id\nk_person2id\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":4.951479,
+                           "cardinality":8945420,
+                           "extra_info": "k_creationdate\nk_person1id\nk_person2id\n[INFOSEPARATOR]\nFilters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL\n\nEC=46233610\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000108,
+                        "cardinality":70838,
+                        "extra_info": "p_personid\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":0.003788,
+                           "cardinality":70838,
+                           "extra_info": "INNER\npl_containerplaceid = pl_placeid\n\nEC = 97540.000000\nCOST = 97540.000000\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000159,
+                              "cardinality":487700,
+                              "extra_info": "p_personid\npl_containerplaceid\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.003256,
+                                 "cardinality":487700,
+                                 "extra_info": "INNER\np_placeid = pl_placeid\n\nEC = 487700.000000\nCOST = 487700.000000\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.067747,
+                                    "cardinality":487700,
+                                    "extra_info": "p_personid\np_placeid\nEC=487700\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.000126,
+                                    "cardinality":1460,
+                                    "extra_info": "pl_placeid\npl_containerplaceid\nEC=1460\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000001,
+                              "cardinality":1,
+                              "extra_info": "pl_placeid\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.000248,
+                                 "cardinality":1,
+                                 "extra_info": "pl_name\npl_placeid\n[INFOSEPARATOR]\nFilters: pl_name=China AND pl_name IS NOT NULL\n\nEC=1460\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.001912,
+                  "cardinality":1210584,
+                  "extra_info": "personid\nfriendid\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":0.448583,
+                     "cardinality":1210584,
+                     "extra_info": "INNER\nk_person1id = p_personid\n\nEC = 9246722.000000\nCOST = 9246722.000000\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.015799,
+                        "cardinality":8945420,
+                        "extra_info": "k_person1id\nk_person2id\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":5.347866,
+                           "cardinality":8945420,
+                           "extra_info": "k_creationdate\nk_person1id\nk_person2id\n[INFOSEPARATOR]\nFilters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL\n\nEC=46233610\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000118,
+                        "cardinality":70838,
+                        "extra_info": "p_personid\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":0.003863,
+                           "cardinality":70838,
+                           "extra_info": "INNER\npl_containerplaceid = pl_placeid\n\nEC = 97540.000000\nCOST = 97540.000000\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000149,
+                              "cardinality":487700,
+                              "extra_info": "p_personid\npl_containerplaceid\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.003213,
+                                 "cardinality":487700,
+                                 "extra_info": "INNER\np_placeid = pl_placeid\n\nEC = 487700.000000\nCOST = 487700.000000\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.081266,
+                                    "cardinality":487700,
+                                    "extra_info": "p_personid\np_placeid\nEC=487700\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.000127,
+                                    "cardinality":1460,
+                                    "extra_info": "pl_placeid\npl_containerplaceid\nEC=1460\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000001,
+                              "cardinality":1,
+                              "extra_info": "pl_placeid\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.000274,
+                                 "cardinality":1,
+                                 "extra_info": "pl_name\npl_placeid\n[INFOSEPARATOR]\nFilters: pl_name=China AND pl_name IS NOT NULL\n\nEC=1460\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

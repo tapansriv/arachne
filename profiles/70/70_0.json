@@ -1,0 +1,300 @@
+{
+   "name":  "Query", 
+   "result": 626.580647,
+   "timing": 626.580647,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE results AS\n  (SELECT sum(ss_net_profit) AS total_sum,\n          s_state,\n          s_county,\n          0 AS gstate,\n          0 AS g_county\n   FROM 'store_sales.parquet' AS store_sales ,\n        'date_dim.parquet' d1 ,\n        'store.parquet' AS store\n   WHERE d1.d_month_seq BETWEEN 1200 AND 1200 + 11\n     AND d1.d_date_sk = ss_sold_date_sk\n     AND s_store_sk = ss_store_sk\n     AND s_state IN\n       (SELECT s_state\n        FROM\n          (SELECT s_state AS s_state,\n                  rank() OVER (PARTITION BY s_state\n                               ORDER BY sum(ss_net_profit) DESC) AS ranking\n           FROM 'store_sales.parquet' AS store_sales,\n                'store.parquet' AS store,\n                'date_dim.parquet' AS date_dim\n           WHERE d_month_seq BETWEEN 1200 AND 1200 + 11\n             AND d_date_sk = ss_sold_date_sk\n             AND s_store_sk = ss_store_sk\n           GROUP BY s_state ) tmp1\n        WHERE ranking <= 5)\n   GROUP BY s_state,\n            s_county)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001826
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000015
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000456
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000456
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000103
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000726
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000089
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000058
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "planner", 
+   "timing": 36.121717
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 36.121713
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000044,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000035,
+         "cardinality":30,
+         "extra_info": "total_sum\ns_state\ns_county\ngstate\ng_county\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_GROUP_BY",
+            "timing":38.265330,
+            "cardinality":30,
+            "extra_info": "#0\n#1\nsum(#2)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":5.575728,
+               "cardinality":535674364,
+               "extra_info": "s_state\ns_county\nss_net_profit\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":23.277230,
+                  "cardinality":535674364,
+                  "extra_info": "SEMI\ns_state=#0\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":19.325169,
+                     "cardinality":539988812,
+                     "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":33.566309,
+                        "cardinality":553018161,
+                        "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":114.376095,
+                           "cardinality":2879987999,
+                           "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.003490,
+                           "cardinality":732,
+                           "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.002242,
+                        "cardinality":2004,
+                        "extra_info": "s_state\ns_county\ns_store_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000080,
+                     "cardinality":44,
+                     "extra_info": "#0\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "FILTER",
+                        "timing":0.000124,
+                        "cardinality":44,
+                        "extra_info": "ranking<=5",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "WINDOW",
+                           "timing":0.000448,
+                           "cardinality":44,
+                           "extra_info": "RANK() OVER(PARTITION BY s_state ORDER BY sum(#[21.0]) DESC NULLS FIRST)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_GROUP_BY",
+                              "timing":21.076249,
+                              "cardinality":22,
+                              "extra_info": "#0\nsum(#1)",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":5.270327,
+                                 "cardinality":539988812,
+                                 "extra_info": "s_state\nss_net_profit\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":36.706157,
+                                    "cardinality":539988812,
+                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":45.971695,
+                                       "cardinality":2750415949,
+                                       "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":208.846856,
+                                          "cardinality":2879987999,
+                                          "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.000342,
+                                          "cardinality":2004,
+                                          "extra_info": "s_state\ns_store_sk",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.003148,
+                                       "cardinality":732,
+                                       "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

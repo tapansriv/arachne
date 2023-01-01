@@ -1,0 +1,62 @@
+{
+   "name":  "Query", 
+   "result": 0.077590,
+   "timing": 0.077590,
+   "cardinality": 0,
+   "extra-info": "\nSELECT *\nFROM v2\nWHERE d_year = 1999\n  AND avg_monthly_sales > 0\n  AND CASE\n          WHEN avg_monthly_sales > 0 THEN abs(sum_sales - avg_monthly_sales) / avg_monthly_sales\n          ELSE NULL\n      END > 0.1\nORDER BY sum_sales - avg_monthly_sales NULLS FIRST, 1, 2, 3, 4, 5, 6, 7, 8, 9\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "PROJECTION",
+      "timing":0.000000,
+      "cardinality":0,
+      "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n#8\n",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "TOP_N",
+         "timing":0.042098,
+         "cardinality":0,
+         "extra_info": "Top 100\n[INFOSEPARATOR]\n#9 ASC\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC\n#4 ASC\n#5 ASC\n#6 ASC\n#7 ASC\n#8 ASC",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.001676,
+            "cardinality":215685,
+            "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\navg_monthly_sales\nsum_sales\npsum\nnsum\n-(sum_sales, avg_monthly_sales)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "FILTER",
+               "timing":0.004777,
+               "cardinality":215685,
+               "extra_info": "CASE WHEN (True) THEN (/(abs(-(sum_sales, avg_monthly_sales)), avg_monthly_sales)) ELSE (NULL)>0.100000",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":0.024368,
+                  "cardinality":215712,
+                  "extra_info": "v2\n[INFOSEPARATOR]\ni_category\ni_brand\ncc_name\nd_year\nd_moy\navg_monthly_sales\nsum_sales\npsum\nnsum",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

@@ -1,0 +1,93 @@
+{
+   "name":  "Query", 
+   "result": 3.384248,
+   "timing": 3.384248,
+   "cardinality": 100,
+   "extra-info": "SELECT "duck_table_52_0"."d_year", "t1"."i_brand_id" AS "brand_id", "t1"."i_brand" AS "brand", SUM("duck_table_52_0"."ss_ext_sales_price") AS "ext_price"\nFROM "duck_table_52_0"\nINNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand"\nFROM '/mnt/disks/tpcds/parquet/item.parquet' AS item\nWHERE "i_manager_id" = 1) AS "t1" ON "duck_table_52_0"."ss_item_sk" = "t1"."i_item_sk"\nGROUP BY "duck_table_52_0"."d_year", "t1"."i_brand", "t1"."i_brand_id"\nORDER BY "duck_table_52_0"."d_year", SUM("duck_table_52_0"."ss_ext_sales_price") DESC NULLS LAST, "t1"."i_brand_id"\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000244,
+      "cardinality":100,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#3 DESC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000006,
+         "cardinality":1050,
+         "extra_info": "d_year\nbrand_id\nbrand\next_price\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_GROUP_BY",
+            "timing":0.122986,
+            "cardinality":1050,
+            "extra_info": "#0\n#1\n#2\nsum(#3)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.002157,
+               "cardinality":1642622,
+               "extra_info": "d_year\ni_brand\ni_brand_id\nss_ext_sales_price\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":1.096475,
+                  "cardinality":1642622,
+                  "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":1.937672,
+                     "cardinality":88904807,
+                     "extra_info": "duck_table_52_0\n[INFOSEPARATOR]\nss_item_sk\nd_year\nss_ext_sales_price",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000559,
+                     "cardinality":10814,
+                     "extra_info": "i_item_sk\ni_brand_id\ni_brand\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.423621,
+                        "cardinality":10814,
+                        "extra_info": "i_item_sk\ni_brand_id\ni_brand\ni_manager_id\n[INFOSEPARATOR]\nFilters: i_manager_id=1 AND i_manager_id IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

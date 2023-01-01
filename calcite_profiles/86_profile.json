@@ -1,0 +1,552 @@
+{
+   "name":  "Query", 
+   "result": 393.265649,
+   "timing": 393.265649,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001994
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000020
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000494
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000298
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000066
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.001018
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000101
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000049
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "planner", 
+   "timing": 17.013687
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 17.013648
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000493,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#3 DESC\n#5 ASC\n#4 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000072,
+         "cardinality":202,
+         "extra_info": "total_sum\ni_category\ni_class\nlochierarchy\nrank_within_parent\nCASE WHEN (lochierarchy=0) THEN (i_category) ELSE (NULL)\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "WINDOW",
+            "timing":0.000643,
+            "cardinality":202,
+            "extra_info": "RANK() OVER(PARTITION BY lochierarchy, CASE WHEN (g_class=0) THEN (i_category) ELSE (NULL) ORDER BY total_sum DESC NULLS FIRST)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000079,
+               "cardinality":202,
+               "extra_info": "#0\n#1\n#2\n#3\n#4\n#5",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000030,
+                  "cardinality":202,
+                  "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "UNION",
+                     "timing":0.000005,
+                     "cardinality":202,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000093,
+                        "cardinality":201,
+                        "extra_info": "#0\n#1\n#2\n#3\n#4\n#5",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000030,
+                           "cardinality":201,
+                           "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "UNION",
+                              "timing":0.000005,
+                              "cardinality":201,
+                              "extra_info": "",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000030,
+                                 "cardinality":190,
+                                 "extra_info": "total_sum\ni_category\ni_class\ng_category\ng_class\nlochierarchy\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing":19.933518,
+                                    "cardinality":190,
+                                    "extra_info": "#0\n#1\nsum(#2)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":1.821947,
+                                       "cardinality":144769368,
+                                       "extra_info": "i_category\ni_class\nws_net_paid\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":13.613145,
+                                          "cardinality":144769368,
+                                          "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":1.791225,
+                                             "cardinality":144769368,
+                                             "extra_info": "ws_item_sk\nws_net_paid\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "HASH_JOIN",
+                                                "timing":10.271776,
+                                                "cardinality":144769368,
+                                                "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PARQUET_SCAN",
+                                                   "timing":205.987175,
+                                                   "cardinality":720000376,
+                                                   "extra_info": "ws_sold_date_sk\nws_item_sk\nws_net_paid",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+,
+                                                 {
+                                                   "name": "PROJECTION",
+                                                   "timing":0.000024,
+                                                   "cardinality":732,
+                                                   "extra_info": "d_date_sk\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PARQUET_SCAN",
+                                                      "timing":0.002823,
+                                                      "cardinality":732,
+                                                      "extra_info": "d_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.073814,
+                                             "cardinality":600000,
+                                             "extra_info": "i_item_sk\ni_class\ni_category",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000029,
+                                 "cardinality":11,
+                                 "extra_info": "total_sum\ni_category\nNULL\ng_category\ng_class\nlochierarchy\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing":0.000048,
+                                    "cardinality":11,
+                                    "extra_info": "#0\nsum(#1)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000011,
+                                       "cardinality":190,
+                                       "extra_info": "i_category\ntotal_sum\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":0.000012,
+                                          "cardinality":190,
+                                          "extra_info": "i_category\ntotal_sum\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "HASH_GROUP_BY",
+                                             "timing":11.594679,
+                                             "cardinality":190,
+                                             "extra_info": "#0\n#1\nsum(#2)",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PROJECTION",
+                                                "timing":1.060886,
+                                                "cardinality":144769368,
+                                                "extra_info": "i_category\ni_class\nws_net_paid\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "HASH_JOIN",
+                                                   "timing":9.291786,
+                                                   "cardinality":144769368,
+                                                   "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PROJECTION",
+                                                      "timing":1.085864,
+                                                      "cardinality":144769368,
+                                                      "extra_info": "ws_item_sk\nws_net_paid\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "HASH_JOIN",
+                                                         "timing":6.264358,
+                                                         "cardinality":144769368,
+                                                         "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing":24.685373,
+                                                            "cardinality":720000376,
+                                                            "extra_info": "ws_sold_date_sk\nws_item_sk\nws_net_paid",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                            ]
+                                                          }
+,
+                                                          {
+                                                            "name": "PROJECTION",
+                                                            "timing":0.000020,
+                                                            "cardinality":732,
+                                                            "extra_info": "d_date_sk\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                             {
+                                                               "name": "PARQUET_SCAN",
+                                                               "timing":0.002752,
+                                                               "cardinality":732,
+                                                               "extra_info": "d_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                               ]
+                                                             }
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+,
+                                                    {
+                                                      "name": "PARQUET_SCAN",
+                                                      "timing":0.073658,
+                                                      "cardinality":600000,
+                                                      "extra_info": "i_item_sk\ni_class\ni_category",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000029,
+                        "cardinality":1,
+                        "extra_info": "total_sum\nNULL\nNULL\ng_category\ng_class\nlochierarchy\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "SIMPLE_AGGREGATE",
+                           "timing":0.000013,
+                           "cardinality":1,
+                           "extra_info": "sum(#0)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000013,
+                              "cardinality":380,
+                              "extra_info": "total_sum\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000014,
+                                 "cardinality":380,
+                                 "extra_info": "total_sum\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing":11.660437,
+                                    "cardinality":380,
+                                    "extra_info": "#0\n#1\nsum(#2)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":1.083439,
+                                       "cardinality":144769368,
+                                       "extra_info": "i_category\ni_class\nws_net_paid\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":9.241411,
+                                          "cardinality":144769368,
+                                          "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":1.071187,
+                                             "cardinality":144769368,
+                                             "extra_info": "ws_item_sk\nws_net_paid\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "HASH_JOIN",
+                                                "timing":6.256921,
+                                                "cardinality":144769368,
+                                                "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PARQUET_SCAN",
+                                                   "timing":24.249524,
+                                                   "cardinality":720000376,
+                                                   "extra_info": "ws_sold_date_sk\nws_item_sk\nws_net_paid",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+,
+                                                 {
+                                                   "name": "PROJECTION",
+                                                   "timing":0.000020,
+                                                   "cardinality":732,
+                                                   "extra_info": "d_date_sk\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PARQUET_SCAN",
+                                                      "timing":0.002771,
+                                                      "cardinality":732,
+                                                      "extra_info": "d_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.073263,
+                                             "cardinality":600000,
+                                             "extra_info": "i_item_sk\ni_class\ni_category",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

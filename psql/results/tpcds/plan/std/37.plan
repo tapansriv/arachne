@@ -1,0 +1,25 @@
+                                                                                                  QUERY PLAN                                                                                                  
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=75072.34..75136.07 rows=24 width=127)
+   ->  Group  (cost=75072.34..75136.07 rows=24 width=127)
+         Group Key: item.i_item_id, item.i_item_desc, item.i_current_price
+         ->  Gather Merge  (cost=75072.34..75135.71 rows=48 width=127)
+               Workers Planned: 2
+               ->  Group  (cost=74072.32..74130.14 rows=24 width=127)
+                     Group Key: item.i_item_id, item.i_item_desc, item.i_current_price
+                     ->  Sort  (cost=74072.32..74086.78 rows=5782 width=127)
+                           Sort Key: item.i_item_id, item.i_item_desc, item.i_current_price
+                           ->  Nested Loop  (cost=1.14..73711.02 rows=5782 width=127)
+                                 ->  Nested Loop  (cost=0.57..50975.27 rows=7 width=135)
+                                       ->  Parallel Seq Scan on item  (cost=0.00..10080.00 rows=10 width=131)
+                                             Filter: ((i_current_price >= '68'::double precision) AND (i_current_price <= '98'::double precision) AND (i_manufact_id = ANY ('{677,940,694,808}'::integer[])))
+                                       ->  Nested Loop  (cost=0.57..4086.85 rows=268 width=4)
+                                             ->  Seq Scan on date_dim  (cost=0.00..2556.73 rows=67 width=4)
+                                                   Filter: ((d_date >= '2000-02-01'::date) AND (d_date <= '2000-04-01'::date))
+                                             ->  Index Scan using inventory_pkey on inventory  (cost=0.57..22.80 rows=4 width=8)
+                                                   Index Cond: ((inv_date_sk = date_dim.d_date_sk) AND (inv_item_sk = item.i_item_sk))
+                                                   Filter: ((inv_quantity_on_hand >= 100) AND (inv_quantity_on_hand <= 500))
+                                 ->  Index Only Scan using catalog_sales_pkey on catalog_sales  (cost=0.57..3239.29 rows=867 width=4)
+                                       Index Cond: (cs_item_sk = inventory.inv_item_sk)
+(21 rows)
+

@@ -1,0 +1,41 @@
+                                                                                    QUERY PLAN                                                                                     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=7749835.70..7749835.95 rows=100 width=132)
+   CTE results
+     ->  Gather  (cost=36723.70..7749610.29 rows=2010 width=52)
+           Workers Planned: 2
+           ->  Nested Loop  (cost=35723.70..7748409.29 rows=838 width=52)
+                 ->  Hash Join  (cost=35723.28..7741907.76 rows=838 width=35)
+                       Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                       ->  Parallel Hash Join  (cost=35701.70..7741865.38 rows=7841 width=36)
+                             Hash Cond: (store_sales.ss_cdemo_sk = customer_demographics.cd_demo_sk)
+                             ->  Parallel Hash Join  (cost=2000.80..7706666.15 rows=570792 width=40)
+                                   Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                   ->  Parallel Seq Scan on store_sales  (cost=0.00..7389799.50 rows=119942250 width=44)
+                                   ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                               Filter: (d_year = 2002)
+                             ->  Parallel Hash  (cost=33556.83..33556.83 rows=11525 width=4)
+                                   ->  Parallel Seq Scan on customer_demographics  (cost=0.00..33556.83 rows=11525 width=4)
+                                         Filter: (((cd_gender)::text = 'M'::text) AND ((cd_marital_status)::text = 'S'::text) AND ((cd_education_status)::text = 'College'::text))
+                       ->  Hash  (cost=21.02..21.02 rows=45 width=7)
+                             ->  Seq Scan on store  (cost=0.00..21.02 rows=45 width=7)
+                                   Filter: ((s_state)::text = 'TN'::text)
+                 ->  Index Scan using item_pkey on item  (cost=0.42..7.76 rows=1 width=21)
+                       Index Cond: (i_item_sk = store_sales.ss_item_sk)
+   ->  Sort  (cost=225.41..226.41 rows=402 width=132)
+         Sort Key: results.i_item_id NULLS FIRST, results.s_state NULLS FIRST
+         ->  Append  (cost=70.35..210.05 rows=402 width=132)
+               ->  HashAggregate  (cost=70.35..74.37 rows=201 width=122)
+                     Group Key: results.i_item_id, results.s_state
+                     ->  CTE Scan on results  (cost=0.00..40.20 rows=2010 width=90)
+               ->  HashAggregate  (cost=65.33..69.33 rows=200 width=142)
+                     Group Key: results_1.i_item_id
+                     ->  CTE Scan on results results_1  (cost=0.00..40.20 rows=2010 width=78)
+               ->  Aggregate  (cost=60.31..60.32 rows=1 width=124)
+                     ->  CTE Scan on results results_2  (cost=0.00..40.20 rows=2010 width=28)
+ JIT:
+   Functions: 48
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(37 rows)
+

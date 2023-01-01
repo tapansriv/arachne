@@ -1,0 +1,77 @@
+                                                                                         QUERY PLAN                                                                                         
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=7601602.16..7601602.41 rows=100 width=148)
+   ->  Sort  (cost=7601602.16..7601605.14 rows=1191 width=148)
+         Sort Key: t31.lochierarchy DESC, (CASE WHEN (t31.lochierarchy = 0) THEN t31.i_category ELSE NULL::character varying END) NULLS FIRST, (rank() OVER (?)) NULLS FIRST
+         ->  WindowAgg  (cost=7601523.89..7601556.64 rows=1191 width=148)
+               ->  Sort  (cost=7601523.89..7601526.87 rows=1191 width=108)
+                     Sort Key: t31.lochierarchy, (CASE WHEN (t31.g_class = 0) THEN t31.i_category ELSE NULL::character varying END), t31.total_sum DESC
+                     ->  Subquery Scan on t31  (cost=7601436.25..7601463.04 rows=1191 width=108)
+                           ->  HashAggregate  (cost=7601436.25..7601448.16 rows=1191 width=84)
+                                 Group Key: (sum(web_sales.ws_net_paid)), item.i_category, item.i_class, (0), (0), (0)
+                                 ->  Append  (cost=5067593.74..7601418.38 rows=1191 width=84)
+                                       ->  HashAggregate  (cost=5067593.74..5067605.64 rows=1190 width=170)
+                                             Group Key: (sum(web_sales.ws_net_paid)), item.i_category, item.i_class, (0), (0), (0)
+                                             ->  Append  (cost=2531730.11..5067575.89 rows=1190 width=170)
+                                                   ->  Finalize GroupAggregate  (cost=2531730.11..2533770.59 rows=990 width=34)
+                                                         Group Key: item.i_category, item.i_class
+                                                         ->  Gather Merge  (cost=2531730.11..2533745.84 rows=1980 width=22)
+                                                               Workers Planned: 2
+                                                               ->  Partial GroupAggregate  (cost=2530730.09..2532517.28 rows=990 width=22)
+                                                                     Group Key: item.i_category, item.i_class
+                                                                     ->  Sort  (cost=2530730.09..2531174.41 rows=177729 width=22)
+                                                                           Sort Key: item.i_category, item.i_class
+                                                                           ->  Parallel Hash Join  (cost=12900.24..2511585.72 rows=177729 width=22)
+                                                                                 Hash Cond: (web_sales.ws_item_sk = item.i_item_sk)
+                                                                                 ->  Parallel Hash Join  (cost=2108.74..2498092.67 rows=177729 width=12)
+                                                                                       Hash Cond: (web_sales.ws_sold_date_sk = date_dim.d_date_sk)
+                                                                                       ->  Parallel Seq Scan on web_sales  (cost=0.00..2417251.13 rows=29991713 width=16)
+                                                                                       ->  Parallel Hash  (cost=2105.55..2105.55 rows=255 width=4)
+                                                                                             ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=255 width=4)
+                                                                                                   Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                 ->  Parallel Hash  (cost=9230.00..9230.00 rows=85000 width=18)
+                                                                                       ->  Parallel Seq Scan on item  (cost=0.00..9230.00 rows=85000 width=18)
+                                                   ->  GroupAggregate  (cost=2531730.11..2533787.44 rows=200 width=58)
+                                                         Group Key: item_1.i_category
+                                                         ->  Finalize GroupAggregate  (cost=2531730.11..2533770.59 rows=990 width=22)
+                                                               Group Key: item_1.i_category, item_1.i_class
+                                                               ->  Gather Merge  (cost=2531730.11..2533745.84 rows=1980 width=22)
+                                                                     Workers Planned: 2
+                                                                     ->  Partial GroupAggregate  (cost=2530730.09..2532517.28 rows=990 width=22)
+                                                                           Group Key: item_1.i_category, item_1.i_class
+                                                                           ->  Sort  (cost=2530730.09..2531174.41 rows=177729 width=22)
+                                                                                 Sort Key: item_1.i_category, item_1.i_class
+                                                                                 ->  Parallel Hash Join  (cost=12900.24..2511585.72 rows=177729 width=22)
+                                                                                       Hash Cond: (web_sales_1.ws_item_sk = item_1.i_item_sk)
+                                                                                       ->  Parallel Hash Join  (cost=2108.74..2498092.67 rows=177729 width=12)
+                                                                                             Hash Cond: (web_sales_1.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                                                                             ->  Parallel Seq Scan on web_sales web_sales_1  (cost=0.00..2417251.13 rows=29991713 width=16)
+                                                                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=255 width=4)
+                                                                                                   ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=255 width=4)
+                                                                                                         Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                       ->  Parallel Hash  (cost=9230.00..9230.00 rows=85000 width=18)
+                                                                                             ->  Parallel Seq Scan on item item_1  (cost=0.00..9230.00 rows=85000 width=18)
+                                       ->  Aggregate  (cost=2533782.97..2533782.98 rows=1 width=84)
+                                             ->  Finalize GroupAggregate  (cost=2531730.11..2533770.59 rows=990 width=22)
+                                                   Group Key: item_2.i_category, item_2.i_class
+                                                   ->  Gather Merge  (cost=2531730.11..2533745.84 rows=1980 width=22)
+                                                         Workers Planned: 2
+                                                         ->  Partial GroupAggregate  (cost=2530730.09..2532517.28 rows=990 width=22)
+                                                               Group Key: item_2.i_category, item_2.i_class
+                                                               ->  Sort  (cost=2530730.09..2531174.41 rows=177729 width=22)
+                                                                     Sort Key: item_2.i_category, item_2.i_class
+                                                                     ->  Parallel Hash Join  (cost=12900.24..2511585.72 rows=177729 width=22)
+                                                                           Hash Cond: (web_sales_2.ws_item_sk = item_2.i_item_sk)
+                                                                           ->  Parallel Hash Join  (cost=2108.74..2498092.67 rows=177729 width=12)
+                                                                                 Hash Cond: (web_sales_2.ws_sold_date_sk = date_dim_2.d_date_sk)
+                                                                                 ->  Parallel Seq Scan on web_sales web_sales_2  (cost=0.00..2417251.13 rows=29991713 width=16)
+                                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=255 width=4)
+                                                                                       ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=255 width=4)
+                                                                                             Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                           ->  Parallel Hash  (cost=9230.00..9230.00 rows=85000 width=18)
+                                                                                 ->  Parallel Seq Scan on item item_2  (cost=0.00..9230.00 rows=85000 width=18)
+ JIT:
+   Functions: 99
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(73 rows)
+

@@ -1,0 +1,164 @@
+{
+   "name":  "Query", 
+   "result": 0.264804,
+   "timing": 0.264804,
+   "cardinality": 0,
+   "extra-info": "\nSELECT i_item_id,\n       s_state,\n       g_state,\n       agg1,\n       agg2,\n       agg3,\n       agg4\nFROM\n  ( SELECT i_item_id,\n           s_state,\n           0 AS g_state,\n           avg(agg1) agg1,\n           avg(agg2) agg2,\n           avg(agg3) agg3,\n           avg(agg4) agg4\n   FROM results\n   GROUP BY i_item_id ,\n            s_state\n   UNION ALL SELECT i_item_id,\n                    NULL AS s_state,\n                    1 AS g_state,\n                    avg(agg1) agg1,\n                    avg(agg2) agg2,\n                    avg(agg3) agg3,\n                    avg(agg4) agg4\n   FROM results\n   GROUP BY i_item_id\n   UNION ALL SELECT NULL AS i_item_id,\n                    NULL AS s_state,\n                    1 AS g_state,\n                    avg(agg1) agg1,\n                    avg(agg2) agg2,\n                    avg(agg3) agg3,\n                    avg(agg4) agg4\n   FROM results ) foo\nORDER BY i_item_id NULLS FIRST,\n         s_state NULLS FIRST\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.042669,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "UNION",
+         "timing":0.000403,
+         "cardinality":273253,
+         "extra_info": "",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "UNION",
+            "timing":0.000396,
+            "cardinality":273252,
+            "extra_info": "",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000318,
+               "cardinality":136626,
+               "extra_info": "i_item_id\ns_state\ng_state\nagg1\nagg2\nagg3\nagg4\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":0.087636,
+                  "cardinality":136626,
+                  "extra_info": "#0\n#1\navg(#2)\navg(#3)\navg(#4)\navg(#5)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000769,
+                     "cardinality":378450,
+                     "extra_info": "i_item_id\ns_state\nagg1\nagg2\nagg3\nagg4\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":0.030172,
+                        "cardinality":378450,
+                        "extra_info": "results\n[INFOSEPARATOR]\ni_item_id\ns_state\nagg1\nagg2\nagg3\nagg4",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PROJECTION",
+               "timing":0.000339,
+               "cardinality":136626,
+               "extra_info": "i_item_id\nNULL\ng_state\nagg1\nagg2\nagg3\nagg4\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":0.075927,
+                  "cardinality":136626,
+                  "extra_info": "#0\navg(#1)\navg(#2)\navg(#3)\navg(#4)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000697,
+                     "cardinality":378450,
+                     "extra_info": "i_item_id\nagg1\nagg2\nagg3\nagg4\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":0.008786,
+                        "cardinality":378450,
+                        "extra_info": "results\n[INFOSEPARATOR]\ni_item_id\nagg1\nagg2\nagg3\nagg4",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+,
+          {
+            "name": "PROJECTION",
+            "timing":0.000049,
+            "cardinality":1,
+            "extra_info": "NULL\nNULL\ng_state\nagg1\nagg2\nagg3\nagg4\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "SIMPLE_AGGREGATE",
+               "timing":0.006979,
+               "cardinality":1,
+               "extra_info": "avg(#0)\navg(#1)\navg(#2)\navg(#3)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.001268,
+                  "cardinality":756900,
+                  "extra_info": "agg1\nagg2\nagg3\nagg4\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.004650,
+                     "cardinality":756900,
+                     "extra_info": "results\n[INFOSEPARATOR]\nagg1\nagg2\nagg3\nagg4",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

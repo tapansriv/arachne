@@ -1,0 +1,24 @@
+Egress: $0.12/GB
+Benchmark: tpcds
+Data Path: parquet_1000/batch_rs8
+BigQuery Cost: $6.25/TB; DuckDB Cost: $1.48/hr; Redshift Cost: $8.688/hr
+Use Duck: False
+Using calcite profiles: False
+Excluded Table: date_dim
+Excluded Query: None
+
+Starting analysis without using DuckDB
+Excluding table date_dim and any queries that depend on it
+8
+23
+Total Keys: 10, Keys Considered: 8
+15.894739596951803
+15.894739596951801
+-1.7763568394002505e-15
+['000', '001', '002', '003', '004', '005', '006', '008', '009', '0010', '0011', '0012', '0013', '0014', '0015', '0016', '0017', '0018', '0019', '0020', '0021', '0022', '0023']
+['source', '09', '24', '28', '44', '88', '90', '93', '96']
+[]
+Costs: 16.626662015914917, 0, 16.626662015914917, 0.0, 0, 0.0, 0
+Runtime: 1201.052
+Optimal Subset: 0b0
+15.894739596951805

@@ -1,0 +1,121 @@
+{
+    "name": "TOP_N",
+    "timing": 0.019322,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "HASH_GROUP_BY",
+            "timing": 1.68267,
+            "cardinality": 150000,
+            "extra_info": "#0\navg(#1)\navg(#2)\navg(#3)\navg(#4)",
+            "timings": [],
+            "children": [
+                {
+                    "name": "PROJECTION",
+                    "timing": 0.029881,
+                    "cardinality": 4060752,
+                    "extra_info": "i_item_id\ncs_quantity\ncs_list_price\ncs_coupon_amt\ncs_sales_price\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_JOIN",
+                            "timing": 0.237502,
+                            "cardinality": 4060752,
+                            "extra_info": "INNER\ncs_promo_sk=p_promo_sk\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_JOIN",
+                                    "timing": 0.404817,
+                                    "cardinality": 4084758,
+                                    "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 0.374872,
+                                            "cardinality": 4084758,
+                                            "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 37.026325,
+                                                    "cardinality": 20466736,
+                                                    "extra_info": "INNER\ncs_bill_cdemo_sk=cd_demo_sk\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 260.748305,
+                                                            "cardinality": 1439980416,
+                                                            "extra_info": "cs_quantity\ncs_list_price\ncs_coupon_amt\ncs_sales_price\ncs_sold_date_sk\ncs_item_sk\ncs_bill_cdemo_sk\ncs_promo_sk",
+                                                            "timings": [],
+                                                            "children": []
+                                                        },
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 0.425509,
+                                                            "cardinality": 54880,
+                                                            "extra_info": "cd_demo_sk\ncd_gender\ncd_marital_status\ncd_education_status\n[INFOSEPARATOR]\nFilters: cd_education_status=College AND cd_education_status IS NOT NULL\ncd_marital_status=S AND cd_marital_status IS NOT NULL\ncd_gender=M AND cd_gender IS NOT NULL\n",
+                                                            "timings": [],
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PARQUET_SCAN",
+                                                    "timing": 0.003134,
+                                                    "cardinality": 732,
+                                                    "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\n",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 0.04041,
+                                            "cardinality": 600000,
+                                            "extra_info": "i_item_id\ni_item_sk",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 3e-05,
+                                    "cardinality": 2986,
+                                    "extra_info": "#0\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "FILTER",
+                                            "timing": 0.000193,
+                                            "cardinality": 2986,
+                                            "extra_info": "(p_channel_email=N OR p_channel_event=N)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PARQUET_SCAN",
+                                                    "timing": 0.003937,
+                                                    "cardinality": 3000,
+                                                    "extra_info": "p_promo_sk\np_channel_email\np_channel_event",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

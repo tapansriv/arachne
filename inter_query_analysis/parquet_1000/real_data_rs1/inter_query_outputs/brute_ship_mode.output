@@ -1,0 +1,21 @@
+Egress: $0.12/GB
+Benchmark: tpcds
+Data Path: parquet_1000/real_data
+BigQuery Cost: $5/TB; DuckDB Cost: $1.48/hr; Redshift Cost: $1.086/hr
+Use Duck: True
+Excluded Table: ship_mode
+Excluded Query: None
+
+Starting analysis using DuckDB
+Duck Total: $48.96813596643077, Duck-Calcite Total: $51.019099966107454, Redshift Total: $5.852370951619148, Redshift-Calcite Total: $5.246968628317117, BigQuery Total: $89.34386253356934
+Number of keys: 92
+Excluding table ship_mode and any queries that depend on it
+ship_mode; 14
+Optimal Subset: 0b0
+Cost of new plan by subset (0, 0b0): $24.051516000285194
+found 4413274 plans cheaper than baseline over 8388608 total plans considered
+Num Redshift Qs: 0; Num GCP Qs: 92
+Redshift Qs: $0; GCP Qs: $24.051516000285194; Movement Cost: $0.0
+Final cost: $24.051516000285194, BQ Baseline: $48.96813596643077, Diff: $24.91661996614558, %: 50.88333356864293%
+Cost of Second Cheapest plan by subset (512, 0b1000000000): $24.051516061752483
+Cost of Third Cheapest plan by subset (8192, 0b10000000000000): $24.051516174181746

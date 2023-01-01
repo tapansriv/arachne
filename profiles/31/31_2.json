@@ -1,0 +1,187 @@
+{
+   "name":  "Query", 
+   "result": 0.019073,
+   "timing": 0.019073,
+   "cardinality": 0,
+   "extra-info": "\nSELECT ss1.ca_county ,\n       ss1.d_year ,\n       (ws2.web_sales*1.0000)/ws1.web_sales web_q1_q2_increase ,\n       (ss2.store_sales*1.0000)/ss1.store_sales store_q1_q2_increase ,\n       (ws3.web_sales*1.0000)/ws2.web_sales web_q2_q3_increase ,\n       (ss3.store_sales*1.0000)/ss2.store_sales store_q2_q3_increase\nFROM ss ss1 ,\n     ss ss2 ,\n     ss ss3 ,\n     ws ws1 ,\n     ws ws2 ,\n     ws ws3\nWHERE ss1.d_qoy = 1\n  AND ss1.d_year = 2000\n  AND ss1.ca_county = ss2.ca_county\n  AND ss2.d_qoy = 2\n  AND ss2.d_year = 2000\n  AND ss2.ca_county = ss3.ca_county\n  AND ss3.d_qoy = 3\n  AND ss3.d_year = 2000\n  AND ss1.ca_county = ws1.ca_county\n  AND ws1.d_qoy = 1\n  AND ws1.d_year = 2000\n  AND ws1.ca_county = ws2.ca_county\n  AND ws2.d_qoy = 2\n  AND ws2.d_year = 2000\n  AND ws1.ca_county = ws3.ca_county\n  AND ws3.d_qoy = 3\n  AND ws3.d_year = 2000\n  AND CASE\n          WHEN ws1.web_sales > 0 THEN (ws2.web_sales*1.0000)/ws1.web_sales\n          ELSE NULL\n      END > CASE\n                WHEN ss1.store_sales > 0 THEN (ss2.store_sales*1.0000)/ss1.store_sales\n                ELSE NULL\n            END\n  AND CASE\n          WHEN ws2.web_sales > 0 THEN (ws3.web_sales*1.0000)/ws2.web_sales\n          ELSE NULL\n      END > CASE\n                WHEN ss2.store_sales > 0 THEN (ss3.store_sales*1.0000)/ss2.store_sales\n                ELSE NULL\n            END\nORDER BY ss1.ca_county", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "ORDER_BY",
+      "timing":0.000054,
+      "cardinality":0,
+      "extra_info": "#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000115,
+         "cardinality":297,
+         "extra_info": "ca_county\nd_year\nweb_q1_q2_increase\nstore_q1_q2_increase\nweb_q2_q3_increase\nstore_q2_q3_increase\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000052,
+            "cardinality":297,
+            "extra_info": "#0\n#1\n#2\n#4\n#5\n#6\n#7\n#8\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "FILTER",
+               "timing":0.000084,
+               "cardinality":297,
+               "extra_info": "CASE WHEN (True) THEN (/(*(web_sales, 1.000000), web_sales)) ELSE (NULL)>CASE WHEN (True) THEN (/(*(store_sales, 1.000000), store_sales)) ELSE (NULL)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.001569,
+                  "cardinality":950,
+                  "extra_info": "INNER\nca_county=ca_county\nca_county=ca_county\nca_county=ca_county\nca_county=ca_county\nca_county=ca_county\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.001105,
+                     "cardinality":1847,
+                     "extra_info": "ss\n[INFOSEPARATOR]\nca_county\nd_year\nstore_sales\nd_qoy\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\nd_qoy=1 AND d_qoy IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000090,
+                     "cardinality":1900,
+                     "extra_info": "#0\n#1\n#4\n#5\n#6\n#7\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "FILTER",
+                        "timing":0.000403,
+                        "cardinality":1900,
+                        "extra_info": "CASE WHEN (True) THEN (/(*(web_sales, 1.000000), web_sales)) ELSE (NULL)>CASE WHEN (True) THEN (/(*(store_sales, 1.000000), store_sales)) ELSE (NULL)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":0.003450,
+                           "cardinality":3692,
+                           "extra_info": "INNER\nca_county=ca_county\nca_county=ca_county\nca_county=ca_county\nca_county=ca_county\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "SEQ_SCAN",
+                              "timing":0.002231,
+                              "cardinality":3694,
+                              "extra_info": "ss\n[INFOSEPARATOR]\nstore_sales\nca_county\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_qoy=2 AND d_qoy IS NOT NULL\nd_year=2000 AND d_year IS NOT NULL\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+,
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.002206,
+                              "cardinality":3692,
+                              "extra_info": "INNER\nca_county=ca_county\nca_county=ca_county\nca_county=ca_county\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "SEQ_SCAN",
+                                 "timing":0.002399,
+                                 "cardinality":3694,
+                                 "extra_info": "ss\n[INFOSEPARATOR]\nstore_sales\nca_county\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\nd_qoy=3 AND d_qoy IS NOT NULL\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.002116,
+                                 "cardinality":3692,
+                                 "extra_info": "INNER\nca_county=ca_county\nca_county=ca_county\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "SEQ_SCAN",
+                                    "timing":0.002110,
+                                    "cardinality":3694,
+                                    "extra_info": "ws\n[INFOSEPARATOR]\nweb_sales\nca_county\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\nd_qoy=1 AND d_qoy IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":0.001511,
+                                    "cardinality":3692,
+                                    "extra_info": "INNER\nca_county=ca_county\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "SEQ_SCAN",
+                                       "timing":0.002220,
+                                       "cardinality":3694,
+                                       "extra_info": "ws\n[INFOSEPARATOR]\nweb_sales\nca_county\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\nd_qoy=2 AND d_qoy IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "SEQ_SCAN",
+                                       "timing":0.002301,
+                                       "cardinality":3694,
+                                       "extra_info": "ws\n[INFOSEPARATOR]\nweb_sales\nca_county\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_qoy=3 AND d_qoy IS NOT NULL\nd_year=2000 AND d_year IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

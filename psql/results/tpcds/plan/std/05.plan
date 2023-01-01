@@ -1,0 +1,87 @@
+                                                                                                 QUERY PLAN                                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=41084672.29..41084672.54 rows=100 width=88)
+   CTE results
+     ->  GroupAggregate  (cost=41083985.59..41084316.01 rows=2065 width=88)
+           Group Key: ('store channel'::text), (('store'::text || (ssr.s_store_id)::text))
+           ->  Sort  (cost=41083985.59..41084037.22 rows=20651 width=88)
+                 Sort Key: ('store channel'::text), (('store'::text || (ssr.s_store_id)::text))
+                 ->  Append  (cost=20239049.70..41082505.54 rows=20651 width=88)
+                       ->  Subquery Scan on ssr  (cost=20239049.70..20240095.07 rows=201 width=88)
+                             ->  GroupAggregate  (cost=20239049.70..20240092.05 rows=201 width=49)
+                                   Group Key: store.s_store_id
+                                   ->  Sort  (cost=20239049.70..20239223.09 rows=69356 width=49)
+                                         Sort Key: store.s_store_id
+                                         ->  Hash Join  (cost=2581.98..20231099.88 rows=69356 width=49)
+                                               Hash Cond: ("*SELECT* 1".store_sk = store.s_store_sk)
+                                               ->  Hash Join  (cost=2556.93..20230890.85 rows=69356 width=36)
+                                                     Hash Cond: ("*SELECT* 1".date_sk = date_dim.d_date_sk)
+                                                     ->  Append  (cost=0.00..16230581.38 rows=316649846 width=40)
+                                                           ->  Subquery Scan on "*SELECT* 1"  (cost=0.00..13386912.00 rows=287861400 width=40)
+                                                                 ->  Seq Scan on store_sales  (cost=0.00..9068991.00 rows=287861400 width=52)
+                                                           ->  Subquery Scan on "*SELECT* 2"  (cost=0.00..1260420.15 rows=28788446 width=40)
+                                                                 ->  Seq Scan on store_returns  (cost=0.00..828593.46 rows=28788446 width=52)
+                                                     ->  Hash  (cost=2556.73..2556.73 rows=16 width=4)
+                                                           ->  Seq Scan on date_dim  (cost=0.00..2556.73 rows=16 width=4)
+                                                                 Filter: ((d_date >= '2000-08-23'::date) AND (d_date <= '2000-09-06'::date))
+                                               ->  Hash  (cost=20.02..20.02 rows=402 width=21)
+                                                     ->  Seq Scan on store  (cost=0.00..20.02 rows=402 width=21)
+                       ->  Subquery Scan on csr  (cost=11302616.57..11303646.95 rows=20400 width=88)
+                             ->  GroupAggregate  (cost=11302616.57..11303340.95 rows=20400 width=49)
+                                   Group Key: catalog_page.cp_catalog_page_id
+                                   ->  Sort  (cost=11302616.57..11302703.30 rows=34692 width=49)
+                                         Sort Key: catalog_page.cp_catalog_page_id
+                                         ->  Nested Loop  (cost=2557.22..11300000.39 rows=34692 width=49)
+                                               ->  Hash Join  (cost=2556.93..11289418.93 rows=34692 width=36)
+                                                     Hash Cond: ("*SELECT* 1_1".date_sk = date_dim_1.d_date_sk)
+                                                     ->  Append  (cost=0.00..9287205.26 rows=158386742 width=40)
+                                                           ->  Subquery Scan on "*SELECT* 1_1"  (cost=0.00..7819107.83 rows=143991113 width=40)
+                                                                 ->  Seq Scan on catalog_sales  (cost=0.00..5659241.13 rows=143991113 width=52)
+                                                           ->  Subquery Scan on "*SELECT* 2_1"  (cost=0.00..676163.73 rows=14395629 width=40)
+                                                                 ->  Seq Scan on catalog_returns  (cost=0.00..460229.29 rows=14395629 width=52)
+                                                     ->  Hash  (cost=2556.73..2556.73 rows=16 width=4)
+                                                           ->  Seq Scan on date_dim date_dim_1  (cost=0.00..2556.73 rows=16 width=4)
+                                                                 Filter: ((d_date >= '2000-08-23'::date) AND (d_date <= '2000-09-06'::date))
+                                               ->  Index Scan using catalog_page_pkey on catalog_page  (cost=0.29..0.31 rows=1 width=21)
+                                                     Index Cond: (cp_catalog_page_sk = "*SELECT* 1_1".page_sk)
+                       ->  Subquery Scan on wsr  (cost=9538593.98..9538660.27 rows=50 width=88)
+                             ->  GroupAggregate  (cost=9538593.98..9538659.52 rows=50 width=82)
+                                   Group Key: web_site.web_site_id
+                                   ->  Sort  (cost=9538593.98..9538604.82 rows=4336 width=82)
+                                         Sort Key: web_site.web_site_id
+                                         ->  Hash Join  (cost=2568.06..9538332.04 rows=4336 width=82)
+                                               Hash Cond: ("*SELECT* 1_2".wsr_web_site_sk = web_site.web_site_sk)
+                                               ->  Hash Join  (cost=2556.93..9538274.42 rows=17342 width=36)
+                                                     Hash Cond: ("*SELECT* 1_2".date_sk = date_dim_2.d_date_sk)
+                                                     ->  Append  (cost=0.00..8536086.11 rows=79177768 width=40)
+                                                           ->  Subquery Scan on "*SELECT* 1_2"  (cost=0.00..3916836.77 rows=71980111 width=40)
+                                                                 ->  Seq Scan on web_sales  (cost=0.00..2837135.11 rows=71980111 width=52)
+                                                           ->  Subquery Scan on "*SELECT* 2_2"  (cost=3014570.82..4223360.49 rows=7197657 width=40)
+                                                                 ->  Gather  (cost=3014570.82..4115395.64 rows=7197657 width=52)
+                                                                       Workers Planned: 2
+                                                                       ->  Parallel Hash Left Join  (cost=3013570.82..3394629.94 rows=2999024 width=52)
+                                                                             Hash Cond: ((web_returns.wr_item_sk = web_sales_1.ws_item_sk) AND (web_returns.wr_order_number = web_sales_1.ws_order_number))
+                                                                             ->  Parallel Seq Scan on web_returns  (cost=0.00..177866.24 rows=2999024 width=28)
+                                                                             ->  Parallel Hash  (cost=2417251.13..2417251.13 rows=29991713 width=12)
+                                                                                   ->  Parallel Seq Scan on web_sales web_sales_1  (cost=0.00..2417251.13 rows=29991713 width=12)
+                                                     ->  Hash  (cost=2556.73..2556.73 rows=16 width=4)
+                                                           ->  Seq Scan on date_dim date_dim_2  (cost=0.00..2556.73 rows=16 width=4)
+                                                                 Filter: ((d_date >= '2000-08-23'::date) AND (d_date <= '2000-09-06'::date))
+                                               ->  Hash  (cost=10.50..10.50 rows=50 width=54)
+                                                     ->  Seq Scan on web_site  (cost=0.00..10.50 rows=50 width=54)
+   ->  Sort  (cost=356.29..361.95 rows=2266 width=88)
+         Sort Key: results.channel NULLS FIRST, results.id NULLS FIRST
+         ->  HashAggregate  (cost=224.36..247.02 rows=2266 width=88)
+               Group Key: results.channel, results.id, results.sales, results.returns_, results.profit
+               ->  Append  (cost=0.00..196.04 rows=2266 width=88)
+                     ->  CTE Scan on results  (cost=0.00..41.30 rows=2065 width=88)
+                     ->  HashAggregate  (cost=61.95..63.95 rows=200 width=88)
+                           Group Key: results_1.channel
+                           ->  CTE Scan on results results_1  (cost=0.00..41.30 rows=2065 width=56)
+                     ->  Aggregate  (cost=56.79..56.80 rows=1 width=88)
+                           ->  CTE Scan on results results_2  (cost=0.00..41.30 rows=2065 width=24)
+ JIT:
+   Functions: 109
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(83 rows)
+

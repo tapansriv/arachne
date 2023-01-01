@@ -1,0 +1,187 @@
+{
+   "name":  "Query", 
+   "result": 0.003383,
+   "timing": 0.003383,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE results AS\n  (SELECT channel ,\n          id ,\n          sum(sales) AS sales ,\n          sum(returns_) AS returns_ ,\n          sum(profit) AS profit\n   FROM\n     (SELECT 'store channel' AS channel ,\n             ss.s_store_sk AS id ,\n             sales ,\n             coalesce(returns_, 0) AS returns_ ,\n             (profit - coalesce(profit_loss,0)) AS profit\n      FROM ss\n      LEFT JOIN sr ON ss.s_store_sk = sr.s_store_sk\n      UNION ALL SELECT 'catalog channel' AS channel ,\n                       cs_call_center_sk AS id ,\n                       sales ,\n                       returns_ ,\n                       (profit - profit_loss) AS profit\n      FROM cs ,\n           cr\n      UNION ALL SELECT 'web channel' AS channel ,\n                       ws.wp_web_page_sk AS id ,\n                       sales ,\n                       coalesce(returns_, 0) returns_ ,\n                       (profit - coalesce(profit_loss,0)) AS profit\n      FROM ws\n      LEFT JOIN wr ON ws.wp_web_page_sk = wr.wp_web_page_sk ) x\n   GROUP BY channel,\n            id)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000048,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.000326,
+         "cardinality":2023,
+         "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000079,
+            "cardinality":2639,
+            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "UNION",
+               "timing":0.000051,
+               "cardinality":2639,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "UNION",
+                  "timing":0.000035,
+                  "cardinality":1139,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000071,
+                     "cardinality":501,
+                     "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":0.000083,
+                        "cardinality":501,
+                        "extra_info": "LEFT\ns_store_sk=s_store_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "SEQ_SCAN",
+                           "timing":0.000014,
+                           "cardinality":501,
+                           "extra_info": "ss\n[INFOSEPARATOR]\ns_store_sk\nsales\nprofit",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "SEQ_SCAN",
+                           "timing":0.000037,
+                           "cardinality":1002,
+                           "extra_info": "sr\n[INFOSEPARATOR]\ns_store_sk\nreturns_\nprofit_loss",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000093,
+                     "cardinality":638,
+                     "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "CROSS_PRODUCT",
+                        "timing":0.000034,
+                        "cardinality":638,
+                        "extra_info": "",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "SEQ_SCAN",
+                           "timing":0.000008,
+                           "cardinality":29,
+                           "extra_info": "cr\n[INFOSEPARATOR]\nreturns_\nprofit_loss",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "SEQ_SCAN",
+                           "timing":0.000009,
+                           "cardinality":22,
+                           "extra_info": "cs\n[INFOSEPARATOR]\ncs_call_center_sk\nsales\nprofit",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000057,
+                  "cardinality":1500,
+                  "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":0.000136,
+                     "cardinality":1500,
+                     "extra_info": "LEFT\nwp_web_page_sk=wp_web_page_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":0.000014,
+                        "cardinality":1500,
+                        "extra_info": "ws\n[INFOSEPARATOR]\nwp_web_page_sk\nsales\nprofit",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":0.000024,
+                        "cardinality":4000,
+                        "extra_info": "wr\n[INFOSEPARATOR]\nwp_web_page_sk\nreturns_\nprofit_loss",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

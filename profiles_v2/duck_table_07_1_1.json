@@ -1,0 +1,52 @@
+{
+   "name":  "Query", 
+   "result": 1.465681,
+   "timing": 1.465681,
+   "cardinality": 100,
+   "extra-info": "SELECT "i_item_id", AVG("ss_quantity") AS "agg1", AVG("ss_list_price") AS "agg2", AVG("ss_coupon_amt") AS "agg3", AVG("ss_sales_price") AS "agg4"\nFROM "duck_table_07_0"\nGROUP BY "i_item_id"\nORDER BY "i_item_id"\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.020154,
+      "cardinality":100,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.950764,
+         "cardinality":150000,
+         "extra_info": "#0\navg(#1)\navg(#2)\navg(#3)\navg(#4)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.005826,
+            "cardinality":7578599,
+            "extra_info": "i_item_id\nss_quantity\nss_list_price\nss_coupon_amt\nss_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "SEQ_SCAN",
+               "timing":0.481138,
+               "cardinality":7578599,
+               "extra_info": "duck_table_07_0\n[INFOSEPARATOR]\ni_item_id\nss_quantity\nss_list_price\nss_coupon_amt\nss_sales_price",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

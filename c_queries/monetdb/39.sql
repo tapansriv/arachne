@@ -1,0 +1,35 @@
+SELECT *
+FROM (SELECT "w_warehouse_sk", "i_item_sk", "d_moy", "mean", CASE WHEN "mean" = 0 THEN NULL ELSE "$f4" * 1.000 / "mean" END AS "cov"
+FROM (SELECT "t3"."w_warehouse_name", "t3"."w_warehouse_sk", "t3"."i_item_sk", "t6"."d_moy", STDDEV_SAMP("t3"."inv_quantity_on_hand") AS "$f4", AVG("t3"."inv_quantity_on_hand") AS "mean"
+FROM (SELECT "t1"."inv_date_sk", "t1"."inv_quantity_on_hand", "t1"."i_item_sk", "t2"."w_warehouse_sk", "t2"."w_warehouse_name"
+FROM (SELECT "t"."inv_date_sk", "t"."inv_warehouse_sk", "t"."inv_quantity_on_hand", "t0"."i_item_sk"
+FROM (SELECT *
+FROM inventory) AS "t"
+INNER JOIN (SELECT "i_item_sk"
+FROM item) AS "t0" ON "t"."inv_item_sk" = "t0"."i_item_sk") AS "t1"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name"
+FROM warehouse) AS "t2" ON "t1"."inv_warehouse_sk" = "t2"."w_warehouse_sk") AS "t3"
+INNER JOIN (SELECT "d_date_sk", "d_moy"
+FROM date_dim
+WHERE "d_year" = 2001) AS "t6" ON "t3"."inv_date_sk" = "t6"."d_date_sk"
+GROUP BY "t3"."w_warehouse_name", "t3"."w_warehouse_sk", "t3"."i_item_sk", "t6"."d_moy"
+HAVING CASE WHEN "mean" = 0 THEN 0 ELSE "$f4" * 1.000 / "mean" END > 1) AS "t9"
+WHERE "t9"."d_moy" = 1) AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk", "i_item_sk", "d_moy", "mean", CASE WHEN "mean" = 0 THEN NULL ELSE "$f4" * 1.000 / "mean" END AS "cov"
+FROM (SELECT "t18"."w_warehouse_name", "t18"."w_warehouse_sk", "t18"."i_item_sk", "t21"."d_moy", STDDEV_SAMP("t18"."inv_quantity_on_hand") AS "$f4", AVG("t18"."inv_quantity_on_hand") AS "mean"
+FROM (SELECT "t16"."inv_date_sk", "t16"."inv_quantity_on_hand", "t16"."i_item_sk", "t17"."w_warehouse_sk", "t17"."w_warehouse_name"
+FROM (SELECT "t14"."inv_date_sk", "t14"."inv_warehouse_sk", "t14"."inv_quantity_on_hand", "t15"."i_item_sk"
+FROM (SELECT *
+FROM inventory) AS "t14"
+INNER JOIN (SELECT "i_item_sk"
+FROM item) AS "t15" ON "t14"."inv_item_sk" = "t15"."i_item_sk") AS "t16"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name"
+FROM warehouse) AS "t17" ON "t16"."inv_warehouse_sk" = "t17"."w_warehouse_sk") AS "t18"
+INNER JOIN (SELECT "d_date_sk", "d_moy"
+FROM date_dim
+WHERE "d_year" = 2001) AS "t21" ON "t18"."inv_date_sk" = "t21"."d_date_sk"
+GROUP BY "t18"."w_warehouse_name", "t18"."w_warehouse_sk", "t18"."i_item_sk", "t21"."d_moy"
+HAVING CASE WHEN "mean" = 0 THEN 0 ELSE "$f4" * 1.000 / "mean" END > 1) AS "t24"
+WHERE "t24"."d_moy" = 1 + 1) AS "t28" ON "t13"."i_item_sk" = "t28"."i_item_sk" AND "t13"."w_warehouse_sk" = "t28"."w_warehouse_sk"
+ORDER BY "t13"."w_warehouse_sk", "t13"."i_item_sk", "t13"."d_moy", "t13"."mean", "t13"."cov", "t28"."d_moy", "t28"."mean", "t28"."cov"
+;

@@ -1,0 +1,249 @@
+{
+   "name":  "Query", 
+   "result": 654.262279,
+   "timing": 654.262279,
+   "cardinality": 0,
+   "extra-info": "SELECT SUM (ss_quantity)\nFROM 'store_sales.parquet' AS store_sales,\n     'store.parquet' AS store,\n     'customer_demographics.parquet' AS customer_demographics,\n     'customer_address.parquet' AS customer_address,\n     'date_dim.parquet' AS date_dim\nWHERE s_store_sk = ss_store_sk\n  AND ss_sold_date_sk = d_date_sk\n  AND d_year = 2000\n  AND ((cd_demo_sk = ss_cdemo_sk\n        AND cd_marital_status = 'M'\n        AND cd_education_status = '4 yr Degree'\n        AND ss_sales_price BETWEEN 100.00 AND 150.00)\n       OR (cd_demo_sk = ss_cdemo_sk\n           AND cd_marital_status = 'D'\n           AND cd_education_status = '2 yr Degree'\n           AND ss_sales_price BETWEEN 50.00 AND 100.00)\n       OR (cd_demo_sk = ss_cdemo_sk\n           AND cd_marital_status = 'S'\n           AND cd_education_status = 'College'\n           AND ss_sales_price BETWEEN 150.00 AND 200.00))\n  AND ((ss_addr_sk = ca_address_sk\n        AND ca_country = 'United States'\n        AND ca_state IN ('CO',\n                         'OH',\n                         'TX')\n        AND ss_net_profit BETWEEN 0 AND 2000)\n       OR (ss_addr_sk = ca_address_sk\n           AND ca_country = 'United States'\n           AND ca_state IN ('OR',\n                            'MN',\n                            'KY')\n           AND ss_net_profit BETWEEN 150 AND 3000)\n       OR (ss_addr_sk = ca_address_sk\n           AND ca_country = 'United States'\n           AND ca_state IN ('VA',\n                            'CA',\n                            'MS')\n           AND ss_net_profit BETWEEN 50 AND 25000)) ", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.005725
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000036
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.002884
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000398
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000992
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000026
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.001276
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000129
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000028
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000066
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "planner", 
+   "timing": 21.953620
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 21.953609
+   }
+   ],
+   "children": [
+    {
+      "name": "SIMPLE_AGGREGATE",
+      "timing":0.006715,
+      "cardinality":0,
+      "extra_info": "sum(#0)",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.004123,
+         "cardinality":1148814,
+         "extra_info": "ss_quantity\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.640390,
+            "cardinality":1148814,
+            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.213879,
+               "cardinality":5717212,
+               "extra_info": "#0\n#1\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "FILTER",
+                  "timing":3.644776,
+                  "cardinality":5717212,
+                  "extra_info": "((ss_net_profit>=0.000000 AND ss_net_profit<=2000.000000 AND (ca_state=CO OR ca_state=OH OR ca_state=TX)) OR (ss_net_profit>=150.000000 AND ss_net_profit<=3000.000000 AND (ca_state=OR OR ca_state=MN OR ca_state=KY)) OR (ss_net_profit>=50.000000 AND ss_net_profit<=25000.000000 AND (ca_state=VA OR ca_state=CA OR ca_state=MS)))",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":37.547072,
+                     "cardinality":43309046,
+                     "extra_info": "INNER\nss_addr_sk=ca_address_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":14.842175,
+                        "cardinality":44919468,
+                        "extra_info": "#0\n#2\n#5\n#6\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "FILTER",
+                           "timing":176.845363,
+                           "cardinality":44919468,
+                           "extra_info": "((ss_sales_price>=100.000000 AND ss_sales_price<=150.000000 AND cd_marital_status=M AND cd_education_status=4 yr Degree) OR (ss_sales_price>=50.000000 AND ss_sales_price<=100.000000 AND cd_marital_status=D AND cd_education_status=2 yr Degree) OR (ss_sales_price>=150.000000 AND ss_sales_price<=200.000000 AND cd_marital_status=S AND cd_education_status=College))",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":248.449956,
+                              "cardinality":5371211314,
+                              "extra_info": "INNER\nss_cdemo_sk=cd_demo_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":98.871434,
+                                 "cardinality":5500831898,
+                                 "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":637.592241,
+                                    "cardinality":5759975998,
+                                    "extra_info": "ss_quantity\nss_store_sk\nss_sold_date_sk\nss_cdemo_sk\nss_sales_price\nss_addr_sk\nss_net_profit",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.000512,
+                                    "cardinality":2004,
+                                    "extra_info": "s_store_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.657533,
+                                 "cardinality":3841600,
+                                 "extra_info": "cd_demo_sk\ncd_marital_status\ncd_education_status",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":2.390430,
+                        "cardinality":11640276,
+                        "extra_info": "ca_address_sk\nca_country\nca_state\n[INFOSEPARATOR]\nFilters: ca_country=United States AND ca_country IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PARQUET_SCAN",
+               "timing":0.005932,
+               "cardinality":732,
+               "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\n",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

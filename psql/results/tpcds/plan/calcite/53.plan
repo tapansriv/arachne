@@ -1,0 +1,38 @@
+                                                                                                                                                                                                                                                                                                                      QUERY PLAN                                                                                                                                                                                                                                                                                                                       
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=900399.48..900399.73 rows=100 width=20)
+   ->  Sort  (cost=900399.48..900400.38 rows=360 width=20)
+         Sort Key: t11.avg_quarterly_sales, t11.sum_sales, t11.i_manufact_id
+         ->  Subquery Scan on t11  (cost=900071.13..900385.72 rows=360 width=20)
+               Filter: (CASE WHEN (t11.avg_quarterly_sales > '0'::double precision) THEN ((abs((t11.sum_sales - t11.avg_quarterly_sales)) / t11.avg_quarterly_sales))::numeric(19,0) ELSE NULL::numeric END > 0.1)
+               ->  WindowAgg  (cost=900071.13..900356.02 rows=1080 width=20)
+                     ->  Subquery Scan on t10  (cost=900071.13..900331.72 rows=1080 width=12)
+                           ->  Finalize GroupAggregate  (cost=900071.13..900320.92 rows=1080 width=16)
+                                 Group Key: item.i_manufact_id, date_dim.d_qoy
+                                 ->  Gather Merge  (cost=900071.13..900296.64 rows=1798 width=16)
+                                       Workers Planned: 2
+                                       ->  Partial GroupAggregate  (cost=899071.10..899089.08 rows=899 width=16)
+                                             Group Key: item.i_manufact_id, date_dim.d_qoy
+                                             ->  Sort  (cost=899071.10..899073.35 rows=899 width=16)
+                                                   Sort Key: item.i_manufact_id, date_dim.d_qoy
+                                                   ->  Hash Join  (cost=3253.89..899027.00 rows=899 width=16)
+                                                         Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                                         ->  Parallel Hash Join  (cost=3228.84..898999.46 rows=942 width=20)
+                                                               Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                               ->  Nested Loop  (cost=46.18..895330.61 rows=185205 width=20)
+                                                                     ->  Parallel Seq Scan on item  (cost=0.00..11567.50 rows=131 width=8)
+                                                                           Filter: ((((i_category)::text = ANY ('{Books,Children,Electronics}'::text[])) AND ((i_class)::text = ANY ('{personal,portable,reference,self-help}'::text[])) AND ((i_brand)::text = ANY ('{"exportiunivamalg #9","scholaramalgamalg #14","scholaramalgamalg #7","scholaramalgamalg #9"}'::text[]))) OR (((i_category)::text = ANY ('{Men,Music,Women}'::text[])) AND ((i_class)::text = ANY ('{accessories,classical,fragrances,pants}'::text[])) AND ((i_brand)::text = ANY ('{"amalgimporto #1","edu packscholar #1","exportiimporto #1","importoamalg #1"}'::text[]))))
+                                                                     ->  Bitmap Heap Scan on store_sales  (cost=46.18..6728.69 rows=1759 width=20)
+                                                                           Recheck Cond: (ss_item_sk = item.i_item_sk)
+                                                                           ->  Bitmap Index Scan on store_sales_pkey  (cost=0.00..45.74 rows=1759 width=0)
+                                                                                 Index Cond: (ss_item_sk = item.i_item_sk)
+                                                               ->  Parallel Hash  (cost=3179.80..3179.80 rows=229 width=8)
+                                                                     ->  Parallel Seq Scan on date_dim  (cost=0.00..3179.80 rows=229 width=8)
+                                                                           Filter: ((d_month_seq = 1200) OR (d_month_seq = 1201) OR (d_month_seq = 1202) OR (d_month_seq = 1203) OR (d_month_seq = 1204) OR (d_month_seq = 1205) OR (d_month_seq = 1206) OR (d_month_seq = 1207) OR (d_month_seq = 1208) OR (d_month_seq = 1209) OR (d_month_seq = 1210) OR (d_month_seq = 1211))
+                                                         ->  Hash  (cost=20.02..20.02 rows=402 width=4)
+                                                               ->  Seq Scan on store  (cost=0.00..20.02 rows=402 width=4)
+ JIT:
+   Functions: 42
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(34 rows)
+

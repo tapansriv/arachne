@@ -1,0 +1,430 @@
+{
+   "name":  "Query", 
+   "result": 7367.500516,
+   "timing": 7367.500516,
+   "cardinality": 1,
+   "extra-info": "SELECT *\nFROM (SELECT AVG("ss_list_price") AS "B1_LP", COUNT(*) AS "B1_CNT", COUNT(DISTINCT "ss_list_price") AS "B1_CNTD"\nFROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales\nWHERE "ss_quantity" >= 0 AND "ss_quantity" <= 5 AND ("ss_list_price" >= 8 AND "ss_list_price" <= 8 + 10 OR "ss_coupon_amt" >= 459 AND "ss_coupon_amt" <= 459 + 1000 OR "ss_wholesale_cost" >= 57 AND "ss_wholesale_cost" <= 57 + 20)) AS "t2",\n(SELECT AVG("ss_list_price") AS "B2_LP", COUNT(*) AS "B2_CNT", COUNT(DISTINCT "ss_list_price") AS "B2_CNTD"\nFROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales\nWHERE "ss_quantity" >= 6 AND "ss_quantity" <= 10 AND ("ss_list_price" >= 90 AND "ss_list_price" <= 90 + 10 OR "ss_coupon_amt" >= 2323 AND "ss_coupon_amt" <= 2323 + 1000 OR "ss_wholesale_cost" >= 31 AND "ss_wholesale_cost" <= 31 + 20)) AS "t6",\n(SELECT AVG("ss_list_price") AS "B3_LP", COUNT(*) AS "B3_CNT", COUNT(DISTINCT "ss_list_price") AS "B3_CNTD"\nFROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales\nWHERE "ss_quantity" >= 11 AND "ss_quantity" <= 15 AND ("ss_list_price" >= 142 AND "ss_list_price" <= 142 + 10 OR "ss_coupon_amt" >= 12214 AND "ss_coupon_amt" <= 12214 + 1000 OR "ss_wholesale_cost" >= 79 AND "ss_wholesale_cost" <= 79 + 20)) AS "t10",\n(SELECT AVG("ss_list_price") AS "B4_LP", COUNT(*) AS "B4_CNT", COUNT(DISTINCT "ss_list_price") AS "B4_CNTD"\nFROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales\nWHERE "ss_quantity" >= 16 AND "ss_quantity" <= 20 AND ("ss_list_price" >= 135 AND "ss_list_price" <= 135 + 10 OR "ss_coupon_amt" >= 6071 AND "ss_coupon_amt" <= 6071 + 1000 OR "ss_wholesale_cost" >= 38 AND "ss_wholesale_cost" <= 38 + 20)) AS "t14",\n(SELECT AVG("ss_list_price") AS "B5_LP", COUNT(*) AS "B5_CNT", COUNT(DISTINCT "ss_list_price") AS "B5_CNTD"\nFROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales\nWHERE "ss_quantity" >= 21 AND "ss_quantity" <= 25 AND ("ss_list_price" >= 122 AND "ss_list_price" <= 122 + 10 OR "ss_coupon_amt" >= 836 AND "ss_coupon_amt" <= 836 + 1000 OR "ss_wholesale_cost" >= 17 AND "ss_wholesale_cost" <= 17 + 20)) AS "t18",\n"duck_table_28_0"\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.006291
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000018
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000015
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.001816
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000286
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.003389
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000706
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000018
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000103
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000025
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000047
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "planner", 
+   "timing": 78.800883
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 78.800849
+   }
+   ],
+   "children": [
+    {
+      "name": "LIMIT",
+      "timing":0.000016,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000106,
+         "cardinality":1,
+         "extra_info": "B1_LP\nB1_CNT\nB1_CNTD\nB2_LP\nB2_CNT\nB2_CNTD\nB3_LP\nB3_CNT\nB3_CNTD\nB4_LP\nB4_CNT\nB4_CNTD\nB5_LP\nB5_CNT\nB5_CNTD\nB6_LP\nB6_CNT\nB6_CNTD\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "CROSS_PRODUCT",
+            "timing":0.000013,
+            "cardinality":1,
+            "extra_info": "",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "CROSS_PRODUCT",
+               "timing":0.000010,
+               "cardinality":1,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "CROSS_PRODUCT",
+                  "timing":0.000013,
+                  "cardinality":1,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "CROSS_PRODUCT",
+                     "timing":0.000011,
+                     "cardinality":1,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":29.730718,
+                        "cardinality":1,
+                        "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":1.474230,
+                           "cardinality":31974551,
+                           "extra_info": "ss_list_price\nss_list_price\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":4.131014,
+                              "cardinality":31974551,
+                              "extra_info": "#0\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "FILTER",
+                                 "timing":38.935859,
+                                 "cardinality":31974551,
+                                 "extra_info": "((ss_list_price>=135.000000 AND ss_list_price<=145.000000) OR (ss_coupon_amt>=6071.000000 AND ss_coupon_amt<=7071.000000) OR (ss_wholesale_cost>=38.000000 AND ss_wholesale_cost<=58.000000))",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":1387.712295,
+                                    "cardinality":137538398,
+                                    "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=16 AND ss_quantity<=20 AND ss_quantity IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "CROSS_PRODUCT",
+                        "timing":0.000026,
+                        "cardinality":1,
+                        "extra_info": "",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_GROUP_BY",
+                           "timing":28.845890,
+                           "cardinality":1,
+                           "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":1.415014,
+                              "cardinality":36588888,
+                              "extra_info": "ss_list_price\nss_list_price\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":4.076485,
+                                 "cardinality":36588888,
+                                 "extra_info": "#0\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":41.264497,
+                                    "cardinality":36588888,
+                                    "extra_info": "((ss_list_price>=122.000000 AND ss_list_price<=132.000000) OR (ss_coupon_amt>=836.000000 AND ss_coupon_amt<=1836.000000) OR (ss_wholesale_cost>=17.000000 AND ss_wholesale_cost<=37.000000))",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":1384.691839,
+                                       "cardinality":137508426,
+                                       "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=21 AND ss_quantity<=25 AND ss_quantity IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "SEQ_SCAN",
+                           "timing":0.000059,
+                           "cardinality":1,
+                           "extra_info": "duck_table_28_0\n[INFOSEPARATOR]\nB6_LP\nB6_CNT\nB6_CNTD",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":29.115554,
+                     "cardinality":1,
+                     "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":1.463284,
+                        "cardinality":28321106,
+                        "extra_info": "ss_list_price\nss_list_price\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":4.092297,
+                           "cardinality":28321106,
+                           "extra_info": "#0\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":34.510226,
+                              "cardinality":28321106,
+                              "extra_info": "((ss_list_price>=142.000000 AND ss_list_price<=152.000000) OR (ss_coupon_amt>=12214.000000 AND ss_coupon_amt<=13214.000000) OR (ss_wholesale_cost>=79.000000 AND ss_wholesale_cost<=99.000000))",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":1383.113835,
+                                 "cardinality":137520986,
+                                 "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=11 AND ss_quantity<=15 AND ss_quantity IS NOT NULL\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":28.833214,
+                  "cardinality":1,
+                  "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":1.435707,
+                     "cardinality":35566966,
+                     "extra_info": "ss_list_price\nss_list_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":4.087179,
+                        "cardinality":35566966,
+                        "extra_info": "#0\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "FILTER",
+                           "timing":40.266988,
+                           "cardinality":35566966,
+                           "extra_info": "((ss_list_price>=90.000000 AND ss_list_price<=100.000000) OR (ss_coupon_amt>=2323.000000 AND ss_coupon_amt<=3323.000000) OR (ss_wholesale_cost>=31.000000 AND ss_wholesale_cost<=51.000000))",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":1374.741399,
+                              "cardinality":137527251,
+                              "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=6 AND ss_quantity<=10 AND ss_quantity IS NOT NULL\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":29.030556,
+               "cardinality":1,
+               "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":1.426746,
+                  "cardinality":36666932,
+                  "extra_info": "ss_list_price\nss_list_price\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":4.084296,
+                     "cardinality":36666932,
+                     "extra_info": "#0\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "FILTER",
+                        "timing":40.167552,
+                        "cardinality":36666932,
+                        "extra_info": "((ss_list_price>=8.000000 AND ss_list_price<=18.000000) OR (ss_coupon_amt>=459.000000 AND ss_coupon_amt<=1459.000000) OR (ss_wholesale_cost>=57.000000 AND ss_wholesale_cost<=77.000000))",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":1369.098855,
+                           "cardinality":137525855,
+                           "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=0 AND ss_quantity<=5 AND ss_quantity IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

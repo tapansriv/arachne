@@ -1,0 +1,230 @@
+{
+   "name":  "Query", 
+   "result": 113.653853,
+   "timing": 113.653853,
+   "cardinality": 0,
+   "extra-info": "SELECT c_customer_id AS customer_id ,\n       concat(concat(coalesce(c_last_name, '') , ', '), coalesce(c_first_name, '')) AS customername\nFROM 'customer.parquet' AS customer ,\n     'customer_address.parquet' AS customer_address ,\n     'customer_demographics.parquet' AS customer_demographics ,\n     'household_demographics.parquet' AS household_demographics ,\n     'income_band.parquet' AS income_band ,\n     'store_returns.parquet' AS store_returns\nWHERE ca_city = 'Edgewood'\n  AND c_current_addr_sk = ca_address_sk\n  AND ib_lower_bound >= 38128\n  AND ib_upper_bound <= 38128 + 50000\n  AND ib_income_band_sk = hd_income_band_sk\n  AND cd_demo_sk = c_current_cdemo_sk\n  AND hd_demo_sk = c_current_hdemo_sk\n  AND sr_cdemo_sk = cd_demo_sk\nORDER BY c_customer_id NULLS FIRST\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.003231
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000014
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000210
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000217
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.002159
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000561
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000044
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000019
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "planner", 
+   "timing": 1.591615
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 1.591605
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":1.355204,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.664952,
+         "cardinality":2851821,
+         "extra_info": "customer_id\ncustomername\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.585824,
+            "cardinality":2851821,
+            "extra_info": "INNER\nc_current_hdemo_sk=hd_demo_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":65.988619,
+               "cardinality":14754365,
+               "extra_info": "INNER\nsr_cdemo_sk=c_current_cdemo_sk\ncd_demo_sk=c_current_cdemo_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":24.293723,
+                  "cardinality":277922862,
+                  "extra_info": "INNER\nsr_cdemo_sk=cd_demo_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":13.458036,
+                     "cardinality":287999764,
+                     "extra_info": "sr_cdemo_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.084013,
+                     "cardinality":3841600,
+                     "extra_info": "cd_demo_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.790966,
+                  "cardinality":211468,
+                  "extra_info": "INNER\nc_current_addr_sk=ca_address_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":6.711858,
+                     "cardinality":24000000,
+                     "extra_info": "c_customer_id\nc_last_name\nc_first_name\nc_current_addr_sk\nc_current_cdemo_sk\nc_current_hdemo_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":1.208148,
+                     "cardinality":105606,
+                     "extra_info": "ca_city\nca_address_sk\n[INFOSEPARATOR]\nFilters: ca_city=Edgewood AND ca_city IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "HASH_JOIN",
+               "timing":0.000206,
+               "cardinality":2880,
+               "extra_info": "INNER\nhd_income_band_sk=ib_income_band_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.000397,
+                  "cardinality":14400,
+                  "extra_info": "hd_income_band_sk\nhd_demo_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.000209,
+                  "cardinality":8,
+                  "extra_info": "ib_lower_bound\nib_upper_bound\nib_income_band_sk\n[INFOSEPARATOR]\nFilters: ib_upper_bound<=88128 AND ib_upper_bound IS NOT NULL\nib_lower_bound>=38128 AND ib_lower_bound IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

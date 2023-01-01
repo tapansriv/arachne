@@ -1,0 +1,635 @@
+-Dexec.args="single duck 28 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+GCP
+28 1.48 0.0 GCP
+SELECT *
+FROM
+  (SELECT avg(ss_list_price) B1_LP,
+          count(ss_list_price) B1_CNT,
+          count(DISTINCT ss_list_price) B1_CNTD
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+   WHERE ss_quantity BETWEEN 0 AND 5
+     AND (ss_list_price BETWEEN 8 AND 8+10
+          OR ss_coupon_amt BETWEEN 459 AND 459+1000
+          OR ss_wholesale_cost BETWEEN 57 AND 57+20)) B1,
+  (SELECT avg(ss_list_price) B2_LP,
+          count(ss_list_price) B2_CNT,
+          count(DISTINCT ss_list_price) B2_CNTD
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+   WHERE ss_quantity BETWEEN 6 AND 10
+     AND (ss_list_price BETWEEN 90 AND 90+10
+          OR ss_coupon_amt BETWEEN 2323 AND 2323+1000
+          OR ss_wholesale_cost BETWEEN 31 AND 31+20)) B2,
+  (SELECT avg(ss_list_price) B3_LP,
+          count(ss_list_price) B3_CNT,
+          count(DISTINCT ss_list_price) B3_CNTD
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+   WHERE ss_quantity BETWEEN 11 AND 15
+     AND (ss_list_price BETWEEN 142 AND 142+10
+          OR ss_coupon_amt BETWEEN 12214 AND 12214+1000
+          OR ss_wholesale_cost BETWEEN 79 AND 79+20)) B3,
+  (SELECT avg(ss_list_price) B4_LP,
+          count(ss_list_price) B4_CNT,
+          count(DISTINCT ss_list_price) B4_CNTD
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+   WHERE ss_quantity BETWEEN 16 AND 20
+     AND (ss_list_price BETWEEN 135 AND 135+10
+          OR ss_coupon_amt BETWEEN 6071 AND 6071+1000
+          OR ss_wholesale_cost BETWEEN 38 AND 38+20)) B4,
+  (SELECT avg(ss_list_price) B5_LP,
+          count(ss_list_price) B5_CNT,
+          count(DISTINCT ss_list_price) B5_CNTD
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+   WHERE ss_quantity BETWEEN 21 AND 25
+     AND (ss_list_price BETWEEN 122 AND 122+10
+          OR ss_coupon_amt BETWEEN 836 AND 836+1000
+          OR ss_wholesale_cost BETWEEN 17 AND 17+20)) B5,
+  (SELECT avg(ss_list_price) B6_LP,
+          count(ss_list_price) B6_CNT,
+          count(DISTINCT ss_list_price) B6_CNTD
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+   WHERE ss_quantity BETWEEN 26 AND 30
+     AND (ss_list_price BETWEEN 154 AND 154+10
+          OR ss_coupon_amt BETWEEN 7326 AND 7326+1000
+          OR ss_wholesale_cost BETWEEN 7 AND 7+20)) B6
+LIMIT 100;
+
+BASE:
+228:ProfileSort(fetch=[100]): rowcount = 1.0, cumulative cost = {1.0 rows, 84.0 cpu, 0.0 io, 0.0 money}
+  259:ProfileProject(B1_LP=[$0], B1_CNT=[$1], B1_CNTD=[$2], B2_LP=[$3], B2_CNT=[$4], B2_CNTD=[$5], B3_LP=[$6], B3_CNT=[$7], B3_CNTD=[$8], B4_LP=[$9], B4_CNT=[$10], B4_CNTD=[$11], B5_LP=[$12], B5_CNT=[$13], B5_CNTD=[$14], B6_LP=[$15], B6_CNT=[$16], B6_CNTD=[$17]): rowcount = 1.0, cumulative cost = {1.0 rows, 18.0 cpu, 0.0 io, 0.0 money}
+    290:ProfileJoin(condition=[true], joinType=[inner]): rowcount = 1.0, cumulative cost = {1.0 rows, 0.0 cpu, 0.0 io, 0.0 money}
+      316:ProfileJoin(condition=[true], joinType=[inner]): rowcount = 1.0, cumulative cost = {1.0 rows, 0.0 cpu, 0.0 io, 0.0 money}
+        337:ProfileJoin(condition=[true], joinType=[inner]): rowcount = 1.0, cumulative cost = {1.0 rows, 0.0 cpu, 0.0 io, 0.0 money}
+          353:ProfileJoin(condition=[true], joinType=[inner]): rowcount = 1.0, cumulative cost = {1.0 rows, 0.0 cpu, 0.0 io, 0.0 money}
+            364:ProfileJoin(condition=[true], joinType=[inner]): rowcount = 1.0, cumulative cost = {1.0 rows, 0.0 cpu, 0.0 io, 0.0 money}
+              369:ProfileAggregate(group=[{}], B1_LP=[AVG($0)], B1_CNT=[COUNT()], B1_CNTD=[COUNT(DISTINCT $0)]): rowcount = 1.0, cumulative cost = {1.375 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                373:ProfileProject(ss_list_price=[$2]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 9970278.125 cpu, 0.0 io, 0.0 money}
+                  376:ProfileProject(ss_quantity=[$10], ss_wholesale_cost=[$11], ss_list_price=[$12], ss_coupon_amt=[$19]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 3.98811125E7 cpu, 0.0 io, 0.0 money}
+                    378:ProfileFilter(condition=[AND(SEARCH($10, Sarg[[0..5]]), OR(AND(>=($12, 8), <=($12, +(8, 10))), AND(>=($19, 459), <=($19, +(459, 1000))), AND(>=($11, 57), <=($11, +(57, 20)))))]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 1.5952445E8 cpu, 0.0 io, 0.0 money}
+                      379:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+              384:ProfileAggregate(group=[{}], B2_LP=[AVG($0)], B2_CNT=[COUNT()], B2_CNTD=[COUNT(DISTINCT $0)]): rowcount = 1.0, cumulative cost = {1.375 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                388:ProfileProject(ss_list_price=[$2]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 9970278.125 cpu, 0.0 io, 0.0 money}
+                  391:ProfileProject(ss_quantity=[$10], ss_wholesale_cost=[$11], ss_list_price=[$12], ss_coupon_amt=[$19]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 3.98811125E7 cpu, 0.0 io, 0.0 money}
+                    392:ProfileFilter(condition=[AND(SEARCH($10, Sarg[[6..10]]), OR(AND(>=($12, 90), <=($12, +(90, 10))), AND(>=($19, 2323), <=($19, +(2323, 1000))), AND(>=($11, 31), <=($11, +(31, 20)))))]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 1.5952445E8 cpu, 0.0 io, 0.0 money}
+                      379:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+            397:ProfileAggregate(group=[{}], B3_LP=[AVG($0)], B3_CNT=[COUNT()], B3_CNTD=[COUNT(DISTINCT $0)]): rowcount = 1.0, cumulative cost = {1.375 rows, 0.0 cpu, 0.0 io, 0.0 money}
+              401:ProfileProject(ss_list_price=[$2]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 9970278.125 cpu, 0.0 io, 0.0 money}
+                404:ProfileProject(ss_quantity=[$10], ss_wholesale_cost=[$11], ss_list_price=[$12], ss_coupon_amt=[$19]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 3.98811125E7 cpu, 0.0 io, 0.0 money}
+                  405:ProfileFilter(condition=[AND(SEARCH($10, Sarg[[11..15]]), OR(AND(>=($12, 142), <=($12, +(142, 10))), AND(>=($19, 12214), <=($19, +(12214, 1000))), AND(>=($11, 79), <=($11, +(79, 20)))))]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 1.5952445E8 cpu, 0.0 io, 0.0 money}
+                    379:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+          410:ProfileAggregate(group=[{}], B4_LP=[AVG($0)], B4_CNT=[COUNT()], B4_CNTD=[COUNT(DISTINCT $0)]): rowcount = 1.0, cumulative cost = {1.375 rows, 0.0 cpu, 0.0 io, 0.0 money}
+            414:ProfileProject(ss_list_price=[$2]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 9970278.125 cpu, 0.0 io, 0.0 money}
+              417:ProfileProject(ss_quantity=[$10], ss_wholesale_cost=[$11], ss_list_price=[$12], ss_coupon_amt=[$19]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 3.98811125E7 cpu, 0.0 io, 0.0 money}
+                418:ProfileFilter(condition=[AND(SEARCH($10, Sarg[[16..20]]), OR(AND(>=($12, 135), <=($12, +(135, 10))), AND(>=($19, 6071), <=($19, +(6071, 1000))), AND(>=($11, 38), <=($11, +(38, 20)))))]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 1.5952445E8 cpu, 0.0 io, 0.0 money}
+                  379:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+        423:ProfileAggregate(group=[{}], B5_LP=[AVG($0)], B5_CNT=[COUNT()], B5_CNTD=[COUNT(DISTINCT $0)]): rowcount = 1.0, cumulative cost = {1.375 rows, 0.0 cpu, 0.0 io, 0.0 money}
+          427:ProfileProject(ss_list_price=[$2]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 9970278.125 cpu, 0.0 io, 0.0 money}
+            430:ProfileProject(ss_quantity=[$10], ss_wholesale_cost=[$11], ss_list_price=[$12], ss_coupon_amt=[$19]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 3.98811125E7 cpu, 0.0 io, 0.0 money}
+              431:ProfileFilter(condition=[AND(SEARCH($10, Sarg[[21..25]]), OR(AND(>=($12, 122), <=($12, +(122, 10))), AND(>=($19, 836), <=($19, +(836, 1000))), AND(>=($11, 17), <=($11, +(17, 20)))))]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 1.5952445E8 cpu, 0.0 io, 0.0 money}
+                379:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+      436:ProfileAggregate(group=[{}], B6_LP=[AVG($0)], B6_CNT=[COUNT()], B6_CNTD=[COUNT(DISTINCT $0)]): rowcount = 1.0, cumulative cost = {1.375 rows, 0.0 cpu, 0.0 io, 0.0 money}
+        440:ProfileProject(ss_list_price=[$2]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 9970278.125 cpu, 0.0 io, 0.0 money}
+          443:ProfileProject(ss_quantity=[$10], ss_wholesale_cost=[$11], ss_list_price=[$12], ss_coupon_amt=[$19]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 3.98811125E7 cpu, 0.0 io, 0.0 money}
+            444:ProfileFilter(condition=[AND(SEARCH($10, Sarg[[26..30]]), OR(AND(>=($12, 154), <=($12, +(154, 10))), AND(>=($19, 7326), <=($19, +(7326, 1000))), AND(>=($11, 7), <=($11, +(7, 20)))))]): rowcount = 9970278.125, cumulative cost = {9970278.125 rows, 1.5952445E8 cpu, 0.0 io, 0.0 money}
+              379:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+
+trial 0
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+STARTING QRY: CREATE TABLE duck_table_28_0 AS SELECT *
+FROM (SELECT AVG("ss_list_price") AS "B1_LP", COUNT(*) AS "B1_CNT", COUNT(DISTINCT "ss_list_price") AS "B1_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 0 AND "ss_quantity" <= 5 AND ("ss_list_price" >= 8 AND "ss_list_price" <= 8 + 10 OR "ss_coupon_amt" >= 459 AND "ss_coupon_amt" <= 459 + 1000 OR "ss_wholesale_cost" >= 57 AND "ss_wholesale_cost" <= 57 + 20)) AS "t2",
+(SELECT AVG("ss_list_price") AS "B2_LP", COUNT(*) AS "B2_CNT", COUNT(DISTINCT "ss_list_price") AS "B2_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 6 AND "ss_quantity" <= 10 AND ("ss_list_price" >= 90 AND "ss_list_price" <= 90 + 10 OR "ss_coupon_amt" >= 2323 AND "ss_coupon_amt" <= 2323 + 1000 OR "ss_wholesale_cost" >= 31 AND "ss_wholesale_cost" <= 31 + 20)) AS "t6",
+(SELECT AVG("ss_list_price") AS "B3_LP", COUNT(*) AS "B3_CNT", COUNT(DISTINCT "ss_list_price") AS "B3_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 11 AND "ss_quantity" <= 15 AND ("ss_list_price" >= 142 AND "ss_list_price" <= 142 + 10 OR "ss_coupon_amt" >= 12214 AND "ss_coupon_amt" <= 12214 + 1000 OR "ss_wholesale_cost" >= 79 AND "ss_wholesale_cost" <= 79 + 20)) AS "t10",
+(SELECT AVG("ss_list_price") AS "B4_LP", COUNT(*) AS "B4_CNT", COUNT(DISTINCT "ss_list_price") AS "B4_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 16 AND "ss_quantity" <= 20 AND ("ss_list_price" >= 135 AND "ss_list_price" <= 135 + 10 OR "ss_coupon_amt" >= 6071 AND "ss_coupon_amt" <= 6071 + 1000 OR "ss_wholesale_cost" >= 38 AND "ss_wholesale_cost" <= 38 + 20)) AS "t14",
+(SELECT AVG("ss_list_price") AS "B5_LP", COUNT(*) AS "B5_CNT", COUNT(DISTINCT "ss_list_price") AS "B5_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 21 AND "ss_quantity" <= 25 AND ("ss_list_price" >= 122 AND "ss_list_price" <= 122 + 10 OR "ss_coupon_amt" >= 836 AND "ss_coupon_amt" <= 836 + 1000 OR "ss_wholesale_cost" >= 17 AND "ss_wholesale_cost" <= 17 + 20)) AS "t18"
+
+7452.321436753
+1
+1
+finished query
+STARTING QRY: SELECT *
+FROM "duck_table_28_0",
+(SELECT AVG("ss_list_price") AS "B6_LP", COUNT(*) AS "B6_CNT", COUNT(DISTINCT "ss_list_price") AS "B6_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 26 AND "ss_quantity" <= 30 AND ("ss_list_price" >= 154 AND "ss_list_price" <= 154 + 10 OR "ss_coupon_amt" >= 7326 AND "ss_coupon_amt" <= 7326 + 1000 OR "ss_wholesale_cost" >= 7 AND "ss_wholesale_cost" <= 7 + 20)) AS "t2"
+FETCH NEXT 100 ROWS ONLY
+
+1495.222600701
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 7452.321436753 CARDINALITY: 1 COST: 3.0637321462206777
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1495.222600701 CARDINALITY: -1 COST: 0.6147026247326333
+2
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 7452.321436753 CARDINALITY: 1 COST: 3.0637321462206777
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1495.222600701 CARDINALITY: -1 COST: 0.6147026247326333
+BEGUN PROCESSING
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1495.222600701 CARDINALITY: -1 COST: 0.6147026247326333
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 7452.321436753 CARDINALITY: 1 COST: 3.0637321462206777
+rowSize: 60
+{"bqSize":264.958895968,"compressed":175.00000002857143,"mvmtCost":0.0,"runtime":7452.321436753,"runCost":3.0637321462206777,"bqCost":1.32479447984,"cutNoHybrid":8947.544037454}
+baseline runtime: 2195.8510670661926 baselineBQ read size: 5.28075456512E11
+arachneCost: 4.388526626060678, baselineCost2: 0.9027387720161014, baseline: 2.64037728256, cutNoHybrid: 3.678434770953311
+FINISHED PROCESSING FOR TRIAL 0 plan not found. repeating...
+trial 1
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+STARTING QRY: CREATE TABLE duck_table_28_0 AS SELECT AVG("ss_list_price") AS "B6_LP", COUNT(*) AS "B6_CNT", COUNT(DISTINCT "ss_list_price") AS "B6_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 26 AND "ss_quantity" <= 30 AND ("ss_list_price" >= 154 AND "ss_list_price" <= 154 + 10 OR "ss_coupon_amt" >= 7326 AND "ss_coupon_amt" <= 7326 + 1000 OR "ss_wholesale_cost" >= 7 AND "ss_wholesale_cost" <= 7 + 20)
+
+1495.990158269
+1
+1
+finished query
+STARTING QRY: SELECT *
+FROM (SELECT AVG("ss_list_price") AS "B1_LP", COUNT(*) AS "B1_CNT", COUNT(DISTINCT "ss_list_price") AS "B1_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 0 AND "ss_quantity" <= 5 AND ("ss_list_price" >= 8 AND "ss_list_price" <= 8 + 10 OR "ss_coupon_amt" >= 459 AND "ss_coupon_amt" <= 459 + 1000 OR "ss_wholesale_cost" >= 57 AND "ss_wholesale_cost" <= 57 + 20)) AS "t2",
+(SELECT AVG("ss_list_price") AS "B2_LP", COUNT(*) AS "B2_CNT", COUNT(DISTINCT "ss_list_price") AS "B2_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 6 AND "ss_quantity" <= 10 AND ("ss_list_price" >= 90 AND "ss_list_price" <= 90 + 10 OR "ss_coupon_amt" >= 2323 AND "ss_coupon_amt" <= 2323 + 1000 OR "ss_wholesale_cost" >= 31 AND "ss_wholesale_cost" <= 31 + 20)) AS "t6",
+(SELECT AVG("ss_list_price") AS "B3_LP", COUNT(*) AS "B3_CNT", COUNT(DISTINCT "ss_list_price") AS "B3_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 11 AND "ss_quantity" <= 15 AND ("ss_list_price" >= 142 AND "ss_list_price" <= 142 + 10 OR "ss_coupon_amt" >= 12214 AND "ss_coupon_amt" <= 12214 + 1000 OR "ss_wholesale_cost" >= 79 AND "ss_wholesale_cost" <= 79 + 20)) AS "t10",
+(SELECT AVG("ss_list_price") AS "B4_LP", COUNT(*) AS "B4_CNT", COUNT(DISTINCT "ss_list_price") AS "B4_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 16 AND "ss_quantity" <= 20 AND ("ss_list_price" >= 135 AND "ss_list_price" <= 135 + 10 OR "ss_coupon_amt" >= 6071 AND "ss_coupon_amt" <= 6071 + 1000 OR "ss_wholesale_cost" >= 38 AND "ss_wholesale_cost" <= 38 + 20)) AS "t14",
+(SELECT AVG("ss_list_price") AS "B5_LP", COUNT(*) AS "B5_CNT", COUNT(DISTINCT "ss_list_price") AS "B5_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 21 AND "ss_quantity" <= 25 AND ("ss_list_price" >= 122 AND "ss_list_price" <= 122 + 10 OR "ss_coupon_amt" >= 836 AND "ss_coupon_amt" <= 836 + 1000 OR "ss_wholesale_cost" >= 17 AND "ss_wholesale_cost" <= 17 + 20)) AS "t18",
+"duck_table_28_0"
+FETCH NEXT 100 ROWS ONLY
+
+7446.393573519
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1495.990158269 CARDINALITY: 1 COST: 0.6150181761772555
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7446.393573519 CARDINALITY: -1 COST: 3.061295135780033
+2
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1495.990158269 CARDINALITY: 1 COST: 0.6150181761772555
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7446.393573519 CARDINALITY: -1 COST: 3.061295135780033
+BEGUN PROCESSING
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7446.393573519 CARDINALITY: -1 COST: 3.061295135780033
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1495.990158269 CARDINALITY: 1 COST: 0.6150181761772555
+rowSize: 12
+{"bqSize":264.95889592,"compressed":175.0000000057143,"mvmtCost":0.0,"runtime":1495.990158269,"runCost":0.6150181761772555,"bqCost":1.3247944796,"cutNoHybrid":8942.383731787999}
+baseline runtime: 2195.8510670661926 baselineBQ read size: 5.28075456512E11
+arachneCost: 1.9398126557772555, baselineCost2: 0.9027387720161014, baseline: 2.64037728256, cutNoHybrid: 3.6763133119572884
+FINISHED PROCESSING FOR TRIAL 1 plan not found. repeating...
+trial 2
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+STARTING QRY: CREATE TABLE duck_table_28_0 AS SELECT *
+FROM (SELECT AVG("ss_list_price") AS "B1_LP", COUNT(*) AS "B1_CNT", COUNT(DISTINCT "ss_list_price") AS "B1_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 0 AND "ss_quantity" <= 5 AND ("ss_list_price" >= 8 AND "ss_list_price" <= 8 + 10 OR "ss_coupon_amt" >= 459 AND "ss_coupon_amt" <= 459 + 1000 OR "ss_wholesale_cost" >= 57 AND "ss_wholesale_cost" <= 57 + 20)) AS "t2",
+(SELECT AVG("ss_list_price") AS "B2_LP", COUNT(*) AS "B2_CNT", COUNT(DISTINCT "ss_list_price") AS "B2_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 6 AND "ss_quantity" <= 10 AND ("ss_list_price" >= 90 AND "ss_list_price" <= 90 + 10 OR "ss_coupon_amt" >= 2323 AND "ss_coupon_amt" <= 2323 + 1000 OR "ss_wholesale_cost" >= 31 AND "ss_wholesale_cost" <= 31 + 20)) AS "t6",
+(SELECT AVG("ss_list_price") AS "B3_LP", COUNT(*) AS "B3_CNT", COUNT(DISTINCT "ss_list_price") AS "B3_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 11 AND "ss_quantity" <= 15 AND ("ss_list_price" >= 142 AND "ss_list_price" <= 142 + 10 OR "ss_coupon_amt" >= 12214 AND "ss_coupon_amt" <= 12214 + 1000 OR "ss_wholesale_cost" >= 79 AND "ss_wholesale_cost" <= 79 + 20)) AS "t10",
+(SELECT AVG("ss_list_price") AS "B4_LP", COUNT(*) AS "B4_CNT", COUNT(DISTINCT "ss_list_price") AS "B4_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 16 AND "ss_quantity" <= 20 AND ("ss_list_price" >= 135 AND "ss_list_price" <= 135 + 10 OR "ss_coupon_amt" >= 6071 AND "ss_coupon_amt" <= 6071 + 1000 OR "ss_wholesale_cost" >= 38 AND "ss_wholesale_cost" <= 38 + 20)) AS "t14"
+
+5954.29223575
+1
+1
+finished query
+STARTING QRY: SELECT *
+FROM "duck_table_28_0",
+(SELECT AVG("ss_list_price") AS "B5_LP", COUNT(*) AS "B5_CNT", COUNT(DISTINCT "ss_list_price") AS "B5_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 21 AND "ss_quantity" <= 25 AND ("ss_list_price" >= 122 AND "ss_list_price" <= 122 + 10 OR "ss_coupon_amt" >= 836 AND "ss_coupon_amt" <= 836 + 1000 OR "ss_wholesale_cost" >= 17 AND "ss_wholesale_cost" <= 17 + 20)) AS "t2",
+(SELECT AVG("ss_list_price") AS "B6_LP", COUNT(*) AS "B6_CNT", COUNT(DISTINCT "ss_list_price") AS "B6_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 26 AND "ss_quantity" <= 30 AND ("ss_list_price" >= 154 AND "ss_list_price" <= 154 + 10 OR "ss_coupon_amt" >= 7326 AND "ss_coupon_amt" <= 7326 + 1000 OR "ss_wholesale_cost" >= 7 AND "ss_wholesale_cost" <= 7 + 20)) AS "t6"
+FETCH NEXT 100 ROWS ONLY
+
+2998.544531258
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 5954.29223575 CARDINALITY: 1 COST: 2.4478756969194446
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 2998.544531258 CARDINALITY: -1 COST: 1.2327349739616222
+2
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 5954.29223575 CARDINALITY: 1 COST: 2.4478756969194446
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 2998.544531258 CARDINALITY: -1 COST: 1.2327349739616222
+BEGUN PROCESSING
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 2998.544531258 CARDINALITY: -1 COST: 1.2327349739616222
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 5954.29223575 CARDINALITY: 1 COST: 2.4478756969194446
+rowSize: 48
+{"bqSize":264.958895956,"compressed":175.00000002285714,"mvmtCost":0.0,"runtime":5954.29223575,"runCost":2.4478756969194446,"bqCost":1.32479447978,"cutNoHybrid":8952.836767008}
+baseline runtime: 2195.8510670661926 baselineBQ read size: 5.28075456512E11
+arachneCost: 3.7726701766994446, baselineCost2: 0.9027387720161014, baseline: 2.64037728256, cutNoHybrid: 3.680610670881067
+FINISHED PROCESSING FOR TRIAL 2 plan not found. repeating...
+trial 3
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+missing column name: B6_LP
+missing column name: B6_CNT
+missing column name: B6_CNTD
+missing column name: B1_LP
+missing column name: B1_CNT
+missing column name: B1_CNTD
+missing column name: B2_LP
+missing column name: B2_CNT
+missing column name: B2_CNTD
+missing column name: B3_LP
+missing column name: B3_CNT
+missing column name: B3_CNTD
+missing column name: B4_LP
+missing column name: B4_CNT
+missing column name: B4_CNTD
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+STARTING QRY: CREATE TABLE duck_table_28_0 AS SELECT AVG("ss_list_price") AS "B5_LP", COUNT(*) AS "B5_CNT", COUNT(DISTINCT "ss_list_price") AS "B5_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 21 AND "ss_quantity" <= 25 AND ("ss_list_price" >= 122 AND "ss_list_price" <= 122 + 10 OR "ss_coupon_amt" >= 836 AND "ss_coupon_amt" <= 836 + 1000 OR "ss_wholesale_cost" >= 17 AND "ss_wholesale_cost" <= 17 + 20)
+
+1497.949216417
+1
+1
+finished query
+STARTING QRY: SELECT *
+FROM (SELECT AVG("ss_list_price") AS "B1_LP", COUNT(*) AS "B1_CNT", COUNT(DISTINCT "ss_list_price") AS "B1_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 0 AND "ss_quantity" <= 5 AND ("ss_list_price" >= 8 AND "ss_list_price" <= 8 + 10 OR "ss_coupon_amt" >= 459 AND "ss_coupon_amt" <= 459 + 1000 OR "ss_wholesale_cost" >= 57 AND "ss_wholesale_cost" <= 57 + 20)) AS "t2",
+(SELECT AVG("ss_list_price") AS "B2_LP", COUNT(*) AS "B2_CNT", COUNT(DISTINCT "ss_list_price") AS "B2_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 6 AND "ss_quantity" <= 10 AND ("ss_list_price" >= 90 AND "ss_list_price" <= 90 + 10 OR "ss_coupon_amt" >= 2323 AND "ss_coupon_amt" <= 2323 + 1000 OR "ss_wholesale_cost" >= 31 AND "ss_wholesale_cost" <= 31 + 20)) AS "t6",
+(SELECT AVG("ss_list_price") AS "B3_LP", COUNT(*) AS "B3_CNT", COUNT(DISTINCT "ss_list_price") AS "B3_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 11 AND "ss_quantity" <= 15 AND ("ss_list_price" >= 142 AND "ss_list_price" <= 142 + 10 OR "ss_coupon_amt" >= 12214 AND "ss_coupon_amt" <= 12214 + 1000 OR "ss_wholesale_cost" >= 79 AND "ss_wholesale_cost" <= 79 + 20)) AS "t10",
+(SELECT AVG("ss_list_price") AS "B4_LP", COUNT(*) AS "B4_CNT", COUNT(DISTINCT "ss_list_price") AS "B4_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 16 AND "ss_quantity" <= 20 AND ("ss_list_price" >= 135 AND "ss_list_price" <= 135 + 10 OR "ss_coupon_amt" >= 6071 AND "ss_coupon_amt" <= 6071 + 1000 OR "ss_wholesale_cost" >= 38 AND "ss_wholesale_cost" <= 38 + 20)) AS "t14",
+"duck_table_28_0",
+(SELECT AVG("ss_list_price") AS "B6_LP", COUNT(*) AS "B6_CNT", COUNT(DISTINCT "ss_list_price") AS "B6_CNTD"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales
+WHERE "ss_quantity" >= 26 AND "ss_quantity" <= 30 AND ("ss_list_price" >= 154 AND "ss_list_price" <= 154 + 10 OR "ss_coupon_amt" >= 7326 AND "ss_coupon_amt" <= 7326 + 1000 OR "ss_wholesale_cost" >= 7 AND "ss_wholesale_cost" <= 7 + 20)) AS "t18"
+FETCH NEXT 100 ROWS ONLY
+
+7437.076492355
+finished query
+FINISHED PROFILING FOR TRIAL 3
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1497.949216417 CARDINALITY: 1 COST: 0.6158235667492111
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7437.076492355 CARDINALITY: -1 COST: 3.0574647801903887
+2
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1497.949216417 CARDINALITY: 1 COST: 0.6158235667492111
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7437.076492355 CARDINALITY: -1 COST: 3.0574647801903887
+BEGUN PROCESSING
+missing column name: B5_LP
+missing column name: B5_CNT
+missing column name: B5_CNTD
+CTAS: duck_table_28_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7437.076492355 CARDINALITY: -1 COST: 3.0574647801903887
+CTAS: duck_table_28_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1497.949216417 CARDINALITY: 1 COST: 0.6158235667492111
+rowSize: 12
+{"bqSize":264.95889592,"compressed":175.0000000057143,"mvmtCost":0.0,"runtime":1497.949216417,"runCost":0.6158235667492111,"bqCost":1.3247944796,"cutNoHybrid":8935.025708772}
+baseline runtime: 2195.8510670661926 baselineBQ read size: 5.28075456512E11
+arachneCost: 1.940618046349211, baselineCost2: 0.9027387720161014, baseline: 2.64037728256, cutNoHybrid: 3.6732883469396
+FINISHED PROCESSING FOR TRIAL 3 plan not found. repeating...
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  12:25 h
+[[1;34mINFO[m] Finished at: 2022-03-30T00:28:44Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

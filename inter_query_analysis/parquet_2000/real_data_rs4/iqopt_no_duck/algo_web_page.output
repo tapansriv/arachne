@@ -1,0 +1,23 @@
+Egress: $0.12/GB
+Benchmark: tpcds
+Data Path: parquet_2000/real_data_rs4
+BigQuery Cost: $5/TB; DuckDB Cost: $1.48/hr; Redshift Cost: $4.344/hr
+Use Duck: False
+Excluded Table: web_page
+Excluded Query: None
+
+Starting analysis without using DuckDB
+Excluding table web_page and any queries that depend on it
+95
+23
+Total Keys: 96, Keys Considered: 95
+h
+116.83922048906122
+93.90057906705837
+219.1447230202135
+125.24414395315512
+[]
+['source']
+Optimal Subset: 0b111011111111111111111111
+h
+93.90057906705837

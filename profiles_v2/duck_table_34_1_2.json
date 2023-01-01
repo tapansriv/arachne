@@ -1,0 +1,226 @@
+{
+   "name":  "Query", 
+   "result": 164.730740,
+   "timing": 164.730740,
+   "cardinality": 24231,
+   "extra-info": "SELECT "duck_table_34_0"."c_last_name", "duck_table_34_0"."c_first_name", "duck_table_34_0"."c_salutation", "duck_table_34_0"."c_preferred_cust_flag", "t13"."ss_ticket_number", "t13"."cnt"\nFROM (SELECT "t7"."ss_ticket_number", "t7"."ss_customer_sk", COUNT(*) AS "cnt"\nFROM (SELECT "t3"."ss_customer_sk", "t3"."ss_hdemo_sk", "t3"."ss_ticket_number"\nFROM (SELECT "t"."ss_customer_sk", "t"."ss_hdemo_sk", "t"."ss_store_sk", "t"."ss_ticket_number"\nFROM (SELECT "ss_sold_date_sk", "ss_customer_sk", "ss_hdemo_sk", "ss_store_sk", "ss_ticket_number"\nFROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"\nINNER JOIN (SELECT "d_date_sk"\nFROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim\nWHERE ("d_dom" >= 1 AND "d_dom" <= 3 OR "d_dom" >= 25 AND "d_dom" <= 28) AND ("d_year" = 1999 OR "d_year" = 1999 + 1 OR "d_year" = 1999 + 2)) AS "t2" ON "t"."ss_sold_date_sk" = "t2"."d_date_sk") AS "t3"\nINNER JOIN (SELECT "s_store_sk"\nFROM '/mnt/disks/tpcds/parquet/store.parquet' AS store\nWHERE "s_county" = 'Williamson County') AS "t6" ON "t3"."ss_store_sk" = "t6"."s_store_sk") AS "t7"\nINNER JOIN (SELECT "hd_demo_sk"\nFROM '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics\nWHERE "hd_buy_potential" IN ('>10000', 'Unknown') AND "hd_vehicle_count" > 0 AND CASE WHEN "hd_vehicle_count" > 0 THEN "hd_dep_count" * 1.000 / "hd_vehicle_count" ELSE NULL END > 1.2) AS "t10" ON "t7"."ss_hdemo_sk" = "t10"."hd_demo_sk"\nGROUP BY "t7"."ss_ticket_number", "t7"."ss_customer_sk"\nHAVING COUNT(*) >= 15 AND COUNT(*) <= 20) AS "t13"\nINNER JOIN "duck_table_34_0" ON "t13"."ss_customer_sk" = "duck_table_34_0"."c_customer_sk"\nORDER BY "duck_table_34_0"."c_last_name" NULLS FIRST, "duck_table_34_0"."c_first_name" NULLS FIRST, "duck_table_34_0"."c_salutation" NULLS FIRST, "duck_table_34_0"."c_preferred_cust_flag" DESC, "t13"."ss_ticket_number" NULLS FIRST\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "ORDER_BY",
+      "timing":0.008913,
+      "cardinality":24231,
+      "extra_info": "#0 ASC\n#1 ASC\n#2 ASC\n#3 DESC\n#4 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000226,
+         "cardinality":24231,
+         "extra_info": "c_last_name\nc_first_name\nc_salutation\nc_preferred_cust_flag\nss_ticket_number\ncnt\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":2.431175,
+            "cardinality":24231,
+            "extra_info": "INNER\nss_customer_sk=c_customer_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "FILTER",
+               "timing":0.001639,
+               "cardinality":24231,
+               "extra_info": "#2 BETWEEN 15 AND 20",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":0.208857,
+                  "cardinality":264003,
+                  "extra_info": "#0\n#1\ncount_star()",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.014021,
+                     "cardinality":2744350,
+                     "extra_info": "ss_ticket_number\nss_customer_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":0.260581,
+                        "cardinality":2744350,
+                        "extra_info": "INNER\nss_hdemo_sk=hd_demo_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.019483,
+                           "cardinality":19179838,
+                           "extra_info": "ss_customer_sk\nss_hdemo_sk\nss_ticket_number\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":10.074857,
+                              "cardinality":19179838,
+                              "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":2.315532,
+                                 "cardinality":378734505,
+                                 "extra_info": "ss_customer_sk\nss_hdemo_sk\nss_store_sk\nss_ticket_number\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":31.549633,
+                                    "cardinality":378734505,
+                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":115.697030,
+                                       "cardinality":2879987999,
+                                       "extra_info": "ss_sold_date_sk\nss_customer_sk\nss_hdemo_sk\nss_store_sk\nss_ticket_number",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000006,
+                                       "cardinality":504,
+                                       "extra_info": "#0\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "FILTER",
+                                          "timing":0.001231,
+                                          "cardinality":504,
+                                          "extra_info": "((d_year=1999 OR d_year=2000 OR d_year=2001) AND ((d_dom>=1 AND d_dom<=3) OR (d_dom>=25 AND d_dom<=28)))",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.003816,
+                                             "cardinality":146098,
+                                             "extra_info": "d_date_sk\nd_dom\nd_year",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000006,
+                                 "cardinality":84,
+                                 "extra_info": "s_store_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.000409,
+                                    "cardinality":84,
+                                    "extra_info": "s_store_sk\ns_county\n[INFOSEPARATOR]\nFilters: s_county=Williamson County AND s_county IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000011,
+                           "cardinality":2080,
+                           "extra_info": "#0\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":0.000499,
+                              "cardinality":2080,
+                              "extra_info": "(CASE WHEN (hd_vehicle_count>0) THEN (/(CAST(*(CAST(hd_dep_count AS DECIMAL(14,0)), 1.000) AS DOUBLE), CAST(hd_vehicle_count AS DOUBLE))) ELSE (NULL)>1.200000 AND (hd_buy_potential=>10000 OR hd_buy_potential=Unknown))",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.001023,
+                                 "cardinality":9600,
+                                 "extra_info": "hd_demo_sk\nhd_buy_potential\nhd_vehicle_count\nhd_dep_count\n[INFOSEPARATOR]\nFilters: hd_vehicle_count>0 AND hd_vehicle_count IS NOT NULL\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "SEQ_SCAN",
+               "timing":2.818802,
+               "cardinality":24000000,
+               "extra_info": "duck_table_34_0\n[INFOSEPARATOR]\nc_customer_sk\nc_last_name\nc_first_name\nc_salutation\nc_preferred_cust_flag",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

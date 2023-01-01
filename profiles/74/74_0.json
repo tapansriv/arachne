@@ -1,0 +1,280 @@
+{
+   "name":  "Query", 
+   "result": 858.488854,
+   "timing": 858.488854,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE year_total AS\n  (SELECT c_customer_id customer_id,\n          c_first_name customer_first_name,\n          c_last_name customer_last_name,\n          d_year AS year_,\n          sum(ss_net_paid) year_total,\n          's' sale_type\n   FROM 'customer.parquet' AS customer,\n        'store_sales.parquet' AS store_sales,\n        'date_dim.parquet' AS date_dim\n   WHERE c_customer_sk = ss_customer_sk\n     AND ss_sold_date_sk = d_date_sk\n     AND d_year IN (2001,\n                    2001+1)\n   GROUP BY c_customer_id,\n            c_first_name,\n            c_last_name,\n            d_year\n   UNION ALL SELECT c_customer_id customer_id,\n                    c_first_name customer_first_name,\n                    c_last_name customer_last_name,\n                    d_year AS year_,\n                    sum(ws_net_paid) year_total,\n                    'w' sale_type\n   FROM 'customer.parquet' AS customer,\n        'web_sales.parquet' AS web_sales,\n        'date_dim.parquet' AS date_dim\n   WHERE c_customer_sk = ws_bill_customer_sk\n     AND ws_sold_date_sk = d_date_sk\n     AND d_year IN (2001,\n                    2001+1)\n   GROUP BY c_customer_id,\n            c_first_name,\n            c_last_name,\n            d_year)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001167
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000148
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000078
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000071
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000793
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000062
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000029
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "planner", 
+   "timing": 24.737109
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 24.737104
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":13.144219,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "UNION",
+         "timing":0.056217,
+         "cardinality":38750385,
+         "extra_info": "",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.049295,
+            "cardinality":23574124,
+            "extra_info": "customer_id\ncustomer_first_name\ncustomer_last_name\nyear_\nyear_total\nsale_type\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":274.348902,
+               "cardinality":23574124,
+               "extra_info": "#0\n#1\n#2\n#3\nsum(#4)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":7.122502,
+                  "cardinality":1071372139,
+                  "extra_info": "c_customer_id\nc_first_name\nc_last_name\nd_year\nss_net_paid\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":84.980471,
+                     "cardinality":1071372139,
+                     "extra_info": "INNER\nss_customer_sk=c_customer_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":47.847626,
+                        "cardinality":1097225103,
+                        "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":229.080011,
+                           "cardinality":2879987999,
+                           "extra_info": "ss_net_paid\nss_customer_sk\nss_sold_date_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.003277,
+                           "cardinality":1460,
+                           "extra_info": "d_year\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_year>=2001 AND d_year<=2002 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":5.890392,
+                        "cardinality":24000000,
+                        "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_customer_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+,
+          {
+            "name": "PROJECTION",
+            "timing":0.031659,
+            "cardinality":15176261,
+            "extra_info": "customer_id\ncustomer_first_name\ncustomer_last_name\nyear_\nyear_total\nsale_type\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":58.624636,
+               "cardinality":15176261,
+               "extra_info": "#0\n#1\n#2\n#3\nsum(#4)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":1.421636,
+                  "cardinality":287186010,
+                  "extra_info": "c_customer_id\nc_first_name\nc_last_name\nd_year\nws_net_paid\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":20.983027,
+                     "cardinality":287186010,
+                     "extra_info": "INNER\nws_bill_customer_sk=c_customer_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":8.496017,
+                        "cardinality":287221768,
+                        "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":56.888849,
+                           "cardinality":720000376,
+                           "extra_info": "ws_net_paid\nws_bill_customer_sk\nws_sold_date_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.003240,
+                           "cardinality":1460,
+                           "extra_info": "d_year\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_year>=2001 AND d_year<=2002 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":5.988551,
+                        "cardinality":24000000,
+                        "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_customer_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

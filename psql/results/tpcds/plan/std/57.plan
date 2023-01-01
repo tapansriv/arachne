@@ -1,0 +1,45 @@
+                                                                                                                                              QUERY PLAN                                                                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=5554988.22..5554988.23 rows=1 width=402)
+   CTE v1
+     ->  WindowAgg  (cost=5083698.42..5230862.39 rows=828413 width=173)
+           ->  WindowAgg  (cost=5083698.42..5212223.09 rows=828413 width=165)
+                 ->  Finalize GroupAggregate  (cost=5083698.42..5191512.77 rows=828413 width=157)
+                       Group Key: item.i_category, item.i_brand, call_center.cc_name, date_dim.d_year, date_dim.d_moy
+                       ->  Gather Merge  (cost=5083698.42..5172873.48 rows=690344 width=157)
+                             Workers Planned: 2
+                             ->  Partial GroupAggregate  (cost=5082698.40..5092190.63 rows=345172 width=157)
+                                   Group Key: item.i_category, item.i_brand, call_center.cc_name, date_dim.d_year, date_dim.d_moy
+                                   ->  Sort  (cost=5082698.40..5083561.33 rows=345172 width=157)
+                                         Sort Key: item.i_category, item.i_brand, call_center.cc_name, date_dim.d_year, date_dim.d_moy
+                                         ->  Hash Join  (cost=13316.35..4996676.83 rows=345172 width=157)
+                                               Hash Cond: (catalog_sales.cs_call_center_sk = call_center.cc_call_center_sk)
+                                               ->  Parallel Hash Join  (cost=13305.45..4995658.87 rows=347070 width=43)
+                                                     Hash Cond: (catalog_sales.cs_item_sk = item.i_item_sk)
+                                                     ->  Parallel Hash Join  (cost=2430.95..4979223.29 rows=347070 width=24)
+                                                           Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim.d_date_sk)
+                                                           ->  Parallel Seq Scan on catalog_sales  (cost=0.00..4819292.97 rows=59996297 width=20)
+                                                           ->  Parallel Hash  (cost=2427.82..2427.82 rows=250 width=12)
+                                                                 ->  Parallel Seq Scan on date_dim  (cost=0.00..2427.82 rows=250 width=12)
+                                                                       Filter: ((d_year = 1999) OR ((d_year = 1998) AND (d_moy = 12)) OR ((d_year = 2000) AND (d_moy = 1)))
+                                                     ->  Parallel Hash  (cost=9230.00..9230.00 rows=85000 width=27)
+                                                           ->  Parallel Seq Scan on item  (cost=0.00..9230.00 rows=85000 width=27)
+                                               ->  Hash  (cost=10.40..10.40 rows=40 width=122)
+                                                     ->  Seq Scan on call_center  (cost=0.00..10.40 rows=40 width=122)
+   ->  Sort  (cost=324125.84..324125.84 rows=1 width=402)
+         Sort Key: ((v1.sum_sales - v1.avg_monthly_sales)) NULLS FIRST, v1.i_category, v1.i_brand, v1.cc_name, v1.d_moy, v1.avg_monthly_sales, v1.sum_sales, v1_lag.sum_sales, v1_lead.sum_sales
+         ->  Hash Join  (cost=294095.85..324125.83 rows=1 width=402)
+               Hash Cond: (((v1_lead.i_category)::text = (v1.i_category)::text) AND ((v1_lead.i_brand)::text = (v1.i_brand)::text) AND ((v1_lead.cc_name)::text = (v1.cc_name)::text) AND ((v1_lead.rn - 1) = v1.rn))
+               ->  CTE Scan on v1 v1_lead  (cost=0.00..16568.26 rows=828413 width=370)
+               ->  Hash  (cost=294095.83..294095.83 rows=1 width=756)
+                     ->  Hash Join  (cost=31074.69..294095.83 rows=1 width=756)
+                           Hash Cond: (((v1_lag.i_category)::text = (v1.i_category)::text) AND ((v1_lag.i_brand)::text = (v1.i_brand)::text) AND ((v1_lag.cc_name)::text = (v1.cc_name)::text) AND ((v1_lag.rn + 1) = v1.rn))
+                           ->  CTE Scan on v1 v1_lag  (cost=0.00..16568.26 rows=828413 width=370)
+                           ->  Hash  (cost=31065.49..31065.49 rows=460 width=386)
+                                 ->  CTE Scan on v1  (cost=0.00..31065.49 rows=460 width=386)
+                                       Filter: ((avg_monthly_sales > '0'::double precision) AND (d_year = 1999) AND (CASE WHEN (avg_monthly_sales > '0'::double precision) THEN (abs((sum_sales - avg_monthly_sales)) / avg_monthly_sales) ELSE NULL::double precision END > '0.1'::double precision))
+ JIT:
+   Functions: 87
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(41 rows)
+

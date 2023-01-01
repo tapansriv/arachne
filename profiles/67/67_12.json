@@ -1,0 +1,1062 @@
+{
+    "name": "UNION",
+    "timing": 0.16012,
+    "cardinality": 386280181,
+    "extra_info": "",
+    "timings": [],
+    "children": [
+        {
+            "name": "UNION",
+            "timing": 0.144044,
+            "cardinality": 386280180,
+            "extra_info": "",
+            "timings": [],
+            "children": [
+                {
+                    "name": "UNION",
+                    "timing": 0.144903,
+                    "cardinality": 386280169,
+                    "extra_info": "",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "UNION",
+                            "timing": 0.139069,
+                            "cardinality": 386279979,
+                            "extra_info": "",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "UNION",
+                                    "timing": 0.141146,
+                                    "cardinality": 386278687,
+                                    "extra_info": "",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "UNION",
+                                            "timing": 0.138242,
+                                            "cardinality": 386078867,
+                                            "extra_info": "",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "UNION",
+                                                    "timing": 0.144101,
+                                                    "cardinality": 385879047,
+                                                    "extra_info": "",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "UNION",
+                                                            "timing": 0.151172,
+                                                            "cardinality": 385229617,
+                                                            "extra_info": "",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_GROUP_BY",
+                                                                    "timing": 415.470276,
+                                                                    "cardinality": 383381227,
+                                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 9.346649,
+                                                                            "cardinality": 539988812,
+                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 9.124318,
+                                                                                    "cardinality": 539988812,
+                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_JOIN",
+                                                                                            "timing": 17.860494,
+                                                                                            "cardinality": 539988812,
+                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_JOIN",
+                                                                                                    "timing": 46.180995,
+                                                                                                    "cardinality": 553018161,
+                                                                                                    "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 28.837654,
+                                                                                                            "cardinality": 553018161,
+                                                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 347.521064,
+                                                                                                                    "cardinality": 2879987999,
+                                                                                                                    "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.012894,
+                                                                                                                    "cardinality": 732,
+                                                                                                                    "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 0.225799,
+                                                                                                            "cardinality": 600000,
+                                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        }
+                                                                                                    ]
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.000873,
+                                                                                                    "cardinality": 2004,
+                                                                                                    "extra_info": "s_store_id\ns_store_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 0.001793,
+                                                                    "cardinality": 1848390,
+                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\nNULL\nsumsales\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_GROUP_BY",
+                                                                            "timing": 115.747908,
+                                                                            "cardinality": 1848390,
+                                                                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\nsum(#7)",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 0.372229,
+                                                                                    "cardinality": 383381227,
+                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\nsumsales\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_GROUP_BY",
+                                                                                            "timing": 415.470276,
+                                                                                            "cardinality": 383381227,
+                                                                                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PROJECTION",
+                                                                                                    "timing": 9.346649,
+                                                                                                    "cardinality": 539988812,
+                                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 9.124318,
+                                                                                                            "cardinality": 539988812,
+                                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 17.860494,
+                                                                                                                    "cardinality": 539988812,
+                                                                                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 46.180995,
+                                                                                                                            "cardinality": 553018161,
+                                                                                                                            "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                    "timing": 28.837654,
+                                                                                                                                    "cardinality": 553018161,
+                                                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 347.521064,
+                                                                                                                                            "cardinality": 2879987999,
+                                                                                                                                            "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 0.012894,
+                                                                                                                                            "cardinality": 732,
+                                                                                                                                            "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.225799,
+                                                                                                                                    "cardinality": 600000,
+                                                                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.000873,
+                                                                                                                            "cardinality": 2004,
+                                                                                                                            "extra_info": "s_store_id\ns_store_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 0.000846,
+                                                            "cardinality": 649430,
+                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nNULL\nNULL\nsumsales\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_GROUP_BY",
+                                                                    "timing": 113.538206,
+                                                                    "cardinality": 649430,
+                                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\nsum(#6)",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 0.264985,
+                                                                            "cardinality": 383381227,
+                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nsumsales\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_GROUP_BY",
+                                                                                    "timing": 415.470276,
+                                                                                    "cardinality": 383381227,
+                                                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 9.346649,
+                                                                                            "cardinality": 539988812,
+                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PROJECTION",
+                                                                                                    "timing": 9.124318,
+                                                                                                    "cardinality": 539988812,
+                                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 17.860494,
+                                                                                                            "cardinality": 539988812,
+                                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 46.180995,
+                                                                                                                    "cardinality": 553018161,
+                                                                                                                    "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 28.837654,
+                                                                                                                            "cardinality": 553018161,
+                                                                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 347.521064,
+                                                                                                                                    "cardinality": 2879987999,
+                                                                                                                                    "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.012894,
+                                                                                                                                    "cardinality": 732,
+                                                                                                                                    "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.225799,
+                                                                                                                            "cardinality": 600000,
+                                                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.000873,
+                                                                                                                    "cardinality": 2004,
+                                                                                                                    "extra_info": "s_store_id\ns_store_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 0.000341,
+                                                    "cardinality": 199820,
+                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nNULL\nNULL\nNULL\nsumsales\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 72.76101,
+                                                            "cardinality": 199820,
+                                                            "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 0.25957,
+                                                                    "cardinality": 383381227,
+                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nsumsales\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_GROUP_BY",
+                                                                            "timing": 415.470276,
+                                                                            "cardinality": 383381227,
+                                                                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 9.346649,
+                                                                                    "cardinality": 539988812,
+                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 9.124318,
+                                                                                            "cardinality": 539988812,
+                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_JOIN",
+                                                                                                    "timing": 17.860494,
+                                                                                                    "cardinality": 539988812,
+                                                                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 46.180995,
+                                                                                                            "cardinality": 553018161,
+                                                                                                            "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 28.837654,
+                                                                                                                    "cardinality": 553018161,
+                                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 347.521064,
+                                                                                                                            "cardinality": 2879987999,
+                                                                                                                            "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.012894,
+                                                                                                                            "cardinality": 732,
+                                                                                                                            "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.225799,
+                                                                                                                    "cardinality": 600000,
+                                                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 0.000873,
+                                                                                                            "cardinality": 2004,
+                                                                                                            "extra_info": "s_store_id\ns_store_sk",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 0.000479,
+                                            "cardinality": 199820,
+                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 67.520529,
+                                                    "cardinality": 199820,
+                                                    "extra_info": "#0\n#1\n#2\n#3\nsum(#4)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 0.239168,
+                                                            "cardinality": 383381227,
+                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nsumsales\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_GROUP_BY",
+                                                                    "timing": 415.470276,
+                                                                    "cardinality": 383381227,
+                                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 9.346649,
+                                                                            "cardinality": 539988812,
+                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 9.124318,
+                                                                                    "cardinality": 539988812,
+                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_JOIN",
+                                                                                            "timing": 17.860494,
+                                                                                            "cardinality": 539988812,
+                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_JOIN",
+                                                                                                    "timing": 46.180995,
+                                                                                                    "cardinality": 553018161,
+                                                                                                    "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 28.837654,
+                                                                                                            "cardinality": 553018161,
+                                                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 347.521064,
+                                                                                                                    "cardinality": 2879987999,
+                                                                                                                    "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.012894,
+                                                                                                                    "cardinality": 732,
+                                                                                                                    "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 0.225799,
+                                                                                                            "cardinality": 600000,
+                                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        }
+                                                                                                    ]
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.000873,
+                                                                                                    "cardinality": 2004,
+                                                                                                    "extra_info": "s_store_id\ns_store_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 5.4e-05,
+                                    "cardinality": 1292,
+                                    "extra_info": "i_category\ni_class\ni_brand\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_GROUP_BY",
+                                            "timing": 31.456997,
+                                            "cardinality": 1292,
+                                            "extra_info": "#0\n#1\n#2\nsum(#3)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 0.175641,
+                                                    "cardinality": 383381227,
+                                                    "extra_info": "i_category\ni_class\ni_brand\nsumsales\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 415.470276,
+                                                            "cardinality": 383381227,
+                                                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 9.346649,
+                                                                    "cardinality": 539988812,
+                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 9.124318,
+                                                                            "cardinality": 539988812,
+                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 17.860494,
+                                                                                    "cardinality": 539988812,
+                                                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_JOIN",
+                                                                                            "timing": 46.180995,
+                                                                                            "cardinality": 553018161,
+                                                                                            "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_JOIN",
+                                                                                                    "timing": 28.837654,
+                                                                                                    "cardinality": 553018161,
+                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 347.521064,
+                                                                                                            "cardinality": 2879987999,
+                                                                                                            "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 0.012894,
+                                                                                                            "cardinality": 732,
+                                                                                                            "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        }
+                                                                                                    ]
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.225799,
+                                                                                                    "cardinality": 600000,
+                                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 0.000873,
+                                                                                            "cardinality": 2004,
+                                                                                            "extra_info": "s_store_id\ns_store_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PROJECTION",
+                            "timing": 5.1e-05,
+                            "cardinality": 190,
+                            "extra_info": "i_category\ni_class\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing": 18.251783,
+                                    "cardinality": 190,
+                                    "extra_info": "#0\n#1\nsum(#2)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 0.156668,
+                                            "cardinality": 383381227,
+                                            "extra_info": "i_category\ni_class\nsumsales\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 415.470276,
+                                                    "cardinality": 383381227,
+                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 9.346649,
+                                                            "cardinality": 539988812,
+                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 9.124318,
+                                                                    "cardinality": 539988812,
+                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 17.860494,
+                                                                            "cardinality": 539988812,
+                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 46.180995,
+                                                                                    "cardinality": 553018161,
+                                                                                    "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_JOIN",
+                                                                                            "timing": 28.837654,
+                                                                                            "cardinality": 553018161,
+                                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 347.521064,
+                                                                                                    "cardinality": 2879987999,
+                                                                                                    "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.012894,
+                                                                                                    "cardinality": 732,
+                                                                                                    "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 0.225799,
+                                                                                            "cardinality": 600000,
+                                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.000873,
+                                                                                    "cardinality": 2004,
+                                                                                    "extra_info": "s_store_id\ns_store_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "PROJECTION",
+                    "timing": 5.1e-05,
+                    "cardinality": 11,
+                    "extra_info": "i_category\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_GROUP_BY",
+                            "timing": 9.484895,
+                            "cardinality": 11,
+                            "extra_info": "#0\nsum(#1)",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 0.138022,
+                                    "cardinality": 383381227,
+                                    "extra_info": "i_category\nsumsales\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_GROUP_BY",
+                                            "timing": 415.470276,
+                                            "cardinality": 383381227,
+                                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 9.346649,
+                                                    "cardinality": 539988812,
+                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 9.124318,
+                                                            "cardinality": 539988812,
+                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 17.860494,
+                                                                    "cardinality": 539988812,
+                                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 46.180995,
+                                                                            "cardinality": 553018161,
+                                                                            "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 28.837654,
+                                                                                    "cardinality": 553018161,
+                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 347.521064,
+                                                                                            "cardinality": 2879987999,
+                                                                                            "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 0.012894,
+                                                                                            "cardinality": 732,
+                                                                                            "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.225799,
+                                                                                    "cardinality": 600000,
+                                                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.000873,
+                                                                            "cardinality": 2004,
+                                                                            "extra_info": "s_store_id\ns_store_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "PROJECTION",
+            "timing": 5.1e-05,
+            "cardinality": 1,
+            "extra_info": "NULL\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "SIMPLE_AGGREGATE",
+                    "timing": 0.909052,
+                    "cardinality": 1,
+                    "extra_info": "sum(#0)",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.220821,
+                            "cardinality": 766762454,
+                            "extra_info": "sumsales\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing": 415.470276,
+                                    "cardinality": 383381227,
+                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 9.346649,
+                                            "cardinality": 539988812,
+                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 9.124318,
+                                                    "cardinality": 539988812,
+                                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_JOIN",
+                                                            "timing": 17.860494,
+                                                            "cardinality": 539988812,
+                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 46.180995,
+                                                                    "cardinality": 553018161,
+                                                                    "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 28.837654,
+                                                                            "cardinality": 553018161,
+                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 347.521064,
+                                                                                    "cardinality": 2879987999,
+                                                                                    "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                },
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.012894,
+                                                                                    "cardinality": 732,
+                                                                                    "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.225799,
+                                                                            "cardinality": 600000,
+                                                                            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "PARQUET_SCAN",
+                                                                    "timing": 0.000873,
+                                                                    "cardinality": 2004,
+                                                                    "extra_info": "s_store_id\ns_store_sk",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

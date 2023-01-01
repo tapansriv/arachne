@@ -1,0 +1,19 @@
+Egress: $0.12/GB
+Benchmark: tpcds
+Data Path: parquet_1000/real_data_rs4
+BigQuery Cost: $5/TB; DuckDB Cost: $1.48/hr; Redshift Cost: $4.344/hr
+Use Duck: True
+Excluded Table: catalog_page
+Excluded Query: None
+
+Starting analysis using DuckDB
+Duck Total: $48.42310240598255, Duck-Calcite Total: $48.67221099710197, Redshift Total: $7.839769819595021, Redshift-Calcite Total: $6.9576917663908, BigQuery Total: $84.00522708892822
+Number of keys: 94
+Excluding table catalog_page and any queries that depend on it
+catalog_page; 1
+Optimal Subset: 0b0
+Cost of new plan by subset (0, 0b0): $23.948244350948084
+found 3589767 plans cheaper than baseline over 8388608 total plans considered
+Num Redshift Qs: 0; Num GCP Qs: 94
+Redshift Qs: $0; GCP Qs: $23.506482439836972; Movement Cost: $0.0
+Final cost: $23.506482439836972, BQ Baseline: $48.42310240598255, Diff: $24.916619966145575, %: 51.456058633424504%

@@ -1,0 +1,67 @@
+                                                                                      QUERY PLAN                                                                                       
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=17136658.03..17136658.04 rows=1 width=8)
+   ->  Aggregate  (cost=17136658.03..17136658.04 rows=1 width=8)
+         ->  Subquery Scan on hot_cust  (cost=17118620.52..17135591.87 rows=426465 width=0)
+               ->  SetOp Intersect  (cost=17118620.52..17131327.22 rows=426465 width=144)
+                     ->  Sort  (cost=17118620.52..17121797.20 rows=1270670 width=144)
+                           Sort Key: "*SELECT* 3".c_last_name, "*SELECT* 3".c_first_name, "*SELECT* 3".d_date
+                           ->  Append  (cost=2659315.77..16807379.64 rows=1270670 width=144)
+                                 ->  Subquery Scan on "*SELECT* 3"  (cost=2659315.77..2667845.07 rows=426465 width=21)
+                                       ->  Unique  (cost=2659315.77..2663580.42 rows=426465 width=17)
+                                             ->  Sort  (cost=2659315.77..2660381.93 rows=426465 width=17)
+                                                   Sort Key: customer.c_last_name, customer.c_first_name, date_dim.d_date
+                                                   ->  Gather  (cost=65320.40..2610690.38 rows=426465 width=17)
+                                                         Workers Planned: 2
+                                                         ->  Parallel Hash Join  (cost=64320.40..2567043.88 rows=177694 width=17)
+                                                               Hash Cond: (web_sales.ws_bill_customer_sk = customer.c_customer_sk)
+                                                               ->  Parallel Hash Join  (cost=2108.74..2498092.67 rows=177729 width=8)
+                                                                     Hash Cond: (web_sales.ws_sold_date_sk = date_dim.d_date_sk)
+                                                                     ->  Parallel Seq Scan on web_sales  (cost=0.00..2417251.13 rows=29991713 width=8)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=255 width=8)
+                                                                           ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=255 width=8)
+                                                                                 Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                               ->  Parallel Hash  (cost=46911.63..46911.63 rows=833363 width=17)
+                                                                     ->  Parallel Seq Scan on customer  (cost=0.00..46911.63 rows=833363 width=17)
+                                 ->  Result  (cost=14100749.30..14133181.22 rows=844205 width=144)
+                                       ->  SetOp Intersect  (cost=14100749.30..14124739.17 rows=844205 width=144)
+                                             ->  Sort  (cost=14100749.30..14106746.77 rows=2398987 width=144)
+                                                   Sort Key: "*SELECT* 2".c_last_name, "*SELECT* 2".c_first_name, "*SELECT* 2".d_date
+                                                   ->  Append  (cost=5281059.78..13502142.72 rows=2398987 width=144)
+                                                         ->  Subquery Scan on "*SELECT* 2"  (cost=5281059.78..5297943.88 rows=844205 width=21)
+                                                               ->  Unique  (cost=5281059.78..5289501.83 rows=844205 width=17)
+                                                                     ->  Sort  (cost=5281059.78..5283170.29 rows=844205 width=17)
+                                                                           Sort Key: customer_1.c_last_name, customer_1.c_first_name, date_dim_1.d_date
+                                                                           ->  Hash Join  (cost=98408.34..5180644.97 rows=844205 width=17)
+                                                                                 Hash Cond: (catalog_sales.cs_bill_customer_sk = customer_1.c_customer_sk)
+                                                                                 ->  Gather  (cost=3108.74..5064765.68 rows=848646 width=8)
+                                                                                       Workers Planned: 2
+                                                                                       ->  Parallel Hash Join  (cost=2108.74..4978901.08 rows=353602 width=8)
+                                                                                             Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                                                             ->  Parallel Seq Scan on catalog_sales  (cost=0.00..4819292.97 rows=59996297 width=8)
+                                                                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=255 width=8)
+                                                                                                   ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=255 width=8)
+                                                                                                         Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                 ->  Hash  (cost=58578.71..58578.71 rows=2000071 width=17)
+                                                                                       ->  Seq Scan on customer customer_1  (cost=0.00..58578.71 rows=2000071 width=17)
+                                                         ->  Subquery Scan on "*SELECT* 1"  (cost=8161108.27..8192203.91 rows=1554782 width=21)
+                                                               ->  Unique  (cost=8161108.27..8176656.09 rows=1554782 width=17)
+                                                                     ->  Sort  (cost=8161108.27..8164995.23 rows=1554782 width=17)
+                                                                           Sort Key: customer_2.c_last_name, customer_2.c_first_name, date_dim_2.d_date
+                                                                           ->  Gather  (cost=65320.40..7937435.31 rows=1554782 width=17)
+                                                                                 Workers Planned: 2
+                                                                                 ->  Parallel Hash Join  (cost=64320.40..7780957.11 rows=647826 width=17)
+                                                                                       Hash Cond: (store_sales.ss_customer_sk = customer_2.c_customer_sk)
+                                                                                       ->  Parallel Hash Join  (cost=2108.74..7706774.09 rows=678992 width=8)
+                                                                                             Hash Cond: (store_sales.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                                                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..7389799.50 rows=119942250 width=8)
+                                                                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=255 width=8)
+                                                                                                   ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=255 width=8)
+                                                                                                         Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                       ->  Parallel Hash  (cost=46911.63..46911.63 rows=833363 width=17)
+                                                                                             ->  Parallel Seq Scan on customer customer_2  (cost=0.00..46911.63 rows=833363 width=17)
+ JIT:
+   Functions: 81
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(63 rows)
+

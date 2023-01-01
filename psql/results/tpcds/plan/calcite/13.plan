@@ -1,0 +1,38 @@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             QUERY PLAN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=11034220.49..11034220.50 rows=1 width=56)
+   ->  Gather  (cost=11034220.25..11034220.46 rows=2 width=104)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=11033220.25..11033220.26 rows=1 width=104)
+               ->  Nested Loop  (cost=11000516.54..11033220.20 rows=5 width=20)
+                     Join Filter: ((((customer_demographics.cd_marital_status)::text = 'M'::text) AND ((customer_demographics.cd_education_status)::text = 'Advanced Degree'::text) AND (store_sales.ss_sales_price >= '100'::double precision) AND (store_sales.ss_sales_price <= '150'::double precision) AND (household_demographics.hd_dep_count = 3)) OR (((customer_demographics.cd_marital_status)::text = 'S'::text) AND ((customer_demographics.cd_education_status)::text = 'College'::text) AND (store_sales.ss_sales_price >= '50'::double precision) AND (store_sales.ss_sales_price <= '100'::double precision) AND (household_demographics.hd_dep_count = 1)) OR (((customer_demographics.cd_marital_status)::text = 'W'::text) AND ((customer_demographics.cd_education_status)::text = '2 yr Degree'::text) AND (store_sales.ss_sales_price >= '150'::double precision) AND (store_sales.ss_sales_price <= '200'::double precision) AND (household_demographics.hd_dep_count = 1)))
+                     ->  Hash Join  (cost=11000516.11..11029412.48 rows=486 width=36)
+                           Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                           ->  Parallel Hash Join  (cost=11000491.06..11029386.09 rows=509 width=40)
+                                 Hash Cond: (customer_address.ca_address_sk = store_sales.ss_addr_sk)
+                                 Join Filter: ((((customer_address.ca_state)::text = ANY ('{OH,TX}'::text[])) AND (store_sales.ss_net_profit >= '100'::double precision) AND (store_sales.ss_net_profit <= '200'::double precision)) OR (((customer_address.ca_state)::text = ANY ('{KY,NM,OR}'::text[])) AND (store_sales.ss_net_profit >= '150'::double precision) AND (store_sales.ss_net_profit <= '300'::double precision)) OR (((customer_address.ca_state)::text = ANY ('{MS,TX,VA}'::text[])) AND (store_sales.ss_net_profit >= '50'::double precision) AND (store_sales.ss_net_profit <= '250'::double precision)))
+                                 ->  Parallel Seq Scan on customer_address  (cost=0.00..28453.00 rows=113095 width=7)
+                                       Filter: (((ca_country)::text = 'United States'::text) AND (((ca_state)::text = ANY ('{OH,TX}'::text[])) OR ((ca_state)::text = ANY ('{KY,NM,OR}'::text[])) OR ((ca_state)::text = ANY ('{MS,TX,VA}'::text[]))))
+                                 ->  Parallel Hash  (cost=11000431.84..11000431.84 rows=4738 width=52)
+                                       ->  Hash Join  (cost=2201.19..11000431.84 rows=4738 width=52)
+                                             Hash Cond: (store_sales.ss_hdemo_sk = household_demographics.hd_demo_sk)
+                                             ->  Parallel Hash Join  (cost=2000.80..11000183.29 rows=18338 width=52)
+                                                   Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                   ->  Parallel Seq Scan on store_sales  (cost=0.00..10988067.00 rows=3853309 width=56)
+                                                         Filter: ((((ss_sales_price >= '100'::double precision) AND (ss_sales_price <= '150'::double precision)) OR ((ss_sales_price >= '50'::double precision) AND (ss_sales_price <= '100'::double precision)) OR ((ss_sales_price >= '150'::double precision) AND (ss_sales_price <= '200'::double precision))) AND (((ss_net_profit >= '100'::double precision) AND (ss_net_profit <= '200'::double precision)) OR ((ss_net_profit >= '150'::double precision) AND (ss_net_profit <= '300'::double precision)) OR ((ss_net_profit >= '50'::double precision) AND (ss_net_profit <= '250'::double precision))))
+                                                   ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                                               Filter: (d_year = 2001)
+                                             ->  Hash  (cost=176.00..176.00 rows=1951 width=8)
+                                                   ->  Seq Scan on household_demographics  (cost=0.00..176.00 rows=1951 width=8)
+                                                         Filter: ((hd_dep_count = 3) OR (hd_dep_count = 1) OR (hd_dep_count = 1))
+                           ->  Hash  (cost=20.02..20.02 rows=402 width=4)
+                                 ->  Seq Scan on store  (cost=0.00..20.02 rows=402 width=4)
+                     ->  Index Scan using customer_demographics_pkey on customer_demographics  (cost=0.43..7.79 rows=1 width=16)
+                           Index Cond: (cd_demo_sk = store_sales.ss_cdemo_sk)
+                           Filter: ((((cd_marital_status)::text = 'M'::text) AND ((cd_education_status)::text = 'Advanced Degree'::text)) OR (((cd_marital_status)::text = 'S'::text) AND ((cd_education_status)::text = 'College'::text)) OR (((cd_marital_status)::text = 'W'::text) AND ((cd_education_status)::text = '2 yr Degree'::text)))
+ JIT:
+   Functions: 55
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(34 rows)
+

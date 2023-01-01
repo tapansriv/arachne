@@ -1,0 +1,278 @@
+{
+    "name": "TOP_N",
+    "timing": 0.170383,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC\n#4 ASC\n#5 ASC\n#6 ASC\n#7 ASC\n#8 ASC\n#9 ASC\n#10 ASC\n#11 ASC\n#12 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.001921,
+            "cardinality": 158769,
+            "extra_info": "c_customer_id\nc_salutation\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_day\nc_birth_month\nc_birth_year\nc_birth_country\nc_login\nc_email_address\nc_last_review_date_sk\nctr_total_return\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "PROJECTION",
+                    "timing": 0.003204,
+                    "cardinality": 158769,
+                    "extra_info": "#0\n#3\n#4\n#5\n#6\n#7\n#8\n#9\n#10\n#11\n#12\n#13\n#14\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.006323,
+                            "cardinality": 158769,
+                            "extra_info": "ctr_total_return>SUBQUERY",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "DELIM_JOIN",
+                                    "timing": 0.138154,
+                                    "cardinality": 158769,
+                                    "extra_info": "SINGLE\nctr_state=ctr_state\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 0.019723,
+                                            "cardinality": 646910,
+                                            "extra_info": "SINGLE\nctr_state=ctr_state\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 0.000153,
+                                                    "cardinality": 104,
+                                                    "extra_info": "*(avg(#[15.0]), 1.200000)\n#2\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_JOIN",
+                                                            "timing": 9.9e-05,
+                                                            "cardinality": 104,
+                                                            "extra_info": "RIGHT\n#0=#0\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_GROUP_BY",
+                                                                    "timing": 0.332163,
+                                                                    "cardinality": 102,
+                                                                    "extra_info": "#0\navg(#1)",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 0.020098,
+                                                                            "cardinality": 12634014,
+                                                                            "extra_info": "ctr_state\nctr_total_return\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "FILTER",
+                                                                                    "timing": 0.062736,
+                                                                                    "cardinality": 12634014,
+                                                                                    "extra_info": "IS_NOT_NULL(ctr_state)",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_GROUP_BY",
+                                                                                            "timing": 3.790828,
+                                                                                            "cardinality": 13024368,
+                                                                                            "extra_info": "#0\n#1\nsum(#2)",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PROJECTION",
+                                                                                                    "timing": 0.157641,
+                                                                                                    "cardinality": 13427994,
+                                                                                                    "extra_info": "wr_returning_customer_sk\nca_state\nwr_return_amt\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 2.551725,
+                                                                                                            "cardinality": 13427994,
+                                                                                                            "extra_info": "INNER\nwr_returning_addr_sk=ca_address_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 1.147658,
+                                                                                                                    "cardinality": 13752385,
+                                                                                                                    "extra_info": "INNER\nwr_returned_date_sk=d_date_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 10.672685,
+                                                                                                                            "cardinality": 71997522,
+                                                                                                                            "extra_info": "wr_returning_customer_sk\nwr_return_amt\nwr_returned_date_sk\nwr_returning_addr_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.003495,
+                                                                                                                            "cardinality": 730,
+                                                                                                                            "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.748931,
+                                                                                                                    "cardinality": 12000000,
+                                                                                                                    "extra_info": "ca_state\nca_address_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "DELIM_SCAN",
+                                                                    "timing": 3e-06,
+                                                                    "cardinality": 104,
+                                                                    "extra_info": "",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                                ,
+                                                {
+                                                    "name": "CHUNK_SCAN",
+                                                    "timing": 0.001991,
+                                                    "cardinality": 646910,
+                                                    "extra_info": "",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 1.293534,
+                                            "cardinality": 646910,
+                                            "extra_info": "INNER\nctr_customer_sk=c_customer_sk\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 3.790828,
+                                                    "cardinality": 13024368,
+                                                    "extra_info": "#0\n#1\nsum(#2)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 0.157641,
+                                                            "cardinality": 13427994,
+                                                            "extra_info": "wr_returning_customer_sk\nca_state\nwr_return_amt\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 2.551725,
+                                                                    "cardinality": 13427994,
+                                                                    "extra_info": "INNER\nwr_returning_addr_sk=ca_address_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 1.147658,
+                                                                            "cardinality": 13752385,
+                                                                            "extra_info": "INNER\nwr_returned_date_sk=d_date_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 10.672685,
+                                                                                    "cardinality": 71997522,
+                                                                                    "extra_info": "wr_returning_customer_sk\nwr_return_amt\nwr_returned_date_sk\nwr_returning_addr_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                },
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.003495,
+                                                                                    "cardinality": 730,
+                                                                                    "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.748931,
+                                                                            "cardinality": 12000000,
+                                                                            "extra_info": "ca_state\nca_address_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 1.758934,
+                                                    "cardinality": 1190858,
+                                                    "extra_info": "INNER\nc_current_addr_sk=ca_address_sk\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 15.253878,
+                                                            "cardinality": 24000000,
+                                                            "extra_info": "c_customer_id\nc_salutation\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_day\nc_birth_month\nc_birth_year\nc_birth_country\nc_login\nc_email_address\nc_last_review_date_sk\nc_current_addr_sk\nc_customer_sk",
+                                                            "timings": [],
+                                                            "children": []
+                                                        },
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 0.774782,
+                                                            "cardinality": 595626,
+                                                            "extra_info": "ca_address_sk\nca_state\n[INFOSEPARATOR]\nFilters: ca_state=GA AND ca_state IS NOT NULL\n",
+                                                            "timings": [],
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "HASH_GROUP_BY",
+                                            "timing": 0.0,
+                                            "cardinality": 0,
+                                            "extra_info": "#1",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

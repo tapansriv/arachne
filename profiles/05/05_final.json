@@ -1,0 +1,1314 @@
+{
+    "name": "TOP_N",
+    "timing": 0.001382,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.001127,
+            "cardinality": 4304,
+            "extra_info": "#0\n#1\n#2\n#3\n#4",
+            "timings": [],
+            "children": [
+                {
+                    "name": "PROJECTION",
+                    "timing": 4.1e-05,
+                    "cardinality": 4304,
+                    "extra_info": "#0\n#1\n#2\n#3\n#4\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "UNION",
+                            "timing": 1.1e-05,
+                            "cardinality": 4304,
+                            "extra_info": "",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 0.001099,
+                                    "cardinality": 4303,
+                                    "extra_info": "#0\n#1\n#2\n#3\n#4",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 4.1e-05,
+                                            "cardinality": 4303,
+                                            "extra_info": "#0\n#1\n#2\n#3\n#4\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "UNION",
+                                                    "timing": 1.2e-05,
+                                                    "cardinality": 4303,
+                                                    "extra_info": "",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 0.001182,
+                                                            "cardinality": 4300,
+                                                            "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 4.1e-05,
+                                                                    "cardinality": 4300,
+                                                                    "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "UNION",
+                                                                            "timing": 1.2e-05,
+                                                                            "cardinality": 4300,
+                                                                            "extra_info": "",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "UNION",
+                                                                                    "timing": 1e-05,
+                                                                                    "cardinality": 4273,
+                                                                                    "extra_info": "",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 0.000119,
+                                                                                            "cardinality": 501,
+                                                                                            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                    "timing": 0.687822,
+                                                                                                    "cardinality": 27,
+                                                                                                    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 0.047567,
+                                                                                                            "cardinality": 8267040,
+                                                                                                            "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 0.221448,
+                                                                                                                    "cardinality": 8267040,
+                                                                                                                    "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 12.377853,
+                                                                                                                            "cardinality": 8268106,
+                                                                                                                            "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "UNION",
+                                                                                                                                    "timing": 2.155683,
+                                                                                                                                    "cardinality": 791997898,
+                                                                                                                                    "extra_info": "",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 1.575287,
+                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 91.245433,
+                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                    "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 2.392092,
+                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 59.053665,
+                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                    "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 61.020549,
+                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                            "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 22.561056,
+                                                                                                                                                            "cardinality": 143995044,
+                                                                                                                                                            "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.00763,
+                                                                                                                                    "cardinality": 30,
+                                                                                                                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.002166,
+                                                                                                                            "cardinality": 108,
+                                                                                                                            "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 0.000186,
+                                                                                            "cardinality": 3772,
+                                                                                            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                    "timing": 0.687822,
+                                                                                                    "cardinality": 27,
+                                                                                                    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 0.047567,
+                                                                                                            "cardinality": 8267040,
+                                                                                                            "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 0.221448,
+                                                                                                                    "cardinality": 8267040,
+                                                                                                                    "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 12.377853,
+                                                                                                                            "cardinality": 8268106,
+                                                                                                                            "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "UNION",
+                                                                                                                                    "timing": 2.155683,
+                                                                                                                                    "cardinality": 791997898,
+                                                                                                                                    "extra_info": "",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 1.575287,
+                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 91.245433,
+                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                    "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 2.392092,
+                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 59.053665,
+                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                    "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 61.020549,
+                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                            "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 22.561056,
+                                                                                                                                                            "cardinality": 143995044,
+                                                                                                                                                            "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.00763,
+                                                                                                                                    "cardinality": 30,
+                                                                                                                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.002166,
+                                                                                                                            "cardinality": 108,
+                                                                                                                            "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 5.2e-05,
+                                                                                    "cardinality": 27,
+                                                                                    "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_GROUP_BY",
+                                                                                            "timing": 0.687822,
+                                                                                            "cardinality": 27,
+                                                                                            "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PROJECTION",
+                                                                                                    "timing": 0.047567,
+                                                                                                    "cardinality": 8267040,
+                                                                                                    "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 0.221448,
+                                                                                                            "cardinality": 8267040,
+                                                                                                            "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 12.377853,
+                                                                                                                    "cardinality": 8268106,
+                                                                                                                    "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "UNION",
+                                                                                                                            "timing": 2.155683,
+                                                                                                                            "cardinality": 791997898,
+                                                                                                                            "extra_info": "",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                    "timing": 1.575287,
+                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 91.245433,
+                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                            "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                    "timing": 2.392092,
+                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                            "timing": 59.053665,
+                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                            "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 61.020549,
+                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                    "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 22.561056,
+                                                                                                                                                    "cardinality": 143995044,
+                                                                                                                                                    "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.00763,
+                                                                                                                            "cardinality": 30,
+                                                                                                                            "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.002166,
+                                                                                                                    "cardinality": 108,
+                                                                                                                    "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 3.5e-05,
+                                                            "cardinality": 3,
+                                                            "extra_info": "channel\nNULL\nsum(#[21.1])\nsum(#[21.2])\nsum(#[21.3])\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_GROUP_BY",
+                                                                    "timing": 0.000284,
+                                                                    "cardinality": 3,
+                                                                    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 3.5e-05,
+                                                                            "cardinality": 4300,
+                                                                            "extra_info": "channel\nsales\nreturns_\nprofit\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_GROUP_BY",
+                                                                                    "timing": 0.001182,
+                                                                                    "cardinality": 4300,
+                                                                                    "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 4.1e-05,
+                                                                                            "cardinality": 4300,
+                                                                                            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "UNION",
+                                                                                                    "timing": 1.2e-05,
+                                                                                                    "cardinality": 4300,
+                                                                                                    "extra_info": "",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "UNION",
+                                                                                                            "timing": 1e-05,
+                                                                                                            "cardinality": 4273,
+                                                                                                            "extra_info": "",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "PROJECTION",
+                                                                                                                    "timing": 0.000119,
+                                                                                                                    "cardinality": 501,
+                                                                                                                    "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_GROUP_BY",
+                                                                                                                            "timing": 0.687822,
+                                                                                                                            "cardinality": 27,
+                                                                                                                            "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                    "timing": 0.047567,
+                                                                                                                                    "cardinality": 8267040,
+                                                                                                                                    "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                            "timing": 0.221448,
+                                                                                                                                            "cardinality": 8267040,
+                                                                                                                                            "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 12.377853,
+                                                                                                                                                    "cardinality": 8268106,
+                                                                                                                                                    "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "UNION",
+                                                                                                                                                            "timing": 2.155683,
+                                                                                                                                                            "cardinality": 791997898,
+                                                                                                                                                            "extra_info": "",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": [
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                                                    "timing": 1.575287,
+                                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": [
+                                                                                                                                                                        {
+                                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                                            "timing": 91.245433,
+                                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                                            "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                                            "timings": [],
+                                                                                                                                                                            "children": []
+                                                                                                                                                                        }
+                                                                                                                                                                    ]
+                                                                                                                                                                },
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                                                    "timing": 2.392092,
+                                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": [
+                                                                                                                                                                        {
+                                                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                                                            "timing": 59.053665,
+                                                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                                                            "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                                            "timings": [],
+                                                                                                                                                                            "children": [
+                                                                                                                                                                                {
+                                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                                    "timing": 61.020549,
+                                                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                                                    "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                                                    "timings": [],
+                                                                                                                                                                                    "children": []
+                                                                                                                                                                                },
+                                                                                                                                                                                {
+                                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                                    "timing": 22.561056,
+                                                                                                                                                                                    "cardinality": 143995044,
+                                                                                                                                                                                    "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                                                    "timings": [],
+                                                                                                                                                                                    "children": []
+                                                                                                                                                                                }
+                                                                                                                                                                            ]
+                                                                                                                                                                        }
+                                                                                                                                                                    ]
+                                                                                                                                                                }
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 0.00763,
+                                                                                                                                                            "cardinality": 30,
+                                                                                                                                                            "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 0.002166,
+                                                                                                                                                    "cardinality": 108,
+                                                                                                                                                    "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PROJECTION",
+                                                                                                                    "timing": 0.000186,
+                                                                                                                    "cardinality": 3772,
+                                                                                                                    "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_GROUP_BY",
+                                                                                                                            "timing": 0.687822,
+                                                                                                                            "cardinality": 27,
+                                                                                                                            "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                    "timing": 0.047567,
+                                                                                                                                    "cardinality": 8267040,
+                                                                                                                                    "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                            "timing": 0.221448,
+                                                                                                                                            "cardinality": 8267040,
+                                                                                                                                            "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 12.377853,
+                                                                                                                                                    "cardinality": 8268106,
+                                                                                                                                                    "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "UNION",
+                                                                                                                                                            "timing": 2.155683,
+                                                                                                                                                            "cardinality": 791997898,
+                                                                                                                                                            "extra_info": "",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": [
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                                                    "timing": 1.575287,
+                                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": [
+                                                                                                                                                                        {
+                                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                                            "timing": 91.245433,
+                                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                                            "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                                            "timings": [],
+                                                                                                                                                                            "children": []
+                                                                                                                                                                        }
+                                                                                                                                                                    ]
+                                                                                                                                                                },
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                                                    "timing": 2.392092,
+                                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": [
+                                                                                                                                                                        {
+                                                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                                                            "timing": 59.053665,
+                                                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                                                            "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                                            "timings": [],
+                                                                                                                                                                            "children": [
+                                                                                                                                                                                {
+                                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                                    "timing": 61.020549,
+                                                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                                                    "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                                                    "timings": [],
+                                                                                                                                                                                    "children": []
+                                                                                                                                                                                },
+                                                                                                                                                                                {
+                                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                                    "timing": 22.561056,
+                                                                                                                                                                                    "cardinality": 143995044,
+                                                                                                                                                                                    "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                                                    "timings": [],
+                                                                                                                                                                                    "children": []
+                                                                                                                                                                                }
+                                                                                                                                                                            ]
+                                                                                                                                                                        }
+                                                                                                                                                                    ]
+                                                                                                                                                                }
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 0.00763,
+                                                                                                                                                            "cardinality": 30,
+                                                                                                                                                            "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 0.002166,
+                                                                                                                                                    "cardinality": 108,
+                                                                                                                                                    "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 5.2e-05,
+                                                                                                            "cardinality": 27,
+                                                                                                            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                                    "timing": 0.687822,
+                                                                                                                    "cardinality": 27,
+                                                                                                                    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "PROJECTION",
+                                                                                                                            "timing": 0.047567,
+                                                                                                                            "cardinality": 8267040,
+                                                                                                                            "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                    "timing": 0.221448,
+                                                                                                                                    "cardinality": 8267040,
+                                                                                                                                    "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                            "timing": 12.377853,
+                                                                                                                                            "cardinality": 8268106,
+                                                                                                                                            "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "UNION",
+                                                                                                                                                    "timing": 2.155683,
+                                                                                                                                                    "cardinality": 791997898,
+                                                                                                                                                    "extra_info": "",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                                            "timing": 1.575287,
+                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": [
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                    "timing": 91.245433,
+                                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                                    "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": []
+                                                                                                                                                                }
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                                            "timing": 2.392092,
+                                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": [
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                                    "timing": 59.053665,
+                                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                                    "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": [
+                                                                                                                                                                        {
+                                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                                            "timing": 61.020549,
+                                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                                            "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                                            "timings": [],
+                                                                                                                                                                            "children": []
+                                                                                                                                                                        },
+                                                                                                                                                                        {
+                                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                                            "timing": 22.561056,
+                                                                                                                                                                            "cardinality": 143995044,
+                                                                                                                                                                            "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                                            "timings": [],
+                                                                                                                                                                            "children": []
+                                                                                                                                                                        }
+                                                                                                                                                                    ]
+                                                                                                                                                                }
+                                                                                                                                                            ]
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 0.00763,
+                                                                                                                                                    "cardinality": 30,
+                                                                                                                                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 0.002166,
+                                                                                                                                            "cardinality": 108,
+                                                                                                                                            "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 3.4e-05,
+                                    "cardinality": 1,
+                                    "extra_info": "NULL\nNULL\nsum(#[28.0])\nsum(#[28.1])\nsum(#[28.2])\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "SIMPLE_AGGREGATE",
+                                            "timing": 0.0001,
+                                            "cardinality": 1,
+                                            "extra_info": "sum(#0)\nsum(#1)\nsum(#2)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 5.2e-05,
+                                                    "cardinality": 8600,
+                                                    "extra_info": "sales\nreturns_\nprofit\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 0.001182,
+                                                            "cardinality": 4300,
+                                                            "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 4.1e-05,
+                                                                    "cardinality": 4300,
+                                                                    "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "UNION",
+                                                                            "timing": 1.2e-05,
+                                                                            "cardinality": 4300,
+                                                                            "extra_info": "",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "UNION",
+                                                                                    "timing": 1e-05,
+                                                                                    "cardinality": 4273,
+                                                                                    "extra_info": "",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 0.000119,
+                                                                                            "cardinality": 501,
+                                                                                            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                    "timing": 0.687822,
+                                                                                                    "cardinality": 27,
+                                                                                                    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 0.047567,
+                                                                                                            "cardinality": 8267040,
+                                                                                                            "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 0.221448,
+                                                                                                                    "cardinality": 8267040,
+                                                                                                                    "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 12.377853,
+                                                                                                                            "cardinality": 8268106,
+                                                                                                                            "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "UNION",
+                                                                                                                                    "timing": 2.155683,
+                                                                                                                                    "cardinality": 791997898,
+                                                                                                                                    "extra_info": "",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 1.575287,
+                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 91.245433,
+                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                    "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 2.392092,
+                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 59.053665,
+                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                    "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 61.020549,
+                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                            "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 22.561056,
+                                                                                                                                                            "cardinality": 143995044,
+                                                                                                                                                            "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.00763,
+                                                                                                                                    "cardinality": 30,
+                                                                                                                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.002166,
+                                                                                                                            "cardinality": 108,
+                                                                                                                            "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 0.000186,
+                                                                                            "cardinality": 3772,
+                                                                                            "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                    "timing": 0.687822,
+                                                                                                    "cardinality": 27,
+                                                                                                    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 0.047567,
+                                                                                                            "cardinality": 8267040,
+                                                                                                            "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 0.221448,
+                                                                                                                    "cardinality": 8267040,
+                                                                                                                    "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 12.377853,
+                                                                                                                            "cardinality": 8268106,
+                                                                                                                            "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "UNION",
+                                                                                                                                    "timing": 2.155683,
+                                                                                                                                    "cardinality": 791997898,
+                                                                                                                                    "extra_info": "",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 1.575287,
+                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 91.245433,
+                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                    "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 2.392092,
+                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                            "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 59.053665,
+                                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                                    "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 61.020549,
+                                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                                            "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 22.561056,
+                                                                                                                                                            "cardinality": 143995044,
+                                                                                                                                                            "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.00763,
+                                                                                                                                    "cardinality": 30,
+                                                                                                                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.002166,
+                                                                                                                            "cardinality": 108,
+                                                                                                                            "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 5.2e-05,
+                                                                                    "cardinality": 27,
+                                                                                    "extra_info": "channel\nid\nsales\nreturns_\nprofit\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_GROUP_BY",
+                                                                                            "timing": 0.687822,
+                                                                                            "cardinality": 27,
+                                                                                            "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PROJECTION",
+                                                                                                    "timing": 0.047567,
+                                                                                                    "cardinality": 8267040,
+                                                                                                    "extra_info": "web_site_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 0.221448,
+                                                                                                            "cardinality": 8267040,
+                                                                                                            "extra_info": "INNER\nwsr_web_site_sk=web_site_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 12.377853,
+                                                                                                                    "cardinality": 8268106,
+                                                                                                                    "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "UNION",
+                                                                                                                            "timing": 2.155683,
+                                                                                                                            "cardinality": 791997898,
+                                                                                                                            "extra_info": "",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                    "timing": 1.575287,
+                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 91.245433,
+                                                                                                                                            "cardinality": 720000376,
+                                                                                                                                            "extra_info": "ws_web_site_sk\nws_sold_date_sk\nws_ext_sales_price\nws_net_profit",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PROJECTION",
+                                                                                                                                    "timing": 2.392092,
+                                                                                                                                    "cardinality": 71997522,
+                                                                                                                                    "extra_info": "wsr_web_site_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                            "timing": 59.053665,
+                                                                                                                                            "cardinality": 71997522,
+                                                                                                                                            "extra_info": "RIGHT\nws_item_sk=wr_item_sk\nws_order_number=wr_order_number\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 61.020549,
+                                                                                                                                                    "cardinality": 720000376,
+                                                                                                                                                    "extra_info": "ws_item_sk\nws_order_number\nws_web_site_sk",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 22.561056,
+                                                                                                                                                    "cardinality": 143995044,
+                                                                                                                                                    "extra_info": "wr_item_sk\nwr_order_number\nwr_returned_date_sk\nwr_return_amt\nwr_net_loss",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.00763,
+                                                                                                                            "cardinality": 30,
+                                                                                                                            "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.002166,
+                                                                                                                    "cardinality": 108,
+                                                                                                                    "extra_info": "web_site_id\nweb_site_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

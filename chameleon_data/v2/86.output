@@ -1,0 +1,811 @@
+-Dexec.args="single duck 86 1.48 0.0 0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+86 1.48 0.0 GCP
+/home/cc/arachneDB/baseline/duck_chameleon_baseline.json
+86 182.39667177200317
+/home/cc/arachneDB/baseline/duck_c_chameleon_baseline.json
+86 394.02138447761536
+START: :
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = 0.07498518123515686, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = 0.07498518123515686, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+trial 0
+id: 2, opp: 0.07498518123515686
+id: 3, opp: 0.07498518123515686
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 3, opp: 0.07498518123515686
+making cut ------------
+cut id: 836, arachneId: 6
+parent id: 826, arachneId: 5
+parent id: 911, arachneId: 21
+parent id: 947, arachneId: 24
+made cut ------------
+making cut ------------
+cut id: 752, arachneId: 3
+parent id: 751, arachneId: 2
+made cut ------------
+CTAS: duck_table_86_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_86_0 AS SELECT "t4"."i_category", "t4"."i_class", SUM("t3"."ws_net_paid") AS "total_sum"
+FROM (SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t4" ON "t3"."ws_item_sk" = "t4"."i_item_sk"
+GROUP BY "t4"."i_category", "t4"."i_class"
+
+CTAS: duck_table_86_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_86_1 AS SELECT *
+FROM (SELECT "total_sum", "i_category", "i_class", 0 AS "g_category", 0 AS "g_class", 0 AS "lochierarchy"
+FROM "duck_table_86_0"
+UNION
+SELECT SUM("total_sum") AS "total_sum", "i_category", NULL AS "i_class", 0 AS "g_category", 1 AS "g_class", 1 AS "lochierarchy"
+FROM "duck_table_86_0"
+GROUP BY "i_category") AS "t"
+UNION
+SELECT SUM("total_sum") AS "total_sum", NULL AS "i_category", NULL AS "i_class", 1 AS "g_category", 1 AS "g_class", 2 AS "lochierarchy"
+FROM "duck_table_86_0"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT "total_sum", "i_category", "i_class", "lochierarchy", RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) AS "rank_within_parent", CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END
+FROM "duck_table_86_1"
+ORDER BY "lochierarchy" DESC, CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END NULLS FIRST, RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_86_0 AS SELECT "t4"."i_category", "t4"."i_class", SUM("t3"."ws_net_paid") AS "total_sum"
+FROM (SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t4" ON "t3"."ws_item_sk" = "t4"."i_item_sk"
+GROUP BY "t4"."i_category", "t4"."i_class"
+
+190
+190
+63.623644695
+finished query
+STARTING QRY: CREATE TABLE duck_table_86_1 AS SELECT *
+FROM (SELECT "total_sum", "i_category", "i_class", 0 AS "g_category", 0 AS "g_class", 0 AS "lochierarchy"
+FROM "duck_table_86_0"
+UNION
+SELECT SUM("total_sum") AS "total_sum", "i_category", CAST(NULL AS VARCHAR(50)) AS "i_class", 0 AS "g_category", 1 AS "g_class", 1 AS "lochierarchy"
+FROM "duck_table_86_0"
+GROUP BY "i_category") AS "t"
+UNION
+SELECT SUM("total_sum") AS "total_sum", CAST(NULL AS VARCHAR(50)) AS "i_category", CAST(NULL AS VARCHAR(50)) AS "i_class", 1 AS "g_category", 1 AS "g_class", 2 AS "lochierarchy"
+FROM "duck_table_86_0"
+
+202
+202
+0.003765758
+finished query
+STARTING QRY: SELECT "total_sum", "i_category", "i_class", "lochierarchy", RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) AS "rank_within_parent", CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END
+FROM "duck_table_86_1"
+ORDER BY "lochierarchy" DESC, CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END NULLS FIRST, RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+0.003597091
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_86_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 63.623644695 CARDINALITY: 190 COST: 0.0261563872635
+CTAS: duck_table_86_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.003765758 CARDINALITY: 202 COST: 1.5481449555555555E-6
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.003597091 CARDINALITY: -1 COST: 1.4788040777777778E-6
+cut real save: -0.4416910910682986
+Post Trial ::
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = 0.04882724582670131, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = 0.07498518123515686, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+estimated move size: 68.03811115809523GB
+estimate billed runtime: 63.627410453 seconds
+estimated BQ read size: 98.10369081099999GB
+estimated savings: $-0.4416910910682986
+min baseline cost: $0.07498529839515686
+estimated hybrid cost: $0.5166763894634555
+estimated cost for cut but no movement: $0.026159414212533334
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  01:07 min
+[[1;34mINFO[m] Finished at: 2022-05-17T06:20:48Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+86 1.48 0.0 GCP
+/home/cc/arachneDB/baseline/duck_chameleon_baseline.json
+86 182.39667177200317
+/home/cc/arachneDB/baseline/duck_c_chameleon_baseline.json
+86 394.02138447761536
+replaying trial 0
+0, 3
+id: 2, opp: 0.07498518123515686
+id: 3, opp: 0.07498518123515686
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 3, opp: 0.07498518123515686
+CHOSEN: 3
+START: :
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = 0.04882724582670131, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = 0.07498518123515686, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+trial 1
+id: 2, opp: 0.04882724582670131
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 6, opp: 0.07498470559515685
+making cut ------------
+cut id: 836, arachneId: 6
+parent id: 826, arachneId: 5
+parent id: 911, arachneId: 21
+parent id: 947, arachneId: 24
+made cut ------------
+making cut ------------
+cut id: 836, arachneId: 6
+parent id: 826, arachneId: 5
+parent id: 911, arachneId: 21
+parent id: 947, arachneId: 24
+made cut ------------
+CTAS: duck_table_86_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_86_0 AS SELECT "t4"."i_category", "t4"."i_class", SUM("t3"."ws_net_paid") AS "total_sum"
+FROM (SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t4" ON "t3"."ws_item_sk" = "t4"."i_item_sk"
+GROUP BY "t4"."i_category", "t4"."i_class"
+
+CTAS: duck_table_86_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_86_1 AS SELECT "t4"."i_category", "t4"."i_class", SUM("t3"."ws_net_paid") AS "total_sum"
+FROM (SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t4" ON "t3"."ws_item_sk" = "t4"."i_item_sk"
+GROUP BY "t4"."i_category", "t4"."i_class"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT "total_sum", "i_category", "i_class", "lochierarchy", RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) AS "rank_within_parent", CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END
+FROM (SELECT *
+FROM (SELECT "total_sum", "i_category", "i_class", 0 AS "g_category", 0 AS "g_class", 0 AS "lochierarchy"
+FROM "duck_table_86_1"
+UNION
+SELECT SUM("total_sum") AS "total_sum", "i_category", NULL AS "i_class", 0 AS "g_category", 1 AS "g_class", 1 AS "lochierarchy"
+FROM "duck_table_86_1"
+GROUP BY "i_category") AS "t"
+UNION
+SELECT SUM("total_sum") AS "total_sum", NULL AS "i_category", NULL AS "i_class", 1 AS "g_category", 1 AS "g_class", 2 AS "lochierarchy"
+FROM "duck_table_86_1") AS "t7"
+ORDER BY "lochierarchy" DESC, CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END NULLS FIRST, RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_86_0 AS SELECT "t4"."i_category", "t4"."i_class", SUM("t3"."ws_net_paid") AS "total_sum"
+FROM (SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t4" ON "t3"."ws_item_sk" = "t4"."i_item_sk"
+GROUP BY "t4"."i_category", "t4"."i_class"
+
+190
+190
+62.868326043
+finished query
+STARTING QRY: CREATE TABLE duck_table_86_1 AS SELECT "t4"."i_category", "t4"."i_class", SUM("t3"."ws_net_paid") AS "total_sum"
+FROM (SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t4" ON "t3"."ws_item_sk" = "t4"."i_item_sk"
+GROUP BY "t4"."i_category", "t4"."i_class"
+
+190
+190
+63.160840379
+finished query
+STARTING QRY: SELECT "total_sum", "i_category", "i_class", "lochierarchy", RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) AS "rank_within_parent", CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END
+FROM (SELECT *
+FROM (SELECT "total_sum", "i_category", "i_class", 0 AS "g_category", 0 AS "g_class", 0 AS "lochierarchy"
+FROM "duck_table_86_1"
+UNION
+SELECT SUM("total_sum") AS "total_sum", "i_category", CAST(NULL AS VARCHAR(50)) AS "i_class", 0 AS "g_category", 1 AS "g_class", 1 AS "lochierarchy"
+FROM "duck_table_86_1"
+GROUP BY "i_category") AS "t"
+UNION
+SELECT SUM("total_sum") AS "total_sum", CAST(NULL AS VARCHAR(50)) AS "i_category", CAST(NULL AS VARCHAR(50)) AS "i_class", 1 AS "g_category", 1 AS "g_class", 2 AS "lochierarchy"
+FROM "duck_table_86_1") AS "t7"
+ORDER BY "lochierarchy" DESC, CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END NULLS FIRST, RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+0.006213956
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_86_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 62.868326043 CARDINALITY: 190 COST: 0.025845867373233335
+CTAS: duck_table_86_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 63.160840379 CARDINALITY: 190 COST: 0.02596612326692222
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.006213956 CARDINALITY: -1 COST: 2.5546263555555554E-6
+cut real save: -0.4673451279399986
+Post Trial ::
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = -0.002984744813454246, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = -0.028638800045154247, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+estimated move size: 68.03810940952381GB
+estimate billed runtime: 126.029166422 seconds
+estimated BQ read size: 98.10368713899999GB
+estimated savings: $-0.4673451279399986
+min baseline cost: $0.07498529839515686
+estimated hybrid cost: $0.5423304263351555
+estimated cost for cut but no movement: $0.05181454526651111
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  02:09 min
+[[1;34mINFO[m] Finished at: 2022-05-17T06:22:58Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+86 1.48 0.0 GCP
+/home/cc/arachneDB/baseline/duck_chameleon_baseline.json
+86 182.39667177200317
+/home/cc/arachneDB/baseline/duck_c_chameleon_baseline.json
+86 394.02138447761536
+replaying trial 0
+0, 3
+id: 2, opp: 0.07498518123515686
+id: 3, opp: 0.07498518123515686
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 3, opp: 0.07498518123515686
+CHOSEN: 3
+replaying trial 1
+1, 6
+id: 2, opp: 0.04882724582670131
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 6, opp: 0.07498470559515685
+CHOSEN: 6
+START: :
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = -0.002984744813454246, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = -0.028638800045154247, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.07498470559515685, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+trial 2
+id: 9, opp: 0.05673397423515686
+-------
+id: 9, opp: 0.05673397423515686
+making cut ------------
+cut id: 859, arachneId: 9
+parent id: 853, arachneId: 8
+made cut ------------
+CTAS: duck_table_86_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_86_0 AS SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT "total_sum", "i_category", "i_class", "lochierarchy", RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) AS "rank_within_parent", CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END
+FROM (SELECT *
+FROM (SELECT SUM("duck_table_86_0"."ws_net_paid") AS "total_sum", "t"."i_category", "t"."i_class", 0 AS "g_category", 0 AS "g_class", 0 AS "lochierarchy"
+FROM "duck_table_86_0"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t" ON "duck_table_86_0"."ws_item_sk" = "t"."i_item_sk"
+GROUP BY "t"."i_category", "t"."i_class"
+UNION
+SELECT SUM("t6"."total_sum") AS "total_sum", "t6"."i_category", NULL AS "i_class", 0 AS "g_category", 1 AS "g_class", 1 AS "lochierarchy"
+FROM (SELECT "t3"."i_category", SUM("duck_table_86_00"."ws_net_paid") AS "total_sum"
+FROM "duck_table_86_0" AS "duck_table_86_00"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t3" ON "duck_table_86_00"."ws_item_sk" = "t3"."i_item_sk"
+GROUP BY "t3"."i_category", "t3"."i_class") AS "t6"
+GROUP BY "t6"."i_category") AS "t"
+UNION
+SELECT SUM("t13"."total_sum") AS "total_sum", NULL AS "i_category", NULL AS "i_class", 1 AS "g_category", 1 AS "g_class", 2 AS "lochierarchy"
+FROM (SELECT SUM("duck_table_86_01"."ws_net_paid") AS "total_sum"
+FROM "duck_table_86_0" AS "duck_table_86_01"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t10" ON "duck_table_86_01"."ws_item_sk" = "t10"."i_item_sk"
+GROUP BY "t10"."i_category", "t10"."i_class") AS "t13") AS "t16"
+ORDER BY "lochierarchy" DESC, CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END NULLS FIRST, RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_86_0 AS SELECT "t"."ws_item_sk", "t"."ws_net_paid"
+FROM (SELECT "ws_sold_date_sk", "ws_item_sk", "ws_net_paid"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t2" ON "t"."ws_sold_date_sk" = "t2"."d_date_sk"
+
+144769368
+144769368
+115.937470895
+finished query
+STARTING QRY: SELECT "total_sum", "i_category", "i_class", "lochierarchy", RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) AS "rank_within_parent", CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END
+FROM (SELECT *
+FROM (SELECT SUM("duck_table_86_0"."ws_net_paid") AS "total_sum", "t"."i_category", "t"."i_class", 0 AS "g_category", 0 AS "g_class", 0 AS "lochierarchy"
+FROM "duck_table_86_0"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t" ON "duck_table_86_0"."ws_item_sk" = "t"."i_item_sk"
+GROUP BY "t"."i_category", "t"."i_class"
+UNION
+SELECT SUM("t6"."total_sum") AS "total_sum", "t6"."i_category", CAST(NULL AS VARCHAR(50)) AS "i_class", 0 AS "g_category", 1 AS "g_class", 1 AS "lochierarchy"
+FROM (SELECT "t3"."i_category", SUM("duck_table_86_00"."ws_net_paid") AS "total_sum"
+FROM "duck_table_86_0" AS "duck_table_86_00"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t3" ON "duck_table_86_00"."ws_item_sk" = "t3"."i_item_sk"
+GROUP BY "t3"."i_category", "t3"."i_class") AS "t6"
+GROUP BY "t6"."i_category") AS "t"
+UNION
+SELECT SUM("t13"."total_sum") AS "total_sum", CAST(NULL AS VARCHAR(50)) AS "i_category", CAST(NULL AS VARCHAR(50)) AS "i_class", 1 AS "g_category", 1 AS "g_class", 2 AS "lochierarchy"
+FROM (SELECT SUM("duck_table_86_01"."ws_net_paid") AS "total_sum"
+FROM "duck_table_86_0" AS "duck_table_86_01"
+INNER JOIN (SELECT "i_item_sk", "i_class", "i_category"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t10" ON "duck_table_86_01"."ws_item_sk" = "t10"."i_item_sk"
+GROUP BY "t10"."i_category", "t10"."i_class") AS "t13") AS "t16"
+ORDER BY "lochierarchy" DESC, CASE WHEN "lochierarchy" = 0 THEN "i_category" ELSE NULL END NULLS FIRST, RANK() OVER (PARTITION BY "lochierarchy", CASE WHEN "g_class" = 0 THEN "i_category" ELSE NULL END ORDER BY "total_sum" DESC) NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+60.678484699
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_86_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 115.937470895 CARDINALITY: 144769368 COST: 0.04766318247905556
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 60.678484699 CARDINALITY: -1 COST: 0.024945599265144447
+cut real save: -0.4689869956988987
+Post Trial ::
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = -0.002984744813454246, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = -0.028638800045154247, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.027321523116101296, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.027321523116101296, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.027321523116101296, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+estimated move size: 68.58960235428572GB
+estimate billed runtime: 115.937470895 seconds
+estimated BQ read size: 99.26182232299999GB
+estimated savings: $-0.4689869956988987
+min baseline cost: $0.07498529839515686
+estimated hybrid cost: $0.5439722940940556
+estimated cost for cut but no movement: $0.0726087817442
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  03:00 min
+[[1;34mINFO[m] Finished at: 2022-05-17T06:26:00Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+86 1.48 0.0 GCP
+/home/cc/arachneDB/baseline/duck_chameleon_baseline.json
+86 182.39667177200317
+/home/cc/arachneDB/baseline/duck_c_chameleon_baseline.json
+86 394.02138447761536
+replaying trial 0
+0, 3
+id: 2, opp: 0.07498518123515686
+id: 3, opp: 0.07498518123515686
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 3, opp: 0.07498518123515686
+CHOSEN: 3
+replaying trial 1
+1, 6
+id: 2, opp: 0.04882724582670131
+id: 6, opp: 0.07498470559515685
+id: 9, opp: 0.05673397423515686
+-------
+id: 6, opp: 0.07498470559515685
+CHOSEN: 6
+replaying trial 2
+2, 9
+id: 9, opp: 0.05673397423515686
+-------
+id: 9, opp: 0.05673397423515686
+CHOSEN: 9
+START: :
+238:ProfileSort(sort0=[$3], sort1=[$5], sort2=[$4], dir0=[DESC], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  279:ProfileProject(total_sum=[$0], i_category=[$1], i_class=[$2], lochierarchy=[$5], rank_within_parent=[RANK() OVER (PARTITION BY $5, CASE(=($4, 0), $1, null:VARCHAR) ORDER BY $0 DESC)], EXPR$5=[CASE(=($5, 0), $1, null:VARCHAR)]): rowcount = 202, timing = null, opportunity = -0.002984744813454246, arachneId = 2
+    280:ProfileUnion(all=[false]): rowcount = 202, timing = null, opportunity = -0.028638800045154247, arachneId = 3
+      321:ProfileUnion(all=[false]): rowcount = 201, timing = null, opportunity = -0.4155331550798431, arachneId = 4
+        359:ProfileProject(total_sum=[$2], i_category=[$0], i_class=[$1], g_category=[0], g_class=[0], lochierarchy=[0]): rowcount = 380, timing = null, opportunity = -0.41553325889984305, arachneId = 5
+          370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.027321523116101296, arachneId = 6
+            380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+              390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                  404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                    406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                      407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                    411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                      414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                        416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                          417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                  420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+        434:ProfileProject(total_sum=[$1], i_category=[$0], i_class=[null:NULL], g_category=[0], g_class=[1], lochierarchy=[1]): rowcount = 11, timing = null, opportunity = -0.4155330448798431, arachneId = 19
+          447:ProfileAggregate(group=[{0}], total_sum=[SUM($1)]): rowcount = 11, timing = null, opportunity = -0.41553304146984305, arachneId = 20
+            458:ProfileProject(i_category=[$0], total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155331410998431, arachneId = 21
+              370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.027321523116101296, arachneId = 6
+                380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                  390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                    397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                      404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                        406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                          407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                        411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                          414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                            416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                              417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                    419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                      420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+      472:ProfileProject(total_sum=[$0], i_category=[null:NULL], i_class=[null:NULL], g_category=[1], g_class=[1], lochierarchy=[2]): rowcount = 1, timing = null, opportunity = -0.41553303907984307, arachneId = 22
+        485:ProfileAggregate(group=[{}], total_sum=[SUM($0)]): rowcount = 1, timing = null, opportunity = -0.41553303851984313, arachneId = 23
+          496:ProfileProject(total_sum=[$2]): rowcount = 380, timing = null, opportunity = -0.4155330460998431, arachneId = 24
+            370:ProfileAggregate(group=[{0, 1}], total_sum=[SUM($2)]): rowcount = 380, timing = null, opportunity = 0.027321523116101296, arachneId = 6
+              380:ProfileProject(i_category=[$4], i_class=[$3], ws_net_paid=[$1]): rowcount = 144769368, timing = null, opportunity = -0.15085491568484316, arachneId = 7
+                390:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = -0.1682272398448431, arachneId = 8
+                  397:ProfileProject(ws_item_sk=[$1], ws_net_paid=[$2]): rowcount = 144769368, timing = null, opportunity = 0.05673397423515686, arachneId = 9
+                    404:ProfileJoin(condition=[=($3, $0)], joinType=[inner]): rowcount = 144769368, timing = null, opportunity = 0.03936165007515685, arachneId = 10
+                      406:ProfileProject(ws_sold_date_sk=[$0], ws_item_sk=[$3], ws_net_paid=[$29]): rowcount = 720000376, timing = null, opportunity = -0.05553285049984316, arachneId = 11
+                        407:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.394733549859843, arachneId = 12
+                      411:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = -0.41549400120484314, arachneId = 13
+                        414:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = -0.4154940451248431, arachneId = 14
+                          416:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 15
+                            417:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = -0.4154951321448431, arachneId = 16
+                  419:ProfileProject(i_item_sk=[$0], i_class=[$10], i_category=[$12]): rowcount = 600000, timing = null, opportunity = -0.4155900384998431, arachneId = 17
+                    420:ProfileTableScan(table=[[tpcds, item]]): rowcount = 600000, timing = null, opportunity = -0.41992803849984317, arachneId = 18
+
+trial 3
+no more candidates to check
+FAILED TO FIND PLAN
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  3.050 s
+[[1;34mINFO[m] Finished at: 2022-05-17T06:26:05Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

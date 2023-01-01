@@ -1,0 +1,612 @@
+{
+    "name": "HASH_GROUP_BY",
+    "timing": 4.2e-05,
+    "cardinality": 52,
+    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 3.9e-05,
+            "cardinality": 52,
+            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "UNION",
+                    "timing": 5e-06,
+                    "cardinality": 52,
+                    "extra_info": "",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_GROUP_BY",
+                            "timing": 5e-05,
+                            "cardinality": 51,
+                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 3.9e-05,
+                                    "cardinality": 51,
+                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "UNION",
+                                            "timing": 6e-06,
+                                            "cardinality": 51,
+                                            "extra_info": "",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 4e-05,
+                                                    "cardinality": 30,
+                                                    "extra_info": "total_sum\ns_state\ns_county\ng_state\ng_county\nlochierarchy\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 3.5e-05,
+                                                            "cardinality": 30,
+                                                            "extra_info": "total_sum\ns_state\ns_county\ngstate\ng_county\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_GROUP_BY",
+                                                                    "timing": 38.26533,
+                                                                    "cardinality": 30,
+                                                                    "extra_info": "#0\n#1\nsum(#2)",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 5.575728,
+                                                                            "cardinality": 535674364,
+                                                                            "extra_info": "s_state\ns_county\nss_net_profit\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 23.27723,
+                                                                                    "cardinality": 535674364,
+                                                                                    "extra_info": "SEMI\ns_state=#0\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_JOIN",
+                                                                                            "timing": 19.325169,
+                                                                                            "cardinality": 539988812,
+                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_JOIN",
+                                                                                                    "timing": 33.566309,
+                                                                                                    "cardinality": 553018161,
+                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 114.376095,
+                                                                                                            "cardinality": 2879987999,
+                                                                                                            "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                            "timing": 0.00349,
+                                                                                                            "cardinality": 732,
+                                                                                                            "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": []
+                                                                                                        }
+                                                                                                    ]
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.002242,
+                                                                                                    "cardinality": 2004,
+                                                                                                    "extra_info": "s_state\ns_county\ns_store_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 8e-05,
+                                                                                            "cardinality": 44,
+                                                                                            "extra_info": "#0\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "FILTER",
+                                                                                                    "timing": 0.000124,
+                                                                                                    "cardinality": 44,
+                                                                                                    "extra_info": "ranking<=5",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "WINDOW",
+                                                                                                            "timing": 0.000448,
+                                                                                                            "cardinality": 44,
+                                                                                                            "extra_info": "RANK() OVER(PARTITION BY s_state ORDER BY sum(#[21.0]) DESC NULLS FIRST)",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                                    "timing": 21.076249,
+                                                                                                                    "cardinality": 22,
+                                                                                                                    "extra_info": "#0\nsum(#1)",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "PROJECTION",
+                                                                                                                            "timing": 5.270327,
+                                                                                                                            "cardinality": 539988812,
+                                                                                                                            "extra_info": "s_state\nss_net_profit\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                    "timing": 36.706157,
+                                                                                                                                    "cardinality": 539988812,
+                                                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                            "timing": 45.971695,
+                                                                                                                                            "cardinality": 2750415949,
+                                                                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 208.846856,
+                                                                                                                                                    "cardinality": 2879987999,
+                                                                                                                                                    "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                    "timing": 0.000342,
+                                                                                                                                                    "cardinality": 2004,
+                                                                                                                                                    "extra_info": "s_state\ns_store_sk",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": []
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 0.003148,
+                                                                                                                                            "cardinality": 732,
+                                                                                                                                            "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 3.9e-05,
+                                                    "cardinality": 21,
+                                                    "extra_info": "total_sum\ns_state\nNULL\ng_state\ng_county\nlochierarchy\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 4.9e-05,
+                                                            "cardinality": 21,
+                                                            "extra_info": "#0\nsum(#1)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 1.6e-05,
+                                                                    "cardinality": 30,
+                                                                    "extra_info": "s_state\ntotal_sum\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 3.5e-05,
+                                                                            "cardinality": 30,
+                                                                            "extra_info": "total_sum\ns_state\ns_county\ngstate\ng_county\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_GROUP_BY",
+                                                                                    "timing": 38.26533,
+                                                                                    "cardinality": 30,
+                                                                                    "extra_info": "#0\n#1\nsum(#2)",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PROJECTION",
+                                                                                            "timing": 5.575728,
+                                                                                            "cardinality": 535674364,
+                                                                                            "extra_info": "s_state\ns_county\nss_net_profit\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "HASH_JOIN",
+                                                                                                    "timing": 23.27723,
+                                                                                                    "cardinality": 535674364,
+                                                                                                    "extra_info": "SEMI\ns_state=#0\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_JOIN",
+                                                                                                            "timing": 19.325169,
+                                                                                                            "cardinality": 539988812,
+                                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                    "timing": 33.566309,
+                                                                                                                    "cardinality": 553018161,
+                                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 114.376095,
+                                                                                                                            "cardinality": 2879987999,
+                                                                                                                            "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                            "timing": 0.00349,
+                                                                                                                            "cardinality": 732,
+                                                                                                                            "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": []
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                },
+                                                                                                                {
+                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                    "timing": 0.002242,
+                                                                                                                    "cardinality": 2004,
+                                                                                                                    "extra_info": "s_state\ns_county\ns_store_sk",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": []
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "name": "PROJECTION",
+                                                                                                            "timing": 8e-05,
+                                                                                                            "cardinality": 44,
+                                                                                                            "extra_info": "#0\n",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "FILTER",
+                                                                                                                    "timing": 0.000124,
+                                                                                                                    "cardinality": 44,
+                                                                                                                    "extra_info": "ranking<=5",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "WINDOW",
+                                                                                                                            "timing": 0.000448,
+                                                                                                                            "cardinality": 44,
+                                                                                                                            "extra_info": "RANK() OVER(PARTITION BY s_state ORDER BY sum(#[21.0]) DESC NULLS FIRST)",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "HASH_GROUP_BY",
+                                                                                                                                    "timing": 21.076249,
+                                                                                                                                    "cardinality": 22,
+                                                                                                                                    "extra_info": "#0\nsum(#1)",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PROJECTION",
+                                                                                                                                            "timing": 5.270327,
+                                                                                                                                            "cardinality": 539988812,
+                                                                                                                                            "extra_info": "s_state\nss_net_profit\n",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": [
+                                                                                                                                                {
+                                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                                    "timing": 36.706157,
+                                                                                                                                                    "cardinality": 539988812,
+                                                                                                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                                                    "timings": [],
+                                                                                                                                                    "children": [
+                                                                                                                                                        {
+                                                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                                                            "timing": 45.971695,
+                                                                                                                                                            "cardinality": 2750415949,
+                                                                                                                                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": [
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                    "timing": 208.846856,
+                                                                                                                                                                    "cardinality": 2879987999,
+                                                                                                                                                                    "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": []
+                                                                                                                                                                },
+                                                                                                                                                                {
+                                                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                                                    "timing": 0.000342,
+                                                                                                                                                                    "cardinality": 2004,
+                                                                                                                                                                    "extra_info": "s_state\ns_store_sk",
+                                                                                                                                                                    "timings": [],
+                                                                                                                                                                    "children": []
+                                                                                                                                                                }
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                                            "timing": 0.003148,
+                                                                                                                                                            "cardinality": 732,
+                                                                                                                                                            "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                                                            "timings": [],
+                                                                                                                                                            "children": []
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PROJECTION",
+                            "timing": 3.9e-05,
+                            "cardinality": 1,
+                            "extra_info": "total_sum\nNULL\nNULL\ng_state\ng_county\nlochierarchy\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "SIMPLE_AGGREGATE",
+                                    "timing": 1.7e-05,
+                                    "cardinality": 1,
+                                    "extra_info": "sum(#0)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 1.8e-05,
+                                            "cardinality": 60,
+                                            "extra_info": "total_sum\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 3.5e-05,
+                                                    "cardinality": 30,
+                                                    "extra_info": "total_sum\ns_state\ns_county\ngstate\ng_county\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 38.26533,
+                                                            "cardinality": 30,
+                                                            "extra_info": "#0\n#1\nsum(#2)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 5.575728,
+                                                                    "cardinality": 535674364,
+                                                                    "extra_info": "s_state\ns_county\nss_net_profit\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 23.27723,
+                                                                            "cardinality": 535674364,
+                                                                            "extra_info": "SEMI\ns_state=#0\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 19.325169,
+                                                                                    "cardinality": 539988812,
+                                                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "HASH_JOIN",
+                                                                                            "timing": 33.566309,
+                                                                                            "cardinality": 553018161,
+                                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 114.376095,
+                                                                                                    "cardinality": 2879987999,
+                                                                                                    "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.00349,
+                                                                                                    "cardinality": 732,
+                                                                                                    "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 0.002242,
+                                                                                            "cardinality": 2004,
+                                                                                            "extra_info": "s_state\ns_county\ns_store_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PROJECTION",
+                                                                                    "timing": 8e-05,
+                                                                                    "cardinality": 44,
+                                                                                    "extra_info": "#0\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "FILTER",
+                                                                                            "timing": 0.000124,
+                                                                                            "cardinality": 44,
+                                                                                            "extra_info": "ranking<=5",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "WINDOW",
+                                                                                                    "timing": 0.000448,
+                                                                                                    "cardinality": 44,
+                                                                                                    "extra_info": "RANK() OVER(PARTITION BY s_state ORDER BY sum(#[21.0]) DESC NULLS FIRST)",
+                                                                                                    "timings": [],
+                                                                                                    "children": [
+                                                                                                        {
+                                                                                                            "name": "HASH_GROUP_BY",
+                                                                                                            "timing": 21.076249,
+                                                                                                            "cardinality": 22,
+                                                                                                            "extra_info": "#0\nsum(#1)",
+                                                                                                            "timings": [],
+                                                                                                            "children": [
+                                                                                                                {
+                                                                                                                    "name": "PROJECTION",
+                                                                                                                    "timing": 5.270327,
+                                                                                                                    "cardinality": 539988812,
+                                                                                                                    "extra_info": "s_state\nss_net_profit\n",
+                                                                                                                    "timings": [],
+                                                                                                                    "children": [
+                                                                                                                        {
+                                                                                                                            "name": "HASH_JOIN",
+                                                                                                                            "timing": 36.706157,
+                                                                                                                            "cardinality": 539988812,
+                                                                                                                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                                                                            "timings": [],
+                                                                                                                            "children": [
+                                                                                                                                {
+                                                                                                                                    "name": "HASH_JOIN",
+                                                                                                                                    "timing": 45.971695,
+                                                                                                                                    "cardinality": 2750415949,
+                                                                                                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": [
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 208.846856,
+                                                                                                                                            "cardinality": 2879987999,
+                                                                                                                                            "extra_info": "ss_net_profit\nss_sold_date_sk\nss_store_sk",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "name": "PARQUET_SCAN",
+                                                                                                                                            "timing": 0.000342,
+                                                                                                                                            "cardinality": 2004,
+                                                                                                                                            "extra_info": "s_state\ns_store_sk",
+                                                                                                                                            "timings": [],
+                                                                                                                                            "children": []
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                {
+                                                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                                                    "timing": 0.003148,
+                                                                                                                                    "cardinality": 732,
+                                                                                                                                    "extra_info": "d_month_seq\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                                                                                                                    "timings": [],
+                                                                                                                                    "children": []
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

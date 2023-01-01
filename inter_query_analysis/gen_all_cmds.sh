@@ -1,0 +1,12 @@
+./gen_cmds.sh parquet_1000/batch_rs1 1
+./gen_cmds.sh parquet_1000/batch_rs4 4
+./gen_cmds.sh parquet_1000/batch_rs8 8
+./gen_cmds.sh parquet_1000/internal2024_rs1 1
+./gen_cmds.sh parquet_1000/internal2024_rs4 4
+./gen_cmds.sh parquet_1000/internal2024_rs8 8
+./gen_cmds.sh parquet_2000/batch_rs1 1
+./gen_cmds.sh parquet_2000/batch_rs4 4
+./gen_cmds.sh parquet_2000/batch_rs8 8
+./gen_cmds.sh parquet_2000/internal2024_rs1 1
+./gen_cmds.sh parquet_2000/internal2024_rs4 4
+./gen_cmds.sh parquet_2000/internal2024_rs8 8

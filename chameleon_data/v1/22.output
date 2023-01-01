@@ -1,0 +1,1119 @@
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+22 1.48 0.0 GCP
+/home/cc/arachneDB/baseline/duck_baseline.json
+/home/cc/arachneDB/baseline/duck_c_baseline.json
+START: :
+607:ProfileSort(sort0=[$4], sort1=[$0], sort2=[$1], sort3=[$2], sort4=[$3], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], dir3=[ASC-nulls-first], dir4=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0
+  677:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[$3], qoh=[$4]): rowcount = 599071, timing = null, opportunity = 0.12297175973296852
+    678:ProfileUnion(all=[true]): rowcount = 599071, timing = null, opportunity = 0.12297175973296852
+      748:ProfileUnion(all=[true]): rowcount = 599070, timing = null, opportunity = 0.059413653037968514
+        804:ProfileUnion(all=[true]): rowcount = 449444, timing = null, opportunity = 0.059566271557968495
+          846:ProfileUnion(all=[true]): rowcount = 299698, timing = null, opportunity = 0.0597190124779685
+            886:ProfileAggregate(group=[{0, 1, 2, 3}], qoh=[AVG($4)]): rowcount = 149870, timing = null, opportunity = 0.059871837037968514
+              898:ProfileProject(i_product_name=[$5], i_brand=[$2], i_class=[$3], i_category=[$4], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0990952955620315
+                910:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.1053352955620315
+                  919:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_category=[$6], i_product_name=[$7]): rowcount = 156000000, timing = null, opportunity = -0.10221529556203149
+                    928:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.10845529556203148
+                      934:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        940:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      953:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_category=[$12], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.0600246636379685
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+            971:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[null:NULL], qoh=[$3]): rowcount = 149828, timing = null, opportunity = 0.059871879877968506
+              984:ProfileAggregate(group=[{0, 1, 2}], qoh=[AVG($3)]): rowcount = 149828, timing = null, opportunity = 0.05990933687796851
+                996:ProfileProject(i_product_name=[$4], i_brand=[$2], i_class=[$3], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0600952955620315
+                  1007:ProfileJoin(condition=[=($0, $5)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0663352955620315
+                    1016:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_product_name=[$6]): rowcount = 156000000, timing = null, opportunity = -0.06321529556203151
+                      1024:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0694552955620315
+                        1029:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                          1033:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                            941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                            945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                              948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                                950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                  951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                        1034:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.06002467363796851
+                          954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                    956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                      957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+          1048:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[null:NULL], i_category=[null:NULL], qoh=[$2]): rowcount = 149746, timing = null, opportunity = 0.0598719635179685
+            1061:ProfileAggregate(group=[{0, 1}], qoh=[AVG($2)]): rowcount = 149746, timing = null, opportunity = 0.059946836517968505
+              1073:ProfileProject(i_product_name=[$3], i_brand=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.02109529556203152
+                1084:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.027335295562031486
+                  1093:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_product_name=[$5]): rowcount = 156000000, timing = null, opportunity = -0.024215295562031475
+                    1101:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.030455295562031498
+                      1106:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        1110:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      1111:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.06002468363796851
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+        1125:ProfileProject(i_product_name=[$0], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$1]): rowcount = 149626, timing = null, opportunity = 0.0598720859179685
+          1138:ProfileAggregate(group=[{0}], qoh=[AVG($1)]): rowcount = 149626, timing = null, opportunity = 0.05998430541796851
+            1150:ProfileProject(i_product_name=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.017904704437968516
+              1161:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.011664704437968493
+                1170:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_product_name=[$4]): rowcount = 156000000, timing = null, opportunity = 0.014784704437968504
+                  1178:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.008544704437968509
+                    1183:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                      1187:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                        941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                        945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                          948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                            950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                              951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                    1188:ProfileProject(i_item_sk=[$0], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.0600246936379685
+                      954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                  957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+      1202:ProfileProject(i_product_name=[null:NULL], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$0]): rowcount = 1, timing = null, opportunity = 0.060024703417968506
+        1215:ProfileAggregate(group=[{}], qoh=[AVG($0)]): rowcount = 1, timing = null, opportunity = 0.060024704417968505
+          1227:ProfileProject(qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.056904704437968495
+            1238:ProfileJoin(condition=[=($0, $2)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+              1247:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2]): rowcount = 156000000, timing = null, opportunity = 0.05378470443796851
+                1255:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.0475447044379685
+                  1260:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                    1264:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                      941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                      945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                        948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                          950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                            951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                  1265:ProfileProject(i_item_sk=[$0]): rowcount = 40, timing = null, opportunity = 0.060024703637968496
+                    954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+              956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+
+trial 0
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_22_0 AS SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", NULL AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT NULL AS "i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT *
+FROM "duck_table_22_0"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_22_0 AS SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT CAST(NULL AS VARCHAR(50)) AS "i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk"
+
+599071
+599071
+305.099909467
+finished query
+STARTING QRY: SELECT *
+FROM "duck_table_22_0"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+0.195968144
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 305.099909467 CARDINALITY: 599071 COST: 0.12542996278087776
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.195968144 CARDINALITY: -1 COST: 8.056468142222222E-5
+cut real save: -0.06601631076290926
+Post Trial ::
+607:ProfileSort(sort0=[$4], sort1=[$0], sort2=[$1], sort3=[$2], sort4=[$3], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], dir3=[ASC-nulls-first], dir4=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0
+  677:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[$3], qoh=[$4]): rowcount = 599071, timing = null, opportunity = -0.002458203047909238
+    678:ProfileUnion(all=[true]): rowcount = 599071, timing = null, opportunity = 0.12297175973296852
+      748:ProfileUnion(all=[true]): rowcount = 599070, timing = null, opportunity = 0.059413653037968514
+        804:ProfileUnion(all=[true]): rowcount = 449444, timing = null, opportunity = 0.059566271557968495
+          846:ProfileUnion(all=[true]): rowcount = 299698, timing = null, opportunity = 0.0597190124779685
+            886:ProfileAggregate(group=[{0, 1, 2, 3}], qoh=[AVG($4)]): rowcount = 149870, timing = null, opportunity = 0.059871837037968514
+              898:ProfileProject(i_product_name=[$5], i_brand=[$2], i_class=[$3], i_category=[$4], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0990952955620315
+                910:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.1053352955620315
+                  919:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_category=[$6], i_product_name=[$7]): rowcount = 156000000, timing = null, opportunity = -0.10221529556203149
+                    928:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.10845529556203148
+                      934:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        940:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      953:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_category=[$12], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.0600246636379685
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+            971:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[null:NULL], qoh=[$3]): rowcount = 149828, timing = null, opportunity = 0.059871879877968506
+              984:ProfileAggregate(group=[{0, 1, 2}], qoh=[AVG($3)]): rowcount = 149828, timing = null, opportunity = 0.05990933687796851
+                996:ProfileProject(i_product_name=[$4], i_brand=[$2], i_class=[$3], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0600952955620315
+                  1007:ProfileJoin(condition=[=($0, $5)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0663352955620315
+                    1016:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_product_name=[$6]): rowcount = 156000000, timing = null, opportunity = -0.06321529556203151
+                      1024:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0694552955620315
+                        1029:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                          1033:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                            941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                            945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                              948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                                950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                  951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                        1034:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.06002467363796851
+                          954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                    956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                      957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+          1048:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[null:NULL], i_category=[null:NULL], qoh=[$2]): rowcount = 149746, timing = null, opportunity = 0.0598719635179685
+            1061:ProfileAggregate(group=[{0, 1}], qoh=[AVG($2)]): rowcount = 149746, timing = null, opportunity = 0.059946836517968505
+              1073:ProfileProject(i_product_name=[$3], i_brand=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.02109529556203152
+                1084:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.027335295562031486
+                  1093:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_product_name=[$5]): rowcount = 156000000, timing = null, opportunity = -0.024215295562031475
+                    1101:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.030455295562031498
+                      1106:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        1110:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      1111:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.06002468363796851
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+        1125:ProfileProject(i_product_name=[$0], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$1]): rowcount = 149626, timing = null, opportunity = 0.0598720859179685
+          1138:ProfileAggregate(group=[{0}], qoh=[AVG($1)]): rowcount = 149626, timing = null, opportunity = 0.05998430541796851
+            1150:ProfileProject(i_product_name=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.017904704437968516
+              1161:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.011664704437968493
+                1170:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_product_name=[$4]): rowcount = 156000000, timing = null, opportunity = 0.014784704437968504
+                  1178:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.008544704437968509
+                    1183:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                      1187:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                        941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                        945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                          948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                            950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                              951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                    1188:ProfileProject(i_item_sk=[$0], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.0600246936379685
+                      954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                  957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+      1202:ProfileProject(i_product_name=[null:NULL], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$0]): rowcount = 1, timing = null, opportunity = 0.060024703417968506
+        1215:ProfileAggregate(group=[{}], qoh=[AVG($0)]): rowcount = 1, timing = null, opportunity = 0.060024704417968505
+          1227:ProfileProject(qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.056904704437968495
+            1238:ProfileJoin(condition=[=($0, $2)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+              1247:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2]): rowcount = 156000000, timing = null, opportunity = 0.05378470443796851
+                1255:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.0475447044379685
+                  1260:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                    1264:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                      941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                      945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                        948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                          950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                            951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                  1265:ProfileProject(i_item_sk=[$0]): rowcount = 40, timing = null, opportunity = 0.060024703637968496
+                    954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+              956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+
+trial 1
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_22_0 AS SELECT *
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM "duck_table_22_0") AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", NULL AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM "duck_table_22_0") AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM "duck_table_22_0") AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM "duck_table_22_0") AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT NULL AS "i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM "duck_table_22_0") AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk") AS "t51"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_22_0 AS SELECT *
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+
+300000
+300000
+4.516261048
+finished query
+STARTING QRY: SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM "duck_table_22_0") AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM "duck_table_22_0") AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM "duck_table_22_0") AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM "duck_table_22_0") AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT CAST(NULL AS VARCHAR(50)) AS "i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM "duck_table_22_0") AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk") AS "t51"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+301.032399576
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 4.516261048 CARDINALITY: 300000 COST: 0.001856685097511111
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 301.032399576 CARDINALITY: -1 COST: 0.12375776427013332
+cut real save: 0.057289019340457395
+Post Trial ::
+607:ProfileSort(sort0=[$4], sort1=[$0], sort2=[$1], sort3=[$2], sort4=[$3], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], dir3=[ASC-nulls-first], dir4=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0
+  677:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[$3], qoh=[$4]): rowcount = 599071, timing = null, opportunity = -0.002458203047909238
+    678:ProfileUnion(all=[true]): rowcount = 599071, timing = null, opportunity = 0.11368833424541298
+      748:ProfileUnion(all=[true]): rowcount = 599070, timing = null, opportunity = 0.05198691264792406
+        804:ProfileUnion(all=[true]): rowcount = 449444, timing = null, opportunity = 0.05399621626543515
+          846:ProfileUnion(all=[true]): rowcount = 299698, timing = null, opportunity = 0.05600564228294627
+            886:ProfileAggregate(group=[{0, 1, 2, 3}], qoh=[AVG($4)]): rowcount = 149870, timing = null, opportunity = 0.0580151519404574
+              898:ProfileProject(i_product_name=[$5], i_brand=[$2], i_class=[$3], i_category=[$4], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0990952955620315
+                910:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.1053352955620315
+                  919:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_category=[$6], i_product_name=[$7]): rowcount = 156000000, timing = null, opportunity = -0.10221529556203149
+                    928:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.10845529556203148
+                      934:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        940:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      953:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_category=[$12], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05816797854045739
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+            971:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[null:NULL], qoh=[$3]): rowcount = 149828, timing = null, opportunity = 0.05801519478045739
+              984:ProfileAggregate(group=[{0, 1, 2}], qoh=[AVG($3)]): rowcount = 149828, timing = null, opportunity = 0.0580526517804574
+                996:ProfileProject(i_product_name=[$4], i_brand=[$2], i_class=[$3], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0600952955620315
+                  1007:ProfileJoin(condition=[=($0, $5)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0663352955620315
+                    1016:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_product_name=[$6]): rowcount = 156000000, timing = null, opportunity = -0.06321529556203151
+                      1024:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0694552955620315
+                        1029:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                          1033:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                            941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                            945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                              948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                                950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                  951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                        1034:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.0581679885404574
+                          954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                    956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                      957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+          1048:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[null:NULL], i_category=[null:NULL], qoh=[$2]): rowcount = 149746, timing = null, opportunity = 0.05801527842045739
+            1061:ProfileAggregate(group=[{0, 1}], qoh=[AVG($2)]): rowcount = 149746, timing = null, opportunity = 0.05809015142045739
+              1073:ProfileProject(i_product_name=[$3], i_brand=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.02109529556203152
+                1084:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.027335295562031486
+                  1093:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_product_name=[$5]): rowcount = 156000000, timing = null, opportunity = -0.024215295562031475
+                    1101:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.030455295562031498
+                      1106:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        1110:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      1111:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05816799854045739
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+        1125:ProfileProject(i_product_name=[$0], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$1]): rowcount = 149626, timing = null, opportunity = 0.058015400820457384
+          1138:ProfileAggregate(group=[{0}], qoh=[AVG($1)]): rowcount = 149626, timing = null, opportunity = 0.058127620320457395
+            1150:ProfileProject(i_product_name=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.016048019340457405
+              1161:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.009808019340457382
+                1170:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_product_name=[$4]): rowcount = 156000000, timing = null, opportunity = 0.012928019340457394
+                  1178:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.006688019340457398
+                    1183:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                      1187:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                        941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                        945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                          948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                            950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                              951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                    1188:ProfileProject(i_item_sk=[$0], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05816800854045739
+                      954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                  957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+      1202:ProfileProject(i_product_name=[null:NULL], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$0]): rowcount = 1, timing = null, opportunity = 0.05816801832045739
+        1215:ProfileAggregate(group=[{}], qoh=[AVG($0)]): rowcount = 1, timing = null, opportunity = 0.05816801932045739
+          1227:ProfileProject(qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.05504801934045738
+            1238:ProfileJoin(condition=[=($0, $2)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.048808019340457386
+              1247:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2]): rowcount = 156000000, timing = null, opportunity = 0.0519280193404574
+                1255:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.04568801934045739
+                  1260:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                    1264:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                      941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                      945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                        948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                          950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                            951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                  1265:ProfileProject(i_item_sk=[$0]): rowcount = 40, timing = null, opportunity = 0.05816801854045738
+                    954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+              956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+
+trial 2
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_22_0 AS SELECT *
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM "duck_table_22_0") AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", NULL AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM "duck_table_22_0") AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM "duck_table_22_0") AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM "duck_table_22_0") AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT NULL AS "i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM "duck_table_22_0") AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk") AS "t51"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_22_0 AS SELECT *
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+
+300000
+300000
+4.252031624
+finished query
+STARTING QRY: SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM "duck_table_22_0") AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM "duck_table_22_0") AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM "duck_table_22_0") AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM "duck_table_22_0") AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT CAST(NULL AS VARCHAR(50)) AS "i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM "duck_table_22_0") AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk") AS "t51"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+300.381928105
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 4.252031624 CARDINALITY: 300000 COST: 0.001748057445422222
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 300.381928105 CARDINALITY: -1 COST: 0.12349034822094444
+cut real save: 0.05739764699254628
+Post Trial ::
+607:ProfileSort(sort0=[$4], sort1=[$0], sort2=[$1], sort3=[$2], sort4=[$3], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], dir3=[ASC-nulls-first], dir4=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0
+  677:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[$3], qoh=[$4]): rowcount = 599071, timing = null, opportunity = -0.002458203047909238
+    678:ProfileUnion(all=[true]): rowcount = 599071, timing = null, opportunity = 0.10494804701830186
+      748:ProfileUnion(all=[true]): rowcount = 599070, timing = null, opportunity = 0.04499468286623516
+        804:ProfileUnion(all=[true]): rowcount = 449444, timing = null, opportunity = 0.04875204392916848
+          846:ProfileUnion(all=[true]): rowcount = 299698, timing = null, opportunity = 0.052509527392101824
+            886:ProfileAggregate(group=[{0, 1, 2, 3}], qoh=[AVG($4)]): rowcount = 149870, timing = null, opportunity = 0.056267094495035176
+              898:ProfileProject(i_product_name=[$5], i_brand=[$2], i_class=[$3], i_category=[$4], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0990952955620315
+                910:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.1053352955620315
+                  919:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_category=[$6], i_product_name=[$7]): rowcount = 156000000, timing = null, opportunity = -0.10221529556203149
+                    928:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.10845529556203148
+                      934:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        940:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      953:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_category=[$12], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.056419921095035165
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+            971:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[null:NULL], qoh=[$3]): rowcount = 149828, timing = null, opportunity = 0.05626713733503517
+              984:ProfileAggregate(group=[{0, 1, 2}], qoh=[AVG($3)]): rowcount = 149828, timing = null, opportunity = 0.05630459433503517
+                996:ProfileProject(i_product_name=[$4], i_brand=[$2], i_class=[$3], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0600952955620315
+                  1007:ProfileJoin(condition=[=($0, $5)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0663352955620315
+                    1016:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_product_name=[$6]): rowcount = 156000000, timing = null, opportunity = -0.06321529556203151
+                      1024:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0694552955620315
+                        1029:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                          1033:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                            941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                            945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                              948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                                950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                  951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                        1034:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.056419931095035174
+                          954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                    956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                      957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+          1048:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[null:NULL], i_category=[null:NULL], qoh=[$2]): rowcount = 149746, timing = null, opportunity = 0.05626722097503516
+            1061:ProfileAggregate(group=[{0, 1}], qoh=[AVG($2)]): rowcount = 149746, timing = null, opportunity = 0.05634209397503517
+              1073:ProfileProject(i_product_name=[$3], i_brand=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.02109529556203152
+                1084:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.027335295562031486
+                  1093:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_product_name=[$5]): rowcount = 156000000, timing = null, opportunity = -0.024215295562031475
+                    1101:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.030455295562031498
+                      1106:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        1110:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      1111:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05641994109503517
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+        1125:ProfileProject(i_product_name=[$0], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$1]): rowcount = 149626, timing = null, opportunity = 0.05626734337503516
+          1138:ProfileAggregate(group=[{0}], qoh=[AVG($1)]): rowcount = 149626, timing = null, opportunity = 0.05637956287503517
+            1150:ProfileProject(i_product_name=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.014299961895035183
+              1161:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.00805996189503516
+                1170:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_product_name=[$4]): rowcount = 156000000, timing = null, opportunity = 0.011179961895035171
+                  1178:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.004939961895035176
+                    1183:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                      1187:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                        941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                        945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                          948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                            950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                              951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                    1188:ProfileProject(i_item_sk=[$0], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05641995109503516
+                      954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                  957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+      1202:ProfileProject(i_product_name=[null:NULL], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$0]): rowcount = 1, timing = null, opportunity = 0.05641996087503517
+        1215:ProfileAggregate(group=[{}], qoh=[AVG($0)]): rowcount = 1, timing = null, opportunity = 0.05641996187503517
+          1227:ProfileProject(qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.05329996189503516
+            1238:ProfileJoin(condition=[=($0, $2)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.04705996189503516
+              1247:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2]): rowcount = 156000000, timing = null, opportunity = 0.05017996189503517
+                1255:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.043939961895035164
+                  1260:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                    1264:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                      941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                      945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                        948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                          950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                            951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                  1265:ProfileProject(i_item_sk=[$0]): rowcount = 40, timing = null, opportunity = 0.05641996109503516
+                    954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+              956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+
+trial 3
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_22_0 AS SELECT *
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM "duck_table_22_0") AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", NULL AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM "duck_table_22_0") AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM "duck_table_22_0") AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM "duck_table_22_0") AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT NULL AS "i_product_name", NULL AS "i_brand", NULL AS "i_class", NULL AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM "duck_table_22_0") AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk") AS "t51"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+STARTING QRY: CREATE TABLE duck_table_22_0 AS SELECT *
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+
+300000
+300000
+4.265001084
+finished query
+STARTING QRY: SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT *
+FROM (SELECT "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category", AVG("t4"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t2"."inv_warehouse_sk", "t2"."inv_quantity_on_hand", "t3"."i_brand", "t3"."i_class", "t3"."i_category", "t3"."i_product_name"
+FROM (SELECT "inventory"."inv_item_sk", "inventory"."inv_warehouse_sk", "inventory"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS inventory
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t1" ON "inventory"."inv_date_sk" = "t1"."d_date_sk") AS "t2"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_category", "i_product_name"
+FROM "duck_table_22_0") AS "t3" ON "t2"."inv_item_sk" = "t3"."i_item_sk") AS "t4"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t5" ON "t4"."inv_warehouse_sk" = "t5"."w_warehouse_sk"
+GROUP BY "t4"."i_product_name", "t4"."i_brand", "t4"."i_class", "t4"."i_category"
+UNION ALL
+SELECT "t13"."i_product_name", "t13"."i_brand", "t13"."i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t13"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t11"."inv_warehouse_sk", "t11"."inv_quantity_on_hand", "t12"."i_brand", "t12"."i_class", "t12"."i_product_name"
+FROM (SELECT "inventory0"."inv_item_sk", "inventory0"."inv_warehouse_sk", "inventory0"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory0"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t10" ON "inventory0"."inv_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_class", "i_product_name"
+FROM "duck_table_22_0") AS "t12" ON "t11"."inv_item_sk" = "t12"."i_item_sk") AS "t13"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t14" ON "t13"."inv_warehouse_sk" = "t14"."w_warehouse_sk"
+GROUP BY "t13"."i_product_name", "t13"."i_brand", "t13"."i_class") AS "t"
+UNION ALL
+SELECT "t24"."i_product_name", "t24"."i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t24"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t22"."inv_warehouse_sk", "t22"."inv_quantity_on_hand", "t23"."i_brand", "t23"."i_product_name"
+FROM (SELECT "inventory1"."inv_item_sk", "inventory1"."inv_warehouse_sk", "inventory1"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory1"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t21" ON "inventory1"."inv_date_sk" = "t21"."d_date_sk") AS "t22"
+INNER JOIN (SELECT "i_item_sk", "i_brand", "i_product_name"
+FROM "duck_table_22_0") AS "t23" ON "t22"."inv_item_sk" = "t23"."i_item_sk") AS "t24"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t25" ON "t24"."inv_warehouse_sk" = "t25"."w_warehouse_sk"
+GROUP BY "t24"."i_product_name", "t24"."i_brand") AS "t"
+UNION ALL
+SELECT "t35"."i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t35"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t33"."inv_warehouse_sk", "t33"."inv_quantity_on_hand", "t34"."i_product_name"
+FROM (SELECT "inventory2"."inv_item_sk", "inventory2"."inv_warehouse_sk", "inventory2"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory2"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t32" ON "inventory2"."inv_date_sk" = "t32"."d_date_sk") AS "t33"
+INNER JOIN (SELECT "i_item_sk", "i_product_name"
+FROM "duck_table_22_0") AS "t34" ON "t33"."inv_item_sk" = "t34"."i_item_sk") AS "t35"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t36" ON "t35"."inv_warehouse_sk" = "t36"."w_warehouse_sk"
+GROUP BY "t35"."i_product_name") AS "t"
+UNION ALL
+SELECT CAST(NULL AS VARCHAR(50)) AS "i_product_name", CAST(NULL AS VARCHAR(50)) AS "i_brand", CAST(NULL AS VARCHAR(50)) AS "i_class", CAST(NULL AS VARCHAR(50)) AS "i_category", AVG("t46"."inv_quantity_on_hand") AS "qoh"
+FROM (SELECT "t44"."inv_warehouse_sk", "t44"."inv_quantity_on_hand"
+FROM (SELECT "inventory3"."inv_item_sk", "inventory3"."inv_warehouse_sk", "inventory3"."inv_quantity_on_hand"
+FROM '/mnt/disks/tpcds/parquet/inventory.parquet' AS "inventory3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_month_seq" >= 1200 AND "d_month_seq" <= 1200 + 11) AS "t43" ON "inventory3"."inv_date_sk" = "t43"."d_date_sk") AS "t44"
+INNER JOIN (SELECT "i_item_sk"
+FROM "duck_table_22_0") AS "t45" ON "t44"."inv_item_sk" = "t45"."i_item_sk") AS "t46"
+INNER JOIN (SELECT "w_warehouse_sk"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t47" ON "t46"."inv_warehouse_sk" = "t47"."w_warehouse_sk") AS "t51"
+ORDER BY "qoh" NULLS FIRST, "i_product_name" NULLS FIRST, "i_brand" NULLS FIRST, "i_class" NULLS FIRST, "i_category" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+302.099109955
+finished query
+FINISHED PROFILING FOR TRIAL 3
+CTAS: duck_table_22_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 4.265001084 CARDINALITY: 300000 COST: 0.0017533893345333333
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 302.099109955 CARDINALITY: -1 COST: 0.12419630075927778
+cut real save: 0.05739231510343516
+Post Trial ::
+607:ProfileSort(sort0=[$4], sort1=[$0], sort2=[$1], sort3=[$2], sort4=[$3], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], dir3=[ASC-nulls-first], dir4=[ASC-nulls-first], fetch=[100]): rowcount = 0, timing = null, opportunity = -1.0
+  677:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[$3], qoh=[$4]): rowcount = 599071, timing = null, opportunity = -0.002458203047909238
+    678:ProfileUnion(all=[true]): rowcount = 599071, timing = null, opportunity = 0.09618110034563516
+      748:ProfileUnion(all=[true]): rowcount = 599070, timing = null, opportunity = 0.03798112552810183
+        804:ProfileUnion(all=[true]): rowcount = 449444, timing = null, opportunity = 0.04349187592556848
+          846:ProfileUnion(all=[true]): rowcount = 299698, timing = null, opportunity = 0.04900274872303516
+            886:ProfileAggregate(group=[{0, 1, 2, 3}], qoh=[AVG($4)]): rowcount = 149870, timing = null, opportunity = 0.054513705160501844
+              898:ProfileProject(i_product_name=[$5], i_brand=[$2], i_class=[$3], i_category=[$4], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0990952955620315
+                910:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.1053352955620315
+                  919:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_category=[$6], i_product_name=[$7]): rowcount = 156000000, timing = null, opportunity = -0.10221529556203149
+                    928:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.10845529556203148
+                      934:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        940:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      953:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_category=[$12], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05466653176050183
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+            971:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[$2], i_category=[null:NULL], qoh=[$3]): rowcount = 149828, timing = null, opportunity = 0.054513748000501835
+              984:ProfileAggregate(group=[{0, 1, 2}], qoh=[AVG($3)]): rowcount = 149828, timing = null, opportunity = 0.05455120500050184
+                996:ProfileProject(i_product_name=[$4], i_brand=[$2], i_class=[$3], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.0600952955620315
+                  1007:ProfileJoin(condition=[=($0, $5)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0663352955620315
+                    1016:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_class=[$5], i_product_name=[$6]): rowcount = 156000000, timing = null, opportunity = -0.06321529556203151
+                      1024:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.0694552955620315
+                        1029:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                          1033:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                            941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                            945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                              948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                                950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                  951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                        1034:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_class=[$10], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05466654176050184
+                          954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                    956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                      957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+          1048:ProfileProject(i_product_name=[$0], i_brand=[$1], i_class=[null:NULL], i_category=[null:NULL], qoh=[$2]): rowcount = 149746, timing = null, opportunity = 0.05451383164050183
+            1061:ProfileAggregate(group=[{0, 1}], qoh=[AVG($2)]): rowcount = 149746, timing = null, opportunity = 0.054588704640501834
+              1073:ProfileProject(i_product_name=[$3], i_brand=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = -0.02109529556203152
+                1084:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.027335295562031486
+                  1093:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_brand=[$4], i_product_name=[$5]): rowcount = 156000000, timing = null, opportunity = -0.024215295562031475
+                    1101:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = -0.030455295562031498
+                      1106:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                        1110:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                          941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                          945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                            948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                              950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                                951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                      1111:ProfileProject(i_item_sk=[$0], i_brand=[$8], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.054666551760501836
+                        954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                  956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                    957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+        1125:ProfileProject(i_product_name=[$0], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$1]): rowcount = 149626, timing = null, opportunity = 0.05451395404050183
+          1138:ProfileAggregate(group=[{0}], qoh=[AVG($1)]): rowcount = 149626, timing = null, opportunity = 0.05462617354050184
+            1150:ProfileProject(i_product_name=[$2], qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.01254657256050185
+              1161:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.006306572560501826
+                1170:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2], i_product_name=[$4]): rowcount = 156000000, timing = null, opportunity = 0.009426572560501839
+                  1178:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.0031865725605018424
+                    1183:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                      1187:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                        941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                        945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                          948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                            950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                              951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                    1188:ProfileProject(i_item_sk=[$0], i_product_name=[$21]): rowcount = 40, timing = null, opportunity = 0.05466656176050183
+                      954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+                956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                  957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+      1202:ProfileProject(i_product_name=[null:NULL], i_brand=[null:NULL], i_class=[null:NULL], i_category=[null:NULL], qoh=[$0]): rowcount = 1, timing = null, opportunity = 0.054666571540501835
+        1215:ProfileAggregate(group=[{}], qoh=[AVG($0)]): rowcount = 1, timing = null, opportunity = 0.054666572540501834
+          1227:ProfileProject(qoh=[$1]): rowcount = 156000000, timing = null, opportunity = 0.051546572560501824
+            1238:ProfileJoin(condition=[=($0, $2)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.04530657256050183
+              1247:ProfileProject(inv_warehouse_sk=[$1], inv_quantity_on_hand=[$2]): rowcount = 156000000, timing = null, opportunity = 0.04842657256050184
+                1255:ProfileJoin(condition=[=($0, $3)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.04218657256050183
+                  1260:ProfileProject(inv_item_sk=[$1], inv_warehouse_sk=[$2], inv_quantity_on_hand=[$3]): rowcount = 156000000, timing = null, opportunity = 0.0506647044379685
+                    1264:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 156000000, timing = null, opportunity = 0.044424704437968504
+                      941:ProfileTableScan(table=[[tpcds, inventory]]): rowcount = 783000000, timing = null, opportunity = -0.19053529556203153
+                      945:ProfileProject(d_date_sk=[$0]): rowcount = 732, timing = null, opportunity = 0.06006371245296849
+                        948:ProfileProject(d_date_sk=[$0], d_month_seq=[$3]): rowcount = 732, timing = null, opportunity = 0.06006363925296852
+                          950:ProfileFilter(condition=[AND(>=($3, 1200), <=($3, +(1200, 11)))]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                            951:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 732, timing = null, opportunity = 0.0600618275529685
+                  1265:ProfileProject(i_item_sk=[$0]): rowcount = 40, timing = null, opportunity = 0.054666571760501825
+                    954:ProfileTableScan(table=[[tpcds, item]]): rowcount = 40, timing = null, opportunity = 0.060903118437968515
+              956:ProfileProject(w_warehouse_sk=[$0]): rowcount = 600000, timing = null, opportunity = 0.059964730937968516
+                957:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 600000, timing = null, opportunity = 0.05604973093796849
+
+estimated move size: 0.036011161904761904
+estimate billed runtime: 4.265001084
+estimated BQ read size: 0.17582344000000003
+estimated savings: -6.189497909367031
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  20:25 min
+[[1;34mINFO[m] Finished at: 2022-05-10T18:58:58Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

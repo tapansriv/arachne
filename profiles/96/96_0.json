@@ -1,0 +1,188 @@
+{
+   "name":  "Query", 
+   "result": 146.712770,
+   "timing": 146.712770,
+   "cardinality": 0,
+   "extra-info": "SELECT count(*)\nFROM 'store_sales.parquet' AS store_sales ,\n     'household_demographics.parquet' AS household_demographics,\n     'time_dim.parquet' AS time_dim,\n     'store.parquet' AS store\nWHERE ss_sold_time_sk = time_dim.t_time_sk\n  AND ss_hdemo_sk = household_demographics.hd_demo_sk\n  AND ss_store_sk = s_store_sk\n  AND time_dim.t_hour = 20\n  AND time_dim.t_minute >= 30\n  AND household_demographics.hd_dep_count = 7\n  AND store.s_store_name = 'ese'\nORDER BY count(*)\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001059
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000124
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000279
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000111
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000456
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000039
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000019
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.053592
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.053585
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000017,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "SIMPLE_AGGREGATE",
+         "timing":0.005686,
+         "cardinality":1,
+         "extra_info": "count_star()",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":1.534866,
+            "cardinality":1415526,
+            "extra_info": "INNER\nss_sold_time_sk=t_time_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":26.728853,
+               "cardinality":71857006,
+               "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":61.228534,
+                  "cardinality":550063332,
+                  "extra_info": "INNER\nss_hdemo_sk=hd_demo_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":152.151092,
+                     "cardinality":5759975998,
+                     "extra_info": "ss_sold_time_sk\nss_hdemo_sk\nss_store_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.000563,
+                     "cardinality":1440,
+                     "extra_info": "hd_demo_sk\nhd_dep_count\n[INFOSEPARATOR]\nFilters: hd_dep_count=7 AND hd_dep_count IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.000451,
+                  "cardinality":252,
+                  "extra_info": "s_store_sk\ns_store_name\n[INFOSEPARATOR]\nFilters: s_store_name=ese AND s_store_name IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PARQUET_SCAN",
+               "timing":0.004755,
+               "cardinality":3600,
+               "extra_info": "t_time_sk\nt_hour\nt_minute\n[INFOSEPARATOR]\nFilters: t_hour=20 AND t_hour IS NOT NULL\nt_minute>=30 AND t_minute IS NOT NULL\n",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

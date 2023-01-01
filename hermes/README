@@ -1,0 +1,20 @@
+Hermes is a tool to handle transfer of data between blob storage systems
+
+This is a Python3 tool to reasonably quickly and cheaply transfer files from one
+cloud vendor to another. For the sake of speedy experimentation, we only
+implement the direction (gcp -> aws) that our experimenst need. 
+
+This will be architected simply: a single VM will be stood up in the same region
+as the bucket in GCP. Data will be downloaded in chunks to this VM, potentially
+compressed on the fly, any checksums will be computed, and then multipart upload
+requests will be made via the S3 API. 
+
+To handle this in parallel, since each chunk can operate idemptotently, we will
+have a Threadpool and a queue of tasks, where download and then subsequent
+upload requests can be placed. 
+
+Python is likely not the most efficient language to write this in, but Rust
+unfortunately isn't a language im nearly as solid in and to turn this around in
+a few days I need a language I know how to use and that can itnerface with HTTP
+APIs easily (i.e. not C god), and Python is preferable to java for me for build
+reasons

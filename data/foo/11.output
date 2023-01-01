@@ -1,0 +1,1197 @@
+-Dexec.args="single duck ldbc 11 1.48 0.0 0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+11 1.48 0.0 GCP
+/home/tapansriv/arachneDB/ldbc/baseline/duck_baseline_ldbc_sf100.json
+11 5.205570459365845
+/home/tapansriv/arachneDB/ldbc/baseline/duck_c_baseline_ldbc_sf100.json
+11 4.344573020935059
+LogicalAggregate
+LogicalJoin
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalTableScan
+LogicalProject
+0 8945420 3.794168 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.020671 (k_person1id, k_person2id) PROJECTION
+0 487700 0.101351 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 0.001326 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.002137 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.0E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001295 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002812 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 1.66E-4 (p_personid) PROJECTION
+2 1210584 0.511961 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.002737 (personid, friendid) PROJECTION
+0 8945420 4.795042 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.049986 (k_person1id, k_person2id) PROJECTION
+0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.00224 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.27E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001316 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002944 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 9.4E-5 (p_personid) PROJECTION
+2 1210584 0.878956 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.004527 (personid, friendid) PROJECTION
+0 8945420 17.488442 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.012866 (k_person1id, k_person2id) PROJECTION
+0 487700 0.107329 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 0.001315 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.002309 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.01E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001305 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002922 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 1.04E-4 (p_personid) PROJECTION
+2 1210584 0.343532 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.001553 (personid, friendid) PROJECTION
+2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+------- 1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+rel#304:ProfileAggregate.PROFILE(input=ProfileJoin#350,group={},EXPR$0=COUNT())
+1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+hi
+------- 2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+rel#350:ProfileJoin.PROFILE(left=ProfileJoin#379,right=ProfileProject#477,condition=AND(=($3, $4), =($5, $0), <($2, $4)),joinType=inner)
+2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+----------------
+personid, friendid, personid0, friendid0, 
+personid, friendid, 
+----------------
+personid, friendid, 
+INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+------- 2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+rel#379:ProfileJoin.PROFILE(left=ProfileProject#394,right=ProfileProject#477,condition=AND(=($1, $2), <($0, $2)),joinType=inner)
+2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+personid, friendid, 
+personid, friendid, 
+----------------
+indices 0 0
+------- 1 1210584 0.004527 (personid, friendid) PROJECTION
+rel#409:ProfileJoin.PROFILE(left=ProfileProject#419,right=ProfileProject#457,condition==($0, $1),joinType=inner)
+2 1210584 0.878956 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+p_personid, 
+k_person1id, k_person2id, 
+----------------
+k_person1id, k_person2id, 
+p_personid, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+------- 1 70838 9.4E-5 (p_personid) PROJECTION
+rel#429:ProfileJoin.PROFILE(left=ProfileProject#434,right=ProfileProject#449,condition==($1, $2),joinType=inner)
+2 70838 0.002944 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+----------------
+p_personid, pl_containerplaceid, 
+pl_placeid, 
+----------------
+p_personid, pl_containerplaceid, 
+pl_placeid, 
+----------------
+left child matched left profile node
+indices 0 0
+------- 1 487700 1.27E-4 (p_personid, pl_containerplaceid) PROJECTION
+rel#439:ProfileJoin.PROFILE(left=ProfileProject#441,right=ProfileProject#444,condition==($1, $2),joinType=inner)
+2 487700 0.00224 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+----------------
+p_personid, p_placeid, 
+pl_placeid, pl_containerplaceid, 
+----------------
+p_personid, p_placeid, EC=487700, 
+pl_placeid, pl_containerplaceid, EC=1460, 
+----------------
+Left child doesn't match left or right profile node; defaulting to plain order
+indices 0 0
+------- 0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+rel#442:ProfileTableScan.PROFILE(table=[ldbc, person])
+0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+hi
+indices 1 1
+------- 0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+rel#445:ProfileTableScan.PROFILE(table=[ldbc, place])
+0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+hi
+indices 1 1
+------- 1 1 2.0E-6 (pl_placeid) PROJECTION
+ProfileFilter ProfileTableScan false
+rel#445:ProfileTableScan.PROFILE(table=[ldbc, place])
+0 1 0.001316 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+hi
+indices 1 0
+------- 1 8945420 0.049986 (k_person1id, k_person2id) PROJECTION
+ProfileFilter ProfileTableScan false
+rel#463:ProfileTableScan.PROFILE(table=[ldbc, knows])
+0 8945420 4.795042 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+hi
+indices 1 1
+------- 1 1210584 0.001553 (personid, friendid) PROJECTION
+rel#409:ProfileJoin.PROFILE(left=ProfileProject#419,right=ProfileProject#457,condition==($0, $1),joinType=inner)
+2 1210584 0.343532 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+p_personid, 
+k_person1id, k_person2id, 
+----------------
+k_person1id, k_person2id, 
+p_personid, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+indices 1 0
+indices 1 0
+START: :
+304:ProfileAggregate(group=[{}], EXPR$0=[COUNT()]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  350:ProfileJoin(condition=[AND(=($3, $4), =($5, $0), <($2, $4))], joinType=[inner]): rowcount = 421191, timing = null, opportunity = 0.0017355593219399686, arachneId = 2
+    379:ProfileJoin(condition=[AND(=($1, $2), <($0, $2))], joinType=[inner]): rowcount = 53632053, timing = null, opportunity = -0.028548125748060035, arachneId = 3
+      394:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.02430598486806003, arachneId = 4
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+      477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+    477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+      409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+        419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+          429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+            434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+              439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                  442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+            449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+              452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+        457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+          460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+            462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+              463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+
+2trial 0
+hi
+2
+id: 2, opp: 0.0017355593219399686
+id: 5, opp: 0.0017134672019399686
+-------
+id: 2, opp: 0.0017355593219399686
+LogicalAggregate
+LogicalJoin
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalTableScan
+LogicalProject
+personid INTEGER
+friendid INTEGER
+LogicalTableScan
+making cut ------------
+cut id: 917, arachneId: 21
+parent id: 835, arachneId: 3
+parent id: 806, arachneId: 2
+made cut ------------
+p_personid INTEGER
+k_person1id INTEGER
+k_person2id INTEGER
+LogicalTableScan
+making cut ------------
+cut id: 862, arachneId: 5
+parent id: 849, arachneId: 4
+parent id: 917, arachneId: 21
+made cut ------------
+personid INTEGER
+friendid INTEGER
+personid0 INTEGER
+friendid0 INTEGER
+personid1 INTEGER
+friendid1 INTEGER
+LogicalTableScan
+making cut ------------
+cut id: 806, arachneId: 2
+parent id: 762, arachneId: 1
+made cut ------------
+EXPR$0 BIGINT
+CTAS: duck_table_11_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_11_0 AS SELECT "t5"."p_personid" AS "personid", "t8"."k_person2id" AS "friendid"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+CTAS: duck_table_11_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_11_1 AS SELECT "t5"."p_personid", "t8"."k_person1id", "t8"."k_person2id"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+CTAS: duck_table_11_2 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_11_2 AS SELECT "t"."personid", "t"."friendid", "duck_table_11_0"."personid" AS "personid0", "duck_table_11_0"."friendid" AS "friendid0", "duck_table_11_00"."personid" AS "personid1", "duck_table_11_00"."friendid" AS "friendid1"
+FROM (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t"
+INNER JOIN "duck_table_11_0" ON "t"."friendid" = "duck_table_11_0"."personid" AND "t"."personid" < "duck_table_11_0"."personid"
+INNER JOIN "duck_table_11_0" AS "duck_table_11_00" ON "duck_table_11_0"."friendid" = "duck_table_11_00"."personid" AND "t"."personid" = "duck_table_11_00"."friendid" AND "duck_table_11_0"."personid" < "duck_table_11_00"."personid"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT COUNT(*)
+FROM "duck_table_11_2"
+
+STARTING QRY: CREATE TABLE duck_table_11_0 AS SELECT "t5"."p_personid" AS "personid", "t8"."k_person2id" AS "friendid"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+1210584
+1210584
+3.134965032
+finished query
+STARTING QRY: CREATE TABLE duck_table_11_1 AS SELECT "t5"."p_personid", "t8"."k_person1id", "t8"."k_person2id"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+1210584
+1210584
+3.029815313
+finished query
+STARTING QRY: CREATE TABLE duck_table_11_2 AS SELECT "t"."personid", "t"."friendid", "duck_table_11_0"."personid" AS "personid0", "duck_table_11_0"."friendid" AS "friendid0", "duck_table_11_00"."personid" AS "personid1", "duck_table_11_00"."friendid" AS "friendid1"
+FROM (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t"
+INNER JOIN "duck_table_11_0" ON "t"."friendid" = "duck_table_11_0"."personid" AND "t"."personid" < "duck_table_11_0"."personid"
+INNER JOIN "duck_table_11_0" AS "duck_table_11_00" ON "duck_table_11_0"."friendid" = "duck_table_11_00"."personid" AND "t"."personid" = "duck_table_11_00"."friendid" AND "duck_table_11_0"."personid" < "duck_table_11_00"."personid"
+
+421191
+421191
+9.421567452
+finished query
+STARTING QRY: SELECT COUNT(*)
+FROM "duck_table_11_2"
+
+4.40893E-4
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_11_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3.134965032 CARDINALITY: 1210584 COST: 0.0012888189576000001
+CTAS: duck_table_11_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3.029815313 CARDINALITY: 1210584 COST: 0.0012455907397888888
+CTAS: duck_table_11_2 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 9.421567452 CARDINALITY: 421191 COST: 0.0038733110635999998
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 4.40893E-4 CARDINALITY: -1 COST: 1.812560111111111E-7
+cut real save: -0.004672161439048921
+Post Trial ::
+304:ProfileAggregate(group=[{}], EXPR$0=[COUNT()]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  350:ProfileJoin(condition=[AND(=($3, $4), =($5, $0), <($2, $4))], joinType=[inner]): rowcount = 421191, timing = null, opportunity = 0.0017355593219399686, arachneId = 2
+    379:ProfileJoin(condition=[AND(=($1, $2), <($0, $2))], joinType=[inner]): rowcount = 53632053, timing = null, opportunity = -0.028548125748060035, arachneId = 3
+      394:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.02430598486806003, arachneId = 4
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+      477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+    477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+      409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+        419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+          429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+            434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+              439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                  442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+            449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+              452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+        457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+          460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+            462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+              463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+
+estimated move size: 0.004813611428571428GB
+estimated BQ read size: 0.010108584GB
+estimated extra read size: 0.0GB, estimated extra move size: 0.0GB
+estimate billed runtime: 15.586347797 seconds
+
+estimated move cost: $0.0
+estimated BQ read cost: $5.054292E-5
+estimate billed runtime cost: $0.0064077207609888895
+
+estimated savings: $-0.004672161439048921
+min baseline cost: $0.0017861022419399686
+estimated hybrid cost: $0.006458263680988889
+estimated cost for cut but no movement: $0.006407902017
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  19.165 s
+[[1;34mINFO[m] Finished at: 2022-11-06T22:29:49Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+-Dexec.args="single duck ldbc 11 1.48 0.0 1"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+11 1.48 0.0 GCP
+/home/tapansriv/arachneDB/ldbc/baseline/duck_baseline_ldbc_sf100.json
+11 5.205570459365845
+/home/tapansriv/arachneDB/ldbc/baseline/duck_c_baseline_ldbc_sf100.json
+11 4.344573020935059
+LogicalAggregate
+LogicalJoin
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalTableScan
+LogicalProject
+0 8945420 3.794168 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.020671 (k_person1id, k_person2id) PROJECTION
+0 487700 0.101351 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 0.001326 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.002137 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.0E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001295 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002812 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 1.66E-4 (p_personid) PROJECTION
+2 1210584 0.511961 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.002737 (personid, friendid) PROJECTION
+0 8945420 4.795042 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.049986 (k_person1id, k_person2id) PROJECTION
+0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.00224 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.27E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001316 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002944 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 9.4E-5 (p_personid) PROJECTION
+2 1210584 0.878956 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.004527 (personid, friendid) PROJECTION
+0 8945420 17.488442 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.012866 (k_person1id, k_person2id) PROJECTION
+0 487700 0.107329 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 0.001315 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.002309 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.01E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001305 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002922 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 1.04E-4 (p_personid) PROJECTION
+2 1210584 0.343532 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.001553 (personid, friendid) PROJECTION
+2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+------- 1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+rel#304:ProfileAggregate.PROFILE(input=ProfileJoin#350,group={},EXPR$0=COUNT())
+1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+hi
+------- 2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+rel#350:ProfileJoin.PROFILE(left=ProfileJoin#379,right=ProfileProject#477,condition=AND(=($3, $4), =($5, $0), <($2, $4)),joinType=inner)
+2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+----------------
+personid, friendid, personid0, friendid0, 
+personid, friendid, 
+----------------
+personid, friendid, 
+INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+------- 2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+rel#379:ProfileJoin.PROFILE(left=ProfileProject#394,right=ProfileProject#477,condition=AND(=($1, $2), <($0, $2)),joinType=inner)
+2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+personid, friendid, 
+personid, friendid, 
+----------------
+indices 0 0
+------- 1 1210584 0.004527 (personid, friendid) PROJECTION
+rel#409:ProfileJoin.PROFILE(left=ProfileProject#419,right=ProfileProject#457,condition==($0, $1),joinType=inner)
+2 1210584 0.878956 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+p_personid, 
+k_person1id, k_person2id, 
+----------------
+k_person1id, k_person2id, 
+p_personid, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+------- 1 70838 9.4E-5 (p_personid) PROJECTION
+rel#429:ProfileJoin.PROFILE(left=ProfileProject#434,right=ProfileProject#449,condition==($1, $2),joinType=inner)
+2 70838 0.002944 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+----------------
+p_personid, pl_containerplaceid, 
+pl_placeid, 
+----------------
+p_personid, pl_containerplaceid, 
+pl_placeid, 
+----------------
+left child matched left profile node
+indices 0 0
+------- 1 487700 1.27E-4 (p_personid, pl_containerplaceid) PROJECTION
+rel#439:ProfileJoin.PROFILE(left=ProfileProject#441,right=ProfileProject#444,condition==($1, $2),joinType=inner)
+2 487700 0.00224 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+----------------
+p_personid, p_placeid, 
+pl_placeid, pl_containerplaceid, 
+----------------
+p_personid, p_placeid, EC=487700, 
+pl_placeid, pl_containerplaceid, EC=1460, 
+----------------
+Left child doesn't match left or right profile node; defaulting to plain order
+indices 0 0
+------- 0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+rel#442:ProfileTableScan.PROFILE(table=[ldbc, person])
+0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+hi
+indices 1 1
+------- 0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+rel#445:ProfileTableScan.PROFILE(table=[ldbc, place])
+0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+hi
+indices 1 1
+------- 1 1 2.0E-6 (pl_placeid) PROJECTION
+ProfileFilter ProfileTableScan false
+rel#445:ProfileTableScan.PROFILE(table=[ldbc, place])
+0 1 0.001316 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+hi
+indices 1 0
+------- 1 8945420 0.049986 (k_person1id, k_person2id) PROJECTION
+ProfileFilter ProfileTableScan false
+rel#463:ProfileTableScan.PROFILE(table=[ldbc, knows])
+0 8945420 4.795042 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+hi
+indices 1 1
+------- 1 1210584 0.001553 (personid, friendid) PROJECTION
+rel#409:ProfileJoin.PROFILE(left=ProfileProject#419,right=ProfileProject#457,condition==($0, $1),joinType=inner)
+2 1210584 0.343532 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+p_personid, 
+k_person1id, k_person2id, 
+----------------
+k_person1id, k_person2id, 
+p_personid, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+indices 1 0
+indices 1 0
+replaying trial 0
+0, 2
+2
+id: 2, opp: 0.0017355593219399686
+id: 5, opp: 0.0017134672019399686
+-------
+id: 2, opp: 0.0017355593219399686
+CHOSEN: 2
+START: :
+304:ProfileAggregate(group=[{}], EXPR$0=[COUNT()]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  350:ProfileJoin(condition=[AND(=($3, $4), =($5, $0), <($2, $4))], joinType=[inner]): rowcount = 421191, timing = null, opportunity = 0.0017355593219399686, arachneId = 2
+    379:ProfileJoin(condition=[AND(=($1, $2), <($0, $2))], joinType=[inner]): rowcount = 53632053, timing = null, opportunity = -0.028548125748060035, arachneId = 3
+      394:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.02430598486806003, arachneId = 4
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+      477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+    477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+      409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+        419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+          429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+            434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+              439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                  442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+            449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+              452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+        457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+          460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+            462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+              463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+
+2trial 1
+hi
+1
+id: 5, opp: 0.0017134672019399686
+-------
+id: 5, opp: 0.0017134672019399686
+LogicalAggregate
+LogicalJoin
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalTableScan
+LogicalProject
+p_personid INTEGER
+k_person1id INTEGER
+k_person2id INTEGER
+LogicalTableScan
+making cut ------------
+cut id: 862, arachneId: 5
+parent id: 849, arachneId: 4
+parent id: 917, arachneId: 21
+made cut ------------
+p_personid INTEGER
+k_person1id INTEGER
+k_person2id INTEGER
+LogicalTableScan
+making cut ------------
+cut id: 862, arachneId: 5
+parent id: 849, arachneId: 4
+parent id: 917, arachneId: 21
+made cut ------------
+EXPR$0 BIGINT
+CTAS: duck_table_11_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_11_0 AS SELECT "t5"."p_personid", "t8"."k_person1id", "t8"."k_person2id"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+CTAS: duck_table_11_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_11_1 AS SELECT "t5"."p_personid", "t8"."k_person1id", "t8"."k_person2id"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT COUNT(*)
+FROM (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t"
+INNER JOIN (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t0" ON "t"."friendid" = "t0"."personid" AND "t"."personid" < "t0"."personid"
+INNER JOIN (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t1" ON "t0"."friendid" = "t1"."personid" AND "t"."personid" = "t1"."friendid" AND "t0"."personid" < "t1"."personid"
+
+STARTING QRY: CREATE TABLE duck_table_11_0 AS SELECT "t5"."p_personid", "t8"."k_person1id", "t8"."k_person2id"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+1210584
+1210584
+3.147217652
+finished query
+STARTING QRY: CREATE TABLE duck_table_11_1 AS SELECT "t5"."p_personid", "t8"."k_person1id", "t8"."k_person2id"
+FROM (SELECT "t1"."p_personid"
+FROM (SELECT "t"."p_personid", "t0"."pl_containerplaceid"
+FROM (SELECT "p_personid", "p_placeid"
+FROM '/mnt/disks/ldbc/parquet/person.parquet' AS person) AS "t"
+INNER JOIN (SELECT "pl_placeid", "pl_containerplaceid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place) AS "t0" ON "t"."p_placeid" = "t0"."pl_placeid") AS "t1"
+INNER JOIN (SELECT "pl_placeid"
+FROM '/mnt/disks/ldbc/parquet/place.parquet' AS place
+WHERE "pl_name" = 'China') AS "t4" ON "t1"."pl_containerplaceid" = "t4"."pl_placeid") AS "t5"
+INNER JOIN (SELECT "k_person1id", "k_person2id"
+FROM '/mnt/disks/ldbc/parquet/knows.parquet' AS knows
+WHERE "k_creationdate" >= 1354147200000 AND "k_creationdate" <= 1362441600000) AS "t8" ON "t5"."p_personid" = "t8"."k_person1id"
+
+1210584
+1210584
+3.040822136
+finished query
+STARTING QRY: SELECT COUNT(*)
+FROM (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t"
+INNER JOIN (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t0" ON "t"."friendid" = "t0"."personid" AND "t"."personid" < "t0"."personid"
+INNER JOIN (SELECT "p_personid" AS "personid", "k_person2id" AS "friendid"
+FROM "duck_table_11_1") AS "t1" ON "t0"."friendid" = "t1"."personid" AND "t"."personid" = "t1"."friendid" AND "t0"."personid" < "t1"."personid"
+
+9.694044666
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_11_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3.147217652 CARDINALITY: 1210584 COST: 0.0012938561458222223
+CTAS: duck_table_11_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3.040822136 CARDINALITY: 1210584 COST: 0.0012501157670222222
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 9.694044666 CARDINALITY: -1 COST: 0.0039853294738
+cut real save: -8.305047109044758E-4
+Post Trial ::
+304:ProfileAggregate(group=[{}], EXPR$0=[COUNT()]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  350:ProfileJoin(condition=[AND(=($3, $4), =($5, $0), <($2, $4))], joinType=[inner]): rowcount = 421191, timing = null, opportunity = -8.084125909044758E-4, arachneId = 2
+    379:ProfileJoin(condition=[AND(=($1, $2), <($0, $2))], joinType=[inner]): rowcount = 53632053, timing = null, opportunity = -0.028548125748060035, arachneId = 3
+      394:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.02430598486806003, arachneId = 4
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+      477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+    477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+      409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+        419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+          429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+            434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+              439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                  442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+            449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+              452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+        457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+          460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+            462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+              463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+
+estimated move size: 0.006917622857142857GB
+estimated BQ read size: 0.014527008GB
+estimated extra read size: 0.0GB, estimated extra move size: 0.0GB
+estimate billed runtime: 6.188039788 seconds
+
+estimated move cost: $0.0
+estimated BQ read cost: $7.263504E-5
+estimate billed runtime cost: $0.0025439719128444445
+
+estimated savings: $-8.305047109044758E-4
+min baseline cost: $0.0017861022419399686
+estimated hybrid cost: $0.0026166069528444445
+estimated cost for cut but no movement: $0.006529301386644445
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  19.474 s
+[[1;34mINFO[m] Finished at: 2022-11-06T22:30:25Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+-Dexec.args="single duck ldbc 11 1.48 0.0 2"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+11 1.48 0.0 GCP
+/home/tapansriv/arachneDB/ldbc/baseline/duck_baseline_ldbc_sf100.json
+11 5.205570459365845
+/home/tapansriv/arachneDB/ldbc/baseline/duck_c_baseline_ldbc_sf100.json
+11 4.344573020935059
+LogicalAggregate
+LogicalJoin
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalJoin
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalTableScan
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalProject
+LogicalProject
+LogicalFilter
+LogicalTableScan
+LogicalProject
+0 8945420 3.794168 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.020671 (k_person1id, k_person2id) PROJECTION
+0 487700 0.101351 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 0.001326 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.002137 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.0E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001295 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002812 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 1.66E-4 (p_personid) PROJECTION
+2 1210584 0.511961 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.002737 (personid, friendid) PROJECTION
+0 8945420 4.795042 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.049986 (k_person1id, k_person2id) PROJECTION
+0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.00224 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.27E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001316 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002944 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 9.4E-5 (p_personid) PROJECTION
+2 1210584 0.878956 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.004527 (personid, friendid) PROJECTION
+0 8945420 17.488442 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+1 8945420 0.012866 (k_person1id, k_person2id) PROJECTION
+0 487700 0.107329 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+0 1460 0.001315 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+2 487700 0.002309 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+1 487700 1.01E-4 (p_personid, pl_containerplaceid) PROJECTION
+0 1 0.001305 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+1 1 2.0E-6 (pl_placeid) PROJECTION
+2 70838 0.002922 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+1 70838 1.04E-4 (p_personid) PROJECTION
+2 1210584 0.343532 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+1 1210584 0.001553 (personid, friendid) PROJECTION
+2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+------- 1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+rel#304:ProfileAggregate.PROFILE(input=ProfileJoin#350,group={},EXPR$0=COUNT())
+1 0 7.03E-4 (count_star()) UNGROUPED_AGGREGATE
+hi
+------- 2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+rel#350:ProfileJoin.PROFILE(left=ProfileJoin#379,right=ProfileProject#477,condition=AND(=($3, $4), =($5, $0), <($2, $4)),joinType=inner)
+2 421191 35.214997 (INNER, friendid = personid, personid = friendid, personid < personid, , EC = 9246722.000000, COST = 18493444.000000) HASH_JOIN
+----------------
+personid, friendid, personid0, friendid0, 
+personid, friendid, 
+----------------
+personid, friendid, 
+INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+------- 2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+rel#379:ProfileJoin.PROFILE(left=ProfileProject#394,right=ProfileProject#477,condition=AND(=($1, $2), <($0, $2)),joinType=inner)
+2 53632053 8.165176 (INNER, friendid = personid, personid < personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+personid, friendid, 
+personid, friendid, 
+----------------
+indices 0 0
+------- 1 1210584 0.004527 (personid, friendid) PROJECTION
+rel#409:ProfileJoin.PROFILE(left=ProfileProject#419,right=ProfileProject#457,condition==($0, $1),joinType=inner)
+2 1210584 0.878956 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+p_personid, 
+k_person1id, k_person2id, 
+----------------
+k_person1id, k_person2id, 
+p_personid, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+------- 1 70838 9.4E-5 (p_personid) PROJECTION
+rel#429:ProfileJoin.PROFILE(left=ProfileProject#434,right=ProfileProject#449,condition==($1, $2),joinType=inner)
+2 70838 0.002944 (INNER, pl_containerplaceid = pl_placeid, , EC = 97540.000000, COST = 97540.000000) HASH_JOIN
+----------------
+p_personid, pl_containerplaceid, 
+pl_placeid, 
+----------------
+p_personid, pl_containerplaceid, 
+pl_placeid, 
+----------------
+left child matched left profile node
+indices 0 0
+------- 1 487700 1.27E-4 (p_personid, pl_containerplaceid) PROJECTION
+rel#439:ProfileJoin.PROFILE(left=ProfileProject#441,right=ProfileProject#444,condition==($1, $2),joinType=inner)
+2 487700 0.00224 (INNER, p_placeid = pl_placeid, , EC = 487700.000000, COST = 487700.000000) HASH_JOIN
+----------------
+p_personid, p_placeid, 
+pl_placeid, pl_containerplaceid, 
+----------------
+p_personid, p_placeid, EC=487700, 
+pl_placeid, pl_containerplaceid, EC=1460, 
+----------------
+Left child doesn't match left or right profile node; defaulting to plain order
+indices 0 0
+------- 0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+rel#442:ProfileTableScan.PROFILE(table=[ldbc, person])
+0 487700 0.103659 (p_personid, p_placeid, EC=487700) PARQUET_SCAN
+hi
+indices 1 1
+------- 0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+rel#445:ProfileTableScan.PROFILE(table=[ldbc, place])
+0 1460 8.55E-4 (pl_placeid, pl_containerplaceid, EC=1460) PARQUET_SCAN
+hi
+indices 1 1
+------- 1 1 2.0E-6 (pl_placeid) PROJECTION
+ProfileFilter ProfileTableScan false
+rel#445:ProfileTableScan.PROFILE(table=[ldbc, place])
+0 1 0.001316 (pl_name, pl_placeid, [INFOSEPARATOR], Filters: pl_name=China AND pl_name IS NOT NULL, , EC=1460) PARQUET_SCAN
+hi
+indices 1 0
+------- 1 8945420 0.049986 (k_person1id, k_person2id) PROJECTION
+ProfileFilter ProfileTableScan false
+rel#463:ProfileTableScan.PROFILE(table=[ldbc, knows])
+0 8945420 4.795042 (k_creationdate, k_person1id, k_person2id, [INFOSEPARATOR], Filters: k_creationdate>=1354147200000 AND k_creationdate<=1362441600000 AND k_creationdate IS NOT NULL, , EC=46233610) PARQUET_SCAN
+hi
+indices 1 1
+------- 1 1210584 0.001553 (personid, friendid) PROJECTION
+rel#409:ProfileJoin.PROFILE(left=ProfileProject#419,right=ProfileProject#457,condition==($0, $1),joinType=inner)
+2 1210584 0.343532 (INNER, k_person1id = p_personid, , EC = 9246722.000000, COST = 9246722.000000) HASH_JOIN
+----------------
+p_personid, 
+k_person1id, k_person2id, 
+----------------
+k_person1id, k_person2id, 
+p_personid, 
+----------------
+left child matched right profile node; reversing
+indices 0 1
+indices 1 0
+indices 1 0
+replaying trial 0
+0, 2
+2
+id: 2, opp: 0.0017355593219399686
+id: 5, opp: 0.0017134672019399686
+-------
+id: 2, opp: 0.0017355593219399686
+CHOSEN: 2
+replaying trial 1
+1, 5
+1
+id: 5, opp: 0.0017134672019399686
+-------
+id: 5, opp: 0.0017134672019399686
+CHOSEN: 5
+START: :
+304:ProfileAggregate(group=[{}], EXPR$0=[COUNT()]): rowcount = 0, timing = null, opportunity = -1.0, arachneId = 1
+  350:ProfileJoin(condition=[AND(=($3, $4), =($5, $0), <($2, $4))], joinType=[inner]): rowcount = 421191, timing = null, opportunity = -8.084125909044758E-4, arachneId = 2
+    379:ProfileJoin(condition=[AND(=($1, $2), <($0, $2))], joinType=[inner]): rowcount = 53632053, timing = null, opportunity = -0.028548125748060035, arachneId = 3
+      394:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.02430598486806003, arachneId = 4
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+      477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+        409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+          419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+            429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+              434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+                439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                  441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                    442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                  444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+              449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+                452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                  453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                    445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+          457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+            460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+              462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+                463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+    477:ProfileProject(personid=[$0], friendid=[$2]): rowcount = 1210584, timing = null, opportunity = -0.024305984868060026, arachneId = 21
+      409:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 1210584, timing = null, opportunity = 0.0017134672019399686, arachneId = 5
+        419:ProfileProject(p_personid=[$0]): rowcount = 70838, timing = null, opportunity = -0.0021451713680600308, arachneId = 6
+          429:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 70838, timing = null, opportunity = -0.002148004888060031, arachneId = 7
+            434:ProfileProject(p_personid=[$0], pl_containerplaceid=[$3]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 8
+              439:ProfileJoin(condition=[=($1, $2)], joinType=[inner]): rowcount = 487700, timing = null, opportunity = -0.0021866980080600317, arachneId = 9
+                441:ProfileProject(p_personid=[$3], p_placeid=[$10]): rowcount = 487700, timing = null, opportunity = -0.002167190008060031, arachneId = 10
+                  442:ProfileTableScan(table=[[ldbc, person]]): rowcount = 487700, timing = null, opportunity = -0.02425756150806003, arachneId = 11
+                444:ProfileProject(pl_placeid=[$0], pl_containerplaceid=[$4]): rowcount = 1, timing = null, opportunity = -0.024257561548060032, arachneId = 12
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+            449:ProfileProject(pl_placeid=[$0]): rowcount = 1, timing = null, opportunity = -0.02425756152806003, arachneId = 14
+              452:ProfileProject(pl_placeid=[$0], pl_name=[$1]): rowcount = 1, timing = null, opportunity = -0.02425756281806003, arachneId = 15
+                453:ProfileFilter(condition=[=($1, 'China')]): rowcount = 1, timing = null, opportunity = -0.02425756419806003, arachneId = 16
+                  445:ProfileTableScan(table=[[ldbc, place]]): rowcount = 1, timing = null, opportunity = -0.024253636798060033, arachneId = 13
+        457:ProfileProject(k_person1id=[$1], k_person2id=[$2]): rowcount = 8945420, timing = null, opportunity = -0.02068552145806003, arachneId = 17
+          460:ProfileProject(k_creationdate=[$0], k_person1id=[$3], k_person2id=[$4]): rowcount = 8945420, timing = null, opportunity = -0.020864429858060033, arachneId = 18
+            462:ProfileFilter(condition=[SEARCH($0, Sarg[[1354147200000L:BIGINT..1362441600000L:BIGINT]]:BIGINT)]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 19
+              463:ProfileTableScan(table=[[ldbc, knows]]): rowcount = 8945420, timing = null, opportunity = -0.02108806535806003, arachneId = 20
+
+2trial 2
+hi
+0
+no more candidates to check
+FAILED TO FIND PLAN
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  3.142 s
+[[1;34mINFO[m] Finished at: 2022-11-06T22:30:43Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+-Dexec.args="single duck ldbc 11 1.48 0.0 3"
+-Dexec.args="single duck ldbc 11 1.48 0.0 4"
+-Dexec.args="single duck ldbc 11 1.48 0.0 5"
+-Dexec.args="single duck ldbc 11 1.48 0.0 6"
+-Dexec.args="single duck ldbc 11 1.48 0.0 7"
+-Dexec.args="single duck ldbc 11 1.48 0.0 8"
+-Dexec.args="single duck ldbc 11 1.48 0.0 9"
+-Dexec.args="single duck ldbc 11 1.48 0.0 10"
+-Dexec.args="single duck ldbc 11 1.48 0.0 11"
+-Dexec.args="single duck ldbc 11 1.48 0.0 12"
+-Dexec.args="single duck ldbc 11 1.48 0.0 13"
+-Dexec.args="single duck ldbc 11 1.48 0.0 14"
+-Dexec.args="single duck ldbc 11 1.48 0.0 15"
+-Dexec.args="single duck ldbc 11 1.48 0.0 16"
+-Dexec.args="single duck ldbc 11 1.48 0.0 17"
+-Dexec.args="single duck ldbc 11 1.48 0.0 18"
+-Dexec.args="single duck ldbc 11 1.48 0.0 19"

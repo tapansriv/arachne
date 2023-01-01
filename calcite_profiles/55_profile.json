@@ -1,0 +1,216 @@
+{
+   "name":  "Query", 
+   "result": 798.747034,
+   "timing": 798.747034,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000721
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000070
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000139
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000034
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000408
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000039
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000020
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "planner", 
+   "timing": 15.403804
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 15.403795
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000239,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#2 DESC\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000040,
+         "cardinality":683,
+         "extra_info": "brand_id\nbrand\next_price\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_GROUP_BY",
+            "timing":0.233231,
+            "cardinality":683,
+            "extra_info": "#0\n#1\nsum(#2)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.006376,
+               "cardinality":1599249,
+               "extra_info": "i_brand\ni_brand_id\nss_ext_sales_price\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":3.368272,
+                  "cardinality":1599249,
+                  "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.879260,
+                     "cardinality":88090073,
+                     "extra_info": "ss_item_sk\nss_ext_sales_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":51.732530,
+                        "cardinality":88090073,
+                        "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":719.420456,
+                           "cardinality":2879987999,
+                           "extra_info": "ss_sold_date_sk\nss_item_sk\nss_ext_sales_price",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000027,
+                           "cardinality":60,
+                           "extra_info": "d_date_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.025771,
+                              "cardinality":60,
+                              "extra_info": "d_date_sk\nd_moy\nd_year\n[INFOSEPARATOR]\nFilters: d_moy=11 AND d_moy IS NOT NULL\nd_year=1999 AND d_year IS NOT NULL\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.001621,
+                     "cardinality":10744,
+                     "extra_info": "i_item_sk\ni_brand_id\ni_brand\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.166461,
+                        "cardinality":10744,
+                        "extra_info": "i_item_sk\ni_brand_id\ni_brand\ni_manager_id\n[INFOSEPARATOR]\nFilters: i_manager_id=28 AND i_manager_id IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

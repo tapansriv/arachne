@@ -1,0 +1,3 @@
+totalProfileRuntime,327.792284539
+totalProfileRuntime,317.352810779
+totalProfileRuntime,0.319069448

@@ -1,0 +1,60 @@
+{
+    "name": "HASH_GROUP_BY",
+    "timing": 67.086574,
+    "cardinality": 38787,
+    "extra_info": "#0\n#1\n#2\nsum(#3)",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 1.397689,
+            "cardinality": 719730692,
+            "extra_info": "ca_county\nd_qoy\nd_year\nws_ext_sales_price\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 34.676265,
+                    "cardinality": 719730692,
+                    "extra_info": "INNER\nws_bill_addr_sk=ca_address_sk\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_JOIN",
+                            "timing": 13.361819,
+                            "cardinality": 719820455,
+                            "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 64.010996,
+                                    "cardinality": 720000376,
+                                    "extra_info": "ws_ext_sales_price\nws_sold_date_sk\nws_bill_addr_sk",
+                                    "timings": [],
+                                    "children": []
+                                },
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 0.003523,
+                                    "cardinality": 146098,
+                                    "extra_info": "d_qoy\nd_year\nd_date_sk",
+                                    "timings": [],
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PARQUET_SCAN",
+                            "timing": 1.068953,
+                            "cardinality": 12000000,
+                            "extra_info": "ca_county\nca_address_sk",
+                            "timings": [],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

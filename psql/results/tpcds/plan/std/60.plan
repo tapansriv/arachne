@@ -1,0 +1,100 @@
+                                                                                 QUERY PLAN                                                                                  
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=15327670.29..15327670.54 rows=100 width=25)
+   ->  Sort  (cost=15327670.29..15327670.79 rows=200 width=25)
+         Sort Key: item.i_item_id, (sum((sum(store_sales.ss_ext_sales_price))))
+         ->  GroupAggregate  (cost=15306485.20..15327662.65 rows=200 width=25)
+               Group Key: item.i_item_id
+               ->  Merge Append  (cost=15306485.20..15327579.28 rows=16274 width=25)
+                     Sort Key: item.i_item_id
+                     ->  Finalize GroupAggregate  (cost=7756643.25..7757909.27 rows=8959 width=25)
+                           Group Key: item.i_item_id
+                           ->  Gather Merge  (cost=7756643.25..7757782.35 rows=7466 width=25)
+                                 Workers Planned: 2
+                                 ->  Partial GroupAggregate  (cost=7755643.23..7755920.56 rows=3733 width=25)
+                                       Group Key: item.i_item_id
+                                       ->  Merge Semi Join  (cost=7755643.23..7755864.57 rows=3733 width=25)
+                                             Merge Cond: ((item.i_item_id)::text = (item_1.i_item_id)::text)
+                                             ->  Sort  (cost=7743250.84..7743291.78 rows=16374 width=25)
+                                                   Sort Key: item.i_item_id
+                                                   ->  Parallel Hash Join  (cost=7732487.76..7742104.73 rows=16374 width=25)
+                                                         Hash Cond: (item.i_item_sk = store_sales.ss_item_sk)
+                                                         ->  Parallel Seq Scan on item  (cost=0.00..9230.00 rows=85000 width=21)
+                                                         ->  Parallel Hash  (cost=7732283.09..7732283.09 rows=16374 width=12)
+                                                               ->  Parallel Hash Join  (cost=7707359.16..7732283.09 rows=16374 width=12)
+                                                                     Hash Cond: (customer_address.ca_address_sk = store_sales.ss_addr_sk)
+                                                                     ->  Parallel Seq Scan on customer_address  (cost=0.00..24286.33 rows=151833 width=4)
+                                                                           Filter: (ca_gmt_offset = '-5'::double precision)
+                                                                     ->  Parallel Hash  (cost=7706771.13..7706771.13 rows=47043 width=16)
+                                                                           ->  Parallel Hash Join  (cost=2105.78..7706771.13 rows=47043 width=16)
+                                                                                 Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                                 ->  Parallel Seq Scan on store_sales  (cost=0.00..7389799.50 rows=119942250 width=20)
+                                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                                       ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=18 width=4)
+                                                                                             Filter: ((d_year = 1998) AND (d_moy = 9))
+                                             ->  Sort  (cost=12392.39..12443.46 rows=20427 width=17)
+                                                   Sort Key: item_1.i_item_id
+                                                   ->  Seq Scan on item item_1  (cost=0.00..10930.00 rows=20427 width=17)
+                                                         Filter: ((i_category)::text = 'Music'::text)
+                     ->  Finalize GroupAggregate  (cost=5027768.78..5028502.27 rows=4860 width=25)
+                           Group Key: item_2.i_item_id
+                           ->  Gather Merge  (cost=5027768.78..5028433.42 rows=4050 width=25)
+                                 Workers Planned: 2
+                                 ->  Partial GroupAggregate  (cost=5026768.75..5026965.92 rows=2025 width=25)
+                                       Group Key: item_2.i_item_id
+                                       ->  Merge Semi Join  (cost=5026768.75..5026935.55 rows=2025 width=25)
+                                             Merge Cond: ((item_2.i_item_id)::text = (item_3.i_item_id)::text)
+                                             ->  Sort  (cost=5014376.37..5014398.57 rows=8882 width=25)
+                                                   Sort Key: item_2.i_item_id
+                                                   ->  Parallel Hash Join  (cost=5004208.09..5013793.85 rows=8882 width=25)
+                                                         Hash Cond: (item_2.i_item_sk = catalog_sales.cs_item_sk)
+                                                         ->  Parallel Seq Scan on item item_2  (cost=0.00..9230.00 rows=85000 width=21)
+                                                         ->  Parallel Hash  (cost=5004097.07..5004097.07 rows=8882 width=12)
+                                                               ->  Parallel Hash Join  (cost=4979204.35..5004097.07 rows=8882 width=12)
+                                                                     Hash Cond: (customer_address_1.ca_address_sk = catalog_sales.cs_bill_addr_sk)
+                                                                     ->  Parallel Seq Scan on customer_address customer_address_1  (cost=0.00..24286.33 rows=151833 width=4)
+                                                                           Filter: (ca_gmt_offset = '-5'::double precision)
+                                                                     ->  Parallel Hash  (cost=4978898.11..4978898.11 rows=24499 width=16)
+                                                                           ->  Parallel Hash Join  (cost=2105.78..4978898.11 rows=24499 width=16)
+                                                                                 Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                                                 ->  Parallel Seq Scan on catalog_sales  (cost=0.00..4819292.97 rows=59996297 width=20)
+                                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                                       ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=18 width=4)
+                                                                                             Filter: ((d_year = 1998) AND (d_moy = 9))
+                                             ->  Sort  (cost=12392.39..12443.46 rows=20427 width=17)
+                                                   Sort Key: item_3.i_item_id
+                                                   ->  Seq Scan on item item_3  (cost=0.00..10930.00 rows=20427 width=17)
+                                                         Filter: ((i_category)::text = 'Music'::text)
+                     ->  Finalize GroupAggregate  (cost=2522073.15..2540794.64 rows=2455 width=25)
+                           Group Key: item_4.i_item_id
+                           ->  Gather Merge  (cost=2522073.15..2540759.86 rows=2046 width=25)
+                                 Workers Planned: 2
+                                 ->  Partial GroupAggregate  (cost=2521073.12..2539523.68 rows=1023 width=25)
+                                       Group Key: item_4.i_item_id
+                                       ->  Nested Loop  (cost=2521073.12..2539508.33 rows=1023 width=25)
+                                             ->  Merge Semi Join  (cost=2521072.70..2521264.47 rows=2807 width=29)
+                                                   Merge Cond: ((item_4.i_item_id)::text = (item_5.i_item_id)::text)
+                                                   ->  Sort  (cost=2508680.31..2508711.10 rows=12314 width=29)
+                                                         Sort Key: item_4.i_item_id
+                                                         ->  Parallel Hash Join  (cost=2498243.64..2507843.70 rows=12314 width=29)
+                                                               Hash Cond: (item_4.i_item_sk = web_sales.ws_item_sk)
+                                                               ->  Parallel Seq Scan on item item_4  (cost=0.00..9230.00 rows=85000 width=21)
+                                                               ->  Parallel Hash  (cost=2498089.71..2498089.71 rows=12314 width=16)
+                                                                     ->  Parallel Hash Join  (cost=2105.78..2498089.71 rows=12314 width=16)
+                                                                           Hash Cond: (web_sales.ws_sold_date_sk = date_dim_2.d_date_sk)
+                                                                           ->  Parallel Seq Scan on web_sales  (cost=0.00..2417251.13 rows=29991713 width=20)
+                                                                           ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                                 ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=18 width=4)
+                                                                                       Filter: ((d_year = 1998) AND (d_moy = 9))
+                                                   ->  Sort  (cost=12392.39..12443.46 rows=20427 width=17)
+                                                         Sort Key: item_5.i_item_id
+                                                         ->  Seq Scan on item item_5  (cost=0.00..10930.00 rows=20427 width=17)
+                                                               Filter: ((i_category)::text = 'Music'::text)
+                                             ->  Index Scan using customer_address_pkey on customer_address customer_address_2  (cost=0.42..6.50 rows=1 width=4)
+                                                   Index Cond: (ca_address_sk = web_sales.ws_bill_addr_sk)
+                                                   Filter: (ca_gmt_offset = '-5'::double precision)
+ JIT:
+   Functions: 140
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(96 rows)
+

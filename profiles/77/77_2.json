@@ -1,0 +1,73 @@
+{
+   "name":  "Query", 
+   "result": 153.785220,
+   "timing": 153.785220,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE cs AS\n  (SELECT cs_call_center_sk,\n          sum(cs_ext_sales_price) AS sales,\n          sum(cs_net_profit) AS profit\n   FROM 'catalog_sales.parquet' AS catalog_sales,\n        'date_dim.parquet' AS date_dim\n   WHERE cs_sold_date_sk = d_date_sk\n     AND d_date BETWEEN cast('2000-08-23' AS date) AND cast('2000-09-22' AS date)\n   GROUP BY cs_call_center_sk)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000043,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.550206,
+         "cardinality":22,
+         "extra_info": "#0\nsum(#1)\nsum(#2)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.058260,
+            "cardinality":31951777,
+            "extra_info": "cs_call_center_sk\ncs_ext_sales_price\ncs_net_profit\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":9.894273,
+               "cardinality":31951777,
+               "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":141.063763,
+                  "cardinality":1439980416,
+                  "extra_info": "cs_call_center_sk\ncs_ext_sales_price\ncs_net_profit\ncs_sold_date_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.006545,
+                  "cardinality":62,
+                  "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-22 00:00:00 AND d_date IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

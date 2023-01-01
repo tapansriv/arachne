@@ -1,0 +1,62 @@
+{
+   "name":  "Query", 
+   "result": 0.004018,
+   "timing": 0.004018,
+   "cardinality": 0,
+   "extra-info": "\nSELECT total_sum,\n       s_state,\n       s_county,\n       lochierarchy,\n       rank() OVER ( PARTITION BY lochierarchy,\n                                  CASE\n                                      WHEN g_county = 0 THEN s_state\n                                  END\n                    ORDER BY total_sum DESC) AS rank_within_parent\nFROM results_rollup\nORDER BY lochierarchy DESC ,\n         CASE\n             WHEN lochierarchy = 0 THEN s_state\n         END ,\n         rank_within_parent\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "PROJECTION",
+      "timing":0.000000,
+      "cardinality":0,
+      "extra_info": "#0\n#1\n#2\n#3\n#4\n",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "TOP_N",
+         "timing":0.000500,
+         "cardinality":0,
+         "extra_info": "Top 100\n[INFOSEPARATOR]\n#3 DESC\n#5 ASC\n#4 ASC",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000120,
+            "cardinality":52,
+            "extra_info": "total_sum\ns_state\ns_county\nlochierarchy\nrank_within_parent\nCASE WHEN (lochierarchy=0) THEN (s_state) ELSE (NULL)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "WINDOW",
+               "timing":0.000566,
+               "cardinality":52,
+               "extra_info": "RANK() OVER(PARTITION BY lochierarchy, CASE WHEN (g_county=0) THEN (s_state) ELSE (NULL) ORDER BY total_sum DESC NULLS FIRST)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":0.000017,
+                  "cardinality":52,
+                  "extra_info": "results_rollup\n[INFOSEPARATOR]\ntotal_sum\ns_state\ns_county\nlochierarchy\ng_county",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

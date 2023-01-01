@@ -1,0 +1,125 @@
+{
+   "name":  "Query", 
+   "result": 0.011743,
+   "timing": 0.011743,
+   "cardinality": 0,
+   "extra-info": "\nSELECT d_week_seq1,\n       round(sun_sales1/sun_sales2, 2) r1,\n       round(mon_sales1/mon_sales2, 2) r2,\n       round(tue_sales1/tue_sales2, 2) r3,\n       round(wed_sales1/wed_sales2, 2) r4,\n       round(thu_sales1/thu_sales2, 2) r5,\n       round(fri_sales1/fri_sales2, 2) r6,\n       round(sat_sales1/sat_sales2, 2)\nFROM\n  (SELECT wswscs.d_week_seq d_week_seq1,\n          sun_sales sun_sales1,\n          mon_sales mon_sales1,\n          tue_sales tue_sales1,\n          wed_sales wed_sales1,\n          thu_sales thu_sales1,\n          fri_sales fri_sales1,\n          sat_sales sat_sales1\n   FROM wswscs,\n        'date_dim.parquet' AS date_dim\n   WHERE date_dim.d_week_seq = wswscs.d_week_seq\n     AND d_year = 2001) y,\n  (SELECT wswscs.d_week_seq d_week_seq2,\n          sun_sales sun_sales2,\n          mon_sales mon_sales2,\n          tue_sales tue_sales2,\n          wed_sales wed_sales2,\n          thu_sales thu_sales2,\n          fri_sales fri_sales2,\n          sat_sales sat_sales2\n   FROM wswscs,\n        'date_dim.parquet' AS date_dim\n   WHERE date_dim.d_week_seq = wswscs.d_week_seq\n     AND d_year = 2001+1) z\nWHERE d_week_seq1 = d_week_seq2-53\nORDER BY d_week_seq1 NULLS FIRST", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "ORDER_BY",
+      "timing":0.000259,
+      "cardinality":0,
+      "extra_info": "#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.001559,
+         "cardinality":2513,
+         "extra_info": "d_week_seq1\nr1\nr2\nr3\nr4\nr5\nr6\nround(/(sat_sales1, sat_sales2), 2)\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.000286,
+            "cardinality":2513,
+            "extra_info": "INNER\nd_week_seq1=-(d_week_seq2, 53)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000055,
+               "cardinality":365,
+               "extra_info": "d_week_seq1\nsun_sales1\nmon_sales1\ntue_sales1\nwed_sales1\nthu_sales1\nfri_sales1\nsat_sales1\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.000119,
+                  "cardinality":365,
+                  "extra_info": "INNER\nd_week_seq=d_week_seq\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.001666,
+                     "cardinality":365,
+                     "extra_info": "d_week_seq\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.000087,
+                     "cardinality":528,
+                     "extra_info": "wswscs\n[INFOSEPARATOR]\nd_week_seq\nsun_sales\nmon_sales\ntue_sales\nwed_sales\nthu_sales\nfri_sales\nsat_sales",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PROJECTION",
+               "timing":0.000113,
+               "cardinality":730,
+               "extra_info": "d_week_seq2\nsun_sales2\nmon_sales2\ntue_sales2\nwed_sales2\nthu_sales2\nfri_sales2\nsat_sales2\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.000135,
+                  "cardinality":730,
+                  "extra_info": "INNER\nd_week_seq=d_week_seq\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.003427,
+                     "cardinality":730,
+                     "extra_info": "d_week_seq\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.000041,
+                     "cardinality":528,
+                     "extra_info": "wswscs\n[INFOSEPARATOR]\nd_week_seq\nsun_sales\nmon_sales\ntue_sales\nwed_sales\nthu_sales\nfri_sales\nsat_sales",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

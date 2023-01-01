@@ -1,0 +1,85 @@
+Data Starting In: aws
+Egress: $0.115/GB
+Benchmark: tpcds
+Data Path: parquet_2000/internal_rs1
+BigQuery Cost: $5.0/TB; DuckDB Cost: $1.48/hr; Redshift Cost: $1.086/hr
+Use Duck: False
+Excluded Table: catalog_sales
+Excluded Query: None
+
+Starting analysis without using DuckDB
+Redshift Total: $5.964289752595426, BigQuery Total: $51.871256828308105
+!!!!!!: 0.17545875899751978
+Excluding table catalog_sales and any queries that depend on it
+Total Keys: 60, Keys Considered: 2
+call_center: 0.005376658112615202, -0.005376658112615202
+call_center had no query dependencies
+catalog_page: 0.005067855409557064, -0.005067855409557064
+catalog_page had no query dependencies
+catalog_returns: 2.9328723588501138, -2.9328723588501138
+catalog_returns had no query dependencies
+customer: 0.08802433270979872, -0.08802433270979872
+customer had no query dependencies
+customer_address: 0.03025951946418152, -0.03025951946418152
+customer_address had no query dependencies
+customer_demographics: 0.007030368325729719, -0.007030368325729719
+customer_demographics had no query dependencies
+date_dim: 0.005557275677930886, 0.16809619710762144
+household_demographics: 0.004389532564774392, -0.004389532564774392
+household_demographics had no query dependencies
+income_band: 0.003414418242127477, -0.003414418242127477
+income_band had no query dependencies
+inventory: 0.03633945799775303, -0.03633945799775303
+inventory had no query dependencies
+item: 0.0061493943146497905, 0.16930936468287
+promotion: 0.004807536338604221, -0.004807536338604221
+promotion had no query dependencies
+reason: 0.004734810154056843, -0.004734810154056843
+reason had no query dependencies
+ship_mode: 0.0047091557031494835, -0.0047091557031494835
+ship_mode had no query dependencies
+store: 0.005282236522277146, 0.1683712362632752
+store_returns: 4.6250706510586, -4.6250706510586
+store_returns had no query dependencies
+store_sales: 37.72339479097658, -37.549741318191025
+time_dim: 0.0019362053340490676, -0.0019362053340490676
+time_dim had no query dependencies
+warehouse: 0.00044574566752712954, -0.00044574566752712954
+warehouse had no query dependencies
+web_page: 0.0015543173228652885, -0.0015543173228652885
+web_page had no query dependencies
+web_returns: 1.429884226981229, -1.429884226981229
+web_returns had no query dependencies
+web_sales: 14.051114746877811, -14.051114746877811
+web_sales had no query dependencies
+web_site: 0.000616137927395799, -0.000616137927395799
+web_site had no query dependencies
+date_dim: 0.005556875095832477, -0.005556875095832477
+date_dim had no query dependencies
+item: 0.006148297277337307, -0.004343011065369839
+store: 0.005282231747717461, -0.005282231747717461
+store had no query dependencies
+{}
+{}
+STARTING PHASE 2: 0b0
+----
+[]
+Function: 5.964289752595426, 0, 5.964289752595426, 0.0, 0, 0.0, 0
+{5.964289752595426: []}
+[]
+{}
+Best Cost: $5.964289752595426;
+[]
+{}
+{}
+{}
+[]
+0
+Optimal Subset: 0b0
+Function: 5.964289752595426, 0, 5.964289752595426, 0.0, 0, 0.0, 0
+5.964289752595426
+Real: 5.964289752595426, 0, 5.964289752595426, 0.0, 0, 0.0, 0
+Num Redshift Qs: 0; Num GCP Qs: 60
+Moved Qs: $0; Stayed Qs: $5.964289752595426; Movement Cost: $0.0
+Load Cost: $0, Storage Cost: $0.0, API Cost: $0
+Final cost: $5.964289752595426, Baseline: $5.964289752595426, Diff: $0.0, %: 0.0%

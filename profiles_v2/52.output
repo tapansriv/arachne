@@ -1,0 +1,256 @@
+-Dexec.args="single duck 52 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+GCP
+52 1.48 0.0 GCP
+SELECT dt.d_year,
+       item.i_brand_id brand_id,
+       item.i_brand brand,
+       sum(ss_ext_sales_price) ext_price
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' dt,
+     '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales,
+     '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE dt.d_date_sk = store_sales.ss_sold_date_sk
+  AND store_sales.ss_item_sk = item.i_item_sk
+  AND item.i_manager_id = 1
+  AND dt.d_moy=11
+  AND dt.d_year=2000
+GROUP BY dt.d_year,
+         item.i_brand,
+         item.i_brand_id
+ORDER BY dt.d_year,
+         ext_price DESC,
+         brand_id
+LIMIT 100 ;
+
+BASE:
+154:ProfileSort(sort0=[$0], sort1=[$3], sort2=[$1], dir0=[ASC], dir1=[DESC-nulls-last], dir2=[ASC], fetch=[100]): rowcount = 100.0, cumulative cost = {100.0 rows, 2.5102918889277616E14 cpu, 0.0 io, 0.0 money}
+  168:ProfileProject(d_year=[$0], brand_id=[$2], brand=[$1], ext_price=[$3]): rowcount = 1.9467962773711028E12, cumulative cost = {1.9467962773711028E12 rows, 7.787185109484411E12 cpu, 0.0 io, 0.0 money}
+    181:ProfileAggregate(group=[{0, 1, 2}], ext_price=[SUM($3)]): rowcount = 1.9467962773711028E12, cumulative cost = {2.21448085834011E12 rows, 0.0 cpu, 0.0 io, 0.0 money}
+      193:ProfileProject(d_year=[$0], brand=[$5], brand_id=[$4], ss_ext_sales_price=[$2]): rowcount = 1.9467962773711027E13, cumulative cost = {1.9467962773711027E13 rows, 7.787185109484411E13 cpu, 0.0 io, 0.0 money}
+        205:ProfileJoin(condition=[=($1, $3)], joinType=[inner]): rowcount = 1.9467962773711027E13, cumulative cost = {1.9467962773711027E13 rows, 0.0 cpu, 0.0 io, 0.0 money}
+          212:ProfileProject(d_year=[$1], ss_item_sk=[$3], ss_ext_sales_price=[$4]): rowcount = 3.932921772466875E10, cumulative cost = {3.932921772466875E10 rows, 1.1798765317400624E11 cpu, 0.0 io, 0.0 money}
+            219:ProfileJoin(condition=[=($0, $2)], joinType=[inner]): rowcount = 3.932921772466875E10, cumulative cost = {3.932921772466875E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+              223:ProfileProject(d_date_sk=[$0], d_year=[$1]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 3287.205 cpu, 0.0 io, 0.0 money}
+                226:ProfileProject(d_date_sk=[$0], d_year=[$6], d_moy=[$8]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 4930.8075 cpu, 0.0 io, 0.0 money}
+                  228:ProfileFilter(condition=[AND(=($8, 11), =($6, 2000))]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                    229:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+              231:ProfileProject(ss_sold_date_sk=[$0], ss_item_sk=[$2], ss_ext_sales_price=[$15]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 4.7857335E8 cpu, 0.0 io, 0.0 money}
+                232:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+          236:ProfileProject(i_item_sk=[$0], i_brand_id=[$1], i_brand=[$2]): rowcount = 3300.0, cumulative cost = {3300.0 rows, 9900.0 cpu, 0.0 io, 0.0 money}
+            239:ProfileProject(i_item_sk=[$0], i_brand_id=[$7], i_brand=[$8], i_manager_id=[$20]): rowcount = 3300.0, cumulative cost = {3300.0 rows, 13200.0 cpu, 0.0 io, 0.0 money}
+              241:ProfileFilter(condition=[=($20, 1)]): rowcount = 3300.0, cumulative cost = {3300.0 rows, 22000.0 cpu, 0.0 io, 0.0 money}
+                242:ProfileTableScan(table=[[tpcds, item]]): rowcount = 22000.0, cumulative cost = {22000.0 rows, 22001.0 cpu, 0.0 io, 0.0 money}
+
+trial 0
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+STARTING QRY: CREATE TABLE duck_table_52_0 AS SELECT "t3"."d_year", "t6"."i_brand" AS "brand", "t6"."i_brand_id" AS "brand_id", "t3"."ss_ext_sales_price"
+FROM (SELECT "t1"."d_year", "t2"."ss_item_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk", "d_year"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 2000) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 1) AS "t6" ON "t3"."ss_item_sk" = "t6"."i_item_sk"
+
+998.021845333
+1642622
+1642622
+finished query
+STARTING QRY: SELECT "d_year", "brand_id", "brand", SUM("ss_ext_sales_price") AS "ext_price"
+FROM "duck_table_52_0"
+GROUP BY "d_year", "brand", "brand_id"
+ORDER BY "d_year", SUM("ss_ext_sales_price") DESC NULLS LAST, "brand_id"
+FETCH NEXT 100 ROWS ONLY
+
+0.240031775
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 998.021845333 CARDINALITY: 1642622 COST: 0.41029786974801113
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.240031775 CARDINALITY: -1 COST: 9.867972972222222E-5
+2
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 998.021845333 CARDINALITY: 1642622 COST: 0.41029786974801113
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.240031775 CARDINALITY: -1 COST: 9.867972972222222E-5
+BEGUN PROCESSING
+missing column name: brand
+missing column name: brand_id
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.240031775 CARDINALITY: -1 COST: 9.867972972222222E-5
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 998.021845333 CARDINALITY: 1642622 COST: 0.41029786974801113
+rowSize: 16
+{"bqSize":0.026281952,"compressed":0.012515215238095238,"mvmtCost":0.0,"runtime":998.021845333,"runCost":0.41029786974801113,"bqCost":1.3140976E-4,"cutNoHybrid":998.261877108}
+baseline runtime: 272.30565094947815 baselineBQ read size: 6.7060629504E10
+arachneCost: 0.4104292795080111, baselineCost2: 0.11194787872367436, baseline: 0.33530314752, cutNoHybrid: 0.41039654947773335
+FINISHED PROCESSING FOR TRIAL 0 plan not found. repeating...
+trial 1
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+STARTING QRY: CREATE TABLE duck_table_52_0 AS SELECT "t1"."d_year", "t2"."ss_item_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk", "d_year"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 2000) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk"
+
+1014.065793225
+88904807
+88904807
+finished query
+STARTING QRY: SELECT "duck_table_52_0"."d_year", "t1"."i_brand_id" AS "brand_id", "t1"."i_brand" AS "brand", SUM("duck_table_52_0"."ss_ext_sales_price") AS "ext_price"
+FROM "duck_table_52_0"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 1) AS "t1" ON "duck_table_52_0"."ss_item_sk" = "t1"."i_item_sk"
+GROUP BY "duck_table_52_0"."d_year", "t1"."i_brand", "t1"."i_brand_id"
+ORDER BY "duck_table_52_0"."d_year", SUM("duck_table_52_0"."ss_ext_sales_price") DESC NULLS LAST, "t1"."i_brand_id"
+FETCH NEXT 100 ROWS ONLY
+
+3.387479199
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1014.065793225 CARDINALITY: 88904807 COST: 0.4168937149925
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 3.387479199 CARDINALITY: -1 COST: 0.0013926303373666667
+2
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1014.065793225 CARDINALITY: 88904807 COST: 0.4168937149925
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 3.387479199 CARDINALITY: -1 COST: 0.0013926303373666667
+BEGUN PROCESSING
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 3.387479199 CARDINALITY: -1 COST: 0.0013926303373666667
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1014.065793225 CARDINALITY: 88904807 COST: 0.4168937149925
+rowSize: 12
+{"bqSize":1.2426576839999999,"compressed":0.5440274685714286,"mvmtCost":0.0,"runtime":1014.065793225,"runCost":0.4168937149925,"bqCost":0.006213288419999999,"cutNoHybrid":1017.453272424}
+baseline runtime: 272.30565094947815 baselineBQ read size: 6.7060629504E10
+arachneCost: 0.4231070034125, baselineCost2: 0.11194787872367436, baseline: 0.33530314752, cutNoHybrid: 0.4182863453298667
+FINISHED PROCESSING FOR TRIAL 1 plan not found. repeating...
+trial 2
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+STARTING QRY: CREATE TABLE duck_table_52_0 AS SELECT "i_item_sk", "i_brand_id", "i_brand"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 1
+
+0.054098678
+5407
+5407
+finished query
+STARTING QRY: SELECT "t3"."d_year", "duck_table_52_0"."i_brand_id" AS "brand_id", "duck_table_52_0"."i_brand" AS "brand", SUM("t3"."ss_ext_sales_price") AS "ext_price"
+FROM (SELECT "t1"."d_year", "t2"."ss_item_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk", "d_year"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 2000) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk") AS "t3"
+INNER JOIN "duck_table_52_0" ON "t3"."ss_item_sk" = "duck_table_52_0"."i_item_sk"
+GROUP BY "t3"."d_year", "duck_table_52_0"."i_brand", "duck_table_52_0"."i_brand_id"
+ORDER BY "t3"."d_year", SUM("t3"."ss_ext_sales_price") DESC NULLS LAST, "duck_table_52_0"."i_brand_id"
+FETCH NEXT 100 ROWS ONLY
+
+999.06789101
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.054098678 CARDINALITY: 5407 COST: 2.224056762222222E-5
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 999.06789101 CARDINALITY: -1 COST: 0.4107279107485556
+2
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.054098678 CARDINALITY: 5407 COST: 2.224056762222222E-5
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 999.06789101 CARDINALITY: -1 COST: 0.4107279107485556
+BEGUN PROCESSING
+missing column name: d_month_seq
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 999.06789101 CARDINALITY: -1 COST: 0.4107279107485556
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.054098678 CARDINALITY: 5407 COST: 2.224056762222222E-5
+rowSize: 58
+{"bqSize":264.967025757,"compressed":175.0022493361905,"mvmtCost":0.0,"runtime":0.054098678,"runCost":2.224056762222222E-5,"bqCost":1.324835128785,"cutNoHybrid":999.121989688}
+baseline runtime: 272.30565094947815 baselineBQ read size: 6.7060629504E10
+arachneCost: 1.3248573693526222, baselineCost2: 0.11194787872367436, baseline: 0.33530314752, cutNoHybrid: 0.4107501513161778
+FINISHED PROCESSING FOR TRIAL 2 plan not found. repeating...
+trial 3
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+STARTING QRY: CREATE TABLE duck_table_52_0 AS SELECT "d_date_sk", "d_year"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 2000
+
+0.007105973
+30
+30
+finished query
+STARTING QRY: SELECT "t0"."d_year", "t3"."i_brand_id" AS "brand_id", "t3"."i_brand" AS "brand", SUM("t0"."ss_ext_sales_price") AS "ext_price"
+FROM (SELECT "duck_table_52_0"."d_year", "t"."ss_item_sk", "t"."ss_ext_sales_price"
+FROM "duck_table_52_0"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t" ON "duck_table_52_0"."d_date_sk" = "t"."ss_sold_date_sk") AS "t0"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 1) AS "t3" ON "t0"."ss_item_sk" = "t3"."i_item_sk"
+GROUP BY "t0"."d_year", "t3"."i_brand", "t3"."i_brand_id"
+ORDER BY "t0"."d_year", SUM("t0"."ss_ext_sales_price") DESC NULLS LAST, "t3"."i_brand_id"
+FETCH NEXT 100 ROWS ONLY
+
+998.273269941
+finished query
+FINISHED PROFILING FOR TRIAL 3
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.007105973 CARDINALITY: 30 COST: 2.9213444555555552E-6
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 998.273269941 CARDINALITY: -1 COST: 0.4104012331979666
+2
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.007105973 CARDINALITY: 30 COST: 2.9213444555555552E-6
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 998.273269941 CARDINALITY: -1 COST: 0.4104012331979666
+BEGUN PROCESSING
+CTAS: duck_table_52_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 998.273269941 CARDINALITY: -1 COST: 0.4104012331979666
+CTAS: duck_table_52_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.007105973 CARDINALITY: 30 COST: 2.9213444555555552E-6
+rowSize: 8
+{"bqSize":265.134696148,"compressed":175.0360001142857,"mvmtCost":0.0,"runtime":0.007105973,"runCost":2.9213444555555552E-6,"bqCost":1.32567348074,"cutNoHybrid":998.2803759139999}
+baseline runtime: 272.30565094947815 baselineBQ read size: 6.7060629504E10
+arachneCost: 1.3256764020844554, baselineCost2: 0.11194787872367436, baseline: 0.33530314752, cutNoHybrid: 0.4104041545424222
+FINISHED PROCESSING FOR TRIAL 3 plan not found. repeating...
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  01:23 h
+[[1;34mINFO[m] Finished at: 2022-03-30T12:36:35Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

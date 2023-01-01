@@ -1,0 +1,121 @@
+{
+    "name": "TOP_N",
+    "timing": 0.000284,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "HASH_GROUP_BY",
+            "timing": 0.251589,
+            "cardinality": 1657,
+            "extra_info": "#0\nsum(#1)",
+            "timings": [],
+            "children": [
+                {
+                    "name": "PROJECTION",
+                    "timing": 0.057943,
+                    "cardinality": 3299859,
+                    "extra_info": "ca_zip\ncs_sales_price\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_JOIN",
+                            "timing": 4.077733,
+                            "cardinality": 3299859,
+                            "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 3.249455,
+                                    "cardinality": 114567036,
+                                    "extra_info": "#0\n#2\n#3\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 37.348257,
+                                            "cardinality": 114567036,
+                                            "extra_info": "(#5 OR cs_sales_price>500.000000 OR (ca_state=CA OR ca_state=WA OR ca_state=GA))",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 61.615951,
+                                                    "cardinality": 114567036,
+                                                    "extra_info": "MARK\nsubstring(ca_zip, 1, 5)=#0\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_JOIN",
+                                                            "timing": 93.013138,
+                                                            "cardinality": 1432778497,
+                                                            "extra_info": "INNER\ncs_bill_customer_sk=c_customer_sk\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PARQUET_SCAN",
+                                                                    "timing": 107.873404,
+                                                                    "cardinality": 1439980416,
+                                                                    "extra_info": "cs_sales_price\ncs_bill_customer_sk\ncs_sold_date_sk",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                },
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 3.792449,
+                                                                    "cardinality": 24000000,
+                                                                    "extra_info": "INNER\nc_current_addr_sk=ca_address_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.537032,
+                                                                            "cardinality": 24000000,
+                                                                            "extra_info": "c_customer_sk\nc_current_addr_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 1.420474,
+                                                                            "cardinality": 12000000,
+                                                                            "extra_info": "ca_zip\nca_address_sk\nca_state",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "CHUNK_SCAN",
+                                                            "timing": 7e-06,
+                                                            "cardinality": 18,
+                                                            "extra_info": "",
+                                                            "timings": [],
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 0.005421,
+                                    "cardinality": 182,
+                                    "extra_info": "d_date_sk\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_qoy=2 AND d_qoy IS NOT NULL\nd_year=2001 AND d_year IS NOT NULL\n",
+                                    "timings": [],
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

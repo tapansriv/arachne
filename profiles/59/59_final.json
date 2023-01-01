@@ -1,0 +1,199 @@
+{
+    "name": "TOP_N",
+    "timing": 0.542478,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC\n#2 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.096697,
+            "cardinality": 1276548,
+            "extra_info": "s_store_name1\ns_store_id1\nd_week_seq1\n/(sun_sales1, sun_sales2)\n/(mon_sales1, mon_sales2)\n/(tue_sales1, tue_sales2)\n/(wed_sales1, wed_sales2)\n/(thu_sales1, thu_sales2)\n/(fri_sales1, fri_sales2)\n/(sat_sales1, sat_sales2)\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 0.206686,
+                    "cardinality": 1276548,
+                    "extra_info": "INNER\nd_week_seq1=-(d_week_seq2, 52)\ns_store_id1=s_store_id2\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.003283,
+                            "cardinality": 182865,
+                            "extra_info": "s_store_name1\nd_week_seq1\ns_store_id1\nsun_sales1\nmon_sales1\ntue_sales1\nwed_sales1\nthu_sales1\nfri_sales1\nsat_sales1\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_JOIN",
+                                    "timing": 0.006745,
+                                    "cardinality": 182865,
+                                    "extra_info": "INNER\nd_week_seq=d_week_seq\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 0.004223,
+                                            "cardinality": 131262,
+                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 125.900416,
+                                                    "cardinality": 131524,
+                                                    "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)\nsum(#5)\nsum(#6)\nsum(#7)\nsum(#8)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 133.189963,
+                                                            "cardinality": 2750387156,
+                                                            "extra_info": "d_week_seq\nss_store_sk\nCASE WHEN (d_day_name=Sunday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Monday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Tuesday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Wednesday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Thursday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Friday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Saturday) THEN (ss_sales_price) ELSE (NULL)\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 54.323453,
+                                                                    "cardinality": 2750387156,
+                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 214.774479,
+                                                                            "cardinality": 2879987999,
+                                                                            "extra_info": "ss_store_sk\nss_sales_price\nss_sold_date_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.012529,
+                                                                            "cardinality": 146098,
+                                                                            "extra_info": "d_week_seq\nd_day_name\nd_date_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PARQUET_SCAN",
+                                                    "timing": 0.00322,
+                                                    "cardinality": 2004,
+                                                    "extra_info": "s_store_name\ns_store_id\ns_store_sk",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 0.003306,
+                                            "cardinality": 730,
+                                            "extra_info": "d_week_seq\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1212 AND d_month_seq<=1223 AND d_month_seq IS NOT NULL\n",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.004311,
+                            "cardinality": 365730,
+                            "extra_info": "d_week_seq2\ns_store_id2\nsun_sales2\nmon_sales2\ntue_sales2\nwed_sales2\nthu_sales2\nfri_sales2\nsat_sales2\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_JOIN",
+                                    "timing": 0.010038,
+                                    "cardinality": 365730,
+                                    "extra_info": "INNER\nd_week_seq=d_week_seq\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 0.004076,
+                                            "cardinality": 262524,
+                                            "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 125.900416,
+                                                    "cardinality": 131524,
+                                                    "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)\nsum(#5)\nsum(#6)\nsum(#7)\nsum(#8)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 133.189963,
+                                                            "cardinality": 2750387156,
+                                                            "extra_info": "d_week_seq\nss_store_sk\nCASE WHEN (d_day_name=Sunday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Monday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Tuesday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Wednesday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Thursday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Friday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Saturday) THEN (ss_sales_price) ELSE (NULL)\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 54.323453,
+                                                                    "cardinality": 2750387156,
+                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 214.774479,
+                                                                            "cardinality": 2879987999,
+                                                                            "extra_info": "ss_store_sk\nss_sales_price\nss_sold_date_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.012529,
+                                                                            "cardinality": 146098,
+                                                                            "extra_info": "d_week_seq\nd_day_name\nd_date_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PARQUET_SCAN",
+                                                    "timing": 0.000345,
+                                                    "cardinality": 2004,
+                                                    "extra_info": "s_store_id\ns_store_sk",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 0.003189,
+                                            "cardinality": 730,
+                                            "extra_info": "d_week_seq\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1224 AND d_month_seq<=1235 AND d_month_seq IS NOT NULL\n",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

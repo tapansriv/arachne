@@ -1,0 +1,242 @@
+{
+    "call_center": {
+        "arachne": 112.26538462772717,
+        "arachne_runtime": 33343.39473982451,
+        "bq": 93.8852596282959,
+        "bq_baseline_runtime": 29449.217000000008,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -19.577221250919056,
+        "profiling_cost": 134.03391385344906,
+        "profiling_runtime": 45939.66304227086
+    },
+    "catalog_page": {
+        "arachne": 107.05566588535376,
+        "arachne_runtime": 32995.99175373899,
+        "bq": 88.67907047271729,
+        "bq_baseline_runtime": 29104.663000000008,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -20.722584612893705,
+        "profiling_cost": 128.682454787892,
+        "profiling_runtime": 45475.15293996296
+    },
+    "catalog_returns": {
+        "arachne": 95.24550186117834,
+        "arachne_runtime": 24578.12825742124,
+        "bq": 77.67235279083252,
+        "bq_baseline_runtime": 20833.994000000006,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -22.624715795167642,
+        "profiling_cost": 114.40812993879015,
+        "profiling_runtime": 35022.07200460514
+    },
+    "catalog_sales": {
+        "arachne": 46.31664836259023,
+        "arachne_runtime": 13570.356591351838,
+        "bq": 41.535258293151855,
+        "bq_baseline_runtime": 12311.432999999995,
+        "multi_cloud_plan": "multi",
+        "percent_diff": -11.511641593009443,
+        "profiling_cost": 66.61190933471973,
+        "profiling_runtime": 21606.498340940372
+    },
+    "customer": {
+        "arachne": 92.60545973653655,
+        "arachne_runtime": 27246.500660606733,
+        "bq": 74.27536487579346,
+        "bq_baseline_runtime": 23349.04100000001,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -24.678565889774465,
+        "profiling_cost": 109.33124628086294,
+        "profiling_runtime": 35665.719134694235
+    },
+    "customer_address": {
+        "arachne": 95.13177342910502,
+        "arachne_runtime": 27663.653043847997,
+        "bq": 76.7768144607544,
+        "bq_baseline_runtime": 23769.817000000006,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -23.90690353235877,
+        "profiling_cost": 114.3099368661866,
+        "profiling_runtime": 38109.0255709083
+    },
+    "customer_demographics": {
+        "arachne": 101.25051013160389,
+        "arachne_runtime": 25121.650057876577,
+        "bq": 82.86781311035156,
+        "bq_baseline_runtime": 21214.163000000004,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -22.183156923391795,
+        "profiling_cost": 120.97876514559935,
+        "profiling_runtime": 36021.499772808806
+    },
+    "date_dim": {
+        "arachne": 10.604453086853027,
+        "arachne_runtime": 2806.467,
+        "bq": 10.604453086853027,
+        "bq_baseline_runtime": 2806.467,
+        "multi_cloud_plan": "gcp",
+        "percent_diff": 0.0,
+        "profiling_cost": 38.754040629180444,
+        "profiling_runtime": 9383.245532003053
+    },
+    "household_demographics": {
+        "arachne": 105.65323524594885,
+        "arachne_runtime": 26072.80009067254,
+        "bq": 84.45921897888184,
+        "bq_baseline_runtime": 21505.640000000003,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -25.093786709496285,
+        "profiling_cost": 123.54168681644758,
+        "profiling_runtime": 37115.19343576986
+    },
+    "income_band": {
+        "arachne": 110.80705058305774,
+        "arachne_runtime": 33344.10765593811,
+        "bq": 92.41918087005615,
+        "bq_baseline_runtime": 29432.815000000006,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -19.89616174899389,
+        "profiling_cost": 132.48171567239294,
+        "profiling_runtime": 45852.10797049994
+    },
+    "inventory": {
+        "arachne": 34.61638110991249,
+        "arachne_runtime": 12140.836991332564,
+        "bq": 93.50381851196289,
+        "bq_baseline_runtime": 23872.07100000001,
+        "multi_cloud_plan": "aws",
+        "percent_diff": 62.978644443827,
+        "profiling_cost": 132.82028801137108,
+        "profiling_runtime": 39879.26604892687
+    },
+    "item": {
+        "arachne": 30.159331261120208,
+        "arachne_runtime": 8457.427555754077,
+        "bq": 35.14582633972168,
+        "bq_baseline_runtime": 11228.742000000004,
+        "multi_cloud_plan": "aws",
+        "percent_diff": 14.18801490225812,
+        "profiling_cost": 69.21009344020489,
+        "profiling_runtime": 22693.59466956547
+    },
+    "promotion": {
+        "arachne": 103.93971688054964,
+        "arachne_runtime": 26470.491418401747,
+        "bq": 85.56325435638428,
+        "bq_baseline_runtime": 22579.337,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -21.477049537672485,
+        "profiling_cost": 124.72562513647394,
+        "profiling_runtime": 38254.908667848635
+    },
+    "reason": {
+        "arachne": 113.32237480749625,
+        "arachne_runtime": 33806.30586373988,
+        "bq": 92.01372623443604,
+        "bq_baseline_runtime": 29149.644000000004,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -23.158119386198134,
+        "profiling_cost": 131.95428949695517,
+        "profiling_runtime": 45468.16292841237
+    },
+    "ship_mode": {
+        "arachne": 112.71104264865849,
+        "arachne_runtime": 33598.361644428456,
+        "bq": 94.33101177215576,
+        "bq_baseline_runtime": 29704.26200000001,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -19.48461119117146,
+        "profiling_cost": 134.5713569519223,
+        "profiling_runtime": 46270.46367518827
+    },
+    "store": {
+        "arachne": 75.39269865433837,
+        "arachne_runtime": 23947.682678989524,
+        "bq": 54.358344078063965,
+        "bq_baseline_runtime": 19434.616000000005,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -38.69572359685386,
+        "profiling_cost": 90.6837656825794,
+        "profiling_runtime": 32766.27341693044
+    },
+    "store_returns": {
+        "arachne": 91.67322108409438,
+        "arachne_runtime": 28809.153319395326,
+        "bq": 74.16031837463379,
+        "bq_baseline_runtime": 24971.006999999994,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -23.61492384780646,
+        "profiling_cost": 110.40170458993752,
+        "profiling_runtime": 39062.40409507766
+    },
+    "store_sales": {
+        "arachne": 9.030220940682513,
+        "arachne_runtime": 8796.937038474865,
+        "bq": 9.416570663452148,
+        "bq_baseline_runtime": 8720.065,
+        "multi_cloud_plan": "multi",
+        "percent_diff": 4.102870743264811,
+        "profiling_cost": 27.32372997342489,
+        "profiling_runtime": 13770.831041177325
+    },
+    "time_dim": {
+        "arachne": 112.3322862130138,
+        "arachne_runtime": 33293.53290406367,
+        "bq": 91.1452054977417,
+        "bq_baseline_runtime": 28742.781,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -23.245414390773472,
+        "profiling_cost": 131.22862882839794,
+        "profiling_runtime": 45179.380580388504
+    },
+    "warehouse": {
+        "arachne": 34.84137487715831,
+        "arachne_runtime": 12275.803224479616,
+        "bq": 92.61285781860352,
+        "bq_baseline_runtime": 23665.579,
+        "multi_cloud_plan": "multi",
+        "percent_diff": 62.37954891166356,
+        "profiling_cost": 132.2013025212367,
+        "profiling_runtime": 39693.17418771711
+    },
+    "web_page": {
+        "arachne": 111.08253836407383,
+        "arachne_runtime": 33519.231719937095,
+        "bq": 92.55434989929199,
+        "bq_baseline_runtime": 29591.18700000001,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -20.018711692040707,
+        "profiling_cost": 132.65841833062996,
+        "profiling_runtime": 46044.79838279223
+    },
+    "web_returns": {
+        "arachne": 99.02935082249522,
+        "arachne_runtime": 30931.833264082772,
+        "bq": 81.0332202911377,
+        "bq_baseline_runtime": 27105.239999999998,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -22.20833686073524,
+        "profiling_cost": 118.85588845715746,
+        "profiling_runtime": 41923.931324592566
+    },
+    "web_sales": {
+        "arachne": 62.11224160454957,
+        "arachne_runtime": 22394.987197597413,
+        "bq": 48.173699378967285,
+        "bq_baseline_runtime": 19348.599000000002,
+        "multi_cloud_plan": "multi",
+        "percent_diff": -28.933925368554675,
+        "profiling_cost": 77.50596491893998,
+        "profiling_runtime": 29565.525529842897
+    },
+    "web_site": {
+        "arachne": 106.31468426667449,
+        "arachne_runtime": 32622.510505193546,
+        "bq": 87.93986797332764,
+        "bq_baseline_runtime": 28732.643000000004,
+        "multi_cloud_plan": "aws",
+        "percent_diff": -20.894750830101287,
+        "profiling_cost": 127.81525222423308,
+        "profiling_runtime": 44997.31074966522
+    }
+}

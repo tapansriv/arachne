@@ -1,0 +1,30 @@
+                                                            QUERY PLAN                                                             
+-----------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=531262.04..531262.29 rows=100 width=33)
+   ->  Sort  (cost=531262.04..531310.89 rows=19539 width=33)
+         Sort Key: dt.d_year, (sum(store_sales.ss_ext_sales_price)) DESC, item.i_brand_id
+         ->  Finalize GroupAggregate  (cost=528094.55..530515.28 rows=19539 width=33)
+               Group Key: dt.d_year, item.i_brand, item.i_brand_id
+               ->  Gather Merge  (cost=528094.55..530157.07 rows=16282 width=33)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=527094.52..527277.70 rows=8141 width=33)
+                           Group Key: dt.d_year, item.i_brand, item.i_brand_id
+                           ->  Sort  (cost=527094.52..527114.88 rows=8141 width=33)
+                                 Sort Key: dt.d_year, item.i_brand, item.i_brand_id
+                                 ->  Parallel Hash Join  (cost=2087.84..526565.72 rows=8141 width=33)
+                                       Hash Cond: (store_sales.ss_sold_date_sk = dt.d_date_sk)
+                                       ->  Nested Loop  (cost=46.20..524247.81 rows=105243 width=33)
+                                             ->  Parallel Seq Scan on item  (cost=0.00..9442.50 rows=75 width=25)
+                                                   Filter: (i_manufact_id = 128)
+                                             ->  Bitmap Heap Scan on store_sales  (cost=46.20..6846.48 rows=1759 width=16)
+                                                   Recheck Cond: (ss_item_sk = item.i_item_sk)
+                                                   ->  Bitmap Index Scan on store_sales_pkey  (cost=0.00..45.76 rows=1759 width=0)
+                                                         Index Cond: (ss_item_sk = item.i_item_sk)
+                                       ->  Parallel Hash  (cost=1998.12..1998.12 rows=3481 width=8)
+                                             ->  Parallel Seq Scan on date_dim dt  (cost=0.00..1998.12 rows=3481 width=8)
+                                                   Filter: (d_moy = 11)
+ JIT:
+   Functions: 26
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(26 rows)
+

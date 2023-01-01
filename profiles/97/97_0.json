@@ -1,0 +1,156 @@
+{
+   "name":  "Query", 
+   "result": 335.212880,
+   "timing": 335.212880,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE ssci AS\n  (SELECT ss_customer_sk customer_sk ,\n          ss_item_sk item_sk\n   FROM 'store_sales.parquet' AS store_sales,\n        'date_dim.parquet' AS date_dim\n   WHERE ss_sold_date_sk = d_date_sk\n     AND d_month_seq BETWEEN 1200 AND 1200 + 11\n   GROUP BY ss_customer_sk ,\n            ss_item_sk)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000703
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000185
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000143
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000298
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000034
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000017
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "planner", 
+   "timing": 17.999901
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 17.999897
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":13.371306,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":167.821826,
+         "cardinality":540159805,
+         "extra_info": "#0\n#1",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":4.803049,
+            "cardinality":553018161,
+            "extra_info": "ss_customer_sk\nss_item_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":33.707375,
+               "cardinality":553018161,
+               "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":84.360097,
+                  "cardinality":2879987999,
+                  "extra_info": "ss_customer_sk\nss_item_sk\nss_sold_date_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.003375,
+                  "cardinality":732,
+                  "extra_info": "d_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

@@ -1,0 +1,469 @@
+{
+   "name":  "Query", 
+   "result": 23900.997631,
+   "timing": 23900.997631,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.007413
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000023
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000019
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.002771
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000432
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.003324
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000765
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000089
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000023
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000034
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "planner", 
+   "timing": 281.806294
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 281.806257
+   }
+   ],
+   "children": [
+    {
+      "name": "LIMIT",
+      "timing":0.000000,
+      "cardinality":0,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000000,
+         "cardinality":0,
+         "extra_info": "B1_LP\nB1_CNT\nB1_CNTD\nB2_LP\nB2_CNT\nB2_CNTD\nB3_LP\nB3_CNT\nB3_CNTD\nB4_LP\nB4_CNT\nB4_CNTD\nB5_LP\nB5_CNT\nB5_CNTD\nB6_LP\nB6_CNT\nB6_CNTD\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "CROSS_PRODUCT",
+            "timing":0.000005,
+            "cardinality":0,
+            "extra_info": "",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "CROSS_PRODUCT",
+               "timing":0.000004,
+               "cardinality":0,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "CROSS_PRODUCT",
+                  "timing":0.000005,
+                  "cardinality":0,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "CROSS_PRODUCT",
+                     "timing":0.000005,
+                     "cardinality":0,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "CROSS_PRODUCT",
+                        "timing":0.000009,
+                        "cardinality":0,
+                        "extra_info": "",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_GROUP_BY",
+                           "timing":84.777035,
+                           "cardinality":0,
+                           "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":20.033034,
+                              "cardinality":109755124,
+                              "extra_info": "ss_list_price\nss_list_price\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":26.061056,
+                                 "cardinality":109755124,
+                                 "extra_info": "#0\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":197.898966,
+                                    "cardinality":109755124,
+                                    "extra_info": "((ss_list_price>=122.000000 AND ss_list_price<=132.000000) OR (ss_coupon_amt>=836.000000 AND ss_coupon_amt<=1836.000000) OR (ss_wholesale_cost>=17.000000 AND ss_wholesale_cost<=37.000000))",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":3557.336626,
+                                       "cardinality":412517751,
+                                       "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=21 AND ss_quantity<=25 AND ss_quantity IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "HASH_GROUP_BY",
+                           "timing":82.032651,
+                           "cardinality":1,
+                           "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":20.105249,
+                              "cardinality":90778398,
+                              "extra_info": "ss_list_price\nss_list_price\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":25.998494,
+                                 "cardinality":90778398,
+                                 "extra_info": "#0\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":182.330482,
+                                    "cardinality":90778398,
+                                    "extra_info": "((ss_list_price>=154.000000 AND ss_list_price<=164.000000) OR (ss_coupon_amt>=7326.000000 AND ss_coupon_amt<=8326.000000) OR (ss_wholesale_cost>=7.000000 AND ss_wholesale_cost<=27.000000))",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":3565.354770,
+                                       "cardinality":412549585,
+                                       "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=26 AND ss_quantity<=30 AND ss_quantity IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":85.233322,
+                        "cardinality":1,
+                        "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":20.330828,
+                           "cardinality":95919689,
+                           "extra_info": "ss_list_price\nss_list_price\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":26.291695,
+                              "cardinality":95919689,
+                              "extra_info": "#0\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "FILTER",
+                                 "timing":186.943492,
+                                 "cardinality":95919689,
+                                 "extra_info": "((ss_list_price>=135.000000 AND ss_list_price<=145.000000) OR (ss_coupon_amt>=6071.000000 AND ss_coupon_amt<=7071.000000) OR (ss_wholesale_cost>=38.000000 AND ss_wholesale_cost<=58.000000))",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":3546.985001,
+                                    "cardinality":412561322,
+                                    "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=16 AND ss_quantity<=20 AND ss_quantity IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":84.854316,
+                     "cardinality":1,
+                     "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":20.300045,
+                        "cardinality":84962638,
+                        "extra_info": "ss_list_price\nss_list_price\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":26.180613,
+                           "cardinality":84962638,
+                           "extra_info": "#0\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":180.271200,
+                              "cardinality":84962638,
+                              "extra_info": "((ss_list_price>=142.000000 AND ss_list_price<=152.000000) OR (ss_coupon_amt>=12214.000000 AND ss_coupon_amt<=13214.000000) OR (ss_wholesale_cost>=79.000000 AND ss_wholesale_cost<=99.000000))",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":3546.069843,
+                                 "cardinality":412608811,
+                                 "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=11 AND ss_quantity<=15 AND ss_quantity IS NOT NULL\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":86.734557,
+                  "cardinality":1,
+                  "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":20.280900,
+                     "cardinality":106702487,
+                     "extra_info": "ss_list_price\nss_list_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":26.454686,
+                        "cardinality":106702487,
+                        "extra_info": "#0\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "FILTER",
+                           "timing":185.371281,
+                           "cardinality":106702487,
+                           "extra_info": "((ss_list_price>=90.000000 AND ss_list_price<=100.000000) OR (ss_coupon_amt>=2323.000000 AND ss_coupon_amt<=3323.000000) OR (ss_wholesale_cost>=31.000000 AND ss_wholesale_cost<=51.000000))",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":3538.496614,
+                              "cardinality":412559587,
+                              "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=6 AND ss_quantity<=10 AND ss_quantity IS NOT NULL\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":86.682349,
+               "cardinality":1,
+               "extra_info": "avg(#0)\ncount_star()\ncount(DISTINCT #1)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":20.326928,
+                  "cardinality":109987056,
+                  "extra_info": "ss_list_price\nss_list_price\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":26.635677,
+                     "cardinality":109987056,
+                     "extra_info": "#0\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "FILTER",
+                        "timing":192.378790,
+                        "cardinality":109987056,
+                        "extra_info": "((ss_list_price>=8.000000 AND ss_list_price<=18.000000) OR (ss_coupon_amt>=459.000000 AND ss_coupon_amt<=1459.000000) OR (ss_wholesale_cost>=57.000000 AND ss_wholesale_cost<=77.000000))",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":3509.507196,
+                           "cardinality":412563830,
+                           "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=0 AND ss_quantity<=5 AND ss_quantity IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

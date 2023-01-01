@@ -1,0 +1,64 @@
+                                                                                                                                                                                                    QUERY PLAN                                                                                                                                                                                                    
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=11217434.38..11400669.45 rows=1 width=186)
+   CTE year_total
+     ->  Append  (cost=7968394.22..11050876.24 rows=3331057 width=74)
+           ->  Finalize GroupAggregate  (cost=7968394.22..8300431.86 rows=2614044 width=74)
+                 Group Key: customer.c_customer_id, customer.c_first_name, customer.c_last_name, date_dim.d_year
+                 ->  Gather Merge  (cost=7968394.22..8247061.79 rows=2178370 width=42)
+                       Workers Planned: 2
+                       ->  Partial GroupAggregate  (cost=7967394.19..7994623.82 rows=1089185 width=42)
+                             Group Key: customer.c_customer_id, customer.c_first_name, customer.c_last_name, date_dim.d_year
+                             ->  Sort  (cost=7967394.19..7970117.16 rows=1089185 width=42)
+                                   Sort Key: customer.c_customer_id, customer.c_first_name, customer.c_last_name, date_dim.d_year
+                                   ->  Parallel Hash Join  (cost=65843.14..7791166.16 rows=1089185 width=42)
+                                         Hash Cond: (store_sales.ss_customer_sk = customer.c_customer_sk)
+                                         ->  Parallel Hash Join  (cost=2003.47..7706668.83 rows=1141584 width=16)
+                                               Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                               ->  Parallel Seq Scan on store_sales  (cost=0.00..7389799.50 rows=119942250 width=16)
+                                               ->  Parallel Hash  (cost=1998.12..1998.12 rows=428 width=8)
+                                                     ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=428 width=8)
+                                                           Filter: (d_year = ANY ('{2001,2002}'::integer[]))
+                                         ->  Parallel Hash  (cost=46911.63..46911.63 rows=833363 width=34)
+                                               ->  Parallel Seq Scan on customer  (cost=0.00..46911.63 rows=833363 width=34)
+           ->  Finalize GroupAggregate  (cost=2609403.17..2700478.53 rows=717013 width=74)
+                 Group Key: customer_1.c_customer_id, customer_1.c_first_name, customer_1.c_last_name, date_dim_1.d_year
+                 ->  Gather Merge  (cost=2609403.17..2685839.53 rows=597510 width=42)
+                       Workers Planned: 2
+                       ->  Partial GroupAggregate  (cost=2608403.15..2615872.02 rows=298755 width=42)
+                             Group Key: customer_1.c_customer_id, customer_1.c_first_name, customer_1.c_last_name, date_dim_1.d_year
+                             ->  Sort  (cost=2608403.15..2609150.04 rows=298755 width=42)
+                                   Sort Key: customer_1.c_customer_id, customer_1.c_first_name, customer_1.c_last_name, date_dim_1.d_year
+                                   ->  Parallel Hash Join  (cost=65843.14..2572042.47 rows=298755 width=42)
+                                         Hash Cond: (web_sales.ws_bill_customer_sk = customer_1.c_customer_sk)
+                                         ->  Parallel Hash Join  (cost=2003.47..2497987.41 rows=298815 width=16)
+                                               Hash Cond: (web_sales.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                               ->  Parallel Seq Scan on web_sales  (cost=0.00..2417251.13 rows=29991713 width=16)
+                                               ->  Parallel Hash  (cost=1998.12..1998.12 rows=428 width=8)
+                                                     ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..1998.12 rows=428 width=8)
+                                                           Filter: (d_year = ANY ('{2001,2002}'::integer[]))
+                                         ->  Parallel Hash  (cost=46911.63..46911.63 rows=833363 width=34)
+                                               ->  Parallel Seq Scan on customer customer_1  (cost=0.00..46911.63 rows=833363 width=34)
+   ->  Nested Loop  (cost=166558.14..349793.21 rows=1 width=186)
+         Join Filter: (((t_s_secyear.customer_id)::text = (t_w_firstyear.customer_id)::text) AND (CASE WHEN (t_w_firstyear.year_total > '0'::double precision) THEN (t_w_secyear.year_total / t_w_firstyear.year_total) ELSE NULL::double precision END > CASE WHEN (t_s_firstyear.year_total > '0'::double precision) THEN (t_s_secyear.year_total / t_s_firstyear.year_total) ELSE NULL::double precision END))
+         ->  Nested Loop  (cost=166558.14..258184.52 rows=5 width=310)
+               Join Filter: ((t_s_secyear.customer_id)::text = (t_s_firstyear.customer_id)::text)
+               ->  Merge Join  (cost=166558.14..166559.31 rows=34 width=252)
+                     Merge Cond: ((t_s_secyear.customer_id)::text = (t_w_secyear.customer_id)::text)
+                     ->  Sort  (cost=83279.07..83279.28 rows=83 width=194)
+                           Sort Key: t_s_secyear.customer_id NULLS FIRST
+                           ->  CTE Scan on year_total t_s_secyear  (cost=0.00..83276.43 rows=83 width=194)
+                                 Filter: ((sale_type = 's'::text) AND (year_ = 2002))
+                     ->  Sort  (cost=83279.07..83279.28 rows=83 width=58)
+                           Sort Key: t_w_secyear.customer_id NULLS FIRST
+                           ->  CTE Scan on year_total t_w_secyear  (cost=0.00..83276.43 rows=83 width=58)
+                                 Filter: ((sale_type = 'w'::text) AND (year_ = 2002))
+               ->  CTE Scan on year_total t_s_firstyear  (cost=0.00..91604.07 rows=28 width=58)
+                     Filter: ((year_total > '0'::double precision) AND (sale_type = 's'::text) AND (year_ = 2001))
+         ->  CTE Scan on year_total t_w_firstyear  (cost=0.00..91604.07 rows=28 width=58)
+               Filter: ((year_total > '0'::double precision) AND (sale_type = 'w'::text) AND (year_ = 2001))
+ JIT:
+   Functions: 85
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(60 rows)
+

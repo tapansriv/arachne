@@ -1,0 +1,173 @@
+{
+    "name": "ORDER_BY",
+    "timing": 4.2e-05,
+    "cardinality": 0,
+    "extra_info": "#3 DESC",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 2.7e-05,
+            "cardinality": 42,
+            "extra_info": "call_center\ncall_center_name\nmanager\nreturns_loss\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_GROUP_BY",
+                    "timing": 0.000844,
+                    "cardinality": 42,
+                    "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 5.2e-05,
+                            "cardinality": 1883,
+                            "extra_info": "cc_call_center_id\ncc_name\ncc_manager\ncd_marital_status\ncd_education_status\ncr_net_loss\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_JOIN",
+                                    "timing": 0.000157,
+                                    "cardinality": 1883,
+                                    "extra_info": "INNER\ncr_call_center_sk=cc_call_center_sk\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 0.082607,
+                                            "cardinality": 1907,
+                                            "extra_info": "INNER\ncr_returning_customer_sk=c_customer_sk\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 0.745469,
+                                                    "cardinality": 1931461,
+                                                    "extra_info": "INNER\ncr_returned_date_sk=d_date_sk\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 10.458863,
+                                                            "cardinality": 143996756,
+                                                            "extra_info": "cr_net_loss\ncr_call_center_sk\ncr_returned_date_sk\ncr_returning_customer_sk",
+                                                            "timings": [],
+                                                            "children": []
+                                                        },
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 0.004149,
+                                                            "cardinality": 60,
+                                                            "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=1998 AND d_year IS NOT NULL\nd_moy=11 AND d_moy IS NOT NULL\n",
+                                                            "timings": [],
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 0.067118,
+                                                    "cardinality": 23424,
+                                                    "extra_info": "INNER\nc_current_cdemo_sk=cd_demo_sk\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_JOIN",
+                                                            "timing": 0.230656,
+                                                            "cardinality": 420920,
+                                                            "extra_info": "INNER\nc_current_hdemo_sk=hd_demo_sk\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 1.114958,
+                                                                    "cardinality": 2609546,
+                                                                    "extra_info": "INNER\nc_current_addr_sk=ca_address_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.849027,
+                                                                            "cardinality": 24000000,
+                                                                            "extra_info": "c_customer_sk\nc_current_cdemo_sk\nc_current_hdemo_sk\nc_current_addr_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.502069,
+                                                                            "cardinality": 1304804,
+                                                                            "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-7.000000 AND ca_gmt_offset IS NOT NULL\n",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 4.9e-05,
+                                                                    "cardinality": 2400,
+                                                                    "extra_info": "#0\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "FILTER",
+                                                                            "timing": 0.002304,
+                                                                            "cardinality": 2400,
+                                                                            "extra_info": "prefix(hd_buy_potential, Unknown)",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.001398,
+                                                                                    "cardinality": 2400,
+                                                                                    "extra_info": "hd_demo_sk\nhd_buy_potential\n[INFOSEPARATOR]\nFilters: hd_buy_potential>=Unknown AND hd_buy_potential<Unknowo AND hd_buy_potential IS NOT NULL\n",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "FILTER",
+                                                            "timing": 0.076561,
+                                                            "cardinality": 219520,
+                                                            "extra_info": "((cd_marital_status=M AND cd_education_status=Unknown) OR (cd_marital_status=W AND cd_education_status=Advanced Degree))",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PARQUET_SCAN",
+                                                                    "timing": 0.388451,
+                                                                    "cardinality": 3841600,
+                                                                    "extra_info": "cd_demo_sk\ncd_marital_status\ncd_education_status",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 0.001993,
+                                            "cardinality": 84,
+                                            "extra_info": "cc_call_center_id\ncc_name\ncc_manager\ncc_call_center_sk",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

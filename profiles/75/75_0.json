@@ -1,0 +1,436 @@
+{
+   "name":  "Query", 
+   "result": 1860.405770,
+   "timing": 1860.405770,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE all_sales AS\n  ( SELECT d_year ,\n           i_brand_id ,\n           i_class_id ,\n           i_category_id ,\n           i_manufact_id ,\n           SUM(sales_cnt) AS sales_cnt ,\n           SUM(sales_amt) AS sales_amt\n   FROM\n     (SELECT d_year ,\n             i_brand_id ,\n             i_class_id ,\n             i_category_id ,\n             i_manufact_id ,\n             cs_quantity - COALESCE(cr_return_quantity,0) AS sales_cnt ,\n             cs_ext_sales_price - COALESCE(cr_return_amount,0.0) AS sales_amt\n      FROM 'catalog_sales.parquet' AS catalog_sales\n      JOIN 'item.parquet' ON i_item_sk=cs_item_sk\n      JOIN 'date_dim.parquet' AS date_dim ON d_date_sk=cs_sold_date_sk\n      LEFT JOIN 'catalog_returns.parquet' AS catalog_returns ON (cs_order_number=cr_order_number\n                                    AND cs_item_sk=cr_item_sk)\n      WHERE i_category='Books'\n      UNION SELECT d_year ,\n                   i_brand_id ,\n                   i_class_id ,\n                   i_category_id ,\n                   i_manufact_id ,\n                   ss_quantity - COALESCE(sr_return_quantity,0) AS sales_cnt ,\n                   ss_ext_sales_price - COALESCE(sr_return_amt,0.0) AS sales_amt\n      FROM 'store_sales.parquet' AS store_sales\n      JOIN 'item.parquet' ON i_item_sk=ss_item_sk\n      JOIN 'date_dim.parquet' AS date_dim ON d_date_sk=ss_sold_date_sk\n      LEFT JOIN 'store_returns.parquet' AS store_returns ON (ss_ticket_number=sr_ticket_number\n                                  AND ss_item_sk=sr_item_sk)\n      WHERE i_category='Books'\n      UNION SELECT d_year ,\n                   i_brand_id ,\n                   i_class_id ,\n                   i_category_id ,\n                   i_manufact_id ,\n                   ws_quantity - COALESCE(wr_return_quantity,0) AS sales_cnt ,\n                   ws_ext_sales_price - COALESCE(wr_return_amt,0.0) AS sales_amt\n      FROM 'web_sales.parquet' AS web_sales\n      JOIN 'item.parquet' ON i_item_sk=ws_item_sk\n      JOIN 'date_dim.parquet' AS date_dim ON d_date_sk=ws_sold_date_sk\n      LEFT JOIN 'web_returns.parquet' AS web_returns ON (ws_order_number=wr_order_number\n                                AND ws_item_sk=wr_item_sk)\n      WHERE i_category='Books') sales_detail\n   GROUP BY d_year,\n            i_brand_id,\n            i_class_id,\n            i_category_id,\n            i_manufact_id)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.004213
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000036
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000264
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000622
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000108
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.003042
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000026
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000121
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000028
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000057
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000015
+   },
+   {
+   "annotation": "planner", 
+   "timing": 40.917764
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 40.917758
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.002157,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":36.793235,
+         "cardinality":87695,
+         "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)\nsum(#6)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":1.149163,
+            "cardinality":477410800,
+            "extra_info": "d_year\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\nsales_cnt\nsales_amt\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":224.035647,
+               "cardinality":477410800,
+               "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":3.098896,
+                  "cardinality":478561609,
+                  "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "UNION",
+                     "timing":1.920231,
+                     "cardinality":478561609,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":255.382446,
+                        "cardinality":407082960,
+                        "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":9.319519,
+                           "cardinality":415410006,
+                           "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "UNION",
+                              "timing":6.576143,
+                              "cardinality":415410006,
+                              "extra_info": "",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":14.833365,
+                                 "cardinality":142284610,
+                                 "extra_info": "d_year\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\nsales_cnt\nsales_amt\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":64.179917,
+                                    "cardinality":142284610,
+                                    "extra_info": "LEFT\ncs_order_number=cr_order_number\ncs_item_sk=cr_item_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":9.737229,
+                                       "cardinality":142284610,
+                                       "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":54.077601,
+                                          "cardinality":142999869,
+                                          "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":148.887204,
+                                             "cardinality":1439980416,
+                                             "extra_info": "cs_item_sk\ncs_sold_date_sk\ncs_order_number\ncs_quantity\ncs_ext_sales_price",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.111318,
+                                             "cardinality":59396,
+                                             "extra_info": "i_item_sk\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Books AND i_category IS NOT NULL\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.002421,
+                                          "cardinality":146098,
+                                          "extra_info": "d_date_sk\nd_year",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":36.632861,
+                                       "cardinality":287993512,
+                                       "extra_info": "cr_order_number\ncr_item_sk\ncr_return_quantity\ncr_return_amount",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":32.835678,
+                                 "cardinality":273125396,
+                                 "extra_info": "d_year\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\nsales_cnt\nsales_amt\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":159.630826,
+                                    "cardinality":273125396,
+                                    "extra_info": "LEFT\nss_ticket_number=sr_ticket_number\nss_item_sk=sr_item_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":26.194818,
+                                       "cardinality":273125396,
+                                       "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":117.995603,
+                                          "cardinality":285996436,
+                                          "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":268.289891,
+                                             "cardinality":2879987999,
+                                             "extra_info": "ss_item_sk\nss_sold_date_sk\nss_ticket_number\nss_quantity\nss_ext_sales_price",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.092225,
+                                             "cardinality":59396,
+                                             "extra_info": "i_item_sk\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Books AND i_category IS NOT NULL\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.002541,
+                                          "cardinality":146098,
+                                          "extra_info": "d_date_sk\nd_year",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":83.876570,
+                                       "cardinality":575999528,
+                                       "extra_info": "sr_ticket_number\nsr_item_sk\nsr_return_quantity\nsr_return_amt",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":9.544296,
+                        "cardinality":71478649,
+                        "extra_info": "d_year\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\nsales_cnt\nsales_amt\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":44.506184,
+                           "cardinality":71478649,
+                           "extra_info": "LEFT\nws_order_number=wr_order_number\nws_item_sk=wr_item_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":8.286149,
+                              "cardinality":71478649,
+                              "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":33.340452,
+                                 "cardinality":71496781,
+                                 "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":103.383425,
+                                    "cardinality":720000376,
+                                    "extra_info": "ws_item_sk\nws_sold_date_sk\nws_order_number\nws_quantity\nws_ext_sales_price",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.102197,
+                                    "cardinality":59396,
+                                    "extra_info": "i_item_sk\ni_brand_id\ni_class_id\ni_category_id\ni_manufact_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Books AND i_category IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.002506,
+                                 "cardinality":146098,
+                                 "extra_info": "d_date_sk\nd_year",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":21.384779,
+                              "cardinality":143995044,
+                              "extra_info": "wr_order_number\nwr_item_sk\nwr_return_quantity\nwr_return_amt",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

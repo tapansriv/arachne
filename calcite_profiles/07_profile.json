@@ -1,0 +1,288 @@
+{
+   "name":  "Query", 
+   "result": 1465.166883,
+   "timing": 1465.166883,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001022
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000124
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000187
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000044
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000571
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000021
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000058
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000014
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000025
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "planner", 
+   "timing": 15.420455
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 15.420441
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.024375,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":3.446835,
+         "cardinality":150000,
+         "extra_info": "#0\navg(#1)\navg(#2)\navg(#3)\navg(#4)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.144752,
+            "cardinality":7578599,
+            "extra_info": "i_item_id\nss_quantity\nss_list_price\nss_coupon_amt\nss_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.659308,
+               "cardinality":7578599,
+               "extra_info": "INNER\nss_promo_sk=p_promo_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.161491,
+                  "cardinality":7707266,
+                  "extra_info": "ss_promo_sk\nss_quantity\nss_list_price\nss_sales_price\nss_coupon_amt\ni_item_id\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":1.180640,
+                     "cardinality":7707266,
+                     "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.176476,
+                        "cardinality":7707266,
+                        "extra_info": "ss_item_sk\nss_promo_sk\nss_quantity\nss_list_price\nss_sales_price\nss_coupon_amt\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":1.030540,
+                           "cardinality":7707266,
+                           "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.207571,
+                              "cardinality":39252649,
+                              "extra_info": "ss_sold_date_sk\nss_item_sk\nss_promo_sk\nss_quantity\nss_list_price\nss_sales_price\nss_coupon_amt\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":74.376970,
+                                 "cardinality":39252649,
+                                 "extra_info": "INNER\nss_cdemo_sk=cd_demo_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":1361.232989,
+                                    "cardinality":2879987999,
+                                    "extra_info": "ss_sold_date_sk\nss_item_sk\nss_cdemo_sk\nss_promo_sk\nss_quantity\nss_list_price\nss_sales_price\nss_coupon_amt",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.006372,
+                                    "cardinality":54880,
+                                    "extra_info": "cd_demo_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.460589,
+                                       "cardinality":54880,
+                                       "extra_info": "cd_demo_sk\ncd_gender\ncd_marital_status\ncd_education_status\n[INFOSEPARATOR]\nFilters: cd_gender=M AND cd_gender IS NOT NULL\ncd_education_status=College AND cd_education_status IS NOT NULL\ncd_marital_status=S AND cd_marital_status IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000043,
+                              "cardinality":732,
+                              "extra_info": "d_date_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.061622,
+                                 "cardinality":732,
+                                 "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.136715,
+                        "cardinality":600000,
+                        "extra_info": "i_item_sk\ni_item_id",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000047,
+                  "cardinality":2986,
+                  "extra_info": "#0\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "FILTER",
+                     "timing":0.001460,
+                     "cardinality":2986,
+                     "extra_info": "(p_channel_email=N OR p_channel_event=N)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.001186,
+                        "cardinality":3000,
+                        "extra_info": "p_promo_sk\np_channel_email\np_channel_event",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

@@ -1,0 +1,341 @@
+{
+   "name":  "Query", 
+   "result": 178.723389,
+   "timing": 178.723389,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001667
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000370
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000502
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000076
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000628
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000064
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000033
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "planner", 
+   "timing": 26.504300
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 26.504294
+   }
+   ],
+   "children": [
+    {
+      "name": "LIMIT",
+      "timing":0.000000,
+      "cardinality":0,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "SIMPLE_AGGREGATE",
+         "timing":0.000139,
+         "cardinality":0,
+         "extra_info": "sum(#0)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000052,
+            "cardinality":6946,
+            "extra_info": "cs_ext_discount_amt\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000072,
+               "cardinality":6946,
+               "extra_info": "#0\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "FILTER",
+                  "timing":0.000186,
+                  "cardinality":6946,
+                  "extra_info": "cs_ext_discount_amt>SUBQUERY",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "DELIM_JOIN",
+                     "timing":0.000967,
+                     "cardinality":25866,
+                     "extra_info": "SINGLE\ni_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":0.007115,
+                        "cardinality":12933,
+                        "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":8.963438,
+                           "cardinality":471321,
+                           "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":75.046625,
+                              "cardinality":1439980416,
+                              "extra_info": "cs_ext_discount_amt\ncs_item_sk\ncs_sold_date_sk",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.027315,
+                              "cardinality":178,
+                              "extra_info": "i_manufact_id\ni_item_sk\n[INFOSEPARATOR]\nFilters: i_manufact_id=977 AND i_manufact_id IS NOT NULL\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.008596,
+                           "cardinality":182,
+                           "extra_info": "d_date\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_date>=2000-01-27 00:00:00 AND d_date<=2000-04-26 00:00:00 AND d_date IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":0.000409,
+                        "cardinality":25866,
+                        "extra_info": "SINGLE\ni_item_sk=i_item_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "CHUNK_SCAN",
+                           "timing":0.000032,
+                           "cardinality":25866,
+                           "extra_info": "",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000085,
+                           "cardinality":94,
+                           "extra_info": "*(1.300000, avg(#[15.0]))\n#2\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.001811,
+                              "cardinality":94,
+                              "extra_info": "RIGHT\n#0=#0\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_GROUP_BY",
+                                 "timing":2.061389,
+                                 "cardinality":300000,
+                                 "extra_info": "#0\navg(#1)",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.066340,
+                                    "cardinality":41221048,
+                                    "extra_info": "cs_item_sk\ncs_ext_discount_amt\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.071534,
+                                       "cardinality":41221048,
+                                       "extra_info": "#0\n#1\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "FILTER",
+                                          "timing":0.130320,
+                                          "cardinality":41221048,
+                                          "extra_info": "IS_NOT_NULL(cs_item_sk)",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "HASH_JOIN",
+                                             "timing":9.812807,
+                                             "cardinality":41221048,
+                                             "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":51.376907,
+                                                "cardinality":1439980416,
+                                                "extra_info": "cs_ext_discount_amt\ncs_item_sk\ncs_sold_date_sk",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+,
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":0.005997,
+                                                "cardinality":182,
+                                                "extra_info": "d_date\nd_date_sk\n[INFOSEPARATOR]\nFilters: d_date>=2000-01-27 00:00:00 AND d_date<=2000-04-26 00:00:00 AND d_date IS NOT NULL\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "DELIM_SCAN",
+                                 "timing":0.000005,
+                                 "cardinality":94,
+                                 "extra_info": "",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":0.000000,
+                        "cardinality":0,
+                        "extra_info": "#1",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

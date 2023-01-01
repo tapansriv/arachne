@@ -1,0 +1,234 @@
+-Dexec.args="single duck 2 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+02 1.48 0.0 GCP
+/home/cc/arachneDB/baseline/duck_chameleon_baseline.json
+02 2124.6510512828827
+/home/cc/arachneDB/baseline/duck_c_chameleon_baseline.json
+02 1567.2800784111023
+START: :
+272:ProfileSort(sort0=[$0], dir0=[ASC-nulls-first]): rowcount = 0, timing = null, opportunity = -1.0
+  301:ProfileProject(d_week_seq1=[$0], r1=[ROUND(/($1, $8), 2)], r2=[ROUND(/($2, $9), 2)], r3=[ROUND(/($3, $10), 2)], r4=[ROUND(/($4, $11), 2)], r5=[ROUND(/($5, $12), 2)], r6=[ROUND(/($6, $13), 2)], EXPR$7=[ROUND(/($7, $14), 2)]): rowcount = 2513, timing = null, opportunity = 0.34444632816
+    330:ProfileJoin(condition=[=($0, $15)], joinType=[inner]): rowcount = 2513, timing = null, opportunity = 0.34444592608
+      344:ProfileProject(d_week_seq1=[$0], sun_sales1=[$1], mon_sales1=[$2], tue_sales1=[$3], wed_sales1=[$4], thu_sales1=[$5], fri_sales1=[$6], sat_sales1=[$7]): rowcount = 365, timing = null, opportunity = -1.124379347935
+        357:ProfileProject(d_week_seq1=[$0], sun_sales1=[$1], mon_sales1=[$2], tue_sales1=[$3], wed_sales1=[$4], thu_sales1=[$5], fri_sales1=[$6], sat_sales1=[$7]): rowcount = 365, timing = null, opportunity = -1.124379347935
+          370:ProfileJoin(condition=[=($8, $0)], joinType=[inner]): rowcount = 365, timing = null, opportunity = -1.1243793552349999
+            378:ProfileAggregate(group=[{0}], sun_sales=[SUM($1) FILTER $2], mon_sales=[SUM($3) FILTER $4], tue_sales=[SUM($5) FILTER $6], wed_sales=[SUM($7) FILTER $8], thu_sales=[SUM($9) FILTER $10], fri_sales=[SUM($11) FILTER $12], sat_sales=[SUM($13) FILTER $14]): rowcount = 264, timing = null, opportunity = 0.344407564545
+              385:ProfileProject(d_week_seq=[$3], sales_price=[$1], ==[$4], sales_price0=[$1], =3=[$5], sales_price1=[$1], =4=[$6], sales_price2=[$1], =5=[$7], sales_price3=[$1], =6=[$8], sales_price4=[$1], =7=[$9], sales_price5=[$1], =8=[$10]): rowcount = 2152597545, timing = null, opportunity = -0.9471508779750002
+                392:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 2152597545, timing = null, opportunity = -0.602735270775
+                  393:ProfileUnion(all=[true]): rowcount = 2159980792, timing = null, opportunity = 0.171609185665
+                    399:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 720000376, timing = null, opportunity = -0.6923790639350003
+                      400:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.6139795452149999
+                    402:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 1439980416, timing = null, opportunity = -0.26039103993499996
+                      403:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 1439980416, timing = null, opportunity = -2.103565972415
+                  405:ProfileProject(d_date_sk=[$0], d_week_seq=[$4], ==[=($14, 'Sunday')], =3=[=($14, 'Monday')], =4=[=($14, 'Tuesday')], =5=[=($14, 'Wednesday')], =6=[=($14, 'Thursday')], =7=[=($14, 'Friday')], =8=[=($14, 'Saturday')]): rowcount = 730, timing = null, opportunity = -1.1243795523349998
+                    406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+            410:ProfileProject(d_week_seq=[$0]): rowcount = 730, timing = null, opportunity = -1.1243793041349999
+              413:ProfileProject(d_week_seq=[$4], d_year=[$6]): rowcount = 730, timing = null, opportunity = -1.1243793187349997
+                414:ProfileFilter(condition=[=($6, 2001)]): rowcount = 730, timing = null, opportunity = -1.124379680085
+                  406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+      428:ProfileProject(sun_sales2=[$1], mon_sales2=[$2], tue_sales2=[$3], wed_sales2=[$4], thu_sales2=[$5], fri_sales2=[$6], sat_sales2=[$7], -=[-($0, 53)]): rowcount = 730, timing = null, opportunity = -1.1243794063349999
+        441:ProfileProject(d_week_seq2=[$0], sun_sales2=[$1], mon_sales2=[$2], tue_sales2=[$3], wed_sales2=[$4], thu_sales2=[$5], fri_sales2=[$6], sat_sales2=[$7]): rowcount = 730, timing = null, opportunity = -1.1243794063349999
+          453:ProfileJoin(condition=[=($8, $0)], joinType=[inner]): rowcount = 730, timing = null, opportunity = -1.124379420935
+            378:ProfileAggregate(group=[{0}], sun_sales=[SUM($1) FILTER $2], mon_sales=[SUM($3) FILTER $4], tue_sales=[SUM($5) FILTER $6], wed_sales=[SUM($7) FILTER $8], thu_sales=[SUM($9) FILTER $10], fri_sales=[SUM($11) FILTER $12], sat_sales=[SUM($13) FILTER $14]): rowcount = 264, timing = null, opportunity = 0.344407564545
+              385:ProfileProject(d_week_seq=[$3], sales_price=[$1], ==[$4], sales_price0=[$1], =3=[$5], sales_price1=[$1], =4=[$6], sales_price2=[$1], =5=[$7], sales_price3=[$1], =6=[$8], sales_price4=[$1], =7=[$9], sales_price5=[$1], =8=[$10]): rowcount = 2152597545, timing = null, opportunity = -0.9471508779750002
+                392:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 2152597545, timing = null, opportunity = -0.602735270775
+                  393:ProfileUnion(all=[true]): rowcount = 2159980792, timing = null, opportunity = 0.171609185665
+                    399:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 720000376, timing = null, opportunity = -0.6923790639350003
+                      400:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.6139795452149999
+                    402:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 1439980416, timing = null, opportunity = -0.26039103993499996
+                      403:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 1439980416, timing = null, opportunity = -2.103565972415
+                  405:ProfileProject(d_date_sk=[$0], d_week_seq=[$4], ==[=($14, 'Sunday')], =3=[=($14, 'Monday')], =4=[=($14, 'Tuesday')], =5=[=($14, 'Wednesday')], =6=[=($14, 'Thursday')], =7=[=($14, 'Friday')], =8=[=($14, 'Saturday')]): rowcount = 730, timing = null, opportunity = -1.1243795523349998
+                    406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+            457:ProfileProject(d_week_seq=[$0]): rowcount = 730, timing = null, opportunity = -1.1243793041349999
+              460:ProfileProject(d_week_seq=[$4], d_year=[$6]): rowcount = 730, timing = null, opportunity = -1.1243793187349997
+                461:ProfileFilter(condition=[=($6, +(2001, 1))]): rowcount = 730, timing = null, opportunity = -1.124379680085
+                  406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+
+trial 0
+CTAS: duck_table_02_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_02_0 AS SELECT "t2"."d_week_seq", SUM("t1"."sales_price") FILTER (WHERE "t2"."=") AS "sun_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=3") AS "mon_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=4") AS "tue_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=5") AS "wed_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=6") AS "thu_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=7") AS "fri_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=8") AS "sat_sales"
+FROM (SELECT "ws_sold_date_sk" AS "sold_date_sk", "ws_ext_sales_price" AS "sales_price"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales
+UNION ALL
+SELECT "cs_sold_date_sk" AS "sold_date_sk", "cs_ext_sales_price" AS "sales_price"
+FROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales) AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_week_seq", "d_day_name" = 'Sunday' AS "=", "d_day_name" = 'Monday' AS "=3", "d_day_name" = 'Tuesday' AS "=4", "d_day_name" = 'Wednesday' AS "=5", "d_day_name" = 'Thursday' AS "=6", "d_day_name" = 'Friday' AS "=7", "d_day_name" = 'Saturday' AS "=8"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim) AS "t2" ON "t1"."sold_date_sk" = "t2"."d_date_sk"
+GROUP BY "t2"."d_week_seq"
+
+CTAS: duck_table_02_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+CREATE TABLE duck_table_02_1 AS SELECT "t3"."d_week_seq1", ROUND("t3"."sun_sales1" / "t8"."sun_sales2", 2) AS "r1", ROUND("t3"."mon_sales1" / "t8"."mon_sales2", 2) AS "r2", ROUND("t3"."tue_sales1" / "t8"."tue_sales2", 2) AS "r3", ROUND("t3"."wed_sales1" / "t8"."wed_sales2", 2) AS "r4", ROUND("t3"."thu_sales1" / "t8"."thu_sales2", 2) AS "r5", ROUND("t3"."fri_sales1" / "t8"."fri_sales2", 2) AS "r6", ROUND("t3"."sat_sales1" / "t8"."sat_sales2", 2)
+FROM (SELECT "duck_table_02_0"."d_week_seq" AS "d_week_seq1", "duck_table_02_0"."sun_sales" AS "sun_sales1", "duck_table_02_0"."mon_sales" AS "mon_sales1", "duck_table_02_0"."tue_sales" AS "tue_sales1", "duck_table_02_0"."wed_sales" AS "wed_sales1", "duck_table_02_0"."thu_sales" AS "thu_sales1", "duck_table_02_0"."fri_sales" AS "fri_sales1", "duck_table_02_0"."sat_sales" AS "sat_sales1"
+FROM "duck_table_02_0"
+INNER JOIN (SELECT "d_week_seq"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t1" ON "duck_table_02_0"."d_week_seq" = "t1"."d_week_seq") AS "t3"
+INNER JOIN (SELECT "duck_table_02_00"."sun_sales" AS "sun_sales2", "duck_table_02_00"."mon_sales" AS "mon_sales2", "duck_table_02_00"."tue_sales" AS "tue_sales2", "duck_table_02_00"."wed_sales" AS "wed_sales2", "duck_table_02_00"."thu_sales" AS "thu_sales2", "duck_table_02_00"."fri_sales" AS "fri_sales2", "duck_table_02_00"."sat_sales" AS "sat_sales2", "duck_table_02_00"."d_week_seq" - 53 AS "-"
+FROM "duck_table_02_0" AS "duck_table_02_00"
+INNER JOIN (SELECT "d_week_seq"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001 + 1) AS "t6" ON "duck_table_02_00"."d_week_seq" = "t6"."d_week_seq") AS "t8" ON "t3"."d_week_seq1" = "t8"."-"
+
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: -1.0 CARDINALITY: -1 COST: 0.0
+SELECT *
+FROM "duck_table_02_1"
+ORDER BY "d_week_seq1" NULLS FIRST
+
+STARTING QRY: CREATE TABLE duck_table_02_0 AS SELECT "t2"."d_week_seq", SUM("t1"."sales_price") FILTER (WHERE "t2"."=") AS "sun_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=3") AS "mon_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=4") AS "tue_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=5") AS "wed_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=6") AS "thu_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=7") AS "fri_sales", SUM("t1"."sales_price") FILTER (WHERE "t2"."=8") AS "sat_sales"
+FROM (SELECT "ws_sold_date_sk" AS "sold_date_sk", "ws_ext_sales_price" AS "sales_price"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales
+UNION ALL
+SELECT "cs_sold_date_sk" AS "sold_date_sk", "cs_ext_sales_price" AS "sales_price"
+FROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales) AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_week_seq", "d_day_name" = 'Sunday' AS "=", "d_day_name" = 'Monday' AS "=3", "d_day_name" = 'Tuesday' AS "=4", "d_day_name" = 'Wednesday' AS "=5", "d_day_name" = 'Thursday' AS "=6", "d_day_name" = 'Friday' AS "=7", "d_day_name" = 'Saturday' AS "=8"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim) AS "t2" ON "t1"."sold_date_sk" = "t2"."d_date_sk"
+GROUP BY "t2"."d_week_seq"
+
+264
+264
+1006.36568827
+finished query
+STARTING QRY: CREATE TABLE duck_table_02_1 AS SELECT "t3"."d_week_seq1", ROUND("t3"."sun_sales1" / "t8"."sun_sales2", 2) AS "r1", ROUND("t3"."mon_sales1" / "t8"."mon_sales2", 2) AS "r2", ROUND("t3"."tue_sales1" / "t8"."tue_sales2", 2) AS "r3", ROUND("t3"."wed_sales1" / "t8"."wed_sales2", 2) AS "r4", ROUND("t3"."thu_sales1" / "t8"."thu_sales2", 2) AS "r5", ROUND("t3"."fri_sales1" / "t8"."fri_sales2", 2) AS "r6", ROUND("t3"."sat_sales1" / "t8"."sat_sales2", 2)
+FROM (SELECT "duck_table_02_0"."d_week_seq" AS "d_week_seq1", "duck_table_02_0"."sun_sales" AS "sun_sales1", "duck_table_02_0"."mon_sales" AS "mon_sales1", "duck_table_02_0"."tue_sales" AS "tue_sales1", "duck_table_02_0"."wed_sales" AS "wed_sales1", "duck_table_02_0"."thu_sales" AS "thu_sales1", "duck_table_02_0"."fri_sales" AS "fri_sales1", "duck_table_02_0"."sat_sales" AS "sat_sales1"
+FROM "duck_table_02_0"
+INNER JOIN (SELECT "d_week_seq"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t1" ON "duck_table_02_0"."d_week_seq" = "t1"."d_week_seq") AS "t3"
+INNER JOIN (SELECT "duck_table_02_00"."sun_sales" AS "sun_sales2", "duck_table_02_00"."mon_sales" AS "mon_sales2", "duck_table_02_00"."tue_sales" AS "tue_sales2", "duck_table_02_00"."wed_sales" AS "wed_sales2", "duck_table_02_00"."thu_sales" AS "thu_sales2", "duck_table_02_00"."fri_sales" AS "fri_sales2", "duck_table_02_00"."sat_sales" AS "sat_sales2", "duck_table_02_00"."d_week_seq" - 53 AS "-"
+FROM "duck_table_02_0" AS "duck_table_02_00"
+INNER JOIN (SELECT "d_week_seq"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001 + 1) AS "t6" ON "duck_table_02_00"."d_week_seq" = "t6"."d_week_seq") AS "t8" ON "t3"."d_week_seq1" = "t8"."-"
+
+2513
+2513
+0.058687739
+finished query
+STARTING QRY: SELECT *
+FROM "duck_table_02_1"
+ORDER BY "d_week_seq1" NULLS FIRST
+
+0.001200361
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_02_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1006.36568827 CARDINALITY: 264 COST: 0.41372811628877776
+CTAS: duck_table_02_1 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.058687739 CARDINALITY: 2513 COST: 2.4127181588888892E-5
+CTAS: null SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.001200361 CARDINALITY: -1 COST: 4.934817444444445E-7
+cut real save: -1.5381319350853666
+Post Trial ::
+272:ProfileSort(sort0=[$0], dir0=[ASC-nulls-first]): rowcount = 0, timing = null, opportunity = -1.0
+  301:ProfileProject(d_week_seq1=[$0], r1=[ROUND(/($1, $8), 2)], r2=[ROUND(/($2, $9), 2)], r3=[ROUND(/($3, $10), 2)], r4=[ROUND(/($4, $11), 2)], r5=[ROUND(/($5, $12), 2)], r6=[ROUND(/($6, $13), 2)], EXPR$7=[ROUND(/($7, $14), 2)]): rowcount = 2513, timing = null, opportunity = 0.34444632816
+    330:ProfileJoin(condition=[=($0, $15)], joinType=[inner]): rowcount = 2513, timing = null, opportunity = 0.34444592608
+      344:ProfileProject(d_week_seq1=[$0], sun_sales1=[$1], mon_sales1=[$2], tue_sales1=[$3], wed_sales1=[$4], thu_sales1=[$5], fri_sales1=[$6], sat_sales1=[$7]): rowcount = 365, timing = null, opportunity = -1.124379347935
+        357:ProfileProject(d_week_seq1=[$0], sun_sales1=[$1], mon_sales1=[$2], tue_sales1=[$3], wed_sales1=[$4], thu_sales1=[$5], fri_sales1=[$6], sat_sales1=[$7]): rowcount = 365, timing = null, opportunity = -1.124379347935
+          370:ProfileJoin(condition=[=($8, $0)], joinType=[inner]): rowcount = 365, timing = null, opportunity = -1.1243793552349999
+            378:ProfileAggregate(group=[{0}], sun_sales=[SUM($1) FILTER $2], mon_sales=[SUM($3) FILTER $4], tue_sales=[SUM($5) FILTER $6], wed_sales=[SUM($7) FILTER $8], thu_sales=[SUM($9) FILTER $10], fri_sales=[SUM($11) FILTER $12], sat_sales=[SUM($13) FILTER $14]): rowcount = 264, timing = null, opportunity = 0.344407564545
+              385:ProfileProject(d_week_seq=[$3], sales_price=[$1], ==[$4], sales_price0=[$1], =3=[$5], sales_price1=[$1], =4=[$6], sales_price2=[$1], =5=[$7], sales_price3=[$1], =6=[$8], sales_price4=[$1], =7=[$9], sales_price5=[$1], =8=[$10]): rowcount = 2152597545, timing = null, opportunity = -0.9471508779750002
+                392:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 2152597545, timing = null, opportunity = -0.602735270775
+                  393:ProfileUnion(all=[true]): rowcount = 2159980792, timing = null, opportunity = 0.171609185665
+                    399:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 720000376, timing = null, opportunity = -0.6923790639350003
+                      400:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.6139795452149999
+                    402:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 1439980416, timing = null, opportunity = -0.26039103993499996
+                      403:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 1439980416, timing = null, opportunity = -2.103565972415
+                  405:ProfileProject(d_date_sk=[$0], d_week_seq=[$4], ==[=($14, 'Sunday')], =3=[=($14, 'Monday')], =4=[=($14, 'Tuesday')], =5=[=($14, 'Wednesday')], =6=[=($14, 'Thursday')], =7=[=($14, 'Friday')], =8=[=($14, 'Saturday')]): rowcount = 730, timing = null, opportunity = -1.1243795523349998
+                    406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+            410:ProfileProject(d_week_seq=[$0]): rowcount = 730, timing = null, opportunity = -1.1243793041349999
+              413:ProfileProject(d_week_seq=[$4], d_year=[$6]): rowcount = 730, timing = null, opportunity = -1.1243793187349997
+                414:ProfileFilter(condition=[=($6, 2001)]): rowcount = 730, timing = null, opportunity = -1.124379680085
+                  406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+      428:ProfileProject(sun_sales2=[$1], mon_sales2=[$2], tue_sales2=[$3], wed_sales2=[$4], thu_sales2=[$5], fri_sales2=[$6], sat_sales2=[$7], -=[-($0, 53)]): rowcount = 730, timing = null, opportunity = -1.1243794063349999
+        441:ProfileProject(d_week_seq2=[$0], sun_sales2=[$1], mon_sales2=[$2], tue_sales2=[$3], wed_sales2=[$4], thu_sales2=[$5], fri_sales2=[$6], sat_sales2=[$7]): rowcount = 730, timing = null, opportunity = -1.1243794063349999
+          453:ProfileJoin(condition=[=($8, $0)], joinType=[inner]): rowcount = 730, timing = null, opportunity = -1.124379420935
+            378:ProfileAggregate(group=[{0}], sun_sales=[SUM($1) FILTER $2], mon_sales=[SUM($3) FILTER $4], tue_sales=[SUM($5) FILTER $6], wed_sales=[SUM($7) FILTER $8], thu_sales=[SUM($9) FILTER $10], fri_sales=[SUM($11) FILTER $12], sat_sales=[SUM($13) FILTER $14]): rowcount = 264, timing = null, opportunity = 0.344407564545
+              385:ProfileProject(d_week_seq=[$3], sales_price=[$1], ==[$4], sales_price0=[$1], =3=[$5], sales_price1=[$1], =4=[$6], sales_price2=[$1], =5=[$7], sales_price3=[$1], =6=[$8], sales_price4=[$1], =7=[$9], sales_price5=[$1], =8=[$10]): rowcount = 2152597545, timing = null, opportunity = -0.9471508779750002
+                392:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 2152597545, timing = null, opportunity = -0.602735270775
+                  393:ProfileUnion(all=[true]): rowcount = 2159980792, timing = null, opportunity = 0.171609185665
+                    399:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 720000376, timing = null, opportunity = -0.6923790639350003
+                      400:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.6139795452149999
+                    402:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 1439980416, timing = null, opportunity = -0.26039103993499996
+                      403:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 1439980416, timing = null, opportunity = -2.103565972415
+                  405:ProfileProject(d_date_sk=[$0], d_week_seq=[$4], ==[=($14, 'Sunday')], =3=[=($14, 'Monday')], =4=[=($14, 'Tuesday')], =5=[=($14, 'Wednesday')], =6=[=($14, 'Thursday')], =7=[=($14, 'Friday')], =8=[=($14, 'Saturday')]): rowcount = 730, timing = null, opportunity = -1.1243795523349998
+                    406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+            457:ProfileProject(d_week_seq=[$0]): rowcount = 730, timing = null, opportunity = -1.1243793041349999
+              460:ProfileProject(d_week_seq=[$4], d_year=[$6]): rowcount = 730, timing = null, opportunity = -1.1243793187349997
+                461:ProfileFilter(condition=[=($6, +(2001, 1))]): rowcount = 730, timing = null, opportunity = -1.124379680085
+                  406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+
+trial 1
+failed: 02
+java.lang.IndexOutOfBoundsException: Input -1
+	at org.apache.calcite.rel.BiRel.replaceInput(BiRel.java:72)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.cutGraphAtNode(AlgorithmicCollector.java:514)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.makeCut(AlgorithmicCollector.java:323)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.findCutByOpportunity(AlgorithmicCollector.java:246)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.go(AlgorithmicCollector.java:95)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:282)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:380)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Input -1
+	at org.apache.calcite.rel.BiRel.replaceInput(BiRel.java:72)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.cutGraphAtNode(AlgorithmicCollector.java:514)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.makeCut(AlgorithmicCollector.java:323)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.findCutByOpportunity(AlgorithmicCollector.java:246)
+	at org.arachne.algorithmic_collection.AlgorithmicCollector.go(AlgorithmicCollector.java:95)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:282)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:380)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+ERROR::
+272:ProfileSort(sort0=[$0], dir0=[ASC-nulls-first]): rowcount = 0, timing = null, opportunity = -1.0
+  301:ProfileProject(d_week_seq1=[$0], r1=[ROUND(/($1, $8), 2)], r2=[ROUND(/($2, $9), 2)], r3=[ROUND(/($3, $10), 2)], r4=[ROUND(/($4, $11), 2)], r5=[ROUND(/($5, $12), 2)], r6=[ROUND(/($6, $13), 2)], EXPR$7=[ROUND(/($7, $14), 2)]): rowcount = 2513, timing = null, opportunity = 0.34444632816
+    330:ProfileJoin(condition=[=($0, $15)], joinType=[inner]): rowcount = 2513, timing = null, opportunity = 0.34444592608
+      344:ProfileProject(d_week_seq1=[$0], sun_sales1=[$1], mon_sales1=[$2], tue_sales1=[$3], wed_sales1=[$4], thu_sales1=[$5], fri_sales1=[$6], sat_sales1=[$7]): rowcount = 365, timing = null, opportunity = -1.124379347935
+        357:ProfileProject(d_week_seq1=[$0], sun_sales1=[$1], mon_sales1=[$2], tue_sales1=[$3], wed_sales1=[$4], thu_sales1=[$5], fri_sales1=[$6], sat_sales1=[$7]): rowcount = 365, timing = null, opportunity = -1.124379347935
+          370:ProfileJoin(condition=[=($8, $0)], joinType=[inner]): rowcount = 365, timing = null, opportunity = -1.1243793552349999
+            378:ProfileAggregate(group=[{0}], sun_sales=[SUM($1) FILTER $2], mon_sales=[SUM($3) FILTER $4], tue_sales=[SUM($5) FILTER $6], wed_sales=[SUM($7) FILTER $8], thu_sales=[SUM($9) FILTER $10], fri_sales=[SUM($11) FILTER $12], sat_sales=[SUM($13) FILTER $14]): rowcount = 264, timing = null, opportunity = 0.344407564545
+              385:ProfileProject(d_week_seq=[$3], sales_price=[$1], ==[$4], sales_price0=[$1], =3=[$5], sales_price1=[$1], =4=[$6], sales_price2=[$1], =5=[$7], sales_price3=[$1], =6=[$8], sales_price4=[$1], =7=[$9], sales_price5=[$1], =8=[$10]): rowcount = 2152597545, timing = null, opportunity = -0.9471508779750002
+                392:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 2152597545, timing = null, opportunity = -0.602735270775
+                  393:ProfileUnion(all=[true]): rowcount = 2159980792, timing = null, opportunity = 0.171609185665
+                    399:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 720000376, timing = null, opportunity = -0.6923790639350003
+                      400:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.6139795452149999
+                    402:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 1439980416, timing = null, opportunity = -0.26039103993499996
+                      403:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 1439980416, timing = null, opportunity = -2.103565972415
+                  405:ProfileProject(d_date_sk=[$0], d_week_seq=[$4], ==[=($14, 'Sunday')], =3=[=($14, 'Monday')], =4=[=($14, 'Tuesday')], =5=[=($14, 'Wednesday')], =6=[=($14, 'Thursday')], =7=[=($14, 'Friday')], =8=[=($14, 'Saturday')]): rowcount = 730, timing = null, opportunity = -1.1243795523349998
+                    406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+            410:ProfileProject(d_week_seq=[$0]): rowcount = 730, timing = null, opportunity = -1.1243793041349999
+              413:ProfileProject(d_week_seq=[$4], d_year=[$6]): rowcount = 730, timing = null, opportunity = -1.1243793187349997
+                414:ProfileFilter(condition=[=($6, 2001)]): rowcount = 730, timing = null, opportunity = -1.124379680085
+                  406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+      428:ProfileProject(sun_sales2=[$1], mon_sales2=[$2], tue_sales2=[$3], wed_sales2=[$4], thu_sales2=[$5], fri_sales2=[$6], sat_sales2=[$7], -=[-($0, 53)]): rowcount = 730, timing = null, opportunity = -1.1243794063349999
+        441:ProfileProject(d_week_seq2=[$0], sun_sales2=[$1], mon_sales2=[$2], tue_sales2=[$3], wed_sales2=[$4], thu_sales2=[$5], fri_sales2=[$6], sat_sales2=[$7]): rowcount = 730, timing = null, opportunity = -1.1243794063349999
+          453:ProfileJoin(condition=[=($8, $0)], joinType=[inner]): rowcount = 730, timing = null, opportunity = -1.124379420935
+            378:ProfileAggregate(group=[{0}], sun_sales=[SUM($1) FILTER $2], mon_sales=[SUM($3) FILTER $4], tue_sales=[SUM($5) FILTER $6], wed_sales=[SUM($7) FILTER $8], thu_sales=[SUM($9) FILTER $10], fri_sales=[SUM($11) FILTER $12], sat_sales=[SUM($13) FILTER $14]): rowcount = 264, timing = null, opportunity = 0.344407564545
+              385:ProfileProject(d_week_seq=[$3], sales_price=[$1], ==[$4], sales_price0=[$1], =3=[$5], sales_price1=[$1], =4=[$6], sales_price2=[$1], =5=[$7], sales_price3=[$1], =6=[$8], sales_price4=[$1], =7=[$9], sales_price5=[$1], =8=[$10]): rowcount = 2152597545, timing = null, opportunity = -0.9471508779750002
+                392:ProfileJoin(condition=[=($2, $0)], joinType=[inner]): rowcount = 2152597545, timing = null, opportunity = -0.602735270775
+                  393:ProfileUnion(all=[true]): rowcount = 2159980792, timing = null, opportunity = 0.171609185665
+                    399:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 720000376, timing = null, opportunity = -0.6923790639350003
+                      400:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 720000376, timing = null, opportunity = -1.6139795452149999
+                    402:ProfileProject(sold_date_sk=[$0], sales_price=[$23]): rowcount = 1439980416, timing = null, opportunity = -0.26039103993499996
+                      403:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 1439980416, timing = null, opportunity = -2.103565972415
+                  405:ProfileProject(d_date_sk=[$0], d_week_seq=[$4], ==[=($14, 'Sunday')], =3=[=($14, 'Monday')], =4=[=($14, 'Tuesday')], =5=[=($14, 'Wednesday')], =6=[=($14, 'Thursday')], =7=[=($14, 'Friday')], =8=[=($14, 'Saturday')]): rowcount = 730, timing = null, opportunity = -1.1243795523349998
+                    406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+            457:ProfileProject(d_week_seq=[$0]): rowcount = 730, timing = null, opportunity = -1.1243793041349999
+              460:ProfileProject(d_week_seq=[$4], d_year=[$6]): rowcount = 730, timing = null, opportunity = -1.1243793187349997
+                461:ProfileFilter(condition=[=($6, +(2001, 1))]): rowcount = 730, timing = null, opportunity = -1.124379680085
+                  406:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 730, timing = null, opportunity = -1.1243417705200003
+
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  16:50 min
+[[1;34mINFO[m] Finished at: 2022-05-11T15:51:13Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

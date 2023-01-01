@@ -1,0 +1,32 @@
+{
+   "name":  "Query", 
+   "result": 0.195024,
+   "timing": 0.195024,
+   "cardinality": 0,
+   "extra-info": "\nSELECT i_product_name,\n       i_brand,\n       i_class,\n       i_category,\n       qoh\nFROM results_rollup\nORDER BY qoh NULLS FIRST,\n         i_product_name NULLS FIRST,\n         i_brand NULLS FIRST,\n         i_class NULLS FIRST,\n         i_category NULLS FIRST\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.123601,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#4 ASC\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "SEQ_SCAN",
+         "timing":0.067353,
+         "cardinality":599071,
+         "extra_info": "results_rollup\n[INFOSEPARATOR]\ni_product_name\ni_brand\ni_class\ni_category\nqoh",
+         "timings": [
+         ],
+         "children": [
+         ]
+       }
+      ]
+    }
+   ]
+}

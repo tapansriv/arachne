@@ -1,0 +1,595 @@
+{
+   "name":  "Query", 
+   "result": 1909.242645,
+   "timing": 1909.242645,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.003321
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000049
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000018
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.001085
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000017
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000449
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000105
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000017
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.001482
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000050
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000145
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000048
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000054
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000017
+   },
+   {
+   "annotation": "planner", 
+   "timing": 33.891819
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 33.891766
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.006609,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#9 ASC\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC\n#4 ASC\n#5 ASC\n#6 ASC\n#7 ASC\n#8 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000329,
+         "cardinality":17480,
+         "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\navg_monthly_sales\nsum_sales\npsum\nnsum\n-(sum_sales, avg_monthly_sales)\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.134115,
+            "cardinality":17480,
+            "extra_info": "INNER\nrn=-\ncc_name=cc_name\ni_category=i_category\ni_brand=i_brand\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.154685,
+               "cardinality":17480,
+               "extra_info": "INNER\nrn=+\ncc_name=cc_name\ni_category=i_category\ni_brand=i_brand\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.004265,
+                  "cardinality":20735,
+                  "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\nsum_sales\navg_monthly_sales\nrn\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.035719,
+                     "cardinality":20735,
+                     "extra_info": "(d_year=1999 AND avg_monthly_sales>0.000000 AND CASE WHEN (avg_monthly_sales>0.000000) THEN (CAST(/(abs(-(sum_sales, avg_monthly_sales)), avg_monthly_sales) AS DECIMAL(19,0))) ELSE (NULL)>0)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.002595,
+                        "cardinality":289608,
+                        "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n#8\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":1.314529,
+                           "cardinality":289608,
+                           "extra_info": "RANK() OVER(PARTITION BY i_category, i_brand, cc_name ORDER BY d_year ASC NULLS FIRST, d_moy ASC NULLS FIRST)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "WINDOW",
+                              "timing":2.592962,
+                              "cardinality":289608,
+                              "extra_info": "sum(sum_sales) OVER(PARTITION BY i_category, i_brand, cc_name, d_year ROWS UNBOUNDED PRECEDING)\ncount(sum_sales) OVER(PARTITION BY i_category, i_brand, cc_name, d_year ROWS UNBOUNDED PRECEDING)",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_GROUP_BY",
+                                 "timing":94.577234,
+                                 "cardinality":289608,
+                                 "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":1.056388,
+                                    "cardinality":346663287,
+                                    "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\ncs_sales_price\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":8.368319,
+                                       "cardinality":346663287,
+                                       "extra_info": "INNER\ncs_call_center_sk=cc_call_center_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":1.156523,
+                                          "cardinality":347537141,
+                                          "extra_info": "i_brand\ni_category\ncs_call_center_sk\ncs_sales_price\nd_year\nd_moy\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "HASH_JOIN",
+                                             "timing":22.346214,
+                                             "cardinality":347537141,
+                                             "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PROJECTION",
+                                                "timing":5.373412,
+                                                "cardinality":1439980416,
+                                                "extra_info": "i_brand\ni_category\ncs_sold_date_sk\ncs_call_center_sk\ncs_sales_price\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "HASH_JOIN",
+                                                   "timing":96.536861,
+                                                   "cardinality":1439980416,
+                                                   "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PARQUET_SCAN",
+                                                      "timing":512.751189,
+                                                      "cardinality":1439980416,
+                                                      "extra_info": "cs_sold_date_sk\ncs_call_center_sk\ncs_item_sk\ncs_sales_price",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                      ]
+                                                    }
+,
+                                                    {
+                                                      "name": "PARQUET_SCAN",
+                                                      "timing":0.191726,
+                                                      "cardinality":600000,
+                                                      "extra_info": "i_item_sk\ni_brand\ni_category",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+,
+                                              {
+                                                "name": "FILTER",
+                                                "timing":0.001624,
+                                                "cardinality":854,
+                                                "extra_info": "(d_year=1999 OR (d_year=1998 AND d_moy=12) OR (d_year=2000 AND d_moy=1))",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PARQUET_SCAN",
+                                                   "timing":0.017082,
+                                                   "cardinality":146098,
+                                                   "extra_info": "d_date_sk\nd_year\nd_moy",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.047254,
+                                          "cardinality":84,
+                                          "extra_info": "cc_call_center_sk\ncc_name",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.009123,
+                  "cardinality":579216,
+                  "extra_info": "i_category\ni_brand\ncc_name\nsum_sales\n+\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "WINDOW",
+                     "timing":4.089616,
+                     "cardinality":579216,
+                     "extra_info": "RANK() OVER(PARTITION BY i_category, i_brand, cc_name ORDER BY d_year ASC NULLS FIRST, d_moy ASC NULLS FIRST)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":94.984360,
+                        "cardinality":289608,
+                        "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":1.049140,
+                           "cardinality":346663287,
+                           "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\ncs_sales_price\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":8.423807,
+                              "cardinality":346663287,
+                              "extra_info": "INNER\ncs_call_center_sk=cc_call_center_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":1.153057,
+                                 "cardinality":347537141,
+                                 "extra_info": "i_brand\ni_category\ncs_call_center_sk\ncs_sales_price\nd_year\nd_moy\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":22.249122,
+                                    "cardinality":347537141,
+                                    "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":5.240241,
+                                       "cardinality":1439980416,
+                                       "extra_info": "i_brand\ni_category\ncs_sold_date_sk\ncs_call_center_sk\ncs_sales_price\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":96.902619,
+                                          "cardinality":1439980416,
+                                          "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":514.071614,
+                                             "cardinality":1439980416,
+                                             "extra_info": "cs_sold_date_sk\ncs_call_center_sk\ncs_item_sk\ncs_sales_price",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.092391,
+                                             "cardinality":600000,
+                                             "extra_info": "i_item_sk\ni_brand\ni_category",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "FILTER",
+                                       "timing":0.001621,
+                                       "cardinality":854,
+                                       "extra_info": "(d_year=1999 OR (d_year=1998 AND d_moy=12) OR (d_year=2000 AND d_moy=1))",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.003134,
+                                          "cardinality":146098,
+                                          "extra_info": "d_date_sk\nd_year\nd_moy",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.000210,
+                                 "cardinality":84,
+                                 "extra_info": "cc_call_center_sk\ncc_name",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PROJECTION",
+               "timing":0.009123,
+               "cardinality":579216,
+               "extra_info": "i_category\ni_brand\ncc_name\nsum_sales\n-\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "WINDOW",
+                  "timing":4.073232,
+                  "cardinality":579216,
+                  "extra_info": "RANK() OVER(PARTITION BY i_category, i_brand, cc_name ORDER BY d_year ASC NULLS FIRST, d_moy ASC NULLS FIRST)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":83.783118,
+                     "cardinality":289608,
+                     "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.938138,
+                        "cardinality":346663287,
+                        "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\ncs_sales_price\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":7.393018,
+                           "cardinality":346663287,
+                           "extra_info": "INNER\ncs_call_center_sk=cc_call_center_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":1.074297,
+                              "cardinality":347537141,
+                              "extra_info": "i_brand\ni_category\ncs_call_center_sk\ncs_sales_price\nd_year\nd_moy\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":16.712126,
+                                 "cardinality":347537141,
+                                 "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":3.827292,
+                                    "cardinality":1439980416,
+                                    "extra_info": "i_brand\ni_category\ncs_sold_date_sk\ncs_call_center_sk\ncs_sales_price\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":72.867573,
+                                       "cardinality":1439980416,
+                                       "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":163.003553,
+                                          "cardinality":1439980416,
+                                          "extra_info": "cs_sold_date_sk\ncs_call_center_sk\ncs_item_sk\ncs_sales_price",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.083142,
+                                          "cardinality":600000,
+                                          "extra_info": "i_item_sk\ni_brand\ni_category",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "FILTER",
+                                    "timing":0.001607,
+                                    "cardinality":854,
+                                    "extra_info": "(d_year=1999 OR (d_year=1998 AND d_moy=12) OR (d_year=2000 AND d_moy=1))",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.003101,
+                                       "cardinality":146098,
+                                       "extra_info": "d_date_sk\nd_year\nd_moy",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.000185,
+                              "cardinality":84,
+                              "extra_info": "cc_call_center_sk\ncc_name",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

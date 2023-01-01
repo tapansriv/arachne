@@ -1,0 +1,69 @@
+{
+    "name": "TOP_N",
+    "timing": 5.6e-05,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#3 DESC\n#0 ASC\n#1 ASC\n#2 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "HASH_GROUP_BY",
+            "timing": 0.114308,
+            "cardinality": 12,
+            "extra_info": "#0\n#1\n#2\nsum(#3)",
+            "timings": [],
+            "children": [
+                {
+                    "name": "PROJECTION",
+                    "timing": 0.008904,
+                    "cardinality": 1642622,
+                    "extra_info": "d_year\ni_category_id\ni_category\nss_ext_sales_price\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_JOIN",
+                            "timing": 1.259397,
+                            "cardinality": 1642622,
+                            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_JOIN",
+                                    "timing": 31.349134,
+                                    "cardinality": 52615448,
+                                    "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 120.160967,
+                                            "cardinality": 2879987999,
+                                            "extra_info": "ss_ext_sales_price\nss_sold_date_sk\nss_item_sk",
+                                            "timings": [],
+                                            "children": []
+                                        },
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 0.047472,
+                                            "cardinality": 10814,
+                                            "extra_info": "i_category_id\ni_category\ni_item_sk\ni_manager_id\n[INFOSEPARATOR]\nFilters: i_manager_id=1 AND i_manager_id IS NOT NULL\n",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 0.005649,
+                                    "cardinality": 60,
+                                    "extra_info": "d_year\nd_date_sk\nd_moy\n[INFOSEPARATOR]\nFilters: d_moy=11 AND d_moy IS NOT NULL\nd_year=2000 AND d_year IS NOT NULL\n",
+                                    "timings": [],
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

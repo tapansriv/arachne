@@ -1,0 +1,10 @@
+python3 inter_query.py --cluster_size 4 tpcds gcp custom_workload/io_2
+python3 inter_query.py --cluster_size 4 tpcds aws custom_workload/io_2
+
+python3 inter_query.py --cluster_size 4 tpcds gcp custom_workload/cpu_0.5
+python3 inter_query.py --cluster_size 4 tpcds aws custom_workload/cpu_0.5
+
+python3 inter_query.py --cluster_size 4 tpcds gcp custom_workload/mixed
+python3 inter_query.py --cluster_size 4 tpcds aws custom_workload/mixed
+
+

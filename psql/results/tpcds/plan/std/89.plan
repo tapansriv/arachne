@@ -1,0 +1,38 @@
+                                                                                                                                                                         QUERY PLAN                                                                                                                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=7728227.26..7728227.51 rows=100 width=71)
+   ->  Sort  (cost=7728227.26..7728251.08 rows=9527 width=71)
+         Sort Key: ((tmp1.sum_sales - tmp1.avg_monthly_sales)), tmp1.s_store_name, tmp1.i_category, tmp1.i_class, tmp1.i_brand, tmp1.s_company_name, tmp1.d_moy, tmp1.sum_sales, tmp1.avg_monthly_sales
+         ->  Subquery Scan on tmp1  (cost=7726481.69..7727863.15 rows=9527 width=71)
+               Filter: (CASE WHEN (tmp1.avg_monthly_sales <> '0'::double precision) THEN (abs((tmp1.sum_sales - tmp1.avg_monthly_sales)) / tmp1.avg_monthly_sales) ELSE NULL::double precision END > '0.1'::double precision)
+               ->  WindowAgg  (cost=7726481.69..7727196.24 rows=28582 width=63)
+                     ->  Sort  (cost=7726481.69..7726553.14 rows=28582 width=55)
+                           Sort Key: item.i_category, item.i_brand, store.s_store_name, store.s_company_name
+                           ->  Finalize GroupAggregate  (cost=7720557.12..7724366.22 rows=28582 width=55)
+                                 Group Key: item.i_category, item.i_class, item.i_brand, store.s_store_name, store.s_company_name, date_dim.d_moy
+                                 ->  Gather Merge  (cost=7720557.12..7723663.58 rows=23818 width=55)
+                                       Workers Planned: 2
+                                       ->  Partial GroupAggregate  (cost=7719557.10..7719914.37 rows=11909 width=55)
+                                             Group Key: item.i_category, item.i_class, item.i_brand, store.s_store_name, store.s_company_name, date_dim.d_moy
+                                             ->  Sort  (cost=7719557.10..7719586.87 rows=11909 width=55)
+                                                   Sort Key: item.i_category, item.i_class, item.i_brand, store.s_store_name, store.s_company_name, date_dim.d_moy
+                                                   ->  Hash Join  (cost=12554.07..7718750.87 rows=11909 width=55)
+                                                         Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                                         ->  Parallel Hash Join  (cost=12529.02..7718692.74 rows=12479 width=47)
+                                                               Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                                               ->  Parallel Hash Join  (cost=2000.80..7706666.15 rows=570792 width=20)
+                                                                     Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                     ->  Parallel Seq Scan on store_sales  (cost=0.00..7389799.50 rows=119942250 width=20)
+                                                                     ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=8)
+                                                                           ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=8)
+                                                                                 Filter: (d_year = 1999)
+                                                               ->  Parallel Hash  (cost=10505.00..10505.00 rows=1858 width=35)
+                                                                     ->  Parallel Seq Scan on item  (cost=0.00..10505.00 rows=1858 width=35)
+                                                                           Filter: ((((i_category)::text = ANY ('{Books,Electronics,Sports}'::text[])) AND ((i_class)::text = ANY ('{computers,stereo,football}'::text[]))) OR (((i_category)::text = ANY ('{Men,Jewelry,Women}'::text[])) AND ((i_class)::text = ANY ('{shirts,birdal,dresses}'::text[]))))
+                                                         ->  Hash  (cost=20.02..20.02 rows=402 width=16)
+                                                               ->  Seq Scan on store  (cost=0.00..20.02 rows=402 width=16)
+ JIT:
+   Functions: 47
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(34 rows)
+

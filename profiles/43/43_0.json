@@ -1,0 +1,177 @@
+{
+   "name":  "Query", 
+   "result": 366.451160,
+   "timing": 366.451160,
+   "cardinality": 0,
+   "extra-info": "\nSELECT s_store_name,\n       s_store_id,\n       sum(CASE\n               WHEN (d_day_name='Sunday') THEN ss_sales_price\n               ELSE NULL\n           END) sun_sales,\n       sum(CASE\n               WHEN (d_day_name='Monday') THEN ss_sales_price\n               ELSE NULL\n           END) mon_sales,\n       sum(CASE\n               WHEN (d_day_name='Tuesday') THEN ss_sales_price\n               ELSE NULL\n           END) tue_sales,\n       sum(CASE\n               WHEN (d_day_name='Wednesday') THEN ss_sales_price\n               ELSE NULL\n           END) wed_sales,\n       sum(CASE\n               WHEN (d_day_name='Thursday') THEN ss_sales_price\n               ELSE NULL\n           END) thu_sales,\n       sum(CASE\n               WHEN (d_day_name='Friday') THEN ss_sales_price\n               ELSE NULL\n           END) fri_sales,\n       sum(CASE\n               WHEN (d_day_name='Saturday') THEN ss_sales_price\n               ELSE NULL\n           END) sat_sales\nFROM 'date_dim.parquet' AS date_dim,\n     'store_sales.parquet' AS store_sales,\n     'store.parquet' AS store\nWHERE d_date_sk = ss_sold_date_sk\n  AND s_store_sk = ss_store_sk\n  AND s_gmt_offset = -5\n  AND d_year = 2000\nGROUP BY s_store_name,\n         s_store_id\nORDER BY s_store_name,\n         s_store_id,\n         sun_sales,\n         mon_sales,\n         tue_sales,\n         wed_sales,\n         thu_sales,\n         fri_sales,\n         sat_sales\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001580
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000731
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000162
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000044
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000551
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000053
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000025
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.189061
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.189049
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000243,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC\n#4 ASC\n#5 ASC\n#6 ASC\n#7 ASC\n#8 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":29.733908,
+         "cardinality":249,
+         "extra_info": "#0\n#1\nsum(#2)\nsum(#3)\nsum(#4)\nsum(#5)\nsum(#6)\nsum(#7)\nsum(#8)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":38.772383,
+            "cardinality":268400500,
+            "extra_info": "s_store_name\ns_store_id\nCASE WHEN (d_day_name=Sunday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Monday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Tuesday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Wednesday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Thursday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Friday) THEN (ss_sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Saturday) THEN (ss_sales_price) ELSE (NULL)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":27.043753,
+               "cardinality":268400500,
+               "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":40.381591,
+                  "cardinality":1367012052,
+                  "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":196.666193,
+                     "cardinality":2879987999,
+                     "extra_info": "ss_sales_price\nss_sold_date_sk\nss_store_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.000886,
+                     "cardinality":1040,
+                     "extra_info": "s_store_name\ns_store_id\ns_store_sk\ns_gmt_offset\n[INFOSEPARATOR]\nFilters: s_gmt_offset=-5.000000 AND s_gmt_offset IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.009127,
+                  "cardinality":732,
+                  "extra_info": "d_day_name\nd_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

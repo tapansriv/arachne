@@ -1,0 +1,29 @@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              QUERY PLAN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=7758097.81..7758098.06 rows=100 width=77)
+   ->  Sort  (cost=7758097.81..7758098.22 rows=162 width=77)
+         Sort Key: store.s_store_name, store.s_store_id, (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Sunday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END)), (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Monday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END)), (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Tuesday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END)), (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Wednesday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END)), (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Thursday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END)), (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Friday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END)), (sum(CASE WHEN ((date_dim.d_day_name)::text = 'Saturday'::text) THEN store_sales.ss_sales_price ELSE NULL::double precision END))
+         ->  Finalize GroupAggregate  (cost=7745143.96..7758091.87 rows=162 width=77)
+               Group Key: store.s_store_name, store.s_store_id
+               ->  Gather Merge  (cost=7745143.96..7758082.96 rows=324 width=77)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=7744143.93..7757045.53 rows=162 width=77)
+                           Group Key: store.s_store_name, store.s_store_id
+                           ->  Sort  (cost=7744143.93..7744902.75 rows=303529 width=37)
+                                 Sort Key: store.s_store_name, store.s_store_id
+                                 ->  Hash Join  (cost=2024.62..7708203.38 rows=303529 width=37)
+                                       Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                       ->  Parallel Hash Join  (cost=2000.80..7706666.15 rows=570792 width=20)
+                                             Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..7389799.50 rows=119942250 width=16)
+                                             ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=12)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=12)
+                                                         Filter: (d_year = 2000)
+                                       ->  Hash  (cost=21.02..21.02 rows=224 width=25)
+                                             ->  Seq Scan on store  (cost=0.00..21.02 rows=224 width=25)
+                                                   Filter: (s_gmt_offset = '-5'::double precision)
+ JIT:
+   Functions: 32
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(25 rows)
+

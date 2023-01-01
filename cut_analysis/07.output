@@ -1,0 +1,153 @@
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+07 1.45 0.0 GCP
+/home/tapansriv/arachneDB/baseline/duck_baseline.json
+/home/tapansriv/arachneDB/baseline/duck_c_baseline.json
+BASE:
+257:ProfileSort(sort0=[$0], dir0=[ASC], fetch=[100]): rowcount = 100.0, cumulative cost = {100.0 rows, 2.868905015917442E14 cpu, 0.0 io, 0.0 money}
+  278:ProfileAggregate(group=[{0}], agg1=[AVG($1)], agg2=[AVG($2)], agg3=[AVG($3)], agg4=[AVG($4)]): rowcount = 1.9467962773711028E12, cumulative cost = {2.9201944160566543E12 rows, 0.0 cpu, 0.0 io, 0.0 money}
+    298:ProfileProject(i_item_id=[$5], ss_quantity=[$1], ss_list_price=[$2], ss_coupon_amt=[$4], ss_sales_price=[$3]): rowcount = 1.9467962773711027E13, cumulative cost = {1.9467962773711027E13 rows, 9.733981386855514E13 cpu, 0.0 io, 0.0 money}
+      318:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 1.9467962773711027E13, cumulative cost = {1.9467962773711027E13 rows, 0.0 cpu, 0.0 io, 0.0 money}
+        333:ProfileProject(ss_promo_sk=[$1], ss_quantity=[$2], ss_list_price=[$3], ss_sales_price=[$4], ss_coupon_amt=[$5], i_item_id=[$7]): rowcount = 1.2978641849140684E14, cumulative cost = {1.2978641849140684E14 rows, 7.78718510948441E14 cpu, 0.0 io, 0.0 money}
+          348:ProfileJoin(condition=[=($0, $6)], joinType=[inner]): rowcount = 1.2978641849140684E14, cumulative cost = {1.2978641849140684E14 rows, 0.0 cpu, 0.0 io, 0.0 money}
+            360:ProfileProject(ss_item_sk=[$1], ss_promo_sk=[$2], ss_quantity=[$3], ss_list_price=[$4], ss_sales_price=[$5], ss_coupon_amt=[$6]): rowcount = 3.932921772466875E10, cumulative cost = {3.932921772466875E10 rows, 2.3597530634801248E11 cpu, 0.0 io, 0.0 money}
+              372:ProfileJoin(condition=[=($0, $7)], joinType=[inner]): rowcount = 3.932921772466875E10, cumulative cost = {3.932921772466875E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                379:ProfileProject(ss_sold_date_sk=[$0], ss_item_sk=[$1], ss_promo_sk=[$3], ss_quantity=[$4], ss_list_price=[$5], ss_sales_price=[$6], ss_coupon_amt=[$7]): rowcount = 2.39286675E7, cumulative cost = {2.39286675E7 rows, 1.675006725E8 cpu, 0.0 io, 0.0 money}
+                  386:ProfileJoin(condition=[=($2, $8)], joinType=[inner]): rowcount = 2.39286675E7, cumulative cost = {2.39286675E7 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                    388:ProfileProject(ss_sold_date_sk=[$0], ss_item_sk=[$2], ss_cdemo_sk=[$4], ss_promo_sk=[$8], ss_quantity=[$10], ss_list_price=[$12], ss_sales_price=[$13], ss_coupon_amt=[$19]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.2761956E9 cpu, 0.0 io, 0.0 money}
+                      389:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+                    393:ProfileProject(cd_demo_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                      396:ProfileProject(cd_demo_sk=[$0], cd_gender=[$1], cd_marital_status=[$2], cd_education_status=[$3]): rowcount = 1.0, cumulative cost = {1.0 rows, 4.0 cpu, 0.0 io, 0.0 money}
+                        398:ProfileFilter(condition=[AND(=($1, 'M'), =($2, 'S'), =($3, 'College'))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                          399:ProfileTableScan(table=[[tpcds, customer_demographics]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                403:ProfileProject(d_date_sk=[$0]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 10957.35 cpu, 0.0 io, 0.0 money}
+                  406:ProfileProject(d_date_sk=[$0], d_year=[$6]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 21914.7 cpu, 0.0 io, 0.0 money}
+                    408:ProfileFilter(condition=[=($6, 2000)]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                      409:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+            411:ProfileProject(i_item_sk=[$0], i_item_id=[$1]): rowcount = 22000.0, cumulative cost = {22000.0 rows, 44000.0 cpu, 0.0 io, 0.0 money}
+              412:ProfileTableScan(table=[[tpcds, item]]): rowcount = 22000.0, cumulative cost = {22000.0 rows, 22001.0 cpu, 0.0 io, 0.0 money}
+        416:ProfileProject(p_promo_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+          419:ProfileProject(p_promo_sk=[$0], p_channel_email=[$9], p_channel_event=[$14]): rowcount = 1.0, cumulative cost = {1.0 rows, 3.0 cpu, 0.0 io, 0.0 money}
+            421:ProfileFilter(condition=[OR(=($9, 'N'), =($14, 'N'))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+              422:ProfileTableScan(table=[[tpcds, promotion]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+
+trial 0
+missing column name: agg1
+missing column name: agg2
+missing column name: agg3
+missing column name: agg4
+missing column name: agg1
+missing column name: agg2
+missing column name: agg3
+missing column name: agg4
+STARTING QRY: CREATE TABLE duck_table_07_0 AS SELECT "t9"."i_item_id", "t9"."ss_quantity", "t9"."ss_list_price", "t9"."ss_coupon_amt", "t9"."ss_sales_price"
+FROM (SELECT "t7"."ss_promo_sk", "t7"."ss_quantity", "t7"."ss_list_price", "t7"."ss_sales_price", "t7"."ss_coupon_amt", "t8"."i_item_id"
+FROM (SELECT "t3"."ss_item_sk", "t3"."ss_promo_sk", "t3"."ss_quantity", "t3"."ss_list_price", "t3"."ss_sales_price", "t3"."ss_coupon_amt"
+FROM (SELECT "t"."ss_sold_date_sk", "t"."ss_item_sk", "t"."ss_promo_sk", "t"."ss_quantity", "t"."ss_list_price", "t"."ss_sales_price", "t"."ss_coupon_amt"
+FROM (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_cdemo_sk", "ss_promo_sk", "ss_quantity", "ss_list_price", "ss_sales_price", "ss_coupon_amt"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"
+INNER JOIN (SELECT "cd_demo_sk"
+FROM '/mnt/disks/tpcds/parquet/customer_demographics.parquet' AS customer_demographics
+WHERE "cd_gender" = 'M' AND "cd_marital_status" = 'S' AND "cd_education_status" = 'College') AS "t2" ON "t"."ss_cdemo_sk" = "t2"."cd_demo_sk") AS "t3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2000) AS "t6" ON "t3"."ss_sold_date_sk" = "t6"."d_date_sk") AS "t7"
+INNER JOIN (SELECT "i_item_sk", "i_item_id"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t8" ON "t7"."ss_item_sk" = "t8"."i_item_sk") AS "t9"
+INNER JOIN (SELECT "p_promo_sk"
+FROM '/mnt/disks/tpcds/parquet/promotion.parquet' AS promotion
+WHERE "p_channel_email" = 'N' OR "p_channel_event" = 'N') AS "t12" ON "t9"."ss_promo_sk" = "t12"."p_promo_sk"
+
+7578599
+7578599
+561.046028653
+finished query
+STARTING QRY: SELECT "i_item_id", AVG("ss_quantity") AS "agg1", AVG("ss_list_price") AS "agg2", AVG("ss_coupon_amt") AS "agg3", AVG("ss_sales_price") AS "agg4"
+FROM "duck_table_07_0"
+GROUP BY "i_item_id"
+ORDER BY "i_item_id"
+FETCH NEXT 100 ROWS ONLY
+
+1.470119295
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_07_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 561.046028653 CARDINALITY: 7578599 COST: 0.22597687265190278
+CTAS: duck_table_07_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1.470119295 CARDINALITY: -1 COST: 5.921313827083333E-4
+2
+CTAS: duck_table_07_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 561.046028653 CARDINALITY: 7578599 COST: 0.22597687265190278
+CTAS: duck_table_07_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1.470119295 CARDINALITY: -1 COST: 5.921313827083333E-4
+BEGUN PROCESSING
+CTAS: duck_table_07_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1.470119295 CARDINALITY: -1 COST: 5.921313827083333E-4
+CTAS: duck_table_07_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 561.046028653 CARDINALITY: 7578599 COST: 0.22597687265190278
+rowSize: 32
+{"bqSize":0.242515168,"compressed":0.11548341333333333,"mvmtCost":0.0,"runtime":561.046028653,"runCost":0.22597687265190278,"bqCost":0.0012125758400000001,"cutNoHybrid":562.516147948}
+baseline runtime: 680.7195110321045 baselineBQ read size: 1.7712021504E11
+arachneCost: 0.22718944849190278, baselineCost2: 0.27417869194348654, baseline: 0.8856010752000001, cutNoHybrid: 0.22656900403461114
+FINISHED PROCESSING FOR TRIAL 0 plan not found. repeating...
+trial 1
+missing column name: agg1
+missing column name: agg2
+missing column name: agg3
+missing column name: agg4
+missing column name: agg1
+missing column name: agg2
+missing column name: agg3
+missing column name: agg4
+STARTING QRY: CREATE TABLE duck_table_07_0 AS SELECT "t7"."ss_promo_sk", "t7"."ss_quantity", "t7"."ss_list_price", "t7"."ss_sales_price", "t7"."ss_coupon_amt", "t8"."i_item_id"
+FROM (SELECT "t3"."ss_item_sk", "t3"."ss_promo_sk", "t3"."ss_quantity", "t3"."ss_list_price", "t3"."ss_sales_price", "t3"."ss_coupon_amt"
+FROM (SELECT "t"."ss_sold_date_sk", "t"."ss_item_sk", "t"."ss_promo_sk", "t"."ss_quantity", "t"."ss_list_price", "t"."ss_sales_price", "t"."ss_coupon_amt"
+FROM (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_cdemo_sk", "ss_promo_sk", "ss_quantity", "ss_list_price", "ss_sales_price", "ss_coupon_amt"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"
+INNER JOIN (SELECT "cd_demo_sk"
+FROM '/mnt/disks/tpcds/parquet/customer_demographics.parquet' AS customer_demographics
+WHERE "cd_gender" = 'M' AND "cd_marital_status" = 'S' AND "cd_education_status" = 'College') AS "t2" ON "t"."ss_cdemo_sk" = "t2"."cd_demo_sk") AS "t3"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2000) AS "t6" ON "t3"."ss_sold_date_sk" = "t6"."d_date_sk") AS "t7"
+INNER JOIN (SELECT "i_item_sk", "i_item_id"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item) AS "t8" ON "t7"."ss_item_sk" = "t8"."i_item_sk"
+
+7707266
+7707266
+388.407826812
+finished query
+STARTING QRY: SELECT "duck_table_07_0"."i_item_id", AVG("duck_table_07_0"."ss_quantity") AS "agg1", AVG("duck_table_07_0"."ss_list_price") AS "agg2", AVG("duck_table_07_0"."ss_coupon_amt") AS "agg3", AVG("duck_table_07_0"."ss_sales_price") AS "agg4"
+FROM "duck_table_07_0"
+INNER JOIN (SELECT "p_promo_sk"
+FROM '/mnt/disks/tpcds/parquet/promotion.parquet' AS promotion
+WHERE "p_channel_email" = 'N' OR "p_channel_event" = 'N') AS "t1" ON "duck_table_07_0"."ss_promo_sk" = "t1"."p_promo_sk"
+GROUP BY "duck_table_07_0"."i_item_id"
+ORDER BY "duck_table_07_0"."i_item_id"
+FETCH NEXT 100 ROWS ONLY
+
+1.761770796
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_07_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 388.407826812 CARDINALITY: 7707266 COST: 0.15644204135483333
+CTAS: duck_table_07_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1.761770796 CARDINALITY: -1 COST: 7.096021261666666E-4
+2
+CTAS: duck_table_07_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 388.407826812 CARDINALITY: 7707266 COST: 0.15644204135483333
+CTAS: duck_table_07_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1.761770796 CARDINALITY: -1 COST: 7.096021261666666E-4
+BEGUN PROCESSING
+CTAS: duck_table_07_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1.761770796 CARDINALITY: -1 COST: 7.096021261666666E-4
+CTAS: duck_table_07_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 388.407826812 CARDINALITY: 7707266 COST: 0.15644204135483333
+rowSize: 36
+{"bqSize":0.277788576,"compressed":0.13220856,"mvmtCost":0.0,"runtime":388.407826812,"runCost":0.15644204135483333,"bqCost":0.0013889428800000002,"cutNoHybrid":390.169597608}
+baseline runtime: 680.7195110321045 baselineBQ read size: 1.7712021504E11
+arachneCost: 0.15783098423483333, baselineCost2: 0.27417869194348654, baseline: 0.8856010752000001, cutNoHybrid: 0.157151643481
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  15:56 min
+[[1;34mINFO[m] Finished at: 2022-04-16T19:37:59Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

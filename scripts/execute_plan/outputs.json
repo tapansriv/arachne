@@ -1,0 +1,95 @@
+{
+    "cpu_0.5": {
+        "baseline": {
+            "gcp": {
+                "cost": 35.561591386795044,
+                "runtime": 367.3051862716675
+            },
+            "aws_temp": {
+                "runtime": 21411.446135997772
+            },
+            "aws": {
+                "cost": null,
+                "runtime": -1
+            }
+        },
+        "gcp": {
+            "bq_runtime": 367.3051862716675,
+            "bq_cost": 35.561591386795044,
+            "rs_query_time":0,
+            "rs_load_time": 0,
+            "mvmt_runtime":0,
+            "mvmt_cost":0
+        },
+        "aws": {
+            "bq_runtime": 359.730938911438,
+            "bq_cost": 6.499463319778442,
+            "rs_query_time": 2380.5679235458374,
+            "rs_load_time": 3741.741445541382,
+            "mvmt_runtime": 641.5844186930917,
+            "mvmt_cost": 23.342979766783653
+        }
+    },
+    "mixed": {
+        "baseline": {
+            "gcp": {
+                "cost": 60.055339336395264,
+                "runtime": 531.5060279369354
+            },
+            "aws_temp": {
+                "runtime": 21411.446135997772
+            },
+            "aws": {
+                "cost": null,
+                "runtime": -1
+            }
+        },
+        "gcp": {
+            "bq_runtime": 299.89356899261475,
+            "bq_cost": 6.660264730453491,
+            "rs_query_time": 2325.0748097896576,
+            "rs_load_time": 3018.967964410782,
+            "mvmt_runtime": 871.7658980726264,
+            "mvmt_cost": 42.17894003508057
+        },
+        "aws": {
+            "bq_runtime": 397.02970147132874,
+            "bq_cost": 6.499463319778442,
+            "rs_query_time": 2668.4172995090485,
+            "rs_load_time": 3741.741445541382,
+            "mvmt_runtime": 641.5844186930917,
+            "mvmt_cost": 23.342979766783653
+        }
+    },
+    "io_2": {
+        "baseline": {
+            "gcp": {
+                "cost": 69.76822018623352,
+                "runtime": 700.1520645618439
+            },
+            "aws_temp": {
+                "runtime": 21411.446135997772
+            },
+            "aws": {
+                "cost": null,
+                "runtime": -1
+            }
+        },
+        "gcp": {
+            "bq_runtime": 368.854079246521,
+            "bq_cost": 4.312211275100708,
+            "rs_query_time":2577.6453001499176,
+            "rs_load_time": 3093.013006210327,
+            "mvmt_runtime": 871.7658980726264,
+            "mvmt_cost": 42.17894003508057
+        },
+        "aws": {
+            "bq_runtime": 59.43620276451111,
+            "bq_cost": 1.5287220478057861,
+            "rs_query_time": 4384.840667724609,
+            "rs_load_time": 2284.549069404602,
+            "mvmt_runtime": 366.40853533986956,
+            "mvmt_cost": 13.33116387744892
+        }
+    }
+}

@@ -1,0 +1,139 @@
+-Dexec.args="single duck 68 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+GCP
+68 1.48 0.0 GCP
+SELECT c_last_name,
+       c_first_name,
+       ca_city,
+       bought_city,
+       ss_ticket_number,
+       extended_price,
+       extended_tax,
+       list_price
+FROM
+  (SELECT ss_ticket_number,
+          ss_customer_sk,
+          ca_city bought_city,
+          sum(ss_ext_sales_price) extended_price,
+          sum(ss_ext_list_price) list_price,
+          sum(ss_ext_tax) extended_tax
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales,
+        '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim,
+        '/mnt/disks/tpcds/parquet/store.parquet' AS store,
+        '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics,
+        '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address
+   WHERE store_sales.ss_sold_date_sk = date_dim.d_date_sk
+     AND store_sales.ss_store_sk = store.s_store_sk
+     AND store_sales.ss_hdemo_sk = household_demographics.hd_demo_sk
+     AND store_sales.ss_addr_sk = customer_address.ca_address_sk
+     AND date_dim.d_dom BETWEEN 1 AND 2
+     AND (household_demographics.hd_dep_count = 4
+          OR household_demographics.hd_vehicle_count= 3)
+     AND date_dim.d_year IN (1999,
+                             1999+1,
+                             1999+2)
+     AND store.s_city IN ('Fairview',
+                          'Midway')
+   GROUP BY ss_ticket_number,
+            ss_customer_sk,
+            ss_addr_sk,
+            ca_city) dn,
+     '/mnt/disks/tpcds/parquet/customer.parquet' AS customer,
+     '/mnt/disks/tpcds/parquet/customer_address.parquet' current_addr
+WHERE ss_customer_sk = c_customer_sk
+  AND customer.c_current_addr_sk = current_addr.ca_address_sk
+  AND current_addr.ca_city <> bought_city
+ORDER BY c_last_name NULLS FIRST,
+         ss_ticket_number NULLS FIRST
+LIMIT 100;
+
+BASE:
+354:ProfileSort(sort0=[$0], sort1=[$4], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], fetch=[100]): rowcount = 100.0, cumulative cost = {100.0 rows, 2.5425110370557408E20 cpu, 0.0 io, 0.0 money}
+  382:ProfileProject(c_last_name=[$7], c_first_name=[$6], ca_city=[$9], bought_city=[$1], ss_ticket_number=[$0], extended_price=[$2], extended_tax=[$4], list_price=[$3]): rowcount = 1.25477103814934349E18, cumulative cost = {1.25477103814934349E18 rows, 1.0038168305194748E19 cpu, 0.0 io, 0.0 money}
+    410:ProfileJoin(condition=[AND(=($5, $8), <>($9, $1))], joinType=[inner]): rowcount = 1.25477103814934349E18, cumulative cost = {1.25477103814934349E18 rows, 0.0 cpu, 0.0 io, 0.0 money}
+      435:ProfileProject(ss_ticket_number=[$0], bought_city=[$2], extended_price=[$3], list_price=[$4], extended_tax=[$5], c_current_addr_sk=[$7], c_first_name=[$8], c_last_name=[$9]): rowcount = 3.041869183392348E13, cumulative cost = {3.041869183392348E13 rows, 2.4334953467138784E14 cpu, 0.0 io, 0.0 money}
+        460:ProfileJoin(condition=[=($1, $6)], joinType=[inner]): rowcount = 3.041869183392348E13, cumulative cost = {3.041869183392348E13 rows, 0.0 cpu, 0.0 io, 0.0 money}
+          482:ProfileProject(ss_ticket_number=[$0], ss_customer_sk=[$1], bought_city=[$3], extended_price=[$4], list_price=[$5], extended_tax=[$6]): rowcount = 2.0279127889282322E14, cumulative cost = {2.0279127889282322E14 rows, 1.2167476733569392E15 cpu, 0.0 io, 0.0 money}
+            503:ProfileAggregate(group=[{0, 1, 2, 3}], extended_price=[SUM($4)], list_price=[SUM($5)], extended_tax=[SUM($6)]): rowcount = 2.0279127889282322E14, cumulative cost = {2.8644271044563794E14 rows, 0.0 cpu, 0.0 io, 0.0 money}
+              523:ProfileProject(ss_ticket_number=[$2], ss_customer_sk=[$0], ss_addr_sk=[$1], bought_city=[$7], ss_ext_sales_price=[$3], ss_ext_list_price=[$4], ss_ext_tax=[$5]): rowcount = 2.0279127889282322E15, cumulative cost = {2.0279127889282322E15 rows, 1.4195389522497626E16 cpu, 0.0 io, 0.0 money}
+                542:ProfileJoin(condition=[=($1, $6)], joinType=[inner]): rowcount = 2.0279127889282322E15, cumulative cost = {2.0279127889282322E15 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                  559:ProfileProject(ss_customer_sk=[$0], ss_addr_sk=[$2], ss_ticket_number=[$3], ss_ext_sales_price=[$4], ss_ext_list_price=[$5], ss_ext_tax=[$6]): rowcount = 2.458076107791797E10, cumulative cost = {2.458076107791797E10 rows, 1.474845664675078E11 cpu, 0.0 io, 0.0 money}
+                    576:ProfileJoin(condition=[=($1, $7)], joinType=[inner]): rowcount = 2.458076107791797E10, cumulative cost = {2.458076107791797E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                      588:ProfileProject(ss_customer_sk=[$0], ss_hdemo_sk=[$1], ss_addr_sk=[$2], ss_ticket_number=[$4], ss_ext_sales_price=[$5], ss_ext_list_price=[$6], ss_ext_tax=[$7]): rowcount = 1.6387174051945312E11, cumulative cost = {1.6387174051945312E11 rows, 1.1471021836361719E12 cpu, 0.0 io, 0.0 money}
+                        600:ProfileJoin(condition=[=($3, $8)], joinType=[inner]): rowcount = 1.6387174051945312E11, cumulative cost = {1.6387174051945312E11 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                          607:ProfileProject(ss_customer_sk=[$1], ss_hdemo_sk=[$2], ss_addr_sk=[$3], ss_store_sk=[$4], ss_ticket_number=[$5], ss_ext_sales_price=[$6], ss_ext_list_price=[$7], ss_ext_tax=[$8]): rowcount = 1.0924782701296875E11, cumulative cost = {1.0924782701296875E11 rows, 8.7398261610375E11 cpu, 0.0 io, 0.0 money}
+                            614:ProfileJoin(condition=[=($0, $9)], joinType=[inner]): rowcount = 1.0924782701296875E11, cumulative cost = {1.0924782701296875E11 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                              616:ProfileProject(ss_sold_date_sk=[$0], ss_customer_sk=[$3], ss_hdemo_sk=[$5], ss_addr_sk=[$6], ss_store_sk=[$7], ss_ticket_number=[$9], ss_ext_sales_price=[$15], ss_ext_list_price=[$17], ss_ext_tax=[$18]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.43572005E9 cpu, 0.0 io, 0.0 money}
+                                617:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+                              621:ProfileProject(d_date_sk=[$0]): rowcount = 4565.5625, cumulative cost = {4565.5625 rows, 4565.5625 cpu, 0.0 io, 0.0 money}
+                                624:ProfileProject(d_date_sk=[$0], d_year=[$6], d_dom=[$9]): rowcount = 4565.5625, cumulative cost = {4565.5625 rows, 13696.6875 cpu, 0.0 io, 0.0 money}
+                                  626:ProfileFilter(condition=[AND(SEARCH($9, Sarg[[1..2]]), OR(=($6, 1999), =($6, +(1999, 1)), =($6, +(1999, 2))))]): rowcount = 4565.5625, cumulative cost = {4565.5625 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                                    627:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+                          631:ProfileProject(s_store_sk=[$0]): rowcount = 10.0, cumulative cost = {10.0 rows, 10.0 cpu, 0.0 io, 0.0 money}
+                            634:ProfileProject(s_store_sk=[$0], s_city=[$22]): rowcount = 10.0, cumulative cost = {10.0 rows, 20.0 cpu, 0.0 io, 0.0 money}
+                              636:ProfileFilter(condition=[SEARCH($22, Sarg['Fairview', 'Midway':CHAR(8)]:CHAR(8))]): rowcount = 10.0, cumulative cost = {10.0 rows, 40.0 cpu, 0.0 io, 0.0 money}
+                                637:ProfileTableScan(table=[[tpcds, store]]): rowcount = 40.0, cumulative cost = {40.0 rows, 41.0 cpu, 0.0 io, 0.0 money}
+                      641:ProfileProject(hd_demo_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                        644:ProfileProject(hd_demo_sk=[$0], hd_dep_count=[$3], hd_vehicle_count=[$4]): rowcount = 1.0, cumulative cost = {1.0 rows, 3.0 cpu, 0.0 io, 0.0 money}
+                          646:ProfileFilter(condition=[OR(=($3, 4), =($4, 3))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                            647:ProfileTableScan(table=[[tpcds, household_demographics]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                  649:ProfileProject(ca_address_sk=[$0], ca_city=[$6]): rowcount = 550000.0, cumulative cost = {550000.0 rows, 1100000.0 cpu, 0.0 io, 0.0 money}
+                    650:ProfileTableScan(table=[[tpcds, customer_address]]): rowcount = 550000.0, cumulative cost = {550000.0 rows, 550001.0 cpu, 0.0 io, 0.0 money}
+          652:ProfileProject(c_customer_sk=[$0], c_current_addr_sk=[$4], c_first_name=[$8], c_last_name=[$9]): rowcount = 1.0, cumulative cost = {1.0 rows, 4.0 cpu, 0.0 io, 0.0 money}
+            653:ProfileTableScan(table=[[tpcds, customer]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+      649:ProfileProject(ca_address_sk=[$0], ca_city=[$6]): rowcount = 550000.0, cumulative cost = {550000.0 rows, 1100000.0 cpu, 0.0 io, 0.0 money}
+        650:ProfileTableScan(table=[[tpcds, customer_address]]): rowcount = 550000.0, cumulative cost = {550000.0 rows, 550001.0 cpu, 0.0 io, 0.0 money}
+
+trial 0
+java.lang.RuntimeException: Issue matching: rel#1075:ProfileJoin.PROFILE(left=ProfileProject#1096,right=ProfileProject#1242,condition==($1, $6),joinType=inner) , 1 97746 0.274851 HASH_GROUP_BY
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:184)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.goMatchCard(ProfileMatcher.java:131)
+	at org.arachne.collection.Collector.constructTree(Collector.java:662)
+	at org.arachne.collection.Collector.go(Collector.java:98)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:281)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:340)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+missing column name: bought_city
+missing column name: extended_price
+missing column name: extended_tax
+missing column name: list_price
+missing column name: bought_city
+missing column name: extended_price
+missing column name: list_price
+missing column name: extended_tax
+STARTING QRY: CREATE TABLE duck_table_68_0 AS SELECT "t15"."ss_ticket_number", "t15"."bought_city", "t15"."extended_price", "t15"."list_price", "t15"."extended_tax", "t16"."c_current_addr_sk", "t16"."c_first_name", "t16"."c_last_name"
+FROM (SELECT "t11"."ss_ticket_number", "t11"."ss_customer_sk", "t12"."ca_city" AS "bought_city", SUM("t11"."ss_ext_sales_price") AS "extended_price", SUM("t11"."ss_ext_list_price") AS "list_price", SUM("t11"."ss_ext_tax") AS "extended_tax"
+FROM (SELECT "t7"."ss_customer_sk", "t7"."ss_addr_sk", "t7"."ss_ticket_number", "t7"."ss_ext_sales_price", "t7"."ss_ext_list_price", "t7"."ss_ext_tax"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_hdemo_sk", "t3"."ss_addr_sk", "t3"."ss_ticket_number", "t3"."ss_ext_sales_price", "t3"."ss_ext_list_price", "t3"."ss_ext_tax"
+FROM (SELECT "t"."ss_customer_sk", "t"."ss_hdemo_sk", "t"."ss_addr_sk", "t"."ss_store_sk", "t"."ss_ticket_number", "t"."ss_ext_sales_price", "t"."ss_ext_list_price", "t"."ss_ext_tax"
+FROM (SELECT "ss_sold_date_sk", "ss_customer_sk", "ss_hdemo_sk", "ss_addr_sk", "ss_store_sk", "ss_ticket_number", "ss_ext_sales_price", "ss_ext_list_price", "ss_ext_tax"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_dom" >= 1 AND "d_dom" <= 2 AND ("d_year" = 1999 OR "d_year" = 1999 + 1 OR "d_year" = 1999 + 2)) AS "t2" ON "t"."ss_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "s_store_sk"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store
+WHERE "s_city" IN ('Fairview', 'Midway')) AS "t6" ON "t3"."ss_store_sk" = "t6"."s_store_sk") AS "t7"
+INNER JOIN (SELECT "hd_demo_sk"
+FROM '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics
+WHERE "hd_dep_count" = 4 OR "hd_vehicle_count" = 3) AS "t10" ON "t7"."ss_hdemo_sk" = "t10"."hd_demo_sk") AS "t11"
+INNER JOIN (SELECT "ca_address_sk", "ca_city"
+FROM '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address) AS "t12" ON "t11"."ss_addr_sk" = "t12"."ca_address_sk"
+GROUP BY "t11"."ss_ticket_number", "t11"."ss_customer_sk", "t11"."ss_addr_sk", "t12"."ca_city") AS "t15"
+INNER JOIN (SELECT "c_customer_sk", "c_current_addr_sk", "c_first_name", "c_last_name"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t16" ON "t15"."ss_customer_sk" = "t16"."c_customer_sk"
+

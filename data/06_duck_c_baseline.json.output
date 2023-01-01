@@ -1,0 +1,18 @@
+/home/tapansriv/arachneDB/scripts/duckdb/run_baseline.py:4: DeprecationWarning: 
+Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
+(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
+but was not found to be installed on your system.
+If this would cause problems for you,
+please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
+        
+  import pandas as pd
+/home/tapansriv/arachneDB/baseline_1tb/duck_c_baseline.json.json
+run_c
+Traceback (most recent call last):
+  File "/home/tapansriv/arachneDB/scripts/duckdb/run_baseline.py", line 49, in <module>
+    runtime = run_c_q(key)
+              ^^^^^^^^^^^^
+  File "/home/tapansriv/arachneDB/scripts/duckdb/run_baseline.py", line 16, in run_c_q
+    f = open(f"{home}/arachneDB/c_queries/duck/{key}.sql")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/tapansriv/arachneDB/c_queries/duck/06.sql'
