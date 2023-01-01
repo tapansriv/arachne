@@ -1,0 +1,106 @@
+┌───────────────────────────┐
+│           TOP_N           │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          Top 100          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           #0 ASC          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│             #0            │
+│             #1            │
+│             #2            │
+│             #3            │
+│             #4            │
+│             #5            │
+│             #6            │
+│             #7            │
+│          sum(#8)          │
+│          sum(#9)          │
+│          sum(#10)         │
+│          sum(#11)         │
+│          sum(#12)         │
+│          sum(#13)         │
+│          sum(#14)         │
+│          sum(#15)         │
+│          sum(#16)         │
+│          sum(#17)         │
+│          sum(#18)         │
+│          sum(#19)         │
+│          sum(#20)         │
+│          sum(#21)         │
+│          sum(#22)         │
+│          sum(#23)         │
+│          sum(#24)         │
+│          sum(#25)         │
+│          sum(#26)         │
+│          sum(#27)         │
+│          sum(#28)         │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      w_warehouse_name     │
+│     w_warehouse_sq_ft     │
+│           w_city          │
+│          w_county         │
+│          w_state          │
+│         w_country         │
+│       ship_carriers       │
+│           year_           │
+│         jan_sales         │
+│         feb_sales         │
+│         mar_sales         │
+│         apr_sales         │
+│         may_sales         │
+│         jun_sales         │
+│         jul_sales         │
+│         aug_sales         │
+│         sep_sales         │
+│         oct_sales         │
+│         nov_sales         │
+│         dec_sales         │
+│            $f20           │
+│            $f21           │
+│            $f22           │
+│            $f23           │
+│            $f24           │
+│            $f25           │
+│            $f26           │
+│            $f27           │
+│            $f28           │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│          SEQ_SCAN         │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      duck_table_66_0      │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      w_warehouse_name     │
+│     w_warehouse_sq_ft     │
+│           w_city          │
+│          w_county         │
+│          w_state          │
+│         w_country         │
+│       ship_carriers       │
+│           year_           │
+│         jan_sales         │
+│         feb_sales         │
+│         mar_sales         │
+│         apr_sales         │
+│         may_sales         │
+│         jun_sales         │
+│         jul_sales         │
+│         aug_sales         │
+│         sep_sales         │
+│         oct_sales         │
+│         nov_sales         │
+│         dec_sales         │
+│            $f20           │
+│            $f21           │
+│            $f22           │
+│            $f23           │
+│            $f24           │
+│            $f25           │
+│            $f26           │
+└───────────────────────────┘                             

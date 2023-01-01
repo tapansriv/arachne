@@ -1,0 +1,125 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     115   0                    00  Start at 115 
+1     OpenEphemeral  6     4     0     k(1,B)         00  nColumn=4    
+2     Integer        100   1     0                    00  r[1]=100; LIMIT counter
+3     OpenRead       1     7     0     7              00  root=7 iDb=0; customer_address
+4     OpenRead       0     3     0     10             00  root=3 iDb=0; customer
+5     OpenRead       2     10    0     1              00  root=10 iDb=0; customer_demographics
+6     OpenRead       3     12    0     2              00  root=12 iDb=0; household_demographics
+7     OpenRead       4     13    0     3              00  root=13 iDb=0; income_band
+8     OpenRead       5     21    0     5              00  root=21 iDb=0; store_returns
+9     Rewind         1     109   0                    00               
+10      Column         1     6     2                    00  r[2]=customer_address.ca_city
+11      Ne             3     108   2     (BINARY)       52  if r[2]!=r[3] goto 108
+12      Once           0     25    0                    00               
+13      OpenAutoindex  7     7     0     k(7,B,,,,,,)   00  nColumn=7; for customer
+14      Rewind         0     25    0                    00               
+15        Column         0     4     4                    00  r[4]=customer.c_current_addr_sk
+16        Column         0     1     5                    00  r[5]=customer.c_customer_id
+17        Column         0     2     6                    00  r[6]=customer.c_current_cdemo_sk
+18        Column         0     3     7                    00  r[7]=customer.c_current_hdemo_sk
+19        Column         0     8     8                    00  r[8]=customer.c_first_name
+20        Column         0     9     9                    00  r[9]=customer.c_last_name
+21        Rowid          0     10    0                    00  r[10]=rowid  
+22        MakeRecord     4     7     2                    00  r[2]=mkrec(r[4..10])
+23        IdxInsert      7     2     0                    10  key=r[2]     
+24      Next           0     15    0                    03               
+25      Column         1     0     11                   00  r[11]=customer_address.ca_address_sk
+26      Affinity       11    1     0     C              00  affinity(r[11])
+27      SeekGE         7     108   11    1              00  key=r[11]    
+28        IdxGT          7     108   11    1              00  key=r[11]    
+29        Once           0     37    0                    00               
+30        OpenAutoindex  8     2     0     k(2,B,)        00  nColumn=2; for customer_demographics
+31        Rewind         2     37    0                    00               
+32          Column         2     0     4                    00  r[4]=customer_demographics.cd_demo_sk
+33          Rowid          2     5     0                    00  r[5]=rowid   
+34          MakeRecord     4     2     2                    00  r[2]=mkrec(r[4..5])
+35          IdxInsert      8     2     0                    10  key=r[2]     
+36        Next           2     32    0                    03               
+37        Column         7     2     12                   00  r[12]=customer.c_current_cdemo_sk
+38        IsNull         12    107   0                    00  if r[12]==NULL goto 107
+39        Affinity       12    1     0     C              00  affinity(r[12])
+40        SeekGE         8     107   12    1              00  key=r[12]    
+41          IdxGT          8     107   12    1              00  key=r[12]    
+42          Once           0     51    0                    00               
+43          OpenAutoindex  9     3     0     k(3,B,,)       00  nColumn=3; for household_demographics
+44          Rewind         3     51    0                    00               
+45            Column         3     0     6                    00  r[6]=household_demographics.hd_demo_sk
+46            Column         3     1     7                    00  r[7]=household_demographics.hd_income_band_sk
+47            Rowid          3     8     0                    00  r[8]=rowid   
+48            MakeRecord     6     3     2                    00  r[2]=mkrec(r[6..8])
+49            IdxInsert      9     2     0                    10  key=r[2]     
+50          Next           3     45    0                    03               
+51          Column         7     3     13                   00  r[13]=customer.c_current_hdemo_sk
+52          IsNull         13    106   0                    00  if r[13]==NULL goto 106
+53          Affinity       13    1     0     C              00  affinity(r[13])
+54          SeekGE         9     106   13    1              00  key=r[13]    
+55            IdxGT          9     106   13    1              00  key=r[13]    
+56            Once           0     66    0                    00               
+57            OpenAutoindex  10    4     0     k(4,B,,,)      00  nColumn=4; for income_band
+58            Rewind         4     66    0                    00               
+59              Column         4     0     14                   00  r[14]=income_band.ib_income_band_sk
+60              Column         4     1     15                   00  r[15]=income_band.ib_lower_bound
+61              Column         4     2     16                   00  r[16]=income_band.ib_upper_bound
+62              Rowid          4     17    0                    00  r[17]=rowid  
+63              MakeRecord     14    4     2                    00  r[2]=mkrec(r[14..17])
+64              IdxInsert      10    2     0                    10  key=r[2]     
+65            Next           4     59    0                    03               
+66            Column         9     1     18                   00  r[18]=household_demographics.hd_income_band_sk
+67            IsNull         18    105   0                    00  if r[18]==NULL goto 105
+68            Affinity       18    1     0     C              00  affinity(r[18])
+69            SeekGE         10    105   18    1              00  key=r[18]    
+70              IdxGT          10    105   18    1              00  key=r[18]    
+71              Column         10    1     2                    00  r[2]=income_band.ib_lower_bound
+72              Lt             19    104   2     (BINARY)       54  if r[2]<r[19] goto 104
+73              Column         10    2     2                    00  r[2]=income_band.ib_upper_bound
+74              Gt             20    104   2     (BINARY)       54  if r[2]>r[20] goto 104
+75              Once           0     83    0                    00               
+76              OpenAutoindex  11    2     0     k(2,B,)        00  nColumn=2; for store_returns
+77              Rewind         5     83    0                    00               
+78                Column         5     4     14                   00  r[14]=store_returns.sr_cdemo_sk
+79                Rowid          5     15    0                    00  r[15]=rowid  
+80                MakeRecord     14    2     2                    00  r[2]=mkrec(r[14..15])
+81                IdxInsert      11    2     0                    10  key=r[2]     
+82              Next           5     78    0                    03               
+83              Column         8     0     21                   00  r[21]=customer_demographics.cd_demo_sk
+84              Affinity       21    1     0     C              00  affinity(r[21])
+85              SeekGE         11    104   21    1              00  key=r[21]    
+86                IdxGT          11    104   21    1              00  key=r[21]    
+87                Column         7     1     22                   00  r[22]=customer.c_customer_id
+88                Sequence       6     23    0                    00  r[23]=cursor[6].ctr++
+89                IfNotZero      1     93    0                    00  if r[1]!=0 then r[1]--, goto 93
+90                Last           6     0     0                    00               
+91                IdxLE          6     103   22    1              00  key=r[22]    
+92                Delete         6     0     0                    00               
+93                Column         7     5     27                   00  r[27]=customer.c_last_name
+94                NotNull        27    96    0                    00  if r[27]!=NULL goto 96
+95                String8        0     27    0                    00  r[27]=''     
+96                Concat         28    27    2                    00  r[2]=r[27]+r[28]
+97                Column         7     4     27                   00  r[27]=customer.c_first_name
+98                NotNull        27    100   0                    00  if r[27]!=NULL goto 100
+99                String8        0     27    0                    00  r[27]=''     
+100               Concat         27    2     24                   00  r[24]=r[2]+r[27]
+101               MakeRecord     22    3     26                   00  r[26]=mkrec(r[22..24])
+102               IdxInsert      6     26    22    3              00  key=r[26]    
+103             Next           11    86    0                    00               
+104           Next           10    70    0                    00               
+105         Next           9     55    0                    00               
+106       Next           8     41    0                    00               
+107     Next           7     28    0                    00               
+108   Next           1     10    0                    01               
+109   Sort           6     114   0                    00               
+110     Column         6     2     25                   00  r[25]=customername
+111     Column         6     0     24                   00  r[24]=customer_id
+112     ResultRow      24    2     0                    00  output=r[24..25]
+113   Next           6     110   0                    00               
+114   Halt           0     0     0                    00               
+115   Transaction    0     0     28    0              01  usesStmtJournal=0
+116   String8        0     3     0     Edgewood       00  r[3]='Edgewood'
+117   Integer        38128  19    0                    00  r[19]=38128  
+118   Integer        38128  27    0                    00  r[27]=38128  
+119   Integer        50000  2     0                    00  r[2]=50000   
+120   Add            2     27    20                   00  r[20]=r[2]+r[27]
+121   String8        0     28    0     ,              00  r[28]=', '   
+122   Goto           0     1     0                    00               

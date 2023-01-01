@@ -1,0 +1,82 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     74    0                    00  Start at 74  
+1     OpenEphemeral  4     3     0     k(1,B)         00  nColumn=3    
+2     Integer        100   1     0                    00  r[1]=100; LIMIT counter
+3     Null           0     2     2                    00  r[2..2]=NULL 
+4     OpenRead       1     12    0     4              00  root=12 iDb=0; household_demographics
+5     OpenRead       0     22    0     8              00  root=22 iDb=0; store_sales
+6     OpenRead       2     23    0     5              00  root=23 iDb=0; time_dim
+7     OpenRead       3     19    0     6              00  root=19 iDb=0; store
+8     Rewind         1     69    0                    00               
+9       Column         1     3     3                    00  r[3]=household_demographics.hd_dep_count
+10      Ne             4     68    3     (BINARY)       54  if r[3]!=r[4] goto 68
+11      Once           0     21    0                    00               
+12      OpenAutoindex  5     4     0     k(4,B,,,)      00  nColumn=4; for store_sales
+13      Rewind         0     21    0                    00               
+14        Column         0     5     5                    00  r[5]=store_sales.ss_hdemo_sk
+15        Column         0     1     6                    00  r[6]=store_sales.ss_sold_time_sk
+16        Column         0     7     7                    00  r[7]=store_sales.ss_store_sk
+17        Rowid          0     8     0                    00  r[8]=rowid   
+18        MakeRecord     5     4     3                    00  r[3]=mkrec(r[5..8])
+19        IdxInsert      5     3     0                    10  key=r[3]     
+20      Next           0     14    0                    03               
+21      Column         1     0     9                    00  r[9]=household_demographics.hd_demo_sk
+22      Affinity       9     1     0     C              00  affinity(r[9])
+23      SeekGE         5     68    9     1              00  key=r[9]     
+24        IdxGT          5     68    9     1              00  key=r[9]     
+25        Once           0     39    0                    00               
+26        OpenAutoindex  6     4     0     k(4,B,B,,)     00  nColumn=4; for time_dim
+27        Rewind         2     39    0                    00               
+28          Column         2     3     3                    00  r[3]=time_dim.t_hour
+29          Ne             10    38    3     (BINARY)       54  if r[3]!=r[10] goto 38
+30          Column         2     4     3                    00  r[3]=time_dim.t_minute
+31          Lt             11    38    3     (BINARY)       54  if r[3]<r[11] goto 38
+32          Column         2     3     5                    00  r[5]=time_dim.t_hour
+33          Column         2     0     6                    00  r[6]=time_dim.t_time_sk
+34          Column         2     4     7                    00  r[7]=time_dim.t_minute
+35          Rowid          2     8     0                    00  r[8]=rowid   
+36          MakeRecord     5     4     3                    00  r[3]=mkrec(r[5..8])
+37          IdxInsert      6     3     0                    10  key=r[3]     
+38        Next           2     28    0                    03               
+39        Integer        20    12    0                    00  r[12]=20     
+40        Column         5     1     13                   00  r[13]=store_sales.ss_sold_time_sk
+41        IsNull         13    67    0                    00  if r[13]==NULL goto 67
+42        Affinity       13    1     0     C              00  affinity(r[13])
+43        SeekGE         6     67    12    2              00  key=r[12..13]
+44          IdxGT          6     67    12    2              00  key=r[12..13]
+45          Column         6     2     3                    00  r[3]=time_dim.t_minute
+46          Lt             11    66    3     (BINARY)       54  if r[3]<r[11] goto 66
+47          Once           0     58    0                    00               
+48          OpenAutoindex  7     3     0     k(3,B,B,)      00  nColumn=3; for store
+49          Rewind         3     58    0                    00               
+50            Column         3     5     3                    00  r[3]=store.s_store_name
+51            Ne             14    57    3     (BINARY)       52  if r[3]!=r[14] goto 57
+52            Column         3     5     5                    00  r[5]=store.s_store_name
+53            Column         3     0     6                    00  r[6]=store.s_store_sk
+54            Rowid          3     7     0                    00  r[7]=rowid   
+55            MakeRecord     5     3     3                    00  r[3]=mkrec(r[5..7])
+56            IdxInsert      7     3     0                    10  key=r[3]     
+57          Next           3     50    0                    03               
+58          String8        0     15    0     ese            00  r[15]='ese'  
+59          Column         5     2     16                   00  r[16]=store_sales.ss_store_sk
+60          IsNull         16    66    0                    00  if r[16]==NULL goto 66
+61          Affinity       16    1     0     C              00  affinity(r[16])
+62          SeekGE         7     66    15    2              00  key=r[15..16]
+63            IdxGT          7     66    15    2              00  key=r[15..16]
+64            AggStep        0     0     2     count(0)       00  accum=r[2] step(r[0])
+65          Next           7     63    0                    00               
+66        Next           6     44    0                    00               
+67      Next           5     24    0                    00               
+68    Next           1     9     0                    01               
+69    AggFinal       2     0     0     count(0)       00  accum=r[2] N=0
+70    Copy           2     17    0                    00  r[17]=r[2]   
+71    ResultRow      17    1     0                    00  output=r[17] 
+72    DecrJumpZero   1     73    0                    00  if (--r[1])==0 goto 73
+73    Halt           0     0     0                    00               
+74    Transaction    0     0     28    0              01  usesStmtJournal=0
+75    Integer        7     4     0                    00  r[4]=7       
+76    Integer        20    10    0                    00  r[10]=20     
+77    Integer        30    11    0                    00  r[11]=30     
+78    String8        0     14    0     ese            00  r[14]='ese'  
+79    Goto           0     1     0                    00               

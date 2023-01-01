@@ -1,0 +1,49 @@
+                                                                                                                                                     QUERY PLAN                                                                                                                                                     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=460237052.07..460237058.57 rows=100 width=163)
+   ->  GroupAggregate  (cost=460237052.07..460237059.35 rows=112 width=163)
+         Group Key: ca.ca_state, customer_demographics.cd_gender, customer_demographics.cd_marital_status, customer_demographics.cd_dep_count, customer_demographics.cd_dep_employed_count, customer_demographics.cd_dep_college_count
+         ->  Sort  (cost=460237052.07..460237052.35 rows=112 width=19)
+               Sort Key: ca.ca_state NULLS FIRST, customer_demographics.cd_gender NULLS FIRST, customer_demographics.cd_marital_status NULLS FIRST, customer_demographics.cd_dep_count NULLS FIRST, customer_demographics.cd_dep_employed_count NULLS FIRST, customer_demographics.cd_dep_college_count NULLS FIRST
+               ->  Nested Loop  (cost=271462.95..460237048.26 rows=112 width=19)
+                     Join Filter: (c.c_current_cdemo_sk = customer_demographics.cd_demo_sk)
+                     ->  Seq Scan on customer_demographics  (cost=0.00..38759.00 rows=1920800 width=20)
+                     ->  Materialize  (cost=271462.95..456971345.54 rows=112 width=7)
+                           ->  Hash Join  (cost=271462.95..456971344.98 rows=112 width=7)
+                                 Hash Cond: (c.c_current_addr_sk = ca.ca_address_sk)
+                                 ->  Nested Loop Semi Join  (cost=3107.56..456679547.35 rows=112 width=8)
+                                       Join Filter: (c.c_customer_sk = store_sales.ss_customer_sk)
+                                       ->  Seq Scan on customer c  (cost=0.00..384071566.72 rows=112 width=12)
+                                             Filter: ((SubPlan 1) OR (SubPlan 2))
+                                             SubPlan 1
+                                               ->  Nested Loop  (cost=0.00..28482772.27 rows=25 width=0)
+                                                     Join Filter: (web_sales.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                                     ->  Seq Scan on web_sales  (cost=0.00..28452780.60 rows=6675 width=4)
+                                                           Filter: (c.c_customer_sk = ws_bill_customer_sk)
+                                                     ->  Materialize  (cost=0.00..2558.10 rows=274 width=4)
+                                                           ->  Seq Scan on date_dim date_dim_1  (cost=0.00..2556.73 rows=274 width=4)
+                                                                 Filter: ((d_qoy < 4) AND (d_year = 2002))
+                                             SubPlan 2
+                                               ->  Nested Loop  (cost=0.00..56846645.76 rows=40 width=0)
+                                                     Join Filter: (catalog_sales.cs_sold_date_sk = date_dim_2.d_date_sk)
+                                                     ->  Seq Scan on catalog_sales  (cost=0.00..56800136.00 rows=10694 width=4)
+                                                           Filter: (c.c_customer_sk = cs_ship_customer_sk)
+                                                     ->  Materialize  (cost=0.00..2558.10 rows=274 width=4)
+                                                           ->  Seq Scan on date_dim date_dim_2  (cost=0.00..2556.73 rows=274 width=4)
+                                                                 Filter: ((d_qoy < 4) AND (d_year = 2002))
+                                       ->  Materialize  (cost=3107.56..71962714.36 rows=10311118 width=4)
+                                             ->  Gather  (cost=3107.56..71870880.77 rows=10311118 width=4)
+                                                   Workers Planned: 2
+                                                   ->  Parallel Hash Join  (cost=2107.56..70838768.97 rows=4296299 width=4)
+                                                         Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                         ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=8)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=161 width=4)
+                                                               ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=161 width=4)
+                                                                     Filter: ((d_qoy < 4) AND (d_year = 2002))
+                                 ->  Hash  (cost=169918.84..169918.84 rows=5999884 width=7)
+                                       ->  Seq Scan on customer_address ca  (cost=0.00..169918.84 rows=5999884 width=7)
+ JIT:
+   Functions: 63
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(45 rows)
+

@@ -1,0 +1,31 @@
+                                                                                                                      QUERY PLAN                                                                                                                       
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=70920546.59..70920746.95 rows=80144 width=204)
+   Sort Key: item.i_category NULLS FIRST, item.i_class NULLS FIRST, item.i_item_id NULLS FIRST, item.i_item_desc NULLS FIRST, ((((sum(store_sales.ss_ext_sales_price)) * 100.0000) / sum((sum(store_sales.ss_ext_sales_price))) OVER (?))) NULLS FIRST
+   ->  WindowAgg  (cost=70904270.50..70906073.74 rows=80144 width=204)
+         ->  Sort  (cost=70904270.50..70904470.86 rows=80144 width=172)
+               Sort Key: item.i_class
+               ->  Finalize GroupAggregate  (cost=70864959.31..70890893.15 rows=80144 width=172)
+                     Group Key: item.i_item_id, item.i_item_desc, item.i_category, item.i_class, item.i_current_price
+                     ->  Gather Merge  (cost=70864959.31..70887086.31 rows=160288 width=172)
+                           Workers Planned: 2
+                           ->  Partial GroupAggregate  (cost=70863959.28..70867585.07 rows=80144 width=172)
+                                 Group Key: item.i_item_id, item.i_item_desc, item.i_category, item.i_class, item.i_current_price
+                                 ->  Sort  (cost=70863959.28..70864334.14 rows=149942 width=146)
+                                       Sort Key: item.i_item_id NULLS FIRST, item.i_item_desc NULLS FIRST, item.i_category NULLS FIRST, item.i_class NULLS FIRST, item.i_current_price
+                                       ->  Parallel Hash Join  (cost=17222.46..70839791.74 rows=149942 width=146)
+                                             Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                             ->  Parallel Hash Join  (cost=2105.79..70816501.71 rows=501758 width=10)
+                                                   Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                   ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=19 width=4)
+                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=19 width=4)
+                                                               Filter: ((d_date >= '1999-02-22'::date) AND (d_date <= '1999-03-24'::date))
+                                             ->  Parallel Hash  (cost=13882.75..13882.75 rows=37354 width=144)
+                                                   ->  Parallel Seq Scan on item  (cost=0.00..13882.75 rows=37354 width=144)
+                                                         Filter: ((i_category)::text = ANY ('{Sports,Books,Home}'::text[]))
+ JIT:
+   Functions: 35
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(27 rows)
+

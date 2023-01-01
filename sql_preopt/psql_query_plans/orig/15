@@ -1,0 +1,31 @@
+                                                                                                                                              QUERY PLAN                                                                                                                                              
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=47204099.95..47204112.23 rows=100 width=38)
+   ->  Finalize GroupAggregate  (cost=47204099.95..47204129.55 rows=241 width=38)
+         Group Key: customer_address.ca_zip
+         ->  Gather Merge  (cost=47204099.95..47204125.03 rows=200 width=38)
+               Workers Planned: 2
+               ->  Partial GroupAggregate  (cost=47203099.92..47203101.92 rows=100 width=38)
+                     Group Key: customer_address.ca_zip
+                     ->  Sort  (cost=47203099.92..47203100.17 rows=100 width=12)
+                           Sort Key: customer_address.ca_zip NULLS FIRST
+                           ->  Parallel Hash Join  (cost=146415.34..47203096.60 rows=100 width=12)
+                                 Hash Cond: (catalog_sales.cs_bill_customer_sk = customer.c_customer_sk)
+                                 Join Filter: (("substring"((customer_address.ca_zip)::text, 1, 5) = ANY ('{85669,86197,88274,83405,86475,85392,85460,80348,81792}'::text[])) OR ((customer_address.ca_state)::text = ANY ('{CA,WA,GA}'::text[])) OR (catalog_sales.cs_sales_price > '500'::numeric))
+                                 ->  Parallel Hash Join  (cost=2106.23..47055989.91 rows=743283 width=10)
+                                       Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim.d_date_sk)
+                                       ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=14)
+                                       ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=4)
+                                             ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=54 width=4)
+                                                   Filter: ((d_qoy = 2) AND (d_year = 2001))
+                                 ->  Parallel Hash  (cost=144308.34..144308.34 rows=62 width=13)
+                                       ->  Hash Join  (cost=13.38..144308.34 rows=62 width=13)
+                                             Hash Cond: (customer_address.ca_address_sk = customer.c_current_addr_sk)
+                                             ->  Parallel Seq Scan on customer_address  (cost=0.00..134919.52 rows=2499952 width=13)
+                                             ->  Hash  (cost=11.50..11.50 rows=150 width=8)
+                                                   ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=8)
+ JIT:
+   Functions: 40
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(27 rows)
+

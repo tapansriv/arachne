@@ -1,0 +1,327 @@
+{
+    "name": "LIMIT",
+    "timing": 0.0,
+    "cardinality": 0,
+    "extra_info": "",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.0,
+            "cardinality": 0,
+            "extra_info": "b1_lp\nb1_cnt\nb1_cntd\nb2_lp\nb2_cnt\nb2_cntd\nb3_lp\nb3_cnt\nb3_cntd\nb4_lp\nb4_cnt\nb4_cntd\nb5_lp\nb5_cnt\nb5_cntd\nb6_lp\nb6_cnt\nb6_cntd\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "CROSS_PRODUCT",
+                    "timing": 3e-06,
+                    "cardinality": 0,
+                    "extra_info": "",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "CROSS_PRODUCT",
+                            "timing": 4e-06,
+                            "cardinality": 0,
+                            "extra_info": "",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "CROSS_PRODUCT",
+                                    "timing": 3e-06,
+                                    "cardinality": 0,
+                                    "extra_info": "",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "CROSS_PRODUCT",
+                                            "timing": 3e-06,
+                                            "cardinality": 0,
+                                            "extra_info": "",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "CROSS_PRODUCT",
+                                                    "timing": 7e-06,
+                                                    "cardinality": 0,
+                                                    "extra_info": "",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 18.952776,
+                                                            "cardinality": 0,
+                                                            "extra_info": "avg(#0)\ncount(#1)\ncount(DISTINCT #2)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 4.563059,
+                                                                    "cardinality": 36588888,
+                                                                    "extra_info": "ss_list_price\nss_list_price\nss_list_price\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 5.653828,
+                                                                            "cardinality": 36588888,
+                                                                            "extra_info": "#0\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "FILTER",
+                                                                                    "timing": 41.134863,
+                                                                                    "cardinality": 36588888,
+                                                                                    "extra_info": "((ss_list_price>=122.000000 AND ss_list_price<=132.000000) OR (ss_coupon_amt>=836.000000 AND ss_coupon_amt<=1836.000000) OR (ss_wholesale_cost>=17.000000 AND ss_wholesale_cost<=37.000000))",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 336.706749,
+                                                                                            "cardinality": 137508426,
+                                                                                            "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=21 AND ss_quantity<=25 AND ss_quantity IS NOT NULL\n",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "HASH_GROUP_BY",
+                                                            "timing": 17.243081,
+                                                            "cardinality": 1,
+                                                            "extra_info": "avg(#0)\ncount(#1)\ncount(DISTINCT #2)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 4.560066,
+                                                                    "cardinality": 30256029,
+                                                                    "extra_info": "ss_list_price\nss_list_price\nss_list_price\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PROJECTION",
+                                                                            "timing": 5.61361,
+                                                                            "cardinality": 30256029,
+                                                                            "extra_info": "#0\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "FILTER",
+                                                                                    "timing": 36.795069,
+                                                                                    "cardinality": 30256029,
+                                                                                    "extra_info": "((ss_list_price>=154.000000 AND ss_list_price<=164.000000) OR (ss_coupon_amt>=7326.000000 AND ss_coupon_amt<=8326.000000) OR (ss_wholesale_cost>=7.000000 AND ss_wholesale_cost<=27.000000))",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 258.870262,
+                                                                                            "cardinality": 137512899,
+                                                                                            "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=26 AND ss_quantity<=30 AND ss_quantity IS NOT NULL\n",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 17.310354,
+                                                    "cardinality": 1,
+                                                    "extra_info": "avg(#0)\ncount(#1)\ncount(DISTINCT #2)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 4.538088,
+                                                            "cardinality": 31974551,
+                                                            "extra_info": "ss_list_price\nss_list_price\nss_list_price\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 5.548464,
+                                                                    "cardinality": 31974551,
+                                                                    "extra_info": "#0\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "FILTER",
+                                                                            "timing": 37.808665,
+                                                                            "cardinality": 31974551,
+                                                                            "extra_info": "((ss_list_price>=135.000000 AND ss_list_price<=145.000000) OR (ss_coupon_amt>=6071.000000 AND ss_coupon_amt<=7071.000000) OR (ss_wholesale_cost>=38.000000 AND ss_wholesale_cost<=58.000000))",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 250.942076,
+                                                                                    "cardinality": 137538398,
+                                                                                    "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=16 AND ss_quantity<=20 AND ss_quantity IS NOT NULL\n",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "HASH_GROUP_BY",
+                                            "timing": 17.419582,
+                                            "cardinality": 1,
+                                            "extra_info": "avg(#0)\ncount(#1)\ncount(DISTINCT #2)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 4.651939,
+                                                    "cardinality": 28321106,
+                                                    "extra_info": "ss_list_price\nss_list_price\nss_list_price\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 5.808019,
+                                                            "cardinality": 28321106,
+                                                            "extra_info": "#0\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "FILTER",
+                                                                    "timing": 36.945168,
+                                                                    "cardinality": 28321106,
+                                                                    "extra_info": "((ss_list_price>=142.000000 AND ss_list_price<=152.000000) OR (ss_coupon_amt>=12214.000000 AND ss_coupon_amt<=13214.000000) OR (ss_wholesale_cost>=79.000000 AND ss_wholesale_cost<=99.000000))",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 249.827215,
+                                                                            "cardinality": 137520986,
+                                                                            "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=11 AND ss_quantity<=15 AND ss_quantity IS NOT NULL\n",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing": 17.540035,
+                                    "cardinality": 1,
+                                    "extra_info": "avg(#0)\ncount(#1)\ncount(DISTINCT #2)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 4.521227,
+                                            "cardinality": 35566966,
+                                            "extra_info": "ss_list_price\nss_list_price\nss_list_price\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 5.595709,
+                                                    "cardinality": 35566966,
+                                                    "extra_info": "#0\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "FILTER",
+                                                            "timing": 38.628077,
+                                                            "cardinality": 35566966,
+                                                            "extra_info": "((ss_list_price>=90.000000 AND ss_list_price<=100.000000) OR (ss_coupon_amt>=2323.000000 AND ss_coupon_amt<=3323.000000) OR (ss_wholesale_cost>=31.000000 AND ss_wholesale_cost<=51.000000))",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PARQUET_SCAN",
+                                                                    "timing": 245.490992,
+                                                                    "cardinality": 137527251,
+                                                                    "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=6 AND ss_quantity<=10 AND ss_quantity IS NOT NULL\n",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "HASH_GROUP_BY",
+                            "timing": 17.540294,
+                            "cardinality": 1,
+                            "extra_info": "avg(#0)\ncount(#1)\ncount(DISTINCT #2)",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 4.515507,
+                                    "cardinality": 36666932,
+                                    "extra_info": "ss_list_price\nss_list_price\nss_list_price\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 5.581148,
+                                            "cardinality": 36666932,
+                                            "extra_info": "#0\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "FILTER",
+                                                    "timing": 37.651573,
+                                                    "cardinality": 36666932,
+                                                    "extra_info": "((ss_list_price>=8.000000 AND ss_list_price<=18.000000) OR (ss_coupon_amt>=459.000000 AND ss_coupon_amt<=1459.000000) OR (ss_wholesale_cost>=57.000000 AND ss_wholesale_cost<=77.000000))",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 245.044356,
+                                                            "cardinality": 137525855,
+                                                            "extra_info": "ss_list_price\nss_quantity\nss_coupon_amt\nss_wholesale_cost\n[INFOSEPARATOR]\nFilters: ss_quantity>=0 AND ss_quantity<=5 AND ss_quantity IS NOT NULL\n",
+                                                            "timings": [],
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

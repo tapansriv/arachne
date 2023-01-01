@@ -1,0 +1,188 @@
+{
+   "name":  "Query", 
+   "result": 119.612606,
+   "timing": 119.612606,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE results AS\n  (SELECT i_product_name ,\n          i_brand ,\n          i_class ,\n          i_category ,\n          inv_quantity_on_hand qoh\n   FROM 'inventory.parquet' AS inventory ,\n        'date_dim.parquet' AS date_dim ,\n        'item.parquet' AS item ,\n        'warehouse.parquet' AS warehouse\n   WHERE inv_date_sk=d_date_sk\n     AND inv_item_sk=i_item_sk\n     AND inv_warehouse_sk = w_warehouse_sk\n     AND d_month_seq BETWEEN 1200 AND 1200 + 11 )", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000951
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000194
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000151
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000129
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000412
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000039
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000018
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 0.917760
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 0.917756
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":70.133994,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.464928,
+         "cardinality":156000000,
+         "extra_info": "i_product_name\ni_brand\ni_class\ni_category\nqoh\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":10.135345,
+            "cardinality":156000000,
+            "extra_info": "INNER\ninv_item_sk=i_item_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":2.186817,
+               "cardinality":156000000,
+               "extra_info": "INNER\ninv_warehouse_sk=w_warehouse_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":5.423403,
+                  "cardinality":156000000,
+                  "extra_info": "INNER\ninv_date_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":28.134817,
+                     "cardinality":783000000,
+                     "extra_info": "inv_quantity_on_hand\ninv_date_sk\ninv_item_sk\ninv_warehouse_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.003381,
+                     "cardinality":732,
+                     "extra_info": "d_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.000129,
+                  "cardinality":40,
+                  "extra_info": "w_warehouse_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PARQUET_SCAN",
+               "timing":0.223082,
+               "cardinality":600000,
+               "extra_info": "i_product_name\ni_brand\ni_class\ni_category\ni_item_sk",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

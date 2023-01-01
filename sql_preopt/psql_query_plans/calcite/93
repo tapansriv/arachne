@@ -1,0 +1,28 @@
+                                                                                                                                                          QUERY PLAN                                                                                                                                                          
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=99154358.62..99154358.87 rows=100 width=36)
+   ->  Sort  (cost=99154358.62..99154441.89 rows=33310 width=36)
+         Sort Key: (sum(CASE WHEN (store_returns.sr_return_quantity IS NOT NULL) THEN (((store_sales.ss_quantity - store_returns.sr_return_quantity))::numeric * store_sales.ss_sales_price) ELSE ((store_sales.ss_quantity)::numeric * store_sales.ss_sales_price) END)) NULLS FIRST, store_sales.ss_customer_sk NULLS FIRST
+         ->  Finalize GroupAggregate  (cost=99148805.94..99153085.53 rows=33310 width=36)
+               Group Key: store_sales.ss_customer_sk
+               ->  Gather Merge  (cost=99148805.94..99152460.97 rows=27758 width=36)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=99147805.92..99148256.99 rows=13879 width=36)
+                           Group Key: store_sales.ss_customer_sk
+                           ->  Sort  (cost=99147805.92..99147840.62 rows=13879 width=18)
+                                 Sort Key: store_sales.ss_customer_sk NULLS FIRST
+                                 ->  Parallel Hash Join  (cost=6769396.11..99146851.00 rows=13879 width=18)
+                                       Hash Cond: ((store_sales.ss_item_sk = store_returns.sr_item_sk) AND (store_sales.ss_ticket_number = store_returns.sr_ticket_number))
+                                       ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=22)
+                                       ->  Parallel Hash  (cost=6733984.11..6733984.11 rows=1781000 width=12)
+                                             ->  Hash Join  (cost=1.82..6733984.11 rows=1781000 width=12)
+                                                   Hash Cond: (store_returns.sr_reason_sk = reason.r_reason_sk)
+                                                   ->  Parallel Seq Scan on store_returns  (cost=0.00..6266183.93 rows=119996893 width=16)
+                                                   ->  Hash  (cost=1.81..1.81 rows=1 width=4)
+                                                         ->  Seq Scan on reason  (cost=0.00..1.81 rows=1 width=4)
+                                                               Filter: ((r_reason_desc)::text = 'reason 28'::text)
+ JIT:
+   Functions: 31
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(24 rows)
+

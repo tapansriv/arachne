@@ -1,0 +1,36 @@
+                                                                 QUERY PLAN                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=52711846.54..52711846.54 rows=1 width=72)
+   ->  Sort  (cost=52711846.54..52711846.54 rows=1 width=72)
+         Sort Key: (count(DISTINCT ws1.ws_order_number))
+         ->  Aggregate  (cost=52711846.52..52711846.53 rows=1 width=72)
+               ->  Nested Loop Semi Join  (cost=2191780.51..52711846.51 rows=1 width=16)
+                     Join Filter: ((ws1.ws_warehouse_sk <> ws2.ws_warehouse_sk) AND (ws1.ws_order_number = ws2.ws_order_number))
+                     ->  Nested Loop  (cost=2191780.51..26055622.07 rows=1 width=20)
+                           Join Filter: (ws1.ws_web_site_sk = web_site.web_site_sk)
+                           ->  Nested Loop  (cost=2191780.51..26055618.29 rows=1 width=24)
+                                 Join Filter: (ws1.ws_ship_addr_sk = customer_address.ca_address_sk)
+                                 ->  Gather  (cost=2190780.51..25891804.35 rows=1 width=28)
+                                       Workers Planned: 2
+                                       ->  Parallel Hash Anti Join  (cost=2189780.51..25890804.25 rows=1 width=28)
+                                             Hash Cond: (ws1.ws_order_number = wr1.wr_order_number)
+                                             ->  Parallel Hash Join  (cost=2106.01..23581432.87 rows=258634 width=28)
+                                                   Hash Cond: (ws1.ws_ship_date_sk = date_dim.d_date_sk)
+                                                   ->  Parallel Seq Scan on web_sales ws1  (cost=0.00..22452814.20 rows=299998320 width=32)
+                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=37 width=4)
+                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=37 width=4)
+                                                               Filter: ((d_date >= '1999-02-01'::date) AND (d_date <= '1999-04-02'::date))
+                                             ->  Parallel Hash  (cost=1695481.33..1695481.33 rows=30000333 width=4)
+                                                   ->  Parallel Seq Scan on web_returns wr1  (cost=0.00..1695481.33 rows=30000333 width=4)
+                                 ->  Gather  (cost=1000.00..161409.00 rows=192396 width=4)
+                                       Workers Planned: 2
+                                       ->  Parallel Seq Scan on customer_address  (cost=0.00..141169.40 rows=80165 width=4)
+                                             Filter: ((ca_state)::text = 'IL'::text)
+                           ->  Seq Scan on web_site  (cost=0.00..3.67 rows=8 width=4)
+                                 Filter: ((web_company_name)::text = 'pri'::text)
+                     ->  Seq Scan on web_sales ws2  (cost=0.00..26652790.68 rows=719995968 width=8)
+ JIT:
+   Functions: 36
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(32 rows)
+

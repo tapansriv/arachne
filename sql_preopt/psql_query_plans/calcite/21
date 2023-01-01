@@ -1,0 +1,32 @@
+                                                                                                                                                                                                                                                                                                                                                                                                                QUERY PLAN                                                                                                                                                                                                                                                                                                                                                                                                                 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=8739706.41..8739862.54 rows=100 width=91)
+   ->  Finalize GroupAggregate  (cost=8739706.41..8746832.19 rows=4564 width=91)
+         Group Key: warehouse.w_warehouse_name, item.i_item_id
+         Filter: ((CASE WHEN (sum(inventory.inv_quantity_on_hand) FILTER (WHERE (date_dim.d_date < '2000-03-11'::date)) > 0) THEN ((((sum(inventory.inv_quantity_on_hand) FILTER (WHERE (date_dim.d_date >= '2000-03-11'::date)))::numeric * 1.000) / (sum(inventory.inv_quantity_on_hand) FILTER (WHERE (date_dim.d_date < '2000-03-11'::date)))::numeric))::numeric(19,8) ELSE NULL::numeric END >= 0.66666666666666666667) AND (CASE WHEN (sum(inventory.inv_quantity_on_hand) FILTER (WHERE (date_dim.d_date < '2000-03-11'::date)) > 0) THEN ((((sum(inventory.inv_quantity_on_hand) FILTER (WHERE (date_dim.d_date >= '2000-03-11'::date)))::numeric * 1.000) / (sum(inventory.inv_quantity_on_hand) FILTER (WHERE (date_dim.d_date < '2000-03-11'::date)))::numeric))::numeric(19,8) ELSE NULL::numeric END <= 1.5000000000000000))
+         ->  Gather Merge  (cost=8739706.41..8744128.07 rows=34230 width=91)
+               Workers Planned: 2
+               ->  Partial GroupAggregate  (cost=8738706.39..8739177.05 rows=17115 width=91)
+                     Group Key: warehouse.w_warehouse_name, item.i_item_id
+                     ->  Sort  (cost=8738706.39..8738749.18 rows=17115 width=83)
+                           Sort Key: warehouse.w_warehouse_name NULLS FIRST, item.i_item_id NULLS FIRST
+                           ->  Hash Join  (cost=16257.02..8737502.95 rows=17115 width=83)
+                                 Hash Cond: (inventory.inv_warehouse_sk = warehouse.w_warehouse_sk)
+                                 ->  Parallel Hash Join  (cost=16244.77..8737255.37 rows=17115 width=29)
+                                       Hash Cond: (inventory.inv_item_sk = item.i_item_sk)
+                                       ->  Parallel Hash Join  (cost=2105.99..8722040.38 rows=267971 width=16)
+                                             Hash Cond: (inventory.inv_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on inventory  (cost=0.00..7494933.53 rows=326250053 width=16)
+                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=35 width=8)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=35 width=8)
+                                                         Filter: ((d_date >= '2000-02-10'::date) AND (d_date <= '2000-04-10'::date))
+                                       ->  Parallel Hash  (cost=14039.00..14039.00 rows=7983 width=21)
+                                             ->  Parallel Seq Scan on item  (cost=0.00..14039.00 rows=7983 width=21)
+                                                   Filter: ((i_current_price >= 0.99) AND (i_current_price <= 1.49))
+                                 ->  Hash  (cost=11.00..11.00 rows=100 width=62)
+                                       ->  Seq Scan on warehouse  (cost=0.00..11.00 rows=100 width=62)
+ JIT:
+   Functions: 41
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(28 rows)
+

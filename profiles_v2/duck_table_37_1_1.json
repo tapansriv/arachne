@@ -1,0 +1,52 @@
+{
+   "name":  "Query", 
+   "result": 1.188984,
+   "timing": 1.188984,
+   "cardinality": 4,
+   "extra-info": "SELECT "i_item_id", "i_item_desc", "i_current_price"\nFROM "duck_table_37_0"\nGROUP BY "i_item_id", "i_item_desc", "i_current_price"\nORDER BY "i_item_id"\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000025,
+      "cardinality":4,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.817697,
+         "cardinality":4,
+         "extra_info": "#0\n#1\n#2",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.001209,
+            "cardinality":2807894,
+            "extra_info": "i_item_id\ni_item_desc\ni_current_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "SEQ_SCAN",
+               "timing":0.368448,
+               "cardinality":2807894,
+               "extra_info": "duck_table_37_0\n[INFOSEPARATOR]\ni_item_id\ni_item_desc\ni_current_price",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

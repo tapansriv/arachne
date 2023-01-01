@@ -1,0 +1,52 @@
+                                                                                                                                                                                                                                                                                                                                 QUERY PLAN                                                                                                                                                                                                                                                                                                                                  
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=33627139.52..33627139.53 rows=1 width=142)
+   ->  Sort  (cost=33627139.52..33627139.53 rows=1 width=142)
+         Sort Key: ("substring"((reason.r_reason_desc)::text, 1, 20)), (avg(web_sales.ws_quantity)), (avg(web_returns.wr_refunded_cash)), (avg(web_returns.wr_fee))
+         ->  Finalize GroupAggregate  (cost=33627139.20..33627139.51 rows=1 width=142)
+               Group Key: reason.r_reason_desc
+               ->  Gather Merge  (cost=33627139.20..33627139.46 rows=2 width=110)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=33626139.18..33626139.21 rows=1 width=110)
+                           Group Key: reason.r_reason_desc
+                           ->  Sort  (cost=33626139.18..33626139.18 rows=1 width=30)
+                                 Sort Key: reason.r_reason_desc
+                                 ->  Nested Loop  (cost=33455196.98..33626139.17 rows=1 width=30)
+                                       Join Filter: (web_returns.wr_reason_sk = reason.r_reason_sk)
+                                       ->  Parallel Hash Join  (cost=33455196.98..33626136.70 rows=1 width=20)
+                                             Hash Cond: (customer_address.ca_address_sk = web_returns.wr_refunded_addr_sk)
+                                             Join Filter: ((((customer_address.ca_state)::text = ANY ('{IN,OH,NJ}'::text[])) AND (web_sales.ws_net_profit >= '100'::numeric) AND (web_sales.ws_net_profit <= '200'::numeric)) OR (((customer_address.ca_state)::text = ANY ('{WI,CT,KY}'::text[])) AND (web_sales.ws_net_profit >= '150'::numeric) AND (web_sales.ws_net_profit <= '300'::numeric)) OR (((customer_address.ca_state)::text = ANY ('{LA,IA,AR}'::text[])) AND (web_sales.ws_net_profit >= '50'::numeric) AND (web_sales.ws_net_profit <= '250'::numeric)))
+                                             ->  Parallel Seq Scan on customer_address  (cost=0.00..169293.85 rows=438889 width=7)
+                                                   Filter: (((ca_country)::text = 'United States'::text) AND (((ca_state)::text = ANY ('{IN,OH,NJ}'::text[])) OR ((ca_state)::text = ANY ('{WI,CT,KY}'::text[])) OR ((ca_state)::text = ANY ('{LA,IA,AR}'::text[]))))
+                                             ->  Parallel Hash  (cost=33455196.97..33455196.97 rows=1 width=30)
+                                                   ->  Parallel Hash Join  (cost=33418638.88..33455196.97 rows=1 width=30)
+                                                         Hash Cond: ((cd2.cd_demo_sk = web_returns.wr_returning_cdemo_sk) AND ((cd2.cd_marital_status)::text = (cd1.cd_marital_status)::text) AND ((cd2.cd_education_status)::text = (cd1.cd_education_status)::text))
+                                                         ->  Parallel Seq Scan on customer_demographics cd2  (cost=0.00..27554.33 rows=800333 width=16)
+                                                         ->  Parallel Hash  (cost=33418638.86..33418638.86 rows=1 width=46)
+                                                               ->  Parallel Hash Join  (cost=31553608.55..33418638.86 rows=1 width=46)
+                                                                     Hash Cond: ((web_returns.wr_item_sk = web_sales.ws_item_sk) AND (web_returns.wr_order_number = web_sales.ws_order_number))
+                                                                     Join Filter: ((((cd1.cd_marital_status)::text = 'M'::text) AND ((cd1.cd_education_status)::text = 'Advanced Degree'::text) AND (web_sales.ws_sales_price >= 100.00) AND (web_sales.ws_sales_price <= 150.00)) OR (((cd1.cd_marital_status)::text = 'S'::text) AND ((cd1.cd_education_status)::text = 'College'::text) AND (web_sales.ws_sales_price >= 50.00) AND (web_sales.ws_sales_price <= 100.00)) OR (((cd1.cd_marital_status)::text = 'W'::text) AND ((cd1.cd_education_status)::text = '2 yr Degree'::text) AND (web_sales.ws_sales_price >= 150.00) AND (web_sales.ws_sales_price <= 200.00)))
+                                                                     ->  Parallel Hash Join  (cost=40384.16..1858202.57 rows=2360593 width=44)
+                                                                           Hash Cond: (web_returns.wr_refunded_cdemo_sk = cd1.cd_demo_sk)
+                                                                           ->  Parallel Seq Scan on web_returns  (cost=0.00..1695481.33 rows=30000333 width=36)
+                                                                           ->  Parallel Hash  (cost=39559.33..39559.33 rows=65986 width=16)
+                                                                                 ->  Parallel Seq Scan on customer_demographics cd1  (cost=0.00..39559.33 rows=65986 width=16)
+                                                                                       Filter: ((((cd_marital_status)::text = 'M'::text) AND ((cd_education_status)::text = 'Advanced Degree'::text)) OR (((cd_marital_status)::text = 'S'::text) AND ((cd_education_status)::text = 'College'::text)) OR (((cd_marital_status)::text = 'W'::text) AND ((cd_education_status)::text = '2 yr Degree'::text)))
+                                                                     ->  Parallel Hash  (cost=31512113.42..31512113.42 rows=74065 width=24)
+                                                                           ->  Hash Join  (cost=2114.30..31512113.42 rows=74065 width=24)
+                                                                                 Hash Cond: (web_sales.ws_web_page_sk = web_page.wp_web_page_sk)
+                                                                                 ->  Parallel Hash Join  (cost=2000.80..31510981.36 rows=74109 width=28)
+                                                                                       Hash Cond: (web_sales.ws_sold_date_sk = date_dim.d_date_sk)
+                                                                                       ->  Parallel Seq Scan on web_sales  (cost=0.00..31452763.80 rows=14874949 width=32)
+                                                                                             Filter: ((((ws_sales_price >= 100.00) AND (ws_sales_price <= 150.00)) OR ((ws_sales_price >= 50.00) AND (ws_sales_price <= 100.00)) OR ((ws_sales_price >= 150.00) AND (ws_sales_price <= 200.00))) AND (((ws_net_profit >= '100'::numeric) AND (ws_net_profit <= '200'::numeric)) OR ((ws_net_profit >= '150'::numeric) AND (ws_net_profit <= '300'::numeric)) OR ((ws_net_profit >= '50'::numeric) AND (ws_net_profit <= '250'::numeric))))
+                                                                                       ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                                                                             ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                                                                                   Filter: (d_year = 2000)
+                                                                                 ->  Hash  (cost=76.00..76.00 rows=3000 width=4)
+                                                                                       ->  Seq Scan on web_page  (cost=0.00..76.00 rows=3000 width=4)
+                                       ->  Seq Scan on reason  (cost=0.00..1.65 rows=65 width=18)
+ JIT:
+   Functions: 84
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(48 rows)
+

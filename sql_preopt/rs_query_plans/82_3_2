@@ -1,0 +1,18 @@
+XN Limit  (cost=1000160409869.61..1000160409869.86 rows=100 width=124)
+  ->  XN Merge  (cost=1000160409869.61..1000160409883.43 rows=5526 width=124)
+        Merge Key: rs_table_82_0.i_item_id
+        ->  XN Network  (cost=1000160409869.61..1000160409883.43 rows=5526 width=124)
+              Send to leader
+              ->  XN Sort  (cost=1000160409869.61..1000160409883.43 rows=5526 width=124)
+                    Sort Key: rs_table_82_0.i_item_id
+                    ->  XN HashAggregate  (cost=160409526.12..160409526.12 rows=5526 width=124)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=6962339.62..160406285.35 rows=432102 width=124)
+                                Hash Cond: ("outer".ss_item_sk = "inner".i_item_sk)
+                                ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2879987968 width=4)
+                                ->  XN Hash  (cost=6962339.51..6962339.51 rows=44 width=128)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=1095.88..6962339.51 rows=44 width=128)
+                                            Hash Cond: ("outer".inv_date_sk = "inner".d_date_sk)
+                                            ->  XN Seq Scan on rs_table_82_0  (cost=0.00..552.53 rows=55253 width=132)
+                                            ->  XN Hash  (cost=1095.73..1095.73 rows=58 width=4)
+                                                  ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=58 width=4)
+                                                        Filter: ((d_date >= '2000-05-25'::date) AND (d_date <= '2000-07-24'::date))

@@ -1,0 +1,8 @@
+XN Merge  (cost=1000000000054.69..1000000000055.17 rows=189 width=80)
+  Merge Key: sum(cr_net_loss)
+  ->  XN Network  (cost=1000000000054.69..1000000000055.17 rows=189 width=80)
+        Send to leader
+        ->  XN Sort  (cost=1000000000054.69..1000000000055.17 rows=189 width=80)
+              Sort Key: sum(cr_net_loss)
+              ->  XN HashAggregate  (cost=47.08..47.55 rows=189 width=80)
+                    ->  XN Seq Scan on rs_table_91_0  (cost=0.00..18.83 rows=1883 width=80)

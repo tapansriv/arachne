@@ -1,0 +1,66 @@
+                                                                                            QUERY PLAN                                                                                            
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=143917953.29..143917953.54 rows=100 width=172)
+   CTE results
+     ->  GroupAggregate  (cost=143874650.17..143917913.83 rows=100 width=58)
+           Group Key: store.s_state, store.s_county
+           ->  Sort  (cost=143874650.17..143885465.77 rows=4326241 width=24)
+                 Sort Key: store.s_state, store.s_county
+                 ->  Hash Join  (cost=70954184.89..143220347.12 rows=4326241 width=24)
+                       Hash Cond: ((store.s_state)::text = (tmp1.s_state)::text)
+                       ->  Gather  (cost=3168.77..72228215.36 rows=13043813 width=24)
+                             Workers Planned: 2
+                             ->  Hash Join  (cost=2168.77..70922834.06 rows=5434922 width=24)
+                                   Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                   ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                         Hash Cond: (store_sales.ss_sold_date_sk = d1.d_date_sk)
+                                         ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                               ->  Parallel Seq Scan on date_dim d1  (cost=0.00..2105.55 rows=214 width=4)
+                                                     Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                   ->  Hash  (cost=48.02..48.02 rows=1002 width=22)
+                                         ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=22)
+                       ->  Hash  (cost=70951016.04..70951016.04 rows=7 width=3)
+                             ->  Subquery Scan on tmp1  (cost=70951015.35..70951016.04 rows=7 width=3)
+                                   Filter: (tmp1.ranking <= 5)
+                                   ->  WindowAgg  (cost=70951015.35..70951015.77 rows=21 width=43)
+                                         ->  Sort  (cost=70951015.35..70951015.41 rows=21 width=35)
+                                               Sort Key: store_1.s_state, (sum(store_sales_1.ss_net_profit)) DESC
+                                               ->  Finalize GroupAggregate  (cost=70951009.41..70951014.89 rows=21 width=35)
+                                                     Group Key: store_1.s_state
+                                                     ->  Gather Merge  (cost=70951009.41..70951014.31 rows=42 width=35)
+                                                           Workers Planned: 2
+                                                           ->  Sort  (cost=70950009.39..70950009.44 rows=21 width=35)
+                                                                 Sort Key: store_1.s_state
+                                                                 ->  Partial HashAggregate  (cost=70950008.67..70950008.93 rows=21 width=35)
+                                                                       Group Key: store_1.s_state
+                                                                       ->  Hash Join  (cost=2168.77..70922834.06 rows=5434922 width=9)
+                                                                             Hash Cond: (store_sales_1.ss_store_sk = store_1.s_store_sk)
+                                                                             ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                                   Hash Cond: (store_sales_1.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                                   ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                               Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                             ->  Hash  (cost=48.02..48.02 rows=1002 width=7)
+                                                                                   ->  Seq Scan on store store_1  (cost=0.00..48.02 rows=1002 width=7)
+   ->  Sort  (cost=39.46..39.97 rows=201 width=172)
+         Sort Key: results_rollup.lochierarchy DESC, (CASE WHEN (results_rollup.lochierarchy = 0) THEN results_rollup.s_state ELSE NULL::character varying END), (rank() OVER (?))
+         ->  WindowAgg  (cost=26.25..31.78 rows=201 width=172)
+               ->  Sort  (cost=26.25..26.76 rows=201 width=132)
+                     Sort Key: results_rollup.lochierarchy, (CASE WHEN (results_rollup.g_county = 0) THEN results_rollup.s_state ELSE NULL::character varying END), results_rollup.total_sum DESC
+                     ->  Subquery Scan on results_rollup  (cost=14.04..18.57 rows=201 width=132)
+                           ->  HashAggregate  (cost=14.04..16.05 rows=201 width=108)
+                                 Group Key: results.total_sum, results.s_state, results.s_county, (0), (0), (0)
+                                 ->  Append  (cost=0.00..11.03 rows=201 width=108)
+                                       ->  CTE Scan on results  (cost=0.00..2.00 rows=100 width=134)
+                                       ->  HashAggregate  (cost=2.50..3.75 rows=100 width=88)
+                                             Group Key: results_1.s_state
+                                             ->  CTE Scan on results results_1  (cost=0.00..2.00 rows=100 width=44)
+                                       ->  Aggregate  (cost=2.25..2.26 rows=1 width=108)
+                                             ->  CTE Scan on results results_2  (cost=0.00..2.00 rows=100 width=32)
+ JIT:
+   Functions: 78
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(62 rows)
+

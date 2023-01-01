@@ -1,0 +1,3 @@
+XN Limit  (cost=14456080.81..14456080.82 rows=1 width=3)
+  ->  XN Aggregate  (cost=14456080.81..14456080.82 rows=1 width=3)
+        ->  XN Seq Scan on rs_table_97_0  (cost=0.00..8260617.60 rows=826061760 width=3)

@@ -1,0 +1,38 @@
+                                                                                                                                                                   QUERY PLAN                                                                                                                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=70830038.40..70830042.43 rows=1610 width=194)
+   Sort Key: (count(*)) DESC, customer.c_last_name
+   ->  Hash Join  (cost=70827397.29..70829952.65 rows=1610 width=194)
+         Hash Cond: (store_sales.ss_customer_sk = customer.c_customer_sk)
+         ->  Finalize GroupAggregate  (cost=70827383.92..70829893.67 rows=2146 width=16)
+               Group Key: store_sales.ss_ticket_number, store_sales.ss_customer_sk
+               Filter: ((count(*) >= 1) AND (count(*) <= 5))
+               ->  Gather Merge  (cost=70827383.92..70829402.76 rows=16096 width=16)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=70826383.90..70826544.86 rows=8048 width=16)
+                           Group Key: store_sales.ss_ticket_number, store_sales.ss_customer_sk
+                           ->  Sort  (cost=70826383.90..70826404.02 rows=8048 width=8)
+                                 Sort Key: store_sales.ss_ticket_number, store_sales.ss_customer_sk
+                                 ->  Hash Join  (cost=2611.82..70825861.80 rows=8048 width=8)
+                                       Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                       ->  Hash Join  (cost=2557.33..70825456.18 rows=72177 width=12)
+                                             Hash Cond: (store_sales.ss_hdemo_sk = household_demographics.hd_demo_sk)
+                                             ->  Parallel Hash Join  (cost=2267.21..70820269.51 rows=1113275 width=16)
+                                                   Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                   ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=20)
+                                                   ->  Parallel Hash  (cost=2266.69..2266.69 rows=42 width=4)
+                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2266.69 rows=42 width=4)
+                                                               Filter: ((d_dom >= 1) AND (d_dom <= 2) AND (d_year = ANY ('{1999,2000,2001}'::integer[])))
+                                             ->  Hash  (cost=284.00..284.00 rows=489 width=4)
+                                                   ->  Seq Scan on household_demographics  (cost=0.00..284.00 rows=489 width=4)
+                                                         Filter: ((hd_vehicle_count > 0) AND (((hd_buy_potential)::text = 'Unknown'::text) OR ((hd_buy_potential)::text = '>10000'::text)) AND (CASE WHEN (hd_vehicle_count > 0) THEN (((hd_dep_count)::numeric * 1.000) / (hd_vehicle_count)::numeric) ELSE NULL::numeric END > '1'::numeric))
+                                       ->  Hash  (cost=53.03..53.03 rows=117 width=4)
+                                             ->  Seq Scan on store  (cost=0.00..53.03 rows=117 width=4)
+                                                   Filter: ((s_county)::text = ANY ('{"Orange County","Bronx County","Franklin Parish","Williamson County"}'::text[]))
+         ->  Hash  (cost=11.50..11.50 rows=150 width=186)
+               ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=186)
+ JIT:
+   Functions: 46
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(34 rows)
+

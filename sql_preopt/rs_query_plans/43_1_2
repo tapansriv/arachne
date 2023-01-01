@@ -1,0 +1,9 @@
+XN Limit  (cost=1000008723197.72..1000008723197.97 rows=100 width=83)
+  ->  XN Merge  (cost=1000008723197.72..1000008723203.87 rows=2460 width=83)
+        Merge Key: s_store_name, s_store_id, sum("$f2"), sum("$f3"), sum("$f4"), sum("$f5"), sum("$f6"), sum("$f7"), sum("$f8")
+        ->  XN Network  (cost=1000008723197.72..1000008723203.87 rows=2460 width=83)
+              Send to leader
+              ->  XN Sort  (cost=1000008723197.72..1000008723203.87 rows=2460 width=83)
+                    Sort Key: s_store_name, s_store_id, sum("$f2"), sum("$f3"), sum("$f4"), sum("$f5"), sum("$f6"), sum("$f7"), sum("$f8")
+                    ->  XN HashAggregate  (cost=8723016.12..8723059.17 rows=2460 width=83)
+                          ->  XN Seq Scan on rs_table_43_0  (cost=0.00..2684004.96 rows=268400496 width=83)

@@ -1,0 +1,63 @@
+{
+   "name":  "Query", 
+   "result": 0.050074,
+   "timing": 0.050074,
+   "cardinality": 0,
+   "extra-info": "\nSELECT inv1.w_warehouse_sk wsk1,\n       inv1.i_item_sk isk1,\n       inv1.d_moy dmoy1,\n       inv1.mean mean1,\n       inv1.cov cov1,\n       inv2.w_warehouse_sk,\n       inv2.i_item_sk,\n       inv2.d_moy,\n       inv2.mean,\n       inv2.cov\nFROM inv inv1,\n     inv inv2\nWHERE inv1.i_item_sk = inv2.i_item_sk\n  AND inv1.w_warehouse_sk = inv2.w_warehouse_sk\n  AND inv1.d_moy=1\n  AND inv2.d_moy=1+1\nORDER BY inv1.w_warehouse_sk NULLS FIRST,\n         inv1.i_item_sk NULLS FIRST,\n         inv1.d_moy NULLS FIRST,\n         inv1.mean NULLS FIRST,\n         inv1.cov NULLS FIRST,\n         inv2.d_moy NULLS FIRST,\n         inv2.mean NULLS FIRST,\n         inv2.cov NULLS FIRST", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "ORDER_BY",
+      "timing":0.002032,
+      "cardinality":0,
+      "extra_info": "#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC\n#4 ASC\n#7 ASC\n#8 ASC\n#9 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000332,
+         "cardinality":14796,
+         "extra_info": "wsk1\nisk1\ndmoy1\nmean1\ncov1\nw_warehouse_sk\ni_item_sk\nd_moy\nmean\ncov\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.020564,
+            "cardinality":14796,
+            "extra_info": "INNER\nw_warehouse_sk=w_warehouse_sk\ni_item_sk=i_item_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "SEQ_SCAN",
+               "timing":0.005056,
+               "cardinality":209392,
+               "extra_info": "inv\n[INFOSEPARATOR]\nw_warehouse_sk\ni_item_sk\nd_moy\nmean\ncov\n[INFOSEPARATOR]\nFilters: d_moy=1 AND d_moy IS NOT NULL\n",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+,
+             {
+               "name": "SEQ_SCAN",
+               "timing":0.017131,
+               "cardinality":420210,
+               "extra_info": "inv\n[INFOSEPARATOR]\nw_warehouse_sk\ni_item_sk\nd_moy\nmean\ncov\n[INFOSEPARATOR]\nFilters: d_moy=2 AND d_moy IS NOT NULL\n",
+               "timings": [
+               ],
+               "children": [
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

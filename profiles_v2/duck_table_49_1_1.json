@@ -1,0 +1,611 @@
+{
+   "name":  "Query", 
+   "result": 1890.109277,
+   "timing": 1890.109277,
+   "cardinality": 100,
+   "extra-info": "SELECT *\nFROM (SELECT *\nFROM (SELECT 'web' AS "channel", "item", "return_ratio", "return_rank", "currency_rank"\nFROM (SELECT "t9"."item", CAST("t9"."$f1" AS DECIMAL(15, 4)) / CAST("t9"."$f2" AS DECIMAL(15, 4)) AS "return_ratio", CAST("t9"."$f3" AS DECIMAL(15, 4)) / CAST("t9"."$f4" AS DECIMAL(15, 4)) AS "currency_ratio", RANK() OVER (ORDER BY CAST("t9"."$f1" AS DECIMAL(15, 4)) / CAST("t9"."$f2" AS DECIMAL(15, 4))) AS "return_rank", RANK() OVER (ORDER BY CAST("t9"."$f3" AS DECIMAL(15, 4)) / CAST("t9"."$f4" AS DECIMAL(15, 4))) AS "currency_rank"\nFROM (SELECT "t4"."ws_item_sk" AS "item", SUM("t4"."CASE") AS "$f1", SUM("t4"."ws_quantity") AS "$f2", SUM("t4"."CASE5") AS "$f3", SUM("t4"."ws_net_paid") AS "$f4"\nFROM (SELECT "t"."ws_sold_date_sk", "t"."ws_item_sk", "t"."ws_quantity", "t"."ws_net_paid", CASE WHEN "t1"."CAST16" IS NOT NULL THEN CAST("t1"."CAST16" AS INTEGER) ELSE 0 END AS "CASE", CASE WHEN "t1"."CAST17" IS NOT NULL THEN CAST("t1"."CAST17" AS DECIMAL(19, 0)) ELSE 0 END AS "CASE5"\nFROM (SELECT *\nFROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales\nWHERE "ws_net_profit" > 1 AND "ws_net_paid" > 0 AND "ws_quantity" > 0) AS "t"\nINNER JOIN (SELECT "wr_item_sk", "wr_order_number", CAST("wr_returned_date_sk" AS INTEGER) AS "CAST", CAST("wr_returned_time_sk" AS INTEGER) AS "CAST3", CAST("wr_item_sk" AS INTEGER) AS "CAST4", CAST("wr_refunded_customer_sk" AS INTEGER) AS "CAST5", CAST("wr_refunded_cdemo_sk" AS INTEGER) AS "CAST6", CAST("wr_refunded_hdemo_sk" AS INTEGER) AS "CAST7", CAST("wr_refunded_addr_sk" AS INTEGER) AS "CAST8", CAST("wr_returning_customer_sk" AS INTEGER) AS "CAST9", CAST("wr_returning_cdemo_sk" AS INTEGER) AS "CAST10", CAST("wr_returning_hdemo_sk" AS INTEGER) AS "CAST11", CAST("wr_returning_addr_sk" AS INTEGER) AS "CAST12", CAST("wr_web_page_sk" AS INTEGER) AS "CAST13", CAST("wr_reason_sk" AS INTEGER) AS "CAST14", CAST("wr_order_number" AS INTEGER) AS "CAST15", CAST("wr_return_quantity" AS INTEGER) AS "CAST16", CAST("wr_return_amt" AS DECIMAL(19, 0)) AS "CAST17", CAST("wr_return_tax" AS DECIMAL(19, 0)) AS "CAST18", CAST("wr_return_amt_inc_tax" AS DECIMAL(19, 0)) AS "CAST19", CAST("wr_fee" AS DECIMAL(19, 0)) AS "CAST20", CAST("wr_return_ship_cost" AS DECIMAL(19, 0)) AS "CAST21", CAST("wr_refunded_cash" AS DECIMAL(19, 0)) AS "CAST22", CAST("wr_reversed_charge" AS DECIMAL(19, 0)) AS "CAST23", CAST("wr_account_credit" AS DECIMAL(19, 0)) AS "CAST24", CAST("wr_net_loss" AS DECIMAL(19, 0)) AS "CAST25"\nFROM '/mnt/disks/tpcds/parquet/web_returns.parquet' AS web_returns\nWHERE "wr_return_amt" > 10000) AS "t1" ON "t"."ws_order_number" = "t1"."wr_order_number" AND "t"."ws_item_sk" = "t1"."wr_item_sk") AS "t4"\nINNER JOIN (SELECT "d_date_sk"\nFROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim\nWHERE "d_year" = 2001 AND "d_moy" = 12) AS "t7" ON "t4"."ws_sold_date_sk" = "t7"."d_date_sk"\nGROUP BY "t4"."ws_item_sk") AS "t9") AS "t10"\nWHERE "return_rank" <= 10 OR "currency_rank" <= 10\nUNION\nSELECT 'catalog' AS "channel", "item", "return_ratio", "return_rank", "currency_rank"\nFROM (SELECT "t24"."item", CAST("t24"."$f1" AS DECIMAL(15, 4)) / CAST("t24"."$f2" AS DECIMAL(15, 4)) AS "return_ratio", CAST("t24"."$f3" AS DECIMAL(15, 4)) / CAST("t24"."$f4" AS DECIMAL(15, 4)) AS "currency_ratio", RANK() OVER (ORDER BY CAST("t24"."$f1" AS DECIMAL(15, 4)) / CAST("t24"."$f2" AS DECIMAL(15, 4))) AS "return_rank", RANK() OVER (ORDER BY CAST("t24"."$f3" AS DECIMAL(15, 4)) / CAST("t24"."$f4" AS DECIMAL(15, 4))) AS "currency_rank"\nFROM (SELECT "t19"."cs_item_sk" AS "item", SUM("t19"."CASE") AS "$f1", SUM("t19"."cs_quantity") AS "$f2", SUM("t19"."CASE5") AS "$f3", SUM("t19"."cs_net_paid") AS "$f4"\nFROM (SELECT "t14"."cs_sold_date_sk", "t14"."cs_item_sk", "t14"."cs_quantity", "t14"."cs_net_paid", CASE WHEN "t16"."CAST19" IS NOT NULL THEN CAST("t16"."CAST19" AS INTEGER) ELSE 0 END AS "CASE", CASE WHEN "t16"."CAST20" IS NOT NULL THEN CAST("t16"."CAST20" AS DECIMAL(19, 0)) ELSE 0 END AS "CASE5"\nFROM (SELECT *\nFROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales\nWHERE "cs_net_profit" > 1 AND "cs_net_paid" > 0 AND "cs_quantity" > 0) AS "t14"\nINNER JOIN (SELECT "cr_item_sk", "cr_order_number", CAST("cr_returned_date_sk" AS INTEGER) AS "CAST", CAST("cr_returned_time_sk" AS INTEGER) AS "CAST3", CAST("cr_item_sk" AS INTEGER) AS "CAST4", CAST("cr_refunded_customer_sk" AS INTEGER) AS "CAST5", CAST("cr_refunded_cdemo_sk" AS INTEGER) AS "CAST6", CAST("cr_refunded_hdemo_sk" AS INTEGER) AS "CAST7", CAST("cr_refunded_addr_sk" AS INTEGER) AS "CAST8", CAST("cr_returning_customer_sk" AS INTEGER) AS "CAST9", CAST("cr_returning_cdemo_sk" AS INTEGER) AS "CAST10", CAST("cr_returning_hdemo_sk" AS INTEGER) AS "CAST11", CAST("cr_returning_addr_sk" AS INTEGER) AS "CAST12", CAST("cr_call_center_sk" AS INTEGER) AS "CAST13", CAST("cr_catalog_page_sk" AS INTEGER) AS "CAST14", CAST("cr_ship_mode_sk" AS INTEGER) AS "CAST15", CAST("cr_warehouse_sk" AS INTEGER) AS "CAST16", CAST("cr_reason_sk" AS INTEGER) AS "CAST17", CAST("cr_order_number" AS INTEGER) AS "CAST18", CAST("cr_return_quantity" AS INTEGER) AS "CAST19", CAST("cr_return_amount" AS DECIMAL(19, 0)) AS "CAST20", CAST("cr_return_tax" AS DECIMAL(19, 0)) AS "CAST21", CAST("cr_return_amt_inc_tax" AS DECIMAL(19, 0)) AS "CAST22", CAST("cr_fee" AS DECIMAL(19, 0)) AS "CAST23", CAST("cr_return_ship_cost" AS DECIMAL(19, 0)) AS "CAST24", CAST("cr_refunded_cash" AS DECIMAL(19, 0)) AS "CAST25", CAST("cr_reversed_charge" AS DECIMAL(19, 0)) AS "CAST26", CAST("cr_store_credit" AS DECIMAL(19, 0)) AS "CAST27", CAST("cr_net_loss" AS DECIMAL(19, 0)) AS "CAST28"\nFROM '/mnt/disks/tpcds/parquet/catalog_returns.parquet' AS catalog_returns\nWHERE "cr_return_amount" > 10000) AS "t16" ON "t14"."cs_order_number" = "t16"."cr_order_number" AND "t14"."cs_item_sk" = "t16"."cr_item_sk") AS "t19"\nINNER JOIN (SELECT "d_date_sk"\nFROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim\nWHERE "d_year" = 2001 AND "d_moy" = 12) AS "t22" ON "t19"."cs_sold_date_sk" = "t22"."d_date_sk"\nGROUP BY "t19"."cs_item_sk") AS "t24") AS "t25"\nWHERE "return_rank" <= 10 OR "currency_rank" <= 10) AS "t"\nUNION\nSELECT 'store' AS "channel", "item", "return_ratio", "return_rank", "currency_rank"\nFROM (SELECT "item", CAST("$f1" AS DECIMAL(15, 4)) / CAST("$f2" AS DECIMAL(15, 4)) AS "return_ratio", CAST("$f3" AS DECIMAL(15, 4)) / CAST("$f4" AS DECIMAL(15, 4)) AS "currency_ratio", RANK() OVER (ORDER BY CAST("$f1" AS DECIMAL(15, 4)) / CAST("$f2" AS DECIMAL(15, 4))) AS "return_rank", RANK() OVER (ORDER BY CAST("$f3" AS DECIMAL(15, 4)) / CAST("$f4" AS DECIMAL(15, 4))) AS "currency_rank"\nFROM "duck_table_49_0") AS "t30"\nWHERE "return_rank" <= 10 OR "currency_rank" <= 10) AS "t34"\nORDER BY "channel" NULLS FIRST, "return_rank" NULLS FIRST, "currency_rank" NULLS FIRST, "item" NULLS FIRST\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.002619
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000027
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000768
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000035
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000550
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000053
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.001065
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000051
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000133
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000033
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000071
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.425348
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.425286
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000214,
+      "cardinality":100,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#3 ASC\n#4 ASC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.000271,
+         "cardinality":969,
+         "extra_info": "#0\n#1\n#2\n#3\n#4",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000018,
+            "cardinality":969,
+            "extra_info": "#0\n#1\n#2\n#3\n#4\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "UNION",
+               "timing":0.000006,
+               "cardinality":969,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":0.000465,
+                  "cardinality":714,
+                  "extra_info": "#0\n#1\n#2\n#3\n#4",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000043,
+                     "cardinality":714,
+                     "extra_info": "#0\n#1\n#2\n#3\n#4\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "UNION",
+                        "timing":0.000018,
+                        "cardinality":714,
+                        "extra_info": "",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000023,
+                           "cardinality":401,
+                           "extra_info": "channel\nitem\nreturn_ratio\nreturn_rank\ncurrency_rank\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000101,
+                              "cardinality":401,
+                              "extra_info": "item\nreturn_ratio\nreturn_rank\ncurrency_rank\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000028,
+                                 "cardinality":401,
+                                 "extra_info": "#0\n#1\n#2\n#5\n#6\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":0.000182,
+                                    "cardinality":401,
+                                    "extra_info": "(return_rank<=10 OR currency_rank<=10)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000027,
+                                       "cardinality":17231,
+                                       "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "WINDOW",
+                                          "timing":0.031146,
+                                          "cardinality":17231,
+                                          "extra_info": "RANK() OVER(ORDER BY /(CAST(CAST($f3 AS DECIMAL(15,4)) AS DOUBLE), CAST(CAST($f4 AS DECIMAL(15,4)) AS DOUBLE)) ASC NULLS FIRST)",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "WINDOW",
+                                             "timing":0.031695,
+                                             "cardinality":17231,
+                                             "extra_info": "RANK() OVER(ORDER BY /(CAST(CAST($f1 AS DECIMAL(15,4)) AS DOUBLE), CAST(CAST($f2 AS DECIMAL(15,4)) AS DOUBLE)) ASC NULLS FIRST)",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "HASH_GROUP_BY",
+                                                "timing":0.008911,
+                                                "cardinality":17231,
+                                                "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PROJECTION",
+                                                   "timing":0.000195,
+                                                   "cardinality":18270,
+                                                   "extra_info": "ws_item_sk\nCASE\nws_quantity\nCASE5\nws_net_paid\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "HASH_JOIN",
+                                                      "timing":0.021716,
+                                                      "cardinality":18270,
+                                                      "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "PROJECTION",
+                                                         "timing":0.017646,
+                                                         "cardinality":544082,
+                                                         "extra_info": "ws_sold_date_sk\nws_item_sk\nws_quantity\nws_net_paid\nCASE\nCASE5\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "HASH_JOIN",
+                                                            "timing":20.601663,
+                                                            "cardinality":544082,
+                                                            "extra_info": "INNER\nws_order_number=wr_order_number\nws_item_sk=wr_item_sk\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                             {
+                                                               "name": "PROJECTION",
+                                                               "timing":1.305989,
+                                                               "cardinality":280087313,
+                                                               "extra_info": "ws_sold_date_sk\nws_item_sk\nws_order_number\nws_quantity\nws_net_paid\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":614.491631,
+                                                                  "cardinality":280087313,
+                                                                  "extra_info": "ws_sold_date_sk\nws_item_sk\nws_order_number\nws_quantity\nws_net_paid\nws_net_profit\n[INFOSEPARATOR]\nFilters: ws_net_profit>1.000000 AND ws_net_profit IS NOT NULL\nws_net_paid>0.000000 AND ws_net_paid IS NOT NULL\nws_quantity>0 AND ws_quantity IS NOT NULL\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+,
+                                                             {
+                                                               "name": "PROJECTION",
+                                                               "timing":0.313349,
+                                                               "cardinality":1204858,
+                                                               "extra_info": "wr_item_sk\nwr_order_number\nCAST16\nCAST17\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":62.910375,
+                                                                  "cardinality":1204858,
+                                                                  "extra_info": "wr_item_sk\nwr_order_number\nwr_return_quantity\nwr_return_amt\n[INFOSEPARATOR]\nFilters: wr_return_amt>10000.000000 AND wr_return_amt IS NOT NULL\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+,
+                                                       {
+                                                         "name": "PROJECTION",
+                                                         "timing":0.000011,
+                                                         "cardinality":62,
+                                                         "extra_info": "d_date_sk\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing":0.004620,
+                                                            "cardinality":62,
+                                                            "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\nd_moy=12 AND d_moy IS NOT NULL\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000039,
+                           "cardinality":313,
+                           "extra_info": "channel\nitem\nreturn_ratio\nreturn_rank\ncurrency_rank\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000140,
+                              "cardinality":313,
+                              "extra_info": "item\nreturn_ratio\nreturn_rank\ncurrency_rank\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000046,
+                                 "cardinality":313,
+                                 "extra_info": "#0\n#1\n#2\n#5\n#6\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":0.000313,
+                                    "cardinality":313,
+                                    "extra_info": "(return_rank<=10 OR currency_rank<=10)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000041,
+                                       "cardinality":33147,
+                                       "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "WINDOW",
+                                          "timing":0.061169,
+                                          "cardinality":33147,
+                                          "extra_info": "RANK() OVER(ORDER BY /(CAST(CAST($f3 AS DECIMAL(15,4)) AS DOUBLE), CAST(CAST($f4 AS DECIMAL(15,4)) AS DOUBLE)) ASC NULLS FIRST)",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "WINDOW",
+                                             "timing":0.077944,
+                                             "cardinality":33147,
+                                             "extra_info": "RANK() OVER(ORDER BY /(CAST(CAST($f1 AS DECIMAL(15,4)) AS DOUBLE), CAST(CAST($f2 AS DECIMAL(15,4)) AS DOUBLE)) ASC NULLS FIRST)",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "HASH_GROUP_BY",
+                                                "timing":0.012012,
+                                                "cardinality":33147,
+                                                "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PROJECTION",
+                                                   "timing":0.000182,
+                                                   "cardinality":37505,
+                                                   "extra_info": "cs_item_sk\nCASE\ncs_quantity\nCASE5\ncs_net_paid\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "HASH_JOIN",
+                                                      "timing":0.023215,
+                                                      "cardinality":37505,
+                                                      "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "PROJECTION",
+                                                         "timing":0.034039,
+                                                         "cardinality":1108434,
+                                                         "extra_info": "cs_sold_date_sk\ncs_item_sk\ncs_quantity\ncs_net_paid\nCASE\nCASE5\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "HASH_JOIN",
+                                                            "timing":43.268119,
+                                                            "cardinality":1108434,
+                                                            "extra_info": "INNER\ncs_order_number=cr_order_number\ncs_item_sk=cr_item_sk\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                             {
+                                                               "name": "PROJECTION",
+                                                               "timing":2.784722,
+                                                               "cardinality":556139731,
+                                                               "extra_info": "cs_sold_date_sk\ncs_item_sk\ncs_order_number\ncs_quantity\ncs_net_paid\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":1096.250406,
+                                                                  "cardinality":556139731,
+                                                                  "extra_info": "cs_sold_date_sk\ncs_item_sk\ncs_order_number\ncs_quantity\ncs_net_paid\ncs_net_profit\n[INFOSEPARATOR]\nFilters: cs_net_profit>1.000000 AND cs_net_profit IS NOT NULL\ncs_net_paid>0.000000 AND cs_net_paid IS NOT NULL\ncs_quantity>0 AND cs_quantity IS NOT NULL\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+,
+                                                             {
+                                                               "name": "PROJECTION",
+                                                               "timing":0.638321,
+                                                               "cardinality":2473688,
+                                                               "extra_info": "cr_item_sk\ncr_order_number\nCAST19\nCAST20\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":121.492535,
+                                                                  "cardinality":2473688,
+                                                                  "extra_info": "cr_item_sk\ncr_order_number\ncr_return_quantity\ncr_return_amount\n[INFOSEPARATOR]\nFilters: cr_return_amount>10000.000000 AND cr_return_amount IS NOT NULL\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+,
+                                                       {
+                                                         "name": "PROJECTION",
+                                                         "timing":0.000010,
+                                                         "cardinality":62,
+                                                         "extra_info": "d_date_sk\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing":0.004652,
+                                                            "cardinality":62,
+                                                            "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\nd_moy=12 AND d_moy IS NOT NULL\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000019,
+                  "cardinality":255,
+                  "extra_info": "channel\nitem\nreturn_ratio\nreturn_rank\ncurrency_rank\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000074,
+                     "cardinality":255,
+                     "extra_info": "item\nreturn_ratio\nreturn_rank\ncurrency_rank\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000023,
+                        "cardinality":255,
+                        "extra_info": "#0\n#1\n#2\n#5\n#6\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "FILTER",
+                           "timing":0.000142,
+                           "cardinality":255,
+                           "extra_info": "(return_rank<=10 OR currency_rank<=10)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000024,
+                              "cardinality":12397,
+                              "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "WINDOW",
+                                 "timing":0.022831,
+                                 "cardinality":12397,
+                                 "extra_info": "RANK() OVER(ORDER BY /(CAST(CAST($f3 AS DECIMAL(15,4)) AS DOUBLE), CAST(CAST($f4 AS DECIMAL(15,4)) AS DOUBLE)) ASC NULLS FIRST)",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "WINDOW",
+                                    "timing":0.025732,
+                                    "cardinality":12397,
+                                    "extra_info": "RANK() OVER(ORDER BY /(CAST(CAST($f1 AS DECIMAL(15,4)) AS DOUBLE), CAST(CAST($f2 AS DECIMAL(15,4)) AS DOUBLE)) ASC NULLS FIRST)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "SEQ_SCAN",
+                                       "timing":0.000538,
+                                       "cardinality":12397,
+                                       "extra_info": "duck_table_49_0\n[INFOSEPARATOR]\nitem\n$f1\n$f2\n$f3\n$f4",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

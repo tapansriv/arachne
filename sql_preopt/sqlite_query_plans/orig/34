@@ -1,0 +1,206 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     188   0                    00  Start at 188 
+1     Integer        145   1     0                    00  r[1]=145     
+2     Once           0     145   0                    00  materialize "dn"
+3     OpenEphemeral  0     3     0                    00  nColumn=3    
+4     SorterOpen     6     2     0     k(2,B,B)       00               
+5     Integer        0     6     0                    00  r[6]=0; clear abort flag
+6     Null           0     9     10                   00  r[9..10]=NULL
+7     Gosub          8     142   0                    00               
+8     OpenRead       3     19    0     24             00  root=19 iDb=0; store
+9     OpenRead       1     22    0     10             00  root=22 iDb=0; store_sales
+10    OpenRead       2     11    0     10             00  root=11 iDb=0; date_dim
+11    OpenRead       4     12    0     5              00  root=12 iDb=0; household_demographics
+12    Rewind         3     109   0                    00               
+13      Column         3     23    13                   00  r[13]=store.s_county
+14      Ne             14    108   13    (BINARY)       52  if r[13]!=r[14] goto 108
+15      Once           0     27    0                    00               
+16      OpenAutoindex  7     6     0     k(6,B,,,,,)    00  nColumn=6; for store_sales
+17      Rewind         1     27    0                    00               
+18        Column         1     7     15                   00  r[15]=store_sales.ss_store_sk
+19        Column         1     0     16                   00  r[16]=store_sales.ss_sold_date_sk
+20        Column         1     3     17                   00  r[17]=store_sales.ss_customer_sk
+21        Column         1     5     18                   00  r[18]=store_sales.ss_hdemo_sk
+22        Column         1     9     19                   00  r[19]=store_sales.ss_ticket_number
+23        Rowid          1     20    0                    00  r[20]=rowid  
+24        MakeRecord     15    6     13                   00  r[13]=mkrec(r[15..20])
+25        IdxInsert      7     13    0                    10  key=r[13]    
+26      Next           1     18    0                    03               
+27      Column         3     0     21                   00  r[21]=store.s_store_sk
+28      Affinity       21    1     0     C              00  affinity(r[21])
+29      SeekGE         7     108   21    1              00  key=r[21]    
+30        IdxGT          7     108   21    1              00  key=r[21]    
+31        Once           0     41    0                    00               
+32        OpenAutoindex  8     4     0     k(4,B,,,)      00  nColumn=4; for date_dim
+33        Rewind         2     41    0                    00               
+34          Column         2     0     15                   00  r[15]=date_dim.d_date_sk
+35          Column         2     6     16                   00  r[16]=date_dim.d_year
+36          Column         2     9     17                   00  r[17]=date_dim.d_dom
+37          Rowid          2     18    0                    00  r[18]=rowid  
+38          MakeRecord     15    4     13                   00  r[13]=mkrec(r[15..18])
+39          IdxInsert      8     13    0                    10  key=r[13]    
+40        Next           2     34    0                    03               
+41        Column         7     1     22                   00  r[22]=store_sales.ss_sold_date_sk
+42        IsNull         22    107   0                    00  if r[22]==NULL goto 107
+43        Affinity       22    1     0     C              00  affinity(r[22])
+44        SeekGE         8     107   22    1              00  key=r[22]    
+45          IdxGT          8     107   22    1              00  key=r[22]    
+46          Column         8     2     13                   00  r[13]=date_dim.d_dom
+47          Lt             24    49    13    (BINARY)       54  if r[13]<r[24] goto 49
+48          Le             25    52    13    (BINARY)       44  if r[13]<=r[25] goto 52
+49          Column         8     2     13                   00  r[13]=date_dim.d_dom
+50          Lt             26    106   13    (BINARY)       54  if r[13]<r[26] goto 106
+51          Gt             27    106   13    (BINARY)       54  if r[13]>r[27] goto 106
+52          Noop           0     0     0                    00  begin IN expr
+53          Integer        65    28    0                    00  r[28]=65; return address
+54          Once           0     65    0                    00               
+55          OpenEphemeral  9     1     0     k(1,B)         00  nColumn=1; RHS of IN operator
+56          Integer        1999  13    0                    00  r[13]=1999   
+57          MakeRecord     13    1     23    D              00  r[23]=mkrec(r[13])
+58          IdxInsert      9     23    13    1              00  key=r[23]    
+59          Add            24    29    13                   00  r[13]=r[24]+r[29]
+60          MakeRecord     13    1     23    D              00  r[23]=mkrec(r[13])
+61          IdxInsert      9     23    13    1              00  key=r[23]    
+62          Add            30    29    13                   00  r[13]=r[30]+r[29]
+63          MakeRecord     13    1     23    D              00  r[23]=mkrec(r[13])
+64          IdxInsert      9     23    13    1              00  key=r[23]    
+65          Return         28    0     0                    00               
+66          Column         8     1     31                   00  r[31]=date_dim.d_year
+67          IsNull         31    106   0                    00  if r[31]==NULL goto 106
+68          Affinity       31    1     0     D              00  affinity(r[31])
+69          NotFound       9     106   31    1              00  key=r[31]; end IN expr
+70          Once           0     81    0                    00               
+71          OpenAutoindex  10    5     0     k(5,B,,,,)     00  nColumn=5; for household_demographics
+72          Rewind         4     81    0                    00               
+73            Column         4     0     33                   00  r[33]=household_demographics.hd_demo_sk
+74            Column         4     2     34                   00  r[34]=household_demographics.hd_buy_potential
+75            Column         4     3     35                   00  r[35]=household_demographics.hd_dep_count
+76            Column         4     4     36                   00  r[36]=household_demographics.hd_vehicle_count
+77            Rowid          4     37    0                    00  r[37]=rowid  
+78            MakeRecord     33    5     32                   00  r[32]=mkrec(r[33..37])
+79            IdxInsert      10    32    0                    10  key=r[32]    
+80          Next           4     73    0                    03               
+81          Column         7     3     38                   00  r[38]=store_sales.ss_hdemo_sk
+82          IsNull         38    106   0                    00  if r[38]==NULL goto 106
+83          Affinity       38    1     0     C              00  affinity(r[38])
+84          SeekGE         10    106   38    1              00  key=r[38]    
+85            IdxGT          10    106   38    1              00  key=r[38]    
+86            Column         10    1     32                   00  r[32]=household_demographics.hd_buy_potential
+87            Eq             39    90    32    (BINARY)       42  if r[32]==r[39] goto 90
+88            Column         10    1     32                   00  r[32]=household_demographics.hd_buy_potential
+89            Ne             40    105   32    (BINARY)       52  if r[32]!=r[40] goto 105
+90            Column         10    3     32                   00  r[32]=household_demographics.hd_vehicle_count
+91            Le             41    105   32    (BINARY)       54  if r[32]<=r[41] goto 105
+92            Column         10    3     42                   00  r[42]=household_demographics.hd_vehicle_count
+93            Le             41    99    42    (BINARY)       54  if r[42]<=r[41] goto 99
+94            Column         10    2     43                   00  r[43]=household_demographics.hd_dep_count
+95            Multiply       44    43    42                   00  r[42]=r[44]*r[43]
+96            Column         10    3     43                   00  r[43]=household_demographics.hd_vehicle_count
+97            Divide         43    42    32                   00  r[32]=r[42]/r[43]
+98            Goto           0     100   0                    00               
+99            Null           0     32    0                    00  r[32]=NULL   
+100           Le             45    105   32                   50  if r[32]<=r[45] goto 105
+101           Column         7     4     33                   00  r[33]=store_sales.ss_ticket_number
+102           Column         7     2     34                   00  r[34]=store_sales.ss_customer_sk
+103           MakeRecord     33    2     32                   00  r[32]=mkrec(r[33..34])
+104           SorterInsert   6     32    0                    00  key=r[32]    
+105         Next           10    85    0                    00               
+106       Next           8     45    0                    00               
+107     Next           7     30    0                    00               
+108   Next           3     13    0                    01               
+109   OpenPseudo     11    32    2                    00  2 columns in r[32]
+110   SorterSort     6     145   0                    00  GROUP BY sort
+111     SorterData     6     32    11                   00  r[32]=data   
+112     Column         11    0     11                   00  r[11]=       
+113     Column         11    1     12                   00  r[12]=       
+114     Compare        9     11    2     k(2,B,B)       00  r[9..10] <-> r[11..12]
+115     Jump           116   120   116                  00               
+116     Move           11    9     2                    00  r[9..10]=r[11..12]
+117     Gosub          7     130   0                    00  output one row
+118     IfPos          6     145   0                    00  if r[6]>0 then r[6]-=0, goto 145; check abort flag
+119     Gosub          8     142   0                    00  reset accumulator
+120     AggStep        0     0     4     count(0)       00  accum=r[4] step(r[0])
+121     If             5     124   0                    00               
+122     Column         11    0     2                    00  r[2]=        
+123     Column         11    1     3                    00  r[3]=        
+124     Integer        1     5     0                    00  r[5]=1; indicate data in accumulator
+125   SorterNext     6     111   0                    00               
+126   Gosub          7     130   0                    00  output final row
+127   Goto           0     145   0                    00               
+128   Integer        1     6     0                    00  r[6]=1; set abort flag
+129   Return         7     0     0                    00               
+130   IfPos          5     132   0                    00  if r[5]>0 then r[5]-=0, goto 132; Groupby result generator entry point
+131   Return         7     0     0                    00               
+132   AggFinal       4     0     0     count(0)       00  accum=r[4] N=0
+133   Lt             46    131   4     (BINARY)       50  if r[4]<r[46] goto 131
+134   Gt             47    131   4     (BINARY)       50  if r[4]>r[47] goto 131
+135   SCopy          2     48    0                    00  r[48]=r[2]   
+136   SCopy          3     49    0                    00  r[49]=r[3]   
+137   SCopy          4     50    0                    00  r[50]=r[4]   
+138   MakeRecord     48    3     43                   00  r[43]=mkrec(r[48..50])
+139   NewRowid       0     42    0                    00  r[42]=rowid  
+140   Insert         0     43    42                   08  intkey=r[42] data=r[43]
+141   Return         7     0     0                    00  end groupby result generator
+142   Null           0     2     4                    00  r[2..4]=NULL 
+143   Integer        0     5     0                    00  r[5]=0; indicate accumulator empty
+144   Return         8     0     0                    00               
+145   Return         1     0     0                    00  end dn       
+146   SorterOpen     12    12    0     k(5,B,B,B,-N.B,B)  00               
+147   OpenRead       5     3     0     11             00  root=3 iDb=0; customer
+148   Rewind         5     176   0                    00               
+149     Once           0     159   0                    00               
+150     OpenAutoindex  13    4     0     k(4,B,,,)      00  nColumn=4; for dn
+151     Rewind         0     159   0                    00               
+152       Column         0     1     52                   00  r[52]=dn.ss_customer_sk
+153       Column         0     0     53                   00  r[53]=dn.ss_ticket_number
+154       Column         0     2     54                   00  r[54]=dn.cnt 
+155       Rowid          0     55    0                    00  r[55]=rowid  
+156       MakeRecord     52    4     51                   00  r[51]=mkrec(r[52..55])
+157       IdxInsert      13    51    0                    10  key=r[51]    
+158     Next           0     152   0                    03               
+159     Column         5     0     56                   00  r[56]=customer.c_customer_sk
+160     Affinity       56    1     0     C              00  affinity(r[56])
+161     SeekGE         13    175   56    1              00  key=r[56]    
+162       IdxGT          13    175   56    1              00  key=r[56]    
+163       Column         13    2     51                   00  r[51]=dn.cnt 
+164       Lt             46    174   51    (BINARY)       50  if r[51]<r[46] goto 174
+165       Gt             47    174   51    (BINARY)       50  if r[51]>r[47] goto 174
+166       Column         13    2     63                   00  r[63]=dn.cnt 
+167       Column         5     9     58                   00  r[58]=customer.c_last_name
+168       Column         5     8     59                   00  r[59]=customer.c_first_name
+169       Column         5     7     60                   00  r[60]=customer.c_salutation
+170       Column         5     10    61                   00  r[61]=customer.c_preferred_cust_flag
+171       Column         13    1     62                   00  r[62]=dn.ss_ticket_number
+172       MakeRecord     58    6     69                   00  r[69]=mkrec(r[58..63])
+173       SorterInsert   12    69    58    6              00  key=r[69]    
+174     Next           13    162   0                    00               
+175   Next           5     149   0                    01               
+176   OpenPseudo     14    70    12                   00  12 columns in r[70]
+177   SorterSort     12    187   0                    00               
+178     SorterData     12    70    14                   00  r[70]=data   
+179     Column         14    5     68                   00  r[68]=cnt    
+180     Column         14    4     67                   00  r[67]=ss_ticket_number
+181     Column         14    3     66                   00  r[66]=c_preferred_cust_flag
+182     Column         14    2     65                   00  r[65]=c_salutation
+183     Column         14    1     64                   00  r[64]=c_first_name
+184     Column         14    0     63                   00  r[63]=c_last_name
+185     ResultRow      63    6     0                    00  output=r[63..68]
+186   SorterNext     12    178   0                    00               
+187   Halt           0     0     0                    00               
+188   Transaction    0     0     28    0              01  usesStmtJournal=0
+189   String8        0     14    0     Williamson County  00  r[14]='Williamson County'
+190   Integer        1     24    0                    00  r[24]=1      
+191   Integer        3     25    0                    00  r[25]=3      
+192   Integer        25    26    0                    00  r[26]=25     
+193   Integer        28    27    0                    00  r[27]=28     
+194   Integer        1999  29    0                    00  r[29]=1999   
+195   Integer        2     30    0                    00  r[30]=2      
+196   String8        0     39    0     >10000         00  r[39]='>10000'
+197   String8        0     40    0     Unknown        00  r[40]='Unknown'
+198   Integer        0     41    0                    00  r[41]=0      
+199   Real           0     44    0     1              00  r[44]=1      
+200   Real           0     45    0     1.2            00  r[45]=1.2    
+201   Integer        15    46    0                    00  r[46]=15     
+202   Integer        20    47    0                    00  r[47]=20     
+203   Goto           0     1     0                    00               

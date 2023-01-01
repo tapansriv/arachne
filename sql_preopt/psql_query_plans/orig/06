@@ -1,0 +1,47 @@
+                                                                 QUERY PLAN                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=4872637279.16..4872637279.20 rows=17 width=11)
+   InitPlan 1 (returns $0)
+     ->  Unique  (cost=2557.50..2557.66 rows=31 width=4)
+           ->  Sort  (cost=2557.50..2557.58 rows=31 width=4)
+                 Sort Key: date_dim.d_month_seq
+                 ->  Seq Scan on date_dim  (cost=0.00..2556.73 rows=31 width=4)
+                       Filter: ((d_year = 2001) AND (d_moy = 1))
+   ->  Sort  (cost=4872634721.50..4872634721.54 rows=17 width=11)
+         Sort Key: (count(*)) NULLS FIRST, a.ca_state NULLS FIRST
+         ->  GroupAggregate  (cost=4872634716.87..4872634721.15 rows=17 width=11)
+               Group Key: a.ca_state
+               Filter: (count(*) >= 10)
+               ->  Sort  (cost=4872634716.87..4872634717.78 rows=364 width=3)
+                     Sort Key: a.ca_state NULLS FIRST
+                     ->  Nested Loop  (cost=3011.72..4872634701.39 rows=364 width=3)
+                           Join Filter: (s.ss_item_sk = i.i_item_sk)
+                           ->  Nested Loop  (cost=3011.72..74327037.39 rows=1092 width=7)
+                                 Join Filter: (c.c_customer_sk = s.ss_customer_sk)
+                                 ->  Hash Join  (cost=13.38..192433.28 rows=150 width=7)
+                                       Hash Cond: (a.ca_address_sk = c.c_current_addr_sk)
+                                       ->  Seq Scan on customer_address a  (cost=0.00..169918.84 rows=5999884 width=7)
+                                       ->  Hash  (cost=11.50..11.50 rows=150 width=8)
+                                             ->  Seq Scan on customer c  (cost=0.00..11.50 rows=150 width=8)
+                                 ->  Materialize  (cost=2998.35..70940187.75 rows=1128955 width=8)
+                                       ->  Gather  (cost=2998.35..70930132.97 rows=1128955 width=8)
+                                             Workers Planned: 2
+                                             Params Evaluated: $0
+                                             ->  Parallel Hash Join  (cost=1998.35..70816237.47 rows=470398 width=8)
+                                                   Hash Cond: (s.ss_sold_date_sk = d.d_date_sk)
+                                                   ->  Parallel Seq Scan on store_sales s  (cost=0.00..66312505.53 rows=1199709653 width=12)
+                                                   ->  Parallel Hash  (cost=1998.12..1998.12 rows=18 width=4)
+                                                         ->  Parallel Seq Scan on date_dim d  (cost=0.00..1998.12 rows=18 width=4)
+                                                               Filter: (d_month_seq = $0)
+                           ->  Materialize  (cost=0.00..4796669914.00 rows=100000 width=4)
+                                 ->  Seq Scan on item i  (cost=0.00..4796669414.00 rows=100000 width=4)
+                                       Filter: (i_current_price > (1.2 * (SubPlan 2)))
+                                       SubPlan 2
+                                         ->  Aggregate  (cost=15988.83..15988.84 rows=1 width=32)
+                                               ->  Seq Scan on item j  (cost=0.00..15914.00 rows=29932 width=6)
+                                                     Filter: ((i_category)::text = (i.i_category)::text)
+ JIT:
+   Functions: 52
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(43 rows)
+

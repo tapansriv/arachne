@@ -1,0 +1,52 @@
+XN Limit  (cost=4074222806915.35..4074222806915.60 rows=100 width=40)
+  ->  XN Merge  (cost=4074222806915.35..4074223575727.44 rows=307524836 width=40)
+        Merge Key: item_sk, d_date
+        ->  XN Network  (cost=4074222806915.35..4074223575727.44 rows=307524836 width=40)
+              Send to leader
+              ->  XN Sort  (cost=4074222806915.35..4074223575727.44 rows=307524836 width=40)
+                    Sort Key: item_sk, d_date
+                    ->  XN Subquery Scan t13  (cost=3074137936014.86..3074179451867.63 rows=307524836 width=40)
+                          Filter: (store_cumulative < web_cumulative)
+                          ->  XN Window  (cost=3074137936014.86..3074167919686.31 rows=922574506 width=32)
+                                Partition: CASE WHEN (t5.item_sk IS NOT NULL) THEN t5.item_sk ELSE t12.item_sk END
+                                Order: CASE WHEN (t5.d_date IS NOT NULL) THEN t5.d_date ELSE t12.d_date END
+                                ->  XN Sort  (cost=3074137936014.86..3074140242451.13 rows=922574506 width=32)
+                                      Sort Key: CASE WHEN (t5.item_sk IS NOT NULL) THEN t5.item_sk ELSE t12.item_sk END, CASE WHEN (t5.d_date IS NOT NULL) THEN t5.d_date ELSE t12.d_date END
+                                      ->  XN Network  (cost=2000184978979.56..2074000559642.03 rows=922574506 width=32)
+                                            Distribute
+                                            ->  XN Hash Full Join DS_DIST_NONE  (cost=2000184978979.56..2074000559642.03 rows=922574506 width=32)
+                                                  Hash Cond: (("outer".d_date = "inner".d_date) AND ("outer".item_sk = "inner".item_sk))
+                                                  ->  XN Subquery Scan t12  (cost=1000116563476.33..1000116853516.75 rows=11601617 width=16)
+                                                        ->  XN Window  (cost=1000116563476.33..1000116737500.58 rows=11601617 width=16)
+                                                              Partition: item_sk
+                                                              Order: d_date
+                                                              ->  XN Sort  (cost=1000116563476.33..1000116592480.37 rows=11601617 width=16)
+                                                                    Sort Key: item_sk, d_date
+                                                                    ->  XN Network  (cost=115057132.67..115202152.88 rows=11601617 width=16)
+                                                                          Distribute
+                                                                          ->  XN Subquery Scan t11  (cost=115057132.67..115202152.88 rows=11601617 width=16)
+                                                                                ->  XN HashAggregate  (cost=115057132.67..115086136.71 rows=11601617 width=16)
+                                                                                      ->  XN Hash Join DS_BCAST_INNER  (cost=1096.54..114970120.54 rows=11601617 width=16)
+                                                                                            Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                                                                            ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2749850252 width=16)
+                                                                                                  Filter: (ss_sold_date_sk IS NOT NULL)
+                                                                                            ->  XN Hash  (cost=1095.73..1095.73 rows=323 width=8)
+                                                                                                  ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=323 width=8)
+                                                                                                        Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                  ->  XN Hash  (cost=1000068399598.99..1000068399598.99 rows=3180848 width=16)
+                                                        ->  XN Subquery Scan t5  (cost=1000068320077.79..1000068399598.99 rows=3180848 width=16)
+                                                              ->  XN Window  (cost=1000068320077.79..1000068367790.51 rows=3180848 width=16)
+                                                                    Partition: item_sk
+                                                                    Order: d_date
+                                                                    ->  XN Sort  (cost=1000068320077.79..1000068328029.91 rows=3180848 width=16)
+                                                                          Sort Key: item_sk, d_date
+                                                                          ->  XN Network  (cost=67936770.02..67976530.62 rows=3180848 width=16)
+                                                                                Distribute
+                                                                                ->  XN Subquery Scan t4  (cost=67936770.02..67976530.62 rows=3180848 width=16)
+                                                                                      ->  XN HashAggregate  (cost=67936770.02..67944722.14 rows=3180848 width=16)
+                                                                                            ->  XN Hash Join DS_BCAST_INNER  (cost=1096.54..67912913.66 rows=3180848 width=16)
+                                                                                                  Hash Cond: ("outer".ws_sold_date_sk = "inner".d_date_sk)
+                                                                                                  ->  XN Seq Scan on web_sales  (cost=0.00..7200003.84 rows=720000384 width=16)
+                                                                                                  ->  XN Hash  (cost=1095.73..1095.73 rows=323 width=8)
+                                                                                                        ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=323 width=8)
+                                                                                                              Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))

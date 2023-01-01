@@ -1,0 +1,248 @@
+package org.arachne;
+
+import org.apache.calcite.config.CalciteConnectionConfig;
+import org.apache.calcite.config.CalciteConnectionConfigImpl;
+import org.apache.calcite.config.CalciteConnectionProperty;
+import org.apache.calcite.avatica.util.Casing;
+import org.apache.calcite.plan.RelOptCostImpl;
+import org.apache.calcite.plan.Contexts;
+import org.apache.calcite.rex.RexBuilder;
+import org.apache.calcite.jdbc.JavaTypeFactoryImpl;
+
+import org.apache.calcite.plan.RelOptRule;
+import org.apache.calcite.plan.RelOptCluster;
+import org.apache.calcite.plan.ConventionTraitDef;
+import org.apache.calcite.interpreter.Bindables;
+import org.apache.calcite.plan.RelTraitSet;
+import org.apache.calcite.tools.Program;
+import org.apache.calcite.tools.Programs;
+import org.apache.calcite.tools.RuleSets;
+import org.apache.calcite.rel.rules.CoreRules;
+import org.apache.calcite.rel.RelCollationTraitDef;
+import org.apache.calcite.adapter.enumerable.EnumerableRules;
+import org.apache.calcite.adapter.enumerable.EnumerableConvention;
+import org.apache.calcite.tools.RuleSet;
+
+import org.apache.calcite.jdbc.CalciteSchema;
+import org.apache.calcite.plan.RelOptCostImpl;
+import org.apache.calcite.plan.ConventionTraitDef;
+import org.apache.calcite.plan.Contexts;
+import org.apache.calcite.tools.FrameworkConfig;
+import org.apache.calcite.rel.type.RelDataTypeFactory;
+import org.apache.calcite.tools.Frameworks;
+import org.apache.calcite.tools.Planner;
+import org.apache.calcite.schema.SchemaPlus;
+import org.apache.calcite.sql.SqlNode;
+import org.apache.calcite.sql.parser.SqlParser;
+import org.apache.calcite.sql.pretty.SqlPrettyWriter;
+import org.apache.calcite.sql.SqlWriter;
+import org.apache.calcite.sql.dialect.AnsiSqlDialect;
+import org.apache.calcite.rel.RelRoot;
+import org.apache.calcite.rel.RelNode;
+import org.apache.calcite.sql.SqlDialect;
+import org.apache.calcite.sql.SqlWriterConfig;
+import org.apache.calcite.rel.rel2sql.RelToSqlConverter;
+import org.apache.calcite.plan.volcano.VolcanoPlanner;
+import org.apache.calcite.plan.RelOptUtil;
+
+import org.apache.calcite.schema.impl.AbstractSchema;
+
+import java.util.Collections;
+import java.util.List;
+import java.sql.Date;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Properties;
+
+
+import org.apache.calcite.rel.externalize.RelWriterImpl;
+import org.apache.calcite.sql.SqlExplainLevel;
+
+public class ArachneQueryProcessor {
+
+    public static void main(String[] args) {
+        try {
+            // SqlParser parser = SqlParser.create("SELECT * FROM \"foo\" WHERE \"bar\"=3 GROUP BY \"baz\"");
+            // SqlNode query = parser.parseQuery();
+			// final SqlPrettyWriter pw = new SqlPrettyWriter(SqlPrettyWriter.config());
+            // System.out.println(pw.format(query));
+            // SchemaPlus rootSchema = Frameworks.createRootSchema(true);
+
+            // CalciteSchema rootSchema = CalciteSchema.createRootSchema(true);
+            // rootSchema = rootSchema.add("CALCITE_TEST", new AbstractSchema());
+            // rootSchema.add("emps", ArachneTable.emps);
+            // rootSchema.add("depts", ArachneTable.depts);
+            // rootSchema.add("nation", ArachneTable.nation);
+            // rootSchema.add("region", ArachneTable.region);
+            // rootSchema.add("part", ArachneTable.part);
+            // rootSchema.add("supplier", ArachneTable.supplier);
+            // rootSchema.add("partsupp", ArachneTable.partsupp);
+            // rootSchema.add("customer", ArachneTable.customer);
+            // rootSchema.add("orders", ArachneTable.orders);
+            // rootSchema.add("lineitem", ArachneTable.lineitem);
+
+            ArachneSchema rootSchema = ArachneSchema.newBuilder("tpch")
+                .addTable(ArachneTable.emps)
+                .addTable(ArachneTable.depts)
+                .addTable(ArachneTable.nation)
+                .addTable(ArachneTable.region)
+                .addTable(ArachneTable.part)
+                .addTable(ArachneTable.supplier)
+                .addTable(ArachneTable.partsupp)
+                .addTable(ArachneTable.customer)
+                .addTable(ArachneTable.orders)
+                .addTable(ArachneTable.lineitem)
+                .build();
+
+            Optimizer optimizer = Optimizer.create(rootSchema);
+
+            // final FrameworkConfig config = Frameworks.newConfigBuilder()
+            //     .parserConfig(SqlParser.configBuilder().setCaseSensitive(false).build())
+            //     .defaultSchema(rootSchema)
+            //     .build();
+
+            String qry0 = "SELECT * FROM emps";
+            String qry1 = "SELECT * FROM emps WHERE name like '%e%' AND empid > 100";
+            String qry2 = "SELECT * FROM \"emps\" JOIN \"depts\" on \"emps\".\"deptno\" = \"depts\".\"deptno\""; 
+            String qry3 = "SELECT \"empid\", SUM(\"salary\") FROM \"emps\" GROUP BY \"empid\"";
+            String qry4 = "SELECT * FROM lineitem";
+            String qry5 = "SELECT  l_linestatus, sum(l_quantity) AS expr$2, sum(l_extendedprice) AS sum_base_price, sum(l_extendedprice * (1 - l_discount)) AS sum_disc_price, sum(l_extendedprice * (1 - l_discount) * (1 + l_tax)) AS sum_charge, avg(l_quantity) AS avg_qty, avg(l_extendedprice) AS avg_price, avg(l_discount) AS avg_disc, count(*) AS count_order FROM lineitem WHERE l_shipdate <= CAST('1998-09-02' AS date) GROUP BY l_returnflag, l_linestatus ORDER BY l_returnflag, l_linestatus LIMIT 10";
+
+            String qry6 = "SELECT d.name, COUNT(*) FROM (SELECT * FROM emps) AS e JOIN depts AS d ON e.deptno = d.deptno GROUP BY d.name";
+            String qry7 = "SELECT * FROM emps as e, depts as d, lineitem as l WHERE e.deptno = d.deptno AND e.deptno = l.deptno";
+            String qry8 = "SELECT emps.* FROM (SELECT empid, deptno, SUM(salary) FROM emps GROUP BY empid, deptno) emps JOIN depts ON emps.deptno = depts.deptno WHERE emps.empid > 100";
+            String qry9 = "SELECT t1.empid,t1.deptno,t1.EXPR$2 FROM (SELECT emps.empid,emps.deptno,SUM(salary) AS EXPR$2 FROM emps GROUP BY emps.empid,emps.deptno )AS t1 JOIN depts AS t2 ON (t1.deptno = t2.deptno) WHERE (t1.empid > 100)";
+
+
+            String qry10 = "SELECT c_count, count(*) AS custdist FROM ( SELECT c_custkey, count(o_orderkey) FROM customer LEFT OUTER JOIN orders ON c_custkey = o_custkey AND o_comment NOT LIKE '%special%requests%' GROUP BY c_custkey) AS c_orders (c_custkey, c_count) GROUP BY c_count ORDER BY custdist DESC, c_count DESC";
+
+            String qry11 = "SELECT COUNT(o_orderkey) AS c_count, COUNT(*) AS CUSTDIST FROM customer  JOIN orders  ON ((customer.c_custkey = orders.o_custkey) AND NOT((orders.o_comment LIKE '%special%requests%'))) GROUP BY customer.c_custkey, c_count ORDER BY COUNT(*), COUNT(o_orderkey)";
+
+            // Planner planner = Frameworks.getPlanner(config);
+            // SqlNode parse = planner.parse(qry5);
+            // SqlNode validate = planner.validate(parse);
+
+            // SqlWriter writer = new SqlPrettyWriter();
+            // validate.unparse(writer, 0, 0);
+            // System.out.println(writer.toSqlString().getSql());
+            // RelRoot root = planner.rel(validate);
+            // RelNode relNode = root.project();
+
+            // System.out.println("---------------------");
+            // SqlNode sqlNode = new RelToSqlConverter(AnsiSqlDialect.DEFAULT).visitRoot(relNode).asStatement();
+            // System.out.println(sqlNode.toSqlString(AnsiSqlDialect.DEFAULT).getSql());
+            // System.out.println("---------------------");
+             
+            String sql =
+                "select\n" +
+                "    sum(l.l_extendedprice * l.l_discount) as revenue\n" +
+                "from\n" +
+                "    lineitem l\n" +
+                "where\n" +
+                "    l.l_shipdate >= ?\n" +
+                "    and l.l_shipdate < ?\n" +
+                "    and l.l_discount between (? - 0.01) AND (? + 0.01)\n" +
+                "    and l.l_quantity < ?";
+
+            SqlNode sqlTree = optimizer.parse(qry5);
+            SqlNode validated = optimizer.validate(sqlTree);
+            // System.out.println("---------------------");
+            // System.out.println(validated);
+            // System.out.println("---------------------");
+            RelNode relTree = optimizer.convert(validated);
+            // System.out.println("---------------------");
+            print("AFTER CONVERSION", relTree);
+            // System.out.println("---------------------");
+
+            // Properties configProperties = new Properties();
+            // configProperties.put(CalciteConnectionProperty.CASE_SENSITIVE.camelName(), Boolean.TRUE.toString());
+            // configProperties.put(CalciteConnectionProperty.UNQUOTED_CASING.camelName(), Casing.UNCHANGED.toString());
+            // configProperties.put(CalciteConnectionProperty.QUOTED_CASING.camelName(), Casing.UNCHANGED.toString());
+            // CalciteConnectionConfig config = new CalciteConnectionConfigImpl(configProperties);
+
+            // RelDataTypeFactory typeFactory = new JavaTypeFactoryImpl();
+            // VolcanoPlanner planner = new VolcanoPlanner(RelOptCostImpl.FACTORY, Contexts.of(config));
+            // planner.addRelTraitDef(ConventionTraitDef.INSTANCE);
+            // RelOptCluster cluster = RelOptCluster.create(planner, new RexBuilder(typeFactory));
+            // RelTraitSet desiredTraits = cluster.traitSet().plus(EnumerableConvention.INSTANCE);
+            // RelNode newRoot = planner.changeTraits(relTree, desiredTraits);
+            // planner.setRoot(newRoot);
+
+            // RelOptCluster cluster = relTree.getCluster();
+            // VolcanoPlanner planner = (VolcanoPlanner)cluster.getPlanner();
+            // planner.addRelTraitDef(ConventionTraitDef.INSTANCE);
+
+            // for (RelOptRule r : EnumerableRules.ENUMERABLE_RULES) {
+            //     planner.addRule(r);
+            // }
+            // planner.addRule(EnumerableRules.ENUMERABLE_MERGE_JOIN_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_SORT_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_VALUES_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_TABLE_SCAN_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_PROJECT_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_FILTER_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_CALC_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_AGGREGATE_RULE);
+            // planner.addRule(Bindables.BINDABLE_TABLE_SCAN_RULE);
+            // planner.addRule(Bindables.BINDABLE_PROJECT_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_TABLE_SCAN_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_JOIN_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_SORT_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_LIMIT_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_PROJECT_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_FILTER_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_CALC_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_AGGREGATE_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_SORTED_AGGREGATE_RULE);
+            // planner.addRule(EnumerableRules.ENUMERABLE_LIMIT_SORT_RULE);
+            // planner.addRule(CoreRules.FILTER_TO_CALC);
+            // planner.addRule(CoreRules.PROJECT_TO_CALC);
+            // planner.addRule(CoreRules.FILTER_CALC_MERGE);
+            // planner.addRule(CoreRules.PROJECT_CALC_MERGE);
+
+            // RelNode optimizerRelTree = planner.findBestExp();
+
+            RuleSet rules = RuleSets.ofList(
+                CoreRules.FILTER_TO_CALC,
+                CoreRules.PROJECT_TO_CALC,
+                CoreRules.FILTER_CALC_MERGE,
+                CoreRules.PROJECT_CALC_MERGE,
+                EnumerableRules.ENUMERABLE_TABLE_SCAN_RULE,
+                EnumerableRules.ENUMERABLE_JOIN_RULE,
+                EnumerableRules.ENUMERABLE_SORT_RULE,
+                EnumerableRules.ENUMERABLE_LIMIT_RULE,
+                EnumerableRules.ENUMERABLE_PROJECT_RULE,
+                EnumerableRules.ENUMERABLE_FILTER_RULE,
+                EnumerableRules.ENUMERABLE_CALC_RULE,
+                EnumerableRules.ENUMERABLE_AGGREGATE_RULE,
+                EnumerableRules.ENUMERABLE_SORTED_AGGREGATE_RULE,
+                EnumerableRules.ENUMERABLE_LIMIT_SORT_RULE
+            );
+
+            RelNode optimizerRelTree = optimizer.optimize(
+                relTree,
+                relTree.getTraitSet().plus(EnumerableConvention.INSTANCE),
+                rules
+            );
+
+            print("AFTER OPTIMIZATION", optimizerRelTree);
+
+            // System.out.println(RelOptUtil.toString(relNode));
+            // ArachneVisitor vis = new ArachneVisitor();
+            // vis.go(relNode);
+            // System.out.println("OUTPUT:");
+            // System.out.println(vis);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void print(String header, RelNode relTree) {
+        StringWriter sw = new StringWriter();
+        sw.append(header).append(":").append("\n");
+        RelWriterImpl relWriter = new RelWriterImpl(new PrintWriter(sw), SqlExplainLevel.ALL_ATTRIBUTES, true);
+        relTree.explain(relWriter);
+        System.out.println(sw.toString());
+    }
+
+}

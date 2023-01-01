@@ -1,0 +1,15 @@
+XN Limit  (cost=2000000000004.78..2000000000004.91 rows=52 width=40)
+  ->  XN Merge  (cost=2000000000004.78..2000000000004.91 rows=52 width=40)
+        Merge Key: lochierarchy, CASE WHEN (lochierarchy = 0) THEN s_state ELSE NULL::character varying END, pg_catalog.rank()
+        ->  XN Network  (cost=2000000000004.78..2000000000004.91 rows=52 width=40)
+              Send to leader
+              ->  XN Sort  (cost=2000000000004.78..2000000000004.91 rows=52 width=40)
+                    Sort Key: lochierarchy, CASE WHEN (lochierarchy = 0) THEN s_state ELSE NULL::character varying END, pg_catalog.rank()
+                    ->  XN Window  (cost=1000000000002.00..1000000000003.30 rows=52 width=40)
+                          Partition: lochierarchy, CASE WHEN (g_county = 0) THEN s_state ELSE NULL::character varying END
+                          Order: total_sum
+                          ->  XN Sort  (cost=1000000000002.00..1000000000002.13 rows=52 width=40)
+                                Sort Key: lochierarchy, CASE WHEN (g_county = 0) THEN s_state ELSE NULL::character varying END, total_sum
+                                ->  XN Network  (cost=0.00..0.52 rows=52 width=40)
+                                      Distribute
+                                      ->  XN Seq Scan on rs_table_70_1  (cost=0.00..0.52 rows=52 width=40)

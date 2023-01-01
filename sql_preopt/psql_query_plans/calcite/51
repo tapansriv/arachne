@@ -1,0 +1,48 @@
+                                                                                                               QUERY PLAN                                                                                                                
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=562809710.84..562809711.09 rows=100 width=136)
+   ->  Sort  (cost=562809710.84..563827764.36 rows=407221408 width=136)
+         Sort Key: t13.item_sk NULLS FIRST, t13.d_date NULLS FIRST
+         ->  Subquery Scan on t13  (cost=504487753.56..547246001.44 rows=407221408 width=136)
+               Filter: (t13.web_cumulative > t13.store_cumulative)
+               ->  WindowAgg  (cost=504487753.56..531975198.63 rows=1221664225 width=136)
+                     ->  Sort  (cost=504487753.56..507541914.13 rows=1221664225 width=72)
+                           Sort Key: (CASE WHEN (web_sales.ws_item_sk IS NOT NULL) THEN web_sales.ws_item_sk ELSE store_sales.ss_item_sk END), (CASE WHEN (date_dim.d_date IS NOT NULL) THEN date_dim.d_date ELSE date_dim_1.d_date END)
+                           ->  Merge Full Join  (cost=95449275.24..119671454.34 rows=1221664225 width=72)
+                                 Merge Cond: ((web_sales.ws_item_sk = store_sales.ss_item_sk) AND (date_dim.d_date = date_dim_1.d_date))
+                                 ->  WindowAgg  (cost=23768009.92..24318534.06 rows=3577256 width=40)
+                                       ->  Finalize GroupAggregate  (cost=23768009.92..24220159.52 rows=3577256 width=40)
+                                             Group Key: web_sales.ws_item_sk, date_dim.d_date
+                                             ->  Gather Merge  (cost=23768009.92..24145633.36 rows=2981046 width=40)
+                                                   Workers Planned: 2
+                                                   ->  Partial GroupAggregate  (cost=23767009.90..23800546.66 rows=1490523 width=40)
+                                                         Group Key: web_sales.ws_item_sk, date_dim.d_date
+                                                         ->  Sort  (cost=23767009.90..23770736.20 rows=1490523 width=14)
+                                                               Sort Key: web_sales.ws_item_sk, date_dim.d_date
+                                                               ->  Parallel Hash Join  (cost=2108.23..23588703.23 rows=1490523 width=14)
+                                                                     Hash Cond: (web_sales.ws_sold_date_sk = date_dim.d_date_sk)
+                                                                     ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=8)
+                                                                           ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=214 width=8)
+                                                                                 Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                 ->  Materialize  (cost=71681265.32..73954288.37 rows=13660350 width=40)
+                                       ->  WindowAgg  (cost=71681265.32..73783534.00 rows=13660350 width=40)
+                                             ->  Finalize GroupAggregate  (cost=71681265.32..73407874.37 rows=13660350 width=40)
+                                                   Group Key: store_sales.ss_item_sk, date_dim_1.d_date
+                                                   ->  Gather Merge  (cost=71681265.32..73123283.76 rows=11383624 width=40)
+                                                         Workers Planned: 2
+                                                         ->  Partial GroupAggregate  (cost=71680265.30..71808331.07 rows=5691812 width=40)
+                                                               Group Key: store_sales.ss_item_sk, date_dim_1.d_date
+                                                               ->  Sort  (cost=71680265.30..71694494.83 rows=5691812 width=14)
+                                                                     Sort Key: store_sales.ss_item_sk, date_dim_1.d_date
+                                                                     ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=14)
+                                                                           Hash Cond: (store_sales.ss_sold_date_sk = date_dim_1.d_date_sk)
+                                                                           ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                           ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=8)
+                                                                                 ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=214 width=8)
+                                                                                       Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+ JIT:
+   Functions: 72
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(44 rows)
+

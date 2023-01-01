@@ -1,0 +1,93 @@
+                                                                                                    QUERY PLAN                                                                                                    
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=291041964.80..291041965.05 rows=100 width=160)
+   CTE results
+     ->  GroupAggregate  (cost=291040934.40..291041445.75 rows=3053 width=160)
+           Group Key: ('store channel'::text), (('store'::text || (ssr.s_store_id)::text))
+           ->  Sort  (cost=291040934.40..291041010.72 rows=30528 width=160)
+                 Sort Key: ('store channel'::text), (('store'::text || (ssr.s_store_id)::text))
+                 ->  Append  (cost=84169286.11..291036259.39 rows=30528 width=160)
+                       ->  Subquery Scan on ssr  (cost=84169286.11..84173516.73 rows=501 width=160)
+                             ->  Finalize GroupAggregate  (cost=84169286.11..84173509.22 rows=501 width=145)
+                                   Group Key: store.s_store_id
+                                   ->  Gather Merge  (cost=84169286.11..84173476.65 rows=1002 width=145)
+                                         Workers Planned: 2
+                                         ->  Partial GroupAggregate  (cost=84168286.09..84172360.98 rows=501 width=145)
+                                               Group Key: store.s_store_id
+                                               ->  Sort  (cost=84168286.09..84168963.57 rows=270991 width=57)
+                                                     Sort Key: store.s_store_id
+                                                     ->  Hash Join  (cost=2166.21..84133640.02 rows=270991 width=57)
+                                                           Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                                           ->  Parallel Hash Join  (cost=2105.66..84129853.35 rows=270991 width=44)
+                                                                 Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                 ->  Parallel Append  (cost=0.00..79177222.20 rows=1319706546 width=48)
+                                                                       ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=48)
+                                                                       ->  Parallel Seq Scan on store_returns  (cost=0.00..6266183.93 rows=119996893 width=48)
+                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=9 width=4)
+                                                                       ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=9 width=4)
+                                                                             Filter: ((d_date >= '2000-08-23'::date) AND (d_date <= '2000-09-06'::date))
+                                                           ->  Hash  (cost=48.02..48.02 rows=1002 width=21)
+                                                                 ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=21)
+                       ->  Subquery Scan on csr  (cost=54211407.34..54223365.84 rows=30000 width=160)
+                             ->  Finalize GroupAggregate  (cost=54211407.34..54222915.84 rows=30000 width=145)
+                                   Group Key: catalog_page.cp_catalog_page_id
+                                   ->  Gather Merge  (cost=54211407.34..54220965.84 rows=60000 width=145)
+                                         Workers Planned: 2
+                                         ->  Partial GroupAggregate  (cost=54210407.32..54213040.33 rows=30000 width=145)
+                                               Group Key: catalog_page.cp_catalog_page_id
+                                               ->  Sort  (cost=54210407.32..54210746.16 rows=135534 width=57)
+                                                     Sort Key: catalog_page.cp_catalog_page_id
+                                                     ->  Hash Join  (cost=3428.66..54193758.20 rows=135534 width=57)
+                                                           Hash Cond: (catalog_sales.cs_catalog_page_sk = catalog_page.cp_catalog_page_sk)
+                                                           ->  Parallel Hash Join  (cost=2105.66..54190571.61 rows=135534 width=44)
+                                                                 Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                                 ->  Parallel Append  (cost=0.00..51712495.80 rows=660041853 width=48)
+                                                                       ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=48)
+                                                                       ->  Parallel Seq Scan on catalog_returns  (cost=0.00..3612966.53 rows=60001053 width=48)
+                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=9 width=4)
+                                                                       ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=9 width=4)
+                                                                             Filter: ((d_date >= '2000-08-23'::date) AND (d_date <= '2000-09-06'::date))
+                                                           ->  Hash  (cost=948.00..948.00 rows=30000 width=21)
+                                                                 ->  Seq Scan on catalog_page  (cost=0.00..948.00 rows=30000 width=21)
+                       ->  Subquery Scan on wsr  (cost=152638940.80..152639224.17 rows=27 width=160)
+                             ->  Finalize GroupAggregate  (cost=152638940.80..152639223.77 rows=27 width=145)
+                                   Group Key: web_site.web_site_id
+                                   ->  Gather Merge  (cost=152638940.80..152639222.01 rows=54 width=145)
+                                         Workers Planned: 2
+                                         ->  Partial GroupAggregate  (cost=152637940.78..152638215.76 rows=27 width=145)
+                                               Group Key: web_site.web_site_id
+                                               ->  Sort  (cost=152637940.78..152637986.52 rows=18296 width=57)
+                                                     Sort Key: web_site.web_site_id
+                                                     ->  Hash Join  (cost=2109.88..152636645.49 rows=18296 width=57)
+                                                           Hash Cond: ("*SELECT* 2".wsr_web_site_sk = web_site.web_site_sk)
+                                                           ->  Parallel Hash Join  (cost=2105.66..152636204.21 rows=67762 width=44)
+                                                                 Hash Cond: ("*SELECT* 2".date_sk = date_dim_2.d_date_sk)
+                                                                 ->  Parallel Append  (cost=0.00..151238643.53 rows=371999120 width=48)
+                                                                       ->  Subquery Scan on "*SELECT* 2"  (cost=28417625.00..126925833.73 rows=72000800 width=48)
+                                                                             ->  Parallel Hash Left Join  (cost=28417625.00..126205825.73 rows=30000333 width=48)
+                                                                                   Hash Cond: ((web_returns.wr_item_sk = web_sales_1.ws_item_sk) AND (web_returns.wr_order_number = web_sales_1.ws_order_number))
+                                                                                   ->  Parallel Seq Scan on web_returns  (cost=0.00..1695481.33 rows=30000333 width=24)
+                                                                                   ->  Parallel Hash  (cost=22452814.20..22452814.20 rows=299998320 width=12)
+                                                                                         ->  Parallel Seq Scan on web_sales web_sales_1  (cost=0.00..22452814.20 rows=299998320 width=12)
+                                                                       ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=48)
+                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=9 width=4)
+                                                                       ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=9 width=4)
+                                                                             Filter: ((d_date >= '2000-08-23'::date) AND (d_date <= '2000-09-06'::date))
+                                                           ->  Hash  (cost=3.54..3.54 rows=54 width=21)
+                                                                 ->  Seq Scan on web_site  (cost=0.00..3.54 rows=54 width=21)
+   ->  Sort  (cost=519.06..527.19 rows=3254 width=160)
+         Sort Key: results.channel NULLS FIRST, results.id NULLS FIRST
+         ->  HashAggregate  (cost=329.61..362.15 rows=3254 width=160)
+               Group Key: results.channel, results.id, results.sales, results.returns_, results.profit
+               ->  Append  (cost=0.00..288.94 rows=3254 width=160)
+                     ->  CTE Scan on results  (cost=0.00..61.06 rows=3053 width=160)
+                     ->  HashAggregate  (cost=91.59..95.09 rows=200 width=160)
+                           Group Key: results_1.channel
+                           ->  CTE Scan on results results_1  (cost=0.00..61.06 rows=3053 width=128)
+                     ->  Aggregate  (cost=83.97..83.98 rows=1 width=160)
+                           ->  CTE Scan on results results_2  (cost=0.00..61.06 rows=3053 width=96)
+ JIT:
+   Functions: 116
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(89 rows)
+

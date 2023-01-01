@@ -1,0 +1,40 @@
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=43183586036.83..43183586037.08 rows=100 width=50)
+   CTE customer_total_return
+     ->  Finalize GroupAggregate  (cost=6787645.48..6962687.62 rows=1384875 width=40)
+           Group Key: store_returns.sr_customer_sk, store_returns.sr_store_sk
+           ->  Gather Merge  (cost=6787645.48..6933836.06 rows=1154062 width=40)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=6786645.45..6799628.65 rows=577031 width=40)
+                       Group Key: store_returns.sr_customer_sk, store_returns.sr_store_sk
+                       ->  Sort  (cost=6786645.45..6788088.03 rows=577031 width=14)
+                             Sort Key: store_returns.sr_customer_sk, store_returns.sr_store_sk
+                             ->  Parallel Hash Join  (cost=2000.80..6721565.52 rows=577031 width=14)
+                                   Hash Cond: (store_returns.sr_returned_date_sk = date_dim.d_date_sk)
+                                   ->  Parallel Seq Scan on store_returns  (cost=0.00..6266183.93 rows=119996893 width=18)
+                                   ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                               Filter: (d_year = 2000)
+   ->  Sort  (cost=43176623349.21..43176623384.62 rows=14167 width=50)
+         Sort Key: customer.c_customer_id
+         ->  Nested Loop  (cost=0.00..43176622807.75 rows=14167 width=50)
+               Join Filter: (ctr1.ctr_customer_sk = customer.c_customer_sk)
+               ->  Nested Loop  (cost=0.00..43176580295.63 rows=18889 width=4)
+                     Join Filter: (ctr1.ctr_store_sk = store.s_store_sk)
+                     ->  CTE Scan on customer_total_return ctr1  (cost=0.00..43176296345.62 rows=461625 width=8)
+                           Filter: (ctr_total_return > (SubPlan 2))
+                           SubPlan 2
+                             ->  Aggregate  (cost=31177.00..31177.01 rows=1 width=32)
+                                   ->  CTE Scan on customer_total_return ctr2  (cost=0.00..31159.69 rows=6924 width=32)
+                                         Filter: (ctr1.ctr_store_sk = ctr_store_sk)
+                     ->  Materialize  (cost=0.00..50.73 rows=41 width=4)
+                           ->  Seq Scan on store  (cost=0.00..50.52 rows=41 width=4)
+                                 Filter: ((s_state)::text = 'TN'::text)
+               ->  Materialize  (cost=0.00..12.25 rows=150 width=54)
+                     ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=54)
+ JIT:
+   Functions: 45
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(36 rows)
+

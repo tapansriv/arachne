@@ -1,0 +1,98 @@
+┌───────────────────────────┐                                                                                                                    
+│      CREATE_TABLE_AS      │                                                                                                                    
+└─────────────┬─────────────┘                                                                                                                                                 
+┌─────────────┴─────────────┐                                                                                                                    
+│         PROJECTION        │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│         i_item_id         │                                                                                                                    
+│        ss_quantity        │                                                                                                                    
+│       ss_list_price       │                                                                                                                    
+│       ss_coupon_amt       │                                                                                                                    
+│       ss_sales_price      │                                                                                                                    
+└─────────────┬─────────────┘                                                                                                                                                 
+┌─────────────┴─────────────┐                                                                                                                    
+│         HASH_JOIN         │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│           INNER           ├─────────────────────────────────────────────────────────────────────────────────────────────────────┐              
+│   ss_promo_sk=p_promo_sk  │                                                                                                     │              
+└─────────────┬─────────────┘                                                                                                     │                                           
+┌─────────────┴─────────────┐                                                                                       ┌─────────────┴─────────────┐
+│         PROJECTION        │                                                                                       │         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│        ss_promo_sk        │                                                                                       │             #0            │
+│        ss_quantity        │                                                                                       │                           │
+│       ss_list_price       │                                                                                       │                           │
+│       ss_sales_price      │                                                                                       │                           │
+│       ss_coupon_amt       │                                                                                       │                           │
+│         i_item_id         │                                                                                       │                           │
+└─────────────┬─────────────┘                                                                                       └─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐                                                                                       ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                                                                                       │           FILTER          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           INNER           ├────────────────────────────────────────────────────────────────────────┐              │   (p_channel_email=N OR   │
+│    ss_item_sk=i_item_sk   │                                                                        │              │     p_channel_event=N)    │
+└─────────────┬─────────────┘                                                                        │              └─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐                                                          ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│         PROJECTION        │                                                          │        PARQUET_SCAN       ││        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         ss_item_sk        │                                                          │         i_item_sk         ││         p_promo_sk        │
+│        ss_promo_sk        │                                                          │         i_item_id         ││      p_channel_email      │
+│        ss_quantity        │                                                          │                           ││      p_channel_event      │
+│       ss_list_price       │                                                          │                           ││                           │
+│       ss_sales_price      │                                                          │                           ││                           │
+│       ss_coupon_amt       │                                                          │                           ││                           │
+└─────────────┬─────────────┘                                                          └───────────────────────────┘└───────────────────────────┘                             
+┌─────────────┴─────────────┐                                                                                                                    
+│         HASH_JOIN         │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│           INNER           ├───────────────────────────────────────────┐                                                                        
+│ ss_sold_date_sk=d_date_sk │                                           │                                                                        
+└─────────────┬─────────────┘                                           │                                                                                                     
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐                                                          
+│         PROJECTION        │                             │         PROJECTION        │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│      ss_sold_date_sk      │                             │         d_date_sk         │                                                          
+│         ss_item_sk        │                             │                           │                                                          
+│        ss_promo_sk        │                             │                           │                                                          
+│        ss_quantity        │                             │                           │                                                          
+│       ss_list_price       │                             │                           │                                                          
+│       ss_sales_price      │                             │                           │                                                          
+│       ss_coupon_amt       │                             │                           │                                                          
+└─────────────┬─────────────┘                             └─────────────┬─────────────┘                                                                                       
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐                                                          
+│         HASH_JOIN         │                             │        PARQUET_SCAN       │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│           INNER           │                             │         d_date_sk         │                                                          
+│   ss_cdemo_sk=cd_demo_sk  ├──────────────┐              │           d_year          │                                                          
+│                           │              │              │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│                           │              │              │  Filters: d_year=2000 AND │                                                          
+│                           │              │              │     d_year IS NOT NULL    │                                                          
+└─────────────┬─────────────┘              │              └───────────────────────────┘                                                                                       
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐                                                                                       
+│        PARQUET_SCAN       ││         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│      ss_sold_date_sk      ││         cd_demo_sk        │                                                                                       
+│         ss_item_sk        ││                           │                                                                                       
+│        ss_cdemo_sk        ││                           │                                                                                       
+│        ss_promo_sk        ││                           │                                                                                       
+│        ss_quantity        ││                           │                                                                                       
+│       ss_list_price       ││                           │                                                                                       
+│       ss_sales_price      ││                           │                                                                                       
+│       ss_coupon_amt       ││                           │                                                                                       
+└───────────────────────────┘└─────────────┬─────────────┘                                                                                                                    
+                             ┌─────────────┴─────────────┐                                                                                       
+                             │        PARQUET_SCAN       │                                                                                       
+                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+                             │         cd_demo_sk        │                                                                                       
+                             │         cd_gender         │                                                                                       
+                             │     cd_marital_status     │                                                                                       
+                             │    cd_education_status    │                                                                                       
+                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+                             │  Filters: cd_gender=M AND │                                                                                       
+                             │    cd_gender IS NOT NULL  │                                                                                       
+                             │cd_education_status=College│                                                                                       
+                             │ AND cd_education_status IS│                                                                                       
+                             │          NOT NULL         │                                                                                       
+                             │  cd_marital_status=S AND  │                                                                                       
+                             │ cd_marital_status IS ...  │                                                                                       
+                             └───────────────────────────┘                                                                                                                    

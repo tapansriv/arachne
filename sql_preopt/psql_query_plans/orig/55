@@ -1,0 +1,29 @@
+                                                             QUERY PLAN                                                              
+-------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=70835039.57..70835039.82 rows=100 width=53)
+   ->  Sort  (cost=70835039.57..70835051.70 rows=4855 width=53)
+         Sort Key: (sum(store_sales.ss_ext_sales_price)) DESC, item.i_brand_id
+         ->  Finalize GroupAggregate  (cost=70833432.44..70834854.01 rows=4855 width=53)
+               Group Key: item.i_brand, item.i_brand_id
+               ->  Gather Merge  (cost=70833432.44..70834696.23 rows=9710 width=53)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=70832432.42..70832575.43 rows=4855 width=53)
+                           Group Key: item.i_brand, item.i_brand_id
+                           ->  Sort  (cost=70832432.42..70832453.00 rows=8232 width=27)
+                                 Sort Key: item.i_brand, item.i_brand_id
+                                 ->  Parallel Hash Join  (cost=15859.62..70831897.05 rows=8232 width=27)
+                                       Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                       ->  Parallel Hash Join  (cost=2105.78..70816344.90 rows=470398 width=10)
+                                             Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=18 width=4)
+                                                         Filter: ((d_moy = 11) AND (d_year = 1999))
+                                       ->  Parallel Hash  (cost=13726.50..13726.50 rows=2188 width=25)
+                                             ->  Parallel Seq Scan on item  (cost=0.00..13726.50 rows=2188 width=25)
+                                                   Filter: (i_manager_id = 28)
+ JIT:
+   Functions: 31
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(25 rows)
+

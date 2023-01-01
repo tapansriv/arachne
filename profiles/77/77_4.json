@@ -1,0 +1,94 @@
+{
+   "name":  "Query", 
+   "result": 94.676178,
+   "timing": 94.676178,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE ws AS\n  (SELECT wp_web_page_sk,\n          sum(ws_ext_sales_price) AS sales,\n          sum(ws_net_profit) AS profit\n   FROM 'web_sales.parquet' AS web_sales,\n        'date_dim.parquet' AS date_dim,\n        'web_page.parquet' AS web_page\n   WHERE ws_sold_date_sk = d_date_sk\n     AND d_date BETWEEN cast('2000-08-23' AS date) AND cast('2000-09-22' AS date)\n     AND ws_web_page_sk = wp_web_page_sk\n   GROUP BY wp_web_page_sk)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000023,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.601688,
+         "cardinality":1500,
+         "extra_info": "#0\nsum(#1)\nsum(#2)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.073191,
+            "cardinality":16042688,
+            "extra_info": "wp_web_page_sk\nws_ext_sales_price\nws_net_profit\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.567284,
+               "cardinality":16042688,
+               "extra_info": "INNER\nws_web_page_sk=wp_web_page_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":6.399447,
+                  "cardinality":16044696,
+                  "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":85.796455,
+                     "cardinality":720000376,
+                     "extra_info": "ws_ext_sales_price\nws_net_profit\nws_sold_date_sk\nws_web_page_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.006151,
+                     "cardinality":62,
+                     "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-22 00:00:00 AND d_date IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.001561,
+                  "cardinality":6000,
+                  "extra_info": "wp_web_page_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

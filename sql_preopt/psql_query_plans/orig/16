@@ -1,0 +1,36 @@
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=105275558.23..105275558.23 rows=1 width=72)
+   ->  Sort  (cost=105275558.23..105275558.23 rows=1 width=72)
+         Sort Key: (count(DISTINCT cs1.cs_order_number))
+         ->  Aggregate  (cost=105275558.21..105275558.22 rows=1 width=72)
+               ->  Nested Loop Semi Join  (cost=4601465.67..105275558.20 rows=1 width=16)
+                     Join Filter: ((cs1.cs_warehouse_sk <> cs2.cs_warehouse_sk) AND (cs1.cs_order_number = cs2.cs_order_number))
+                     ->  Nested Loop  (cost=4601465.67..52071414.33 rows=1 width=20)
+                           Join Filter: (cs1.cs_call_center_sk = call_center.cc_call_center_sk)
+                           ->  Nested Loop  (cost=4601465.67..52071403.82 rows=1 width=24)
+                                 Join Filter: (cs1.cs_ship_addr_sk = customer_address.ca_address_sk)
+                                 ->  Gather  (cost=4600465.67..51895350.10 rows=1 width=28)
+                                       Workers Planned: 2
+                                       ->  Parallel Hash Anti Join  (cost=4599465.67..51894350.00 rows=1 width=28)
+                                             Hash Cond: (cs1.cs_order_number = cr1.cr_order_number)
+                                             ->  Parallel Hash Join  (cost=2105.98..47054355.90 rows=473709 width=28)
+                                                   Hash Cond: (cs1.cs_ship_date_sk = date_dim.d_date_sk)
+                                                   ->  Parallel Seq Scan on catalog_sales cs1  (cost=0.00..44799320.00 rows=600040800 width=32)
+                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=34 width=4)
+                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=34 width=4)
+                                                               Filter: ((d_date >= '2002-02-01'::date) AND (d_date <= '2002-04-02'::date))
+                                             ->  Parallel Hash  (cost=3612966.53..3612966.53 rows=60001053 width=4)
+                                                   ->  Parallel Seq Scan on catalog_returns cr1  (cost=0.00..3612966.53 rows=60001053 width=4)
+                                 ->  Gather  (cost=1000.00..172288.80 rows=301194 width=4)
+                                       Workers Planned: 2
+                                       ->  Parallel Seq Scan on customer_address  (cost=0.00..141169.40 rows=125498 width=4)
+                                             Filter: ((ca_state)::text = 'GA'::text)
+                           ->  Seq Scan on call_center  (cost=0.00..10.50 rows=1 width=4)
+                                 Filter: ((cc_county)::text = 'Williamson County'::text)
+                     ->  Seq Scan on catalog_sales cs2  (cost=0.00..53199891.20 rows=1440097920 width=8)
+ JIT:
+   Functions: 36
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(32 rows)
+

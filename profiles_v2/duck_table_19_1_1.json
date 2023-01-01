@@ -1,0 +1,62 @@
+{
+   "name":  "Query", 
+   "result": 0.379252,
+   "timing": 0.379252,
+   "cardinality": 100,
+   "extra-info": "SELECT "brand_id", "brand", "i_manufact_id", "i_manufact", SUM("ss_ext_sales_price") AS "ext_price"\nFROM "duck_table_19_0"\nGROUP BY "brand", "brand_id", "i_manufact_id", "i_manufact"\nORDER BY SUM("ss_ext_sales_price") DESC NULLS LAST, "brand", "brand_id", "i_manufact_id", "i_manufact"\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000603,
+      "cardinality":100,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#4 DESC\n#1 ASC\n#0 ASC\n#2 ASC\n#3 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000008,
+         "cardinality":2736,
+         "extra_info": "brand_id\nbrand\ni_manufact_id\ni_manufact\next_price\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_GROUP_BY",
+            "timing":0.228050,
+            "cardinality":2736,
+            "extra_info": "#0\n#1\n#2\n#3\nsum(#4)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.001086,
+               "cardinality":1513130,
+               "extra_info": "brand\nbrand_id\ni_manufact_id\ni_manufact\nss_ext_sales_price\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":0.147665,
+                  "cardinality":1513130,
+                  "extra_info": "duck_table_19_0\n[INFOSEPARATOR]\nbrand_id\nbrand\ni_manufact_id\ni_manufact\nss_ext_sales_price",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

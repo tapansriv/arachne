@@ -1,0 +1,8 @@
+XN Hash Join DS_BCAST_INNER  (cost=4006.01..7540198055.48 rows=29947 width=24)
+  Hash Cond: (("outer".i_item_id)::text = ("inner".i_item_id)::text)
+  ->  XN Seq Scan on item  (cost=0.00..3000.00 rows=300000 width=24)
+  ->  XN Hash  (cost=3969.78..3969.78 rows=14492 width=42)
+        ->  XN Subquery Scan t2  (cost=3824.86..3969.78 rows=14492 width=42)
+              ->  XN HashAggregate  (cost=3824.86..3824.86 rows=14492 width=20)
+                    ->  XN Seq Scan on item  (cost=0.00..3750.00 rows=29946 width=20)
+                          Filter: ((i_category)::text = 'Music'::text)

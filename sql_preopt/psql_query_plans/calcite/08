@@ -1,0 +1,45 @@
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=71662610.82..71662733.57 rows=10 width=36)
+   ->  GroupAggregate  (cost=71662610.82..71662733.57 rows=10 width=36)
+         Group Key: store.s_store_name
+         ->  Sort  (cost=71662610.82..71662651.69 rows=16350 width=10)
+               Sort Key: store.s_store_name
+               ->  Nested Loop  (cost=148473.11..71661466.56 rows=16350 width=10)
+                     Join Filter: ("substring"((store.s_zip)::text, 1, 2) = "substring"(t17.ca_zip, 1, 2))
+                     ->  Subquery Scan on t17  (cost=145306.34..435222.92 rows=1 width=32)
+                           ->  HashSetOp Intersect  (cost=145306.34..435222.91 rows=1 width=36)
+                                 ->  Append  (cost=145306.34..420223.19 rows=5999885 width=36)
+                                       ->  Subquery Scan on "*SELECT* 2"  (cost=145306.34..145306.38 rows=1 width=36)
+                                             ->  GroupAggregate  (cost=145306.34..145306.37 rows=1 width=38)
+                                                   Group Key: customer_address.ca_zip
+                                                   Filter: (count(*) > 10)
+                                                   ->  Sort  (cost=145306.34..145306.35 rows=1 width=6)
+                                                         Sort Key: customer_address.ca_zip
+                                                         ->  Gather  (cost=1011.89..145306.33 rows=1 width=6)
+                                                               Workers Planned: 2
+                                                               ->  Hash Join  (cost=11.89..144306.23 rows=1 width=6)
+                                                                     Hash Cond: (customer_address.ca_address_sk = customer.c_current_addr_sk)
+                                                                     ->  Parallel Seq Scan on customer_address  (cost=0.00..134919.52 rows=2499952 width=10)
+                                                                     ->  Hash  (cost=11.88..11.88 rows=1 width=4)
+                                                                           ->  Seq Scan on customer  (cost=0.00..11.88 rows=1 width=4)
+                                                                                 Filter: ((c_preferred_cust_flag)::text = 'Y'::text)
+                                       ->  Subquery Scan on "*SELECT* 1"  (cost=0.00..244917.39 rows=5999884 width=36)
+                                             ->  Seq Scan on customer_address customer_address_1  (cost=0.00..184918.55 rows=5999884 width=32)
+                     ->  Gather  (cost=3166.77..71169019.77 rows=3269936 width=16)
+                           Workers Planned: 2
+                           ->  Hash Join  (cost=2166.77..70841026.17 rows=1362473 width=16)
+                                 Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                 ->  Parallel Hash Join  (cost=2106.23..70821990.12 rows=1426873 width=10)
+                                       Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                       ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                       ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=4)
+                                             ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=54 width=4)
+                                                   Filter: ((d_qoy = 2) AND (d_year = 1998))
+                                 ->  Hash  (cost=48.02..48.02 rows=1002 width=14)
+                                       ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=14)
+ JIT:
+   Functions: 54
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(41 rows)
+

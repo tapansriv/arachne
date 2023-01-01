@@ -1,0 +1,7 @@
+XN Hash Join DS_BCAST_INNER  (cost=1095.95..73783857.17 rows=3164144 width=12)
+  Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+  ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2751299208 width=16)
+        Filter: (ss_sold_date_sk IS NOT NULL)
+  ->  XN Hash  (cost=1095.73..1095.73 rows=88 width=4)
+        ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=88 width=4)
+              Filter: ((d_year = 1998) AND (d_qoy = 2))

@@ -1,0 +1,47 @@
+--- no duckdb, only 50 queries ---
+527488
+38.74579874200898
+
+0, 0, 2.68204, 1.63063, 39.0552931532
+527488
+38.745698
+found 16384 plans cheaper than baseline
+
+--- yes duckdb, only 41 queries ---
+Starting analysis using DuckDB
+16777216
+13.87909945224126, 10.399817649833356, 1.6833592388244467, 1.0264929806709289, 28.586132111359998
+41
+0
+8.425870445558758
+found 655360 plans cheaper than baseline
+
+------------- using 98 queries, no duckdb ------------- 
+Egress cost: $0.12
+Starting analysis without using DuckDB
+16777216
+Redshift Total: $6.703786422594391, Redshift-Calcite Total: $5.817988764176367, BigQuery Total: $104.40686436352004
+98
+16777215
+Cost of new plan by subset (16777215, 0b111111111111111111111111): $56.45043622155415
+found 357902 plans cheaper than baseline
+
+------------- using  queries, yes duckdb ------------- 
+Egress cost: $0.12
+Starting analysis using DuckDB
+16777216
+Duck Total: $35.67034164243143, Duck-Calcite Total: $37.25181215890846, Redshift Total: $5.940502225539288, Redshift-Calcite Total: $5.264945640236933, BigQuery Total: $99.26791921664001
+95
+0
+Cost of new plan by subset (0, 0b0): $27.895919930378085
+found 2097152 plans cheaper than baseline
+
+------------- using  queries, yes duckdb ------------- 
+Egress cost: $0.09
+Starting analysis using DuckDB
+16777216
+Duck Total: $35.670341642431424, Duck-Calcite Total: $37.251812158908436, Redshift Total: $5.940502225539286, Redshift-Calcite Total: $5.2649456402369355, BigQuery Total: $99.26791921664005
+95
+0
+Cost of new plan by subset (0, 0b0): $27.8959199303781
+found 2825024 plans cheaper than baseline

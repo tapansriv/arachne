@@ -1,0 +1,43 @@
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=324127453.01..324127453.04 rows=13 width=228)
+   Sort Key: wswscs.d_week_seq NULLS FIRST
+   CTE wswscs
+     ->  Finalize GroupAggregate  (cost=288116764.42..324122086.39 rows=10412 width=228)
+           Group Key: date_dim_2.d_week_seq
+           ->  Gather Merge  (cost=288116764.42..324121019.16 rows=20824 width=228)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=288115764.40..324117615.53 rows=10412 width=228)
+                       Group Key: date_dim_2.d_week_seq
+                       ->  Sort  (cost=288115764.40..290365862.20 rows=900039120 width=18)
+                             Sort Key: date_dim_2.d_week_seq
+                             ->  Parallel Hash Join  (cost=2427.82..80424252.09 rows=900039120 width=18)
+                                   Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_2.d_date_sk)
+                                   ->  Parallel Append  (cost=0.00..71752329.80 rows=900039120 width=10)
+                                         ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=10)
+                                         ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=10)
+                                   ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=16)
+                                         ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..1890.70 rows=42970 width=16)
+   ->  Hash Join  (cost=5118.51..5366.38 rows=13 width=228)
+         Hash Cond: (wswscs.d_week_seq = date_dim.d_week_seq)
+         ->  CTE Scan on wswscs  (cost=0.00..208.24 rows=10412 width=228)
+         ->  Hash  (cost=5118.35..5118.35 rows=13 width=232)
+               ->  Merge Join  (cost=5112.76..5118.35 rows=13 width=232)
+                     Merge Cond: (((wswscs_1.d_week_seq - 53)) = date_dim.d_week_seq)
+                     ->  Sort  (cost=2723.16..2724.07 rows=364 width=228)
+                           Sort Key: ((wswscs_1.d_week_seq - 53)) NULLS FIRST
+                           ->  Hash Join  (cost=2378.66..2707.68 rows=364 width=228)
+                                 Hash Cond: (wswscs_1.d_week_seq = date_dim_1.d_week_seq)
+                                 ->  CTE Scan on wswscs wswscs_1  (cost=0.00..208.24 rows=10412 width=228)
+                                 ->  Hash  (cost=2374.11..2374.11 rows=364 width=4)
+                                       ->  Seq Scan on date_dim date_dim_1  (cost=0.00..2374.11 rows=364 width=4)
+                                             Filter: (d_year = 2002)
+                     ->  Sort  (cost=2389.60..2390.51 rows=364 width=4)
+                           Sort Key: date_dim.d_week_seq NULLS FIRST
+                           ->  Seq Scan on date_dim  (cost=0.00..2374.11 rows=364 width=4)
+                                 Filter: (d_year = 2001)
+ JIT:
+   Functions: 52
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(39 rows)
+

@@ -1,0 +1,9 @@
+XN Limit  (cost=1000008557677.48..1000008557677.73 rows=100 width=68)
+  ->  XN Merge  (cost=1000008557677.48..1000008557683.46 rows=2394 width=68)
+        Merge Key: w_substr, sm_type, lower((cc_name)::text)
+        ->  XN Network  (cost=1000008557677.48..1000008557683.46 rows=2394 width=68)
+              Send to leader
+              ->  XN Sort  (cost=1000008557677.48..1000008557683.46 rows=2394 width=68)
+                    Sort Key: w_substr, sm_type, lower((cc_name)::text)
+                    ->  XN HashAggregate  (cost=8557507.20..8557543.11 rows=2394 width=68)
+                          ->  XN Seq Scan on rs_table_99_0  (cost=0.00..2852502.40 rows=285250240 width=68)

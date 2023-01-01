@@ -1,0 +1,41 @@
+┌───────────────────────────┐
+│           TOP_N           │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          Top 100          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          #3 DESC          │
+│           #5 ASC          │
+│           #4 ASC          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         total_sum         │
+│         i_category        │
+│          i_class          │
+│        lochierarchy       │
+│     rank_within_parent    │
+│ CASE WHEN (lochierarchy=0)│
+│   THEN (i_category) ELSE  │
+│           (NULL)          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│           WINDOW          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│  RANK() OVER(PARTITION BY │
+│  lochierarchy, CASE WHEN  │
+│(g_class=0) THEN (i_ca...  │
+│    ELSE (NULL) ORDER BY   │
+│ total_sum DESC NULLS ...  │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│          SEQ_SCAN         │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      duck_table_86_1      │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         total_sum         │
+│         i_category        │
+│          i_class          │
+│        lochierarchy       │
+│          g_class          │
+└───────────────────────────┘                             

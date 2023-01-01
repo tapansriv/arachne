@@ -1,0 +1,56 @@
+                                                                       QUERY PLAN                                                                        
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=47584720.26..47584720.31 rows=17 width=389)
+   CTE results
+     ->  Nested Loop  (cost=35284.26..47584718.35 rows=4 width=160)
+           Join Filter: (catalog_sales.cs_item_sk = item.i_item_sk)
+           ->  Seq Scan on item  (cost=0.00..15164.00 rows=300000 width=21)
+           ->  Materialize  (cost=35284.26..47551554.30 rows=4 width=68)
+                 ->  Nested Loop  (cost=35284.26..47551554.27 rows=4 width=68)
+                       Join Filter: (customer.c_current_cdemo_sk = cd2.cd_demo_sk)
+                       ->  Seq Scan on customer_demographics cd2  (cost=0.00..38759.00 rows=1920800 width=4)
+                       ->  Materialize  (cost=35284.26..47397547.28 rows=4 width=72)
+                             ->  Nested Loop  (cost=35284.26..47397547.26 rows=4 width=72)
+                                   Join Filter: (customer.c_customer_sk = catalog_sales.cs_bill_customer_sk)
+                                   ->  Hash Join  (cost=12.70..226228.46 rows=1 width=43)
+                                         Hash Cond: (customer_address.ca_address_sk = customer.c_current_addr_sk)
+                                         ->  Seq Scan on customer_address  (cost=0.00..222417.83 rows=1012780 width=35)
+                                               Filter: ((ca_state)::text = ANY ('{MS,IN,ND,OK,NM,VA,MS}'::text[]))
+                                         ->  Hash  (cost=12.62..12.62 rows=6 width=16)
+                                               ->  Seq Scan on customer  (cost=0.00..12.62 rows=6 width=16)
+                                                     Filter: (c_birth_month = ANY ('{1,6,8,9,12,2}'::integer[]))
+                                   ->  Gather  (cost=35271.56..47164978.25 rows=507244 width=37)
+                                         Workers Planned: 2
+                                         ->  Parallel Hash Join  (cost=34271.56..47113253.85 rows=211352 width=37)
+                                               Hash Cond: (catalog_sales.cs_bill_cdemo_sk = cd1.cd_demo_sk)
+                                               ->  Parallel Hash Join  (cost=2000.80..47068953.21 rows=2973134 width=37)
+                                                     Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim.d_date_sk)
+                                                     ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=41)
+                                                     ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                                           ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                                                 Filter: (d_year = 1998)
+                                               ->  Parallel Hash  (cost=31556.00..31556.00 rows=57181 width=8)
+                                                     ->  Parallel Seq Scan on customer_demographics cd1  (cost=0.00..31556.00 rows=57181 width=8)
+                                                           Filter: (((cd_gender)::text = 'F'::text) AND ((cd_education_status)::text = 'Unknown'::text))
+   ->  Sort  (cost=1.92..1.96 rows=17 width=389)
+         Sort Key: results.ca_country NULLS FIRST, results.ca_state NULLS FIRST, results.ca_county NULLS FIRST, results.i_item_id NULLS FIRST
+         ->  Append  (cost=0.19..1.57 rows=17 width=389)
+               ->  HashAggregate  (cost=0.19..0.30 rows=4 width=422)
+                     Group Key: results.i_item_id, results.ca_country, results.ca_state, results.ca_county
+                     ->  CTE Scan on results  (cost=0.00..0.08 rows=4 width=310)
+               ->  HashAggregate  (cost=0.18..0.29 rows=4 width=376)
+                     Group Key: results_1.i_item_id, results_1.ca_country, results_1.ca_state
+                     ->  CTE Scan on results results_1  (cost=0.00..0.08 rows=4 width=232)
+               ->  HashAggregate  (cost=0.17..0.28 rows=4 width=396)
+                     Group Key: results_2.i_item_id, results_2.ca_country
+                     ->  CTE Scan on results results_2  (cost=0.00..0.08 rows=4 width=220)
+               ->  HashAggregate  (cost=0.16..0.27 rows=4 width=370)
+                     Group Key: results_3.i_item_id
+                     ->  CTE Scan on results results_3  (cost=0.00..0.08 rows=4 width=162)
+               ->  Aggregate  (cost=0.17..0.18 rows=1 width=352)
+                     ->  CTE Scan on results results_4  (cost=0.00..0.08 rows=4 width=112)
+ JIT:
+   Functions: 70
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(52 rows)
+

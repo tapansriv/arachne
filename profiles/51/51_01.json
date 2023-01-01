@@ -1,0 +1,70 @@
+{
+    "name": "PROJECTION",
+    "timing": 0.103512,
+    "cardinality": 54801715,
+    "extra_info": "item_sk\nd_date\ncume_sales\n",
+    "timings": [],
+    "children": [
+        {
+            "name": "WINDOW",
+            "timing": 403.179536,
+            "cardinality": 54801715,
+            "extra_info": "sum(sum(#[6.1])) OVER(PARTITION BY ss_item_sk ORDER BY d_date ASC NULLS FIRST ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_GROUP_BY",
+                    "timing": 110.403106,
+                    "cardinality": 54801715,
+                    "extra_info": "#0\n#1\nsum(#2)",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 4.989207,
+                            "cardinality": 553018161,
+                            "extra_info": "ss_item_sk\nd_date\nss_sales_price\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_JOIN",
+                                    "timing": 32.908986,
+                                    "cardinality": 553018161,
+                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "FILTER",
+                                            "timing": 8.734489,
+                                            "cardinality": 2879987999,
+                                            "extra_info": "IS_NOT_NULL(ss_item_sk)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PARQUET_SCAN",
+                                                    "timing": 116.018375,
+                                                    "cardinality": 2879987999,
+                                                    "extra_info": "ss_item_sk\nss_sales_price\nss_sold_date_sk",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "PARQUET_SCAN",
+                                            "timing": 0.006452,
+                                            "cardinality": 732,
+                                            "extra_info": "d_date\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                            "timings": [],
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

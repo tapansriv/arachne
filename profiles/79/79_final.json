@@ -1,0 +1,139 @@
+{
+    "name": "TOP_N",
+    "timing": 1.245367,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC\n#2 ASC\n#5 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.438131,
+            "cardinality": 7949871,
+            "extra_info": "c_last_name\nc_first_name\nsubstring(s_city, 1, 30)\nss_ticket_number\namt\nprofit\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 2.219334,
+                    "cardinality": 7949871,
+                    "extra_info": "INNER\nss_customer_sk=c_customer_sk\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.018785,
+                            "cardinality": 8461771,
+                            "extra_info": "ss_ticket_number\nss_customer_sk\ns_city\namt\nprofit\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing": 11.521055,
+                                    "cardinality": 8461771,
+                                    "extra_info": "#0\n#1\n#2\n#3\nsum(#4)\nsum(#5)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "PROJECTION",
+                                            "timing": 0.895059,
+                                            "cardinality": 85044281,
+                                            "extra_info": "ss_ticket_number\nss_customer_sk\nss_addr_sk\ns_city\nss_coupon_amt\nss_net_profit\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 4.882954,
+                                                    "cardinality": 85044281,
+                                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_JOIN",
+                                                            "timing": 25.838051,
+                                                            "cardinality": 91948485,
+                                                            "extra_info": "INNER\nss_hdemo_sk=hd_demo_sk\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 42.415905,
+                                                                    "cardinality": 235365412,
+                                                                    "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 334.286282,
+                                                                            "cardinality": 2879987999,
+                                                                            "extra_info": "ss_ticket_number\nss_customer_sk\nss_coupon_amt\nss_net_profit\nss_sold_date_sk\nss_store_sk\nss_hdemo_sk\nss_addr_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.004799,
+                                                                            "cardinality": 314,
+                                                                            "extra_info": "d_date_sk\nd_dow\nd_year\n[INFOSEPARATOR]\nFilters: d_dow=1 AND d_dow IS NOT NULL\nd_year>=1999 AND d_year<=2001 AND d_year IS NOT NULL\n",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "PROJECTION",
+                                                                    "timing": 3.4e-05,
+                                                                    "cardinality": 5760,
+                                                                    "extra_info": "#0\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "FILTER",
+                                                                            "timing": 0.000263,
+                                                                            "cardinality": 5760,
+                                                                            "extra_info": "(hd_dep_count=6 OR hd_vehicle_count>2)",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.000495,
+                                                                                    "cardinality": 14400,
+                                                                                    "extra_info": "hd_demo_sk\nhd_dep_count\nhd_vehicle_count",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 0.002257,
+                                                            "cardinality": 1878,
+                                                            "extra_info": "s_city\ns_store_sk\ns_number_employees\n[INFOSEPARATOR]\nFilters: s_number_employees>=200 AND s_number_employees<=295 AND s_number_employees IS NOT NULL\n",
+                                                            "timings": [],
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PARQUET_SCAN",
+                            "timing": 4.454586,
+                            "cardinality": 24000000,
+                            "extra_info": "c_last_name\nc_first_name\nc_customer_sk",
+                            "timings": [],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

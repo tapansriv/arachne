@@ -1,0 +1,28 @@
+XN Limit  (cost=1000629298007.94..1000629298007.95 rows=1 width=33)
+  ->  XN Merge  (cost=1000629298007.94..1000629298007.95 rows=1 width=33)
+        Merge Key: CASE WHEN rs_table_90_0."=" THEN NULL::numeric ELSE (t3."cast" / rs_table_90_0."cast") END
+        ->  XN Network  (cost=1000629298007.94..1000629298007.95 rows=1 width=33)
+              Send to leader
+              ->  XN Sort  (cost=1000629298007.94..1000629298007.95 rows=1 width=33)
+                    Sort Key: CASE WHEN rs_table_90_0."=" THEN NULL::numeric ELSE (t3."cast" / rs_table_90_0."cast") END
+                    ->  XN Nested Loop DS_BCAST_INNER  (cost=629058007.89..629298007.93 rows=1 width=33)
+                          ->  XN Seq Scan on rs_table_90_0  (cost=0.00..0.01 rows=1 width=17)
+                          ->  XN Subquery Scan t3  (cost=629058007.89..629058007.91 rows=1 width=16)
+                                ->  XN Aggregate  (cost=629058007.89..629058007.90 rows=1 width=0)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=1443.76..629057820.22 rows=75066 width=0)
+                                            Hash Cond: ("outer".ws_ship_hdemo_sk = "inner".hd_demo_sk)
+                                            ->  XN Hash Join DS_BCAST_INNER  (cost=1351.95..542520619.72 rows=727024 width=4)
+                                                  Hash Cond: ("outer".ws_sold_time_sk = "inner".t_time_sk)
+                                                  ->  XN Hash Join DS_BCAST_INNER  (cost=45.15..23665281.14 rows=14522735 width=8)
+                                                        Hash Cond: ("outer".ws_web_page_sk = "inner".wp_web_page_sk)
+                                                        ->  XN Seq Scan on web_sales  (cost=0.00..7200003.84 rows=720000384 width=12)
+                                                        ->  XN Hash  (cost=45.00..45.00 rows=61 width=4)
+                                                              ->  XN Seq Scan on web_page  (cost=0.00..45.00 rows=61 width=4)
+                                                                    Filter: ((wp_char_count >= 5000) AND (wp_char_count <= 5200))
+                                                  ->  XN Hash  (cost=1296.00..1296.00 rows=4321 width=4)
+                                                        ->  XN Seq Scan on time_dim  (cost=0.00..1296.00 rows=4321 width=4)
+                                                              Filter: ((t_hour <= 9) AND (t_hour >= 8))
+                                            ->  XN Hash  (cost=90.00..90.00 rows=721 width=4)
+                                                  ->  XN Seq Scan on household_demographics  (cost=0.00..90.00 rows=721 width=4)
+                                                        Filter: (hd_dep_count = 6)
+----- Nested Loop Join in the query plan - review the join predicates to avoid Cartesian products -----

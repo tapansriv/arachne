@@ -1,0 +1,298 @@
+{
+   "name":  "Query", 
+   "result": 1222.165413,
+   "timing": 1222.165413,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001721
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000033
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000028
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000860
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000138
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000050
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000534
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000021
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000063
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000021
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000023
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "planner", 
+   "timing": 15.379895
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 15.379874
+   }
+   ],
+   "children": [
+    {
+      "name": "SIMPLE_AGGREGATE",
+      "timing":0.007068,
+      "cardinality":0,
+      "extra_info": "sum(#0)",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.003207,
+         "cardinality":1148814,
+         "extra_info": "ss_quantity\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.418742,
+            "cardinality":1148814,
+            "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.204893,
+               "cardinality":5717212,
+               "extra_info": "#0\n#2\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "FILTER",
+                  "timing":1.228881,
+                  "cardinality":5717212,
+                  "extra_info": "((#6 AND #3) OR (#7 AND #4) OR (#8 AND #5))",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":54.866050,
+                     "cardinality":5717212,
+                     "extra_info": "INNER\nss_addr_sk=ca_address_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":22.993643,
+                        "cardinality":44919468,
+                        "extra_info": "#0\n#2\n#3\n#4\n#5\n#6\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "FILTER",
+                           "timing":131.318549,
+                           "cardinality":44919468,
+                           "extra_info": "((#10 AND #11 AND #7) OR (#12 AND #13 AND #8) OR (#14 AND #15 AND #9))",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":257.948801,
+                              "cardinality":44919468,
+                              "extra_info": "INNER\nss_cdemo_sk=cd_demo_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":23.550657,
+                                 "cardinality":5500831898,
+                                 "extra_info": "ss_sold_date_sk\nss_cdemo_sk\nss_addr_sk\nss_quantity\nAND\nAND5\nAND6\nSEARCH\nSEARCH8\nSEARCH9\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":137.378511,
+                                    "cardinality":5500831898,
+                                    "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":481.719710,
+                                       "cardinality":5759975998,
+                                       "extra_info": "ss_sold_date_sk\nss_cdemo_sk\nss_addr_sk\nss_store_sk\nss_quantity\nAND\nAND6\nAND7\nAND8\nAND9\nAND10\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":1236.239306,
+                                          "cardinality":5759975998,
+                                          "extra_info": "ss_sold_date_sk\nss_cdemo_sk\nss_addr_sk\nss_store_sk\nss_quantity\nss_net_profit\nss_sales_price",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.000286,
+                                       "cardinality":2004,
+                                       "extra_info": "s_store_sk",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.055638,
+                                 "cardinality":3841600,
+                                 "extra_info": "cd_demo_sk\n=\n=2\n=3\n=4\n=5\n=6\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.405313,
+                                    "cardinality":3841600,
+                                    "extra_info": "cd_demo_sk\ncd_marital_status\ncd_education_status",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":1.265567,
+                        "cardinality":11640276,
+                        "extra_info": "ca_address_sk\n(ca_state=CO OR ca_state=OH OR ca_state=TX)\n(ca_state=KY OR ca_state=MN OR ca_state=OR)\n(ca_state=CA OR ca_state=MS OR ca_state=VA)\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":3.296016,
+                           "cardinality":11640276,
+                           "extra_info": "ca_address_sk\nca_country\nca_state\n[INFOSEPARATOR]\nFilters: ca_country=United States AND ca_country IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PROJECTION",
+               "timing":0.000024,
+               "cardinality":732,
+               "extra_info": "d_date_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.002798,
+                  "cardinality":732,
+                  "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2000 AND d_year IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

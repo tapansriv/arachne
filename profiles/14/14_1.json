@@ -1,0 +1,187 @@
+{
+   "name":  "Query", 
+   "result": 627.739891,
+   "timing": 627.739891,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE avg_sales AS\n  (SELECT avg(quantity*list_price) average_sales\n   FROM\n     (SELECT ss_quantity quantity ,\n             ss_list_price list_price\n      FROM 'store_sales.parquet' AS store_sales ,\n           'date_dim.parquet' AS date_dim\n      WHERE ss_sold_date_sk = d_date_sk\n        AND d_year BETWEEN 1999 AND 2001\n      UNION ALL SELECT cs_quantity quantity,\n                       cs_list_price list_price\n      FROM 'catalog_sales.parquet' AS catalog_sales ,\n           'date_dim.parquet' AS date_dim\n      WHERE cs_sold_date_sk = d_date_sk\n        AND d_year BETWEEN 1999 AND 1999 + 2\n      UNION ALL SELECT ws_quantity quantity ,\n                       ws_list_price list_price\n      FROM 'web_sales.parquet' AS web_sales ,\n           'date_dim.parquet' AS date_dim\n      WHERE ws_sold_date_sk = d_date_sk\n        AND d_year BETWEEN 1999 AND 1999 + 2) x)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000035,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "SIMPLE_AGGREGATE",
+         "timing":22.495179,
+         "cardinality":1,
+         "extra_info": "avg(#0)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":73.022077,
+            "cardinality":5877360716,
+            "extra_info": "*(CAST(quantity AS DOUBLE), list_price)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "UNION",
+               "timing":12.462037,
+               "cardinality":5877360716,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "UNION",
+                  "timing":10.236411,
+                  "cardinality":5013582186,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":10.501945,
+                     "cardinality":3300472568,
+                     "extra_info": "quantity\nlist_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":95.159375,
+                        "cardinality":3300472568,
+                        "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":464.215645,
+                           "cardinality":5759975998,
+                           "extra_info": "ss_quantity\nss_list_price\nss_sold_date_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.003440,
+                           "cardinality":2192,
+                           "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year>=1999 AND d_year<=2001 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":3.119173,
+                     "cardinality":1713109618,
+                     "extra_info": "quantity\nlist_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":35.785825,
+                        "cardinality":1713109618,
+                        "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":285.386155,
+                           "cardinality":2879960832,
+                           "extra_info": "cs_quantity\ncs_list_price\ncs_sold_date_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.003269,
+                           "cardinality":2192,
+                           "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year>=1999 AND d_year<=2001 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":2.569587,
+                  "cardinality":863778530,
+                  "extra_info": "quantity\nlist_price\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":19.434851,
+                     "cardinality":863778530,
+                     "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":146.517134,
+                        "cardinality":1440000752,
+                        "extra_info": "ws_quantity\nws_list_price\nws_sold_date_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.003201,
+                        "cardinality":2192,
+                        "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year>=1999 AND d_year<=2001 AND d_year IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

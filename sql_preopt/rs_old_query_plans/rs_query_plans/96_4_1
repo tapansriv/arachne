@@ -1,0 +1,7 @@
+XN Hash Join DS_BCAST_INNER  (cost=91.80..353055885.57 rows=272044158 width=167)
+  Hash Cond: ("outer".ss_hdemo_sk = "inner".hd_demo_sk)
+  ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2754465445 width=140)
+        Filter: (ss_hdemo_sk IS NOT NULL)
+  ->  XN Hash  (cost=90.00..90.00 rows=721 width=27)
+        ->  XN Seq Scan on household_demographics  (cost=0.00..90.00 rows=721 width=27)
+              Filter: (hd_dep_count = 7)

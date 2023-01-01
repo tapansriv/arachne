@@ -1,0 +1,44 @@
+┌───────────────────────────┐
+│      CREATE_TABLE_AS      │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          avg(#0)          │
+│        count_star()       │
+│     count(DISTINCT #1)    │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│       ss_list_price       │
+│       ss_list_price       │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│             #0            │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│           FILTER          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│((ss_list_price>=122.000000│
+│   AND ss_list_price<=132  │
+│.000000) OR (ss_coupon...  │
+│ .000000 AND ss_coupon_amt<│
+│     =1836.000000) OR      │
+│(ss_wholesale_cost>=17...  │
+│ ss_wholesale_cost<=37...  │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│       ss_list_price       │
+│        ss_quantity        │
+│       ss_coupon_amt       │
+│     ss_wholesale_cost     │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│  Filters: ss_quantity>=21 │
+│   AND ss_quantity<=25 AND │
+│   ss_quantity IS NOT NULL │
+└───────────────────────────┘                             

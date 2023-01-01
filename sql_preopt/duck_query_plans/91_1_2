@@ -1,0 +1,45 @@
+┌───────────────────────────┐
+│          ORDER_BY         │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          #3 DESC          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│        Call_Center        │
+│      Call_Center_Name     │
+│          Manager          │
+│        Returns_Loss       │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│             #0            │
+│             #1            │
+│             #2            │
+│             #3            │
+│             #4            │
+│          sum(#5)          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│        Call_Center        │
+│      Call_Center_Name     │
+│          Manager          │
+│     cd_marital_status     │
+│    cd_education_status    │
+│        cr_net_loss        │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│          SEQ_SCAN         │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      duck_table_91_0      │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│        Call_Center        │
+│      Call_Center_Name     │
+│          Manager          │
+│        cr_net_loss        │
+│     cd_marital_status     │
+│    cd_education_status    │
+└───────────────────────────┘                             

@@ -1,0 +1,23 @@
+XN Limit  (cost=1013785799986.61..1013785799986.68 rows=29 width=131)
+  ->  XN Merge  (cost=1013785799986.61..1013785799986.68 rows=29 width=131)
+        Merge Key: item.i_item_id
+        ->  XN Network  (cost=1013785799986.61..1013785799986.68 rows=29 width=131)
+              Send to leader
+              ->  XN Sort  (cost=1013785799986.61..1013785799986.68 rows=29 width=131)
+                    Sort Key: item.i_item_id
+                    ->  XN HashAggregate  (cost=13785799985.90..13785799985.90 rows=29 width=131)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=81210806.78..13785118793.11 rows=90825705 width=131)
+                                Hash Cond: ("outer".ss_item_sk = "inner".inv_item_sk)
+                                ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2879987968 width=4)
+                                ->  XN Hash  (cost=81210783.75..81210783.75 rows=9215 width=139)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=7500.86..81210783.75 rows=9215 width=139)
+                                            Hash Cond: ("outer".inv_item_sk = "inner".i_item_sk)
+                                            ->  XN Hash Join DS_BCAST_INNER  (cost=0.76..23489937.02 rows=69033533 width=4)
+                                                  Hash Cond: ("outer".inv_date_sk = "inner".d_date_sk)
+                                                  ->  XN Seq Scan on inventory  (cost=0.00..11745000.00 rows=298768074 width=8)
+                                                        Filter: ((inv_quantity_on_hand <= 500) AND (inv_quantity_on_hand >= 100))
+                                                  ->  XN Hash  (cost=0.61..0.61 rows=61 width=4)
+                                                        ->  XN Seq Scan on rs_table_82_0  (cost=0.00..0.61 rows=61 width=4)
+                                            ->  XN Hash  (cost=7500.00..7500.00 rows=39 width=135)
+                                                  ->  XN Seq Scan on item  (cost=0.00..7500.00 rows=39 width=135)
+                                                        Filter: (((i_manufact_id = 129) OR (i_manufact_id = 270) OR (i_manufact_id = 423) OR (i_manufact_id = 821)) AND (i_current_price >= 62::double precision) AND (i_current_price <= 92::double precision))

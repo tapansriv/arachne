@@ -1,0 +1,312 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     303   0                    00  Start at 303 
+1     Null           0     1     0                    00  r[1]=NULL    
+2     InitCoroutine  3     210   3                    00               
+3     Null           0     4     0                    00  r[4]=NULL    
+4     InitCoroutine  6     134   5                    00               
+5     SorterOpen     13    13    0     k(1,B)         00               
+6     SorterOpen     14    6     0     k(5,B,B,B,B,B)  00               
+7     Integer        0     15    0                    00  r[15]=0; clear abort flag
+8     Null           0     18    22                   00  r[18..22]=NULL
+9     Gosub          17    114   0                    00               
+10    OpenRead       1     15    0     13             00  root=15 iDb=0; item
+11    OpenRead       0     6     0     24             00  root=6 iDb=0; catalog_sales
+12    OpenRead       2     11    0     3              00  root=11 iDb=0; date_dim
+13    Rewind         1     74    0                    00               
+14      Noop           0     0     0                    00  begin IN expr
+15      Integer        27    28    0                    00  r[28]=27; return address
+16      Once           0     27    0                    00               
+17      OpenEphemeral  15    1     0     k(1,B)         00  nColumn=1; RHS of IN operator
+18      String8        0     29    0     Sports         00  r[29]='Sports'
+19      MakeRecord     29    1     30    B              00  r[30]=mkrec(r[29])
+20      IdxInsert      15    30    29    1              00  key=r[30]    
+21      String8        0     29    0     Books          00  r[29]='Books'
+22      MakeRecord     29    1     30    B              00  r[30]=mkrec(r[29])
+23      IdxInsert      15    30    29    1              00  key=r[30]    
+24      String8        0     29    0     Home           00  r[29]='Home' 
+25      MakeRecord     29    1     30    B              00  r[30]=mkrec(r[29])
+26      IdxInsert      15    30    29    1              00  key=r[30]    
+27      Return         28    0     0                    00               
+28      Column         1     12    31                   00  r[31]=item.i_category
+29      IsNull         31    73    0                    00  if r[31]==NULL goto 73
+30      Affinity       31    1     0     B              00  affinity(r[31])
+31      NotFound       15    73    31    1              00  key=r[31]; end IN expr
+32      Once           0     42    0                    00               
+33      OpenAutoindex  16    4     0     k(4,B,,,)      00  nColumn=4; for catalog_sales
+34      Rewind         0     42    0                    00               
+35        Column         0     15    33                   00  r[33]=catalog_sales.cs_item_sk
+36        Column         0     0     34                   00  r[34]=catalog_sales.cs_sold_date_sk
+37        Column         0     23    35                   00  r[35]=catalog_sales.cs_ext_sales_price
+38        Rowid          0     36    0                    00  r[36]=rowid  
+39        MakeRecord     33    4     32                   00  r[32]=mkrec(r[33..36])
+40        IdxInsert      16    32    0                    10  key=r[32]    
+41      Next           0     35    0                    03               
+42      Column         1     0     37                   00  r[37]=item.i_item_sk
+43      Affinity       37    1     0     C              00  affinity(r[37])
+44      SeekGE         16    73    37    1              00  key=r[37]    
+45        IdxGT          16    73    37    1              00  key=r[37]    
+46        Once           0     55    0                    00               
+47        OpenAutoindex  17    3     0     k(3,B,,)       00  nColumn=3; for date_dim
+48        Rewind         2     55    0                    00               
+49          Column         2     0     33                   00  r[33]=date_dim.d_date_sk
+50          Column         2     2     34                   00  r[34]=date_dim.d_date
+51          Rowid          2     35    0                    00  r[35]=rowid  
+52          MakeRecord     33    3     32                   00  r[32]=mkrec(r[33..35])
+53          IdxInsert      17    32    0                    10  key=r[32]    
+54        Next           2     49    0                    03               
+55        Column         16    1     38                   00  r[38]=catalog_sales.cs_sold_date_sk
+56        IsNull         38    72    0                    00  if r[38]==NULL goto 72
+57        Affinity       38    1     0     C              00  affinity(r[38])
+58        SeekGE         17    72    38    1              00  key=r[38]    
+59          IdxGT          17    72    38    1              00  key=r[38]    
+60          Column         17    1     32                   00  r[32]=date_dim.d_date
+61          Lt             40    71    32    (BINARY)       53  if r[32]<r[40] goto 71
+62          Gt             41    71    32    (BINARY)       53  if r[32]>r[41] goto 71
+63          Column         1     1     42                   00  r[42]=item.i_item_id
+64          Column         1     4     43                   00  r[43]=item.i_item_desc
+65          Column         1     12    44                   00  r[44]=item.i_category
+66          Column         1     10    45                   00  r[45]=item.i_class
+67          Column         1     5     46                   00  r[46]=item.i_current_price
+68          Column         16    2     47                   00  r[47]=catalog_sales.cs_ext_sales_price
+69          MakeRecord     42    6     32                   00  r[32]=mkrec(r[42..47])
+70          SorterInsert   14    32    0                    00  key=r[32]    
+71        Next           17    59    0                    00               
+72      Next           16    45    0                    00               
+73    Next           1     14    0                    01               
+74    OpenPseudo     18    32    6                    00  6 columns in r[32]
+75    SorterSort     14    117   0                    00  GROUP BY sort
+76      SorterData     14    32    18                   00  r[32]=data   
+77      Column         18    0     23                   00  r[23]=       
+78      Column         18    1     24                   00  r[24]=       
+79      Column         18    2     25                   00  r[25]=       
+80      Column         18    3     26                   00  r[26]=       
+81      Column         18    4     27                   00  r[27]=       
+82      Compare        18    23    5     k(5,B,B,B,B,B)  00  r[18..22] <-> r[23..27]
+83      Jump           84    88    84                   00               
+84      Move           23    18    5                    00  r[18..22]=r[23..27]
+85      Gosub          16    102   0                    00  output one row
+86      IfPos          15    117   0                    00  if r[15]>0 then r[15]-=0, goto 117; check abort flag
+87      Gosub          17    114   0                    00  reset accumulator
+88      Column         18    5     39                   00  r[39]=       
+89      AggStep        0     39    12    sum(1)         01  accum=r[12] step(r[39])
+90      If             14    96    0                    00               
+91      Column         18    0     7                    00  r[7]=        
+92      Column         18    1     8                    00  r[8]=        
+93      Column         18    2     9                    00  r[9]=        
+94      Column         18    3     10                   00  r[10]=       
+95      Column         18    4     11                   00  r[11]=       
+96      Integer        1     14    0                    00  r[14]=1; indicate data in accumulator
+97    SorterNext     14    76    0                    00               
+98    Gosub          16    102   0                    00  output final row
+99    Goto           0     117   0                    00               
+100   Integer        1     15    0                    00  r[15]=1; set abort flag
+101   Return         16    0     0                    00               
+102   IfPos          14    104   0                    00  if r[14]>0 then r[14]-=0, goto 104; Groupby result generator entry point
+103   Return         16    0     0                    00               
+104   AggFinal       12    1     0     sum(1)         00  accum=r[12] N=1
+105   Copy           7     49    5                    00  r[49..54]=r[7..12]
+106   Copy           12    55    0                    00  r[55]=r[12]  
+107   Copy           12    56    0                    00  r[56]=r[12]  
+108   Copy           12    57    0                    00  r[57]=r[12]  
+109   Copy           12    58    0                    00  r[58]=r[12]  
+110   Copy           10    48    0                    00  r[48]=r[10]  
+111   MakeRecord     48    11    60                   00  r[60]=mkrec(r[48..58])
+112   SorterInsert   13    60    48    11             00  key=r[60]    
+113   Return         16    0     0                    00  end groupby result generator
+114   Null           0     7     13                   00  r[7..13]=NULL
+115   Integer        0     14    0                    00  r[14]=0; indicate accumulator empty
+116   Return         17    0     0                    00               
+117   OpenPseudo     19    61    13                   00  13 columns in r[61]
+118   SorterSort     13    133   0                    00               
+119     SorterData     13    61    19                   00  r[61]=data   
+120     Column         19    10    59                   00  r[59]=       
+121     Column         19    0     58                   00  r[58]=       
+122     Column         19    9     57                   00  r[57]=       
+123     Column         19    8     56                   00  r[56]=       
+124     Column         19    7     55                   00  r[55]=       
+125     Column         19    6     54                   00  r[54]=       
+126     Column         19    5     53                   00  r[53]=       
+127     Column         19    4     52                   00  r[52]=       
+128     Column         19    3     51                   00  r[51]=       
+129     Column         19    2     50                   00  r[50]=       
+130     Column         19    1     49                   00  r[49]=       
+131     Yield          6     0     0                    00               
+132   SorterNext     13    119   0                    00               
+133   EndCoroutine   6     0     0                    00               
+134   OpenEphemeral  8     11    0                    00  nColumn=11   
+135   OpenDup        9     8     0                    00               
+136   OpenDup        10    8     0                    00               
+137   OpenDup        11    8     0                    00               
+138   Null           0     62    62                   00  r[62..62]=NULL
+139   Integer        1     63    0                    00  r[63]=1      
+140   InitCoroutine  6     0     5                    00               
+141     Yield          6     178   0                    00  next row of  
+142     Copy           49    65    0                    00  r[65]=r[49]  
+143     Copy           50    66    0                    00  r[66]=r[50]  
+144     Copy           51    67    0                    00  r[67]=r[51]  
+145     Copy           52    68    0                    00  r[68]=r[52]  
+146     Copy           53    69    0                    00  r[69]=r[53]  
+147     Copy           54    70    0                    00  r[70]=r[54]  
+148     Copy           55    71    0                    00  r[71]=r[55]  
+149     Copy           56    72    0                    00  r[72]=r[56]  
+150     Copy           57    73    0                    00  r[73]=r[57]  
+151     Copy           58    74    0                    00  r[74]=r[58]  
+152     Copy           59    75    0                    00  r[75]=r[59]  
+153     MakeRecord     65    11    76                   00  r[76]=mkrec(r[65..75])
+154     Compare        74    62    1     k(1,B)         00  r[74] <-> r[62]
+155     Jump           156   158   156                  00               
+156     Gosub          78    179   0                    00  call flush_partition
+157     Copy           74    62    0                    00  r[62]=r[74]  
+158     NewRowid       9     77    0                    00  r[77]=rowid  
+159     Insert         9     76    77                   00  intkey=r[77] data=r[76]
+160     Ne             63    165   77                   00  if r[77]!=r[63] goto 165
+161     Null           0     4     0                    00  r[4]=NULL    
+162     Rewind         8     1     0                    00               
+163     Rewind         11    1     0                    00               
+164     Goto           0     177   0                    00               
+165     Goto           0     177   0                    00               
+166     Column         11    10    79                   00  r[79]=       
+167     AggStep        0     79    4     sum(1)         01  accum=r[4] step(r[79])
+168     Next           11    170   0                    00               
+169     Goto           0     171   0                    00               
+170     Goto           0     166   0                    00               
+171     AggValue       4     1     5     sum(1)         00  r[5]=value N=1
+172     Gosub          64    195   0                    00               
+173     Delete         8     0     0                    02               
+174     Next           8     176   0                    00               
+175     Goto           0     177   0                    00               
+176     Goto           0     172   0                    00               
+177   Goto           0     141   0                    00               
+178   Integer        193   78    0                    00  r[78]=193    
+179   Rewind         9     192   0                    00               
+180   Column         11    10    79                   00  r[79]=       
+181   AggStep        0     79    4     sum(1)         01  accum=r[4] step(r[79])
+182   Next           11    184   0                    00               
+183   Goto           0     185   0                    00               
+184   Goto           0     180   0                    00               
+185   AggValue       4     1     5     sum(1)         00  r[5]=value N=1
+186   Gosub          64    195   0                    00               
+187   Delete         8     0     0                    02               
+188   Next           8     190   0                    00               
+189   Goto           0     192   0                    00               
+190   Goto           0     186   0                    00               
+191   Goto           0     185   0                    00               
+192   ResetSorter    8     0     0                    00               
+193   Return         78    0     0                    00               
+194   Goto           0     209   0                    00               
+195   Noop           0     0     0                    00  inner-loop subroutine
+196   Column         8     0     80                   00  r[80]=.i_item_id
+197   Column         8     1     81                   00  r[81]=.i_item_desc
+198   Column         8     2     82                   00  r[82]=.i_category
+199   Column         8     3     83                   00  r[83]=.i_class
+200   Column         8     4     84                   00  r[84]=.i_current_price
+201   Column         8     5     85                   00  r[85]=.column6
+202   Column         8     6     86                   00  r[86]=.column7
+203   Column         8     7     87                   00  r[87]=.column8
+204   Copy           5     88    0                    00  r[88]=r[5]   
+205   Column         8     3     89                   00  r[89]=.i_class
+206   Column         8     8     90                   00  r[90]=.column9
+207   Yield          3     0     0                    00               
+208   Return         64    0     0                    00  end inner-loop subroutine
+209   EndCoroutine   3     0     0                    00               
+210   OpenEphemeral  20    13    0     k(5,B,B,B,B,B)  00  nColumn=13   
+211   Integer        100   91    0                    00  r[91]=100; LIMIT counter
+212   OpenEphemeral  3     11    0                    00  nColumn=11   
+213   OpenDup        4     3     0                    00               
+214   OpenDup        5     3     0                    00               
+215   OpenDup        6     3     0                    00               
+216   Null           0     92    92                   00  r[92..92]=NULL
+217   Integer        1     93    0                    00  r[93]=1      
+218   InitCoroutine  3     0     3                    00               
+219     Yield          3     256   0                    00  next row of  
+220     Copy           80    95    0                    00  r[95]=r[80]  
+221     Copy           81    96    0                    00  r[96]=r[81]  
+222     Copy           82    97    0                    00  r[97]=r[82]  
+223     Copy           83    98    0                    00  r[98]=r[83]  
+224     Copy           84    99    0                    00  r[99]=r[84]  
+225     Copy           85    100   0                    00  r[100]=r[85] 
+226     Copy           86    101   0                    00  r[101]=r[86] 
+227     Copy           87    102   0                    00  r[102]=r[87] 
+228     Copy           88    103   0                    00  r[103]=r[88] 
+229     Copy           89    104   0                    00  r[104]=r[89] 
+230     Copy           90    105   0                    00  r[105]=r[90] 
+231     MakeRecord     95    11    106                  00  r[106]=mkrec(r[95..105])
+232     Compare        104   92    1     k(1,B)         00  r[104] <-> r[92]
+233     Jump           234   236   234                  00               
+234     Gosub          108   257   0                    00  call flush_partition
+235     Copy           104   92    0                    00  r[92]=r[104] 
+236     NewRowid       4     107   0                    00  r[107]=rowid 
+237     Insert         4     106   107                  00  intkey=r[107] data=r[106]
+238     Ne             93    243   107                  00  if r[107]!=r[93] goto 243
+239     Null           0     1     0                    00  r[1]=NULL    
+240     Rewind         3     1     0                    00               
+241     Rewind         6     1     0                    00               
+242     Goto           0     255   0                    00               
+243     Goto           0     255   0                    00               
+244     Column         6     10    109                  00  r[109]=      
+245     AggStep        0     109   1     sum(1)         01  accum=r[1] step(r[109])
+246     Next           6     248   0                    00               
+247     Goto           0     249   0                    00               
+248     Goto           0     244   0                    00               
+249     AggValue       1     1     2     sum(1)         00  r[2]=value N=1
+250     Gosub          94    273   0                    00               
+251     Delete         3     0     0                    02               
+252     Next           3     254   0                    00               
+253     Goto           0     255   0                    00               
+254     Goto           0     250   0                    00               
+255   Goto           0     219   0                    00               
+256   Integer        271   108   0                    00  r[108]=271   
+257   Rewind         4     270   0                    00               
+258   Column         6     10    109                  00  r[109]=      
+259   AggStep        0     109   1     sum(1)         01  accum=r[1] step(r[109])
+260   Next           6     262   0                    00               
+261   Goto           0     263   0                    00               
+262   Goto           0     258   0                    00               
+263   AggValue       1     1     2     sum(1)         00  r[2]=value N=1
+264   Gosub          94    273   0                    00               
+265   Delete         3     0     0                    02               
+266   Next           3     268   0                    00               
+267   Goto           0     270   0                    00               
+268   Goto           0     264   0                    00               
+269   Goto           0     263   0                    00               
+270   ResetSorter    3     0     0                    00               
+271   Return         108   0     0                    00               
+272   Goto           0     292   0                    00               
+273   Noop           0     0     0                    00  inner-loop subroutine
+274   Column         3     2     110                  00  r[110]=.i_category
+275   Column         3     3     111                  00  r[111]=.i_class
+276   Column         3     0     112                  00  r[112]=.i_item_id
+277   Column         3     1     113                  00  r[113]=.i_item_desc
+278   Column         3     7     124                  00  r[124]=.column8
+279   Multiply       125   124   123                  00  r[123]=r[125]*r[124]
+280   Column         3     8     124                  00  r[124]=.column9
+281   Divide         124   123   114                  00  r[114]=r[123]/r[124]
+282   Sequence       20    115   0                    00  r[115]=cursor[20].ctr++
+283   IfNotZero      91    287   0                    00  if r[91]!=0 then r[91]--, goto 287
+284   Last           20    0     0                    00               
+285   IdxLE          20    291   110   5              00  key=r[110..114]
+286   Delete         20    0     0                    00               
+287   Column         3     4     116                  00  r[116]=.i_current_price
+288   Column         3     5     117                  00  r[117]=.column6
+289   MakeRecord     110   8     126                  00  r[126]=mkrec(r[110..117])
+290   IdxInsert      20    126   110   8              00  key=r[126]   
+291   Return         94    0     0                    00  end inner-loop subroutine
+292   Sort           20    302   0                    00               
+293     Column         20    4     122                  00  r[122]=revenueratio
+294     Column         20    7     121                  00  r[121]=itemrevenue
+295     Column         20    6     120                  00  r[120]=i_current_price
+296     Column         20    1     119                  00  r[119]=i_class
+297     Column         20    0     118                  00  r[118]=i_category
+298     Column         20    3     117                  00  r[117]=i_item_desc
+299     Column         20    2     116                  00  r[116]=i_item_id
+300     ResultRow      116   7     0                    00  output=r[116..122]
+301   Next           20    293   0                    00               
+302   Halt           0     0     0                    00               
+303   Transaction    0     0     28    0              01  usesStmtJournal=0
+304   String8        0     40    0     1999-02-22     00  r[40]='1999-02-22'
+305   Cast           40    67    0                    00  affinity(r[40])
+306   String8        0     41    0     1999-03-24     00  r[41]='1999-03-24'
+307   Cast           41    67    0                    00  affinity(r[41])
+308   Real           0     125   0     100            00  r[125]=100   
+309   Goto           0     1     0                    00               

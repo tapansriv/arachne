@@ -1,0 +1,49 @@
+                                                                                                            QUERY PLAN                                                                                                             
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=78150274.45..78150274.48 rows=1 width=286)
+   Group Key: ssales.c_last_name, ssales.c_first_name, ssales.s_store_name
+   Filter: (sum(ssales.netpaid) > $2)
+   CTE ssales
+     ->  Finalize GroupAggregate  (cost=78150274.03..78150274.38 rows=1 width=204)
+           Group Key: customer.c_last_name, customer.c_first_name, store.s_store_name, customer_address.ca_state, store.s_state, item.i_color, item.i_current_price, item.i_manager_id, item.i_units, item.i_size
+           ->  Gather Merge  (cost=78150274.03..78150274.31 rows=2 width=204)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=78149274.01..78149274.05 rows=1 width=204)
+                       Group Key: customer.c_last_name, customer.c_first_name, store.s_store_name, customer_address.ca_state, store.s_state, item.i_color, item.i_current_price, item.i_manager_id, item.i_units, item.i_size
+                       ->  Sort  (cost=78149274.01..78149274.01 rows=1 width=178)
+                             Sort Key: customer.c_last_name, customer.c_first_name, store.s_store_name, customer_address.ca_state, store.s_state, item.i_color, item.i_current_price, item.i_manager_id, item.i_units, item.i_size
+                             ->  Parallel Hash Join  (cost=78135391.24..78149274.00 rows=1 width=178)
+                                   Hash Cond: (item.i_item_sk = store_sales.ss_item_sk)
+                                   ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=30)
+                                   ->  Parallel Hash  (cost=78135391.22..78135391.22 rows=1 width=160)
+                                         ->  Parallel Hash Join  (cost=70969230.58..78135391.22 rows=1 width=160)
+                                               Hash Cond: ((store_returns.sr_ticket_number = store_sales.ss_ticket_number) AND (store_returns.sr_item_sk = store_sales.ss_item_sk))
+                                               ->  Parallel Seq Scan on store_returns  (cost=0.00..6266183.93 rows=119996893 width=8)
+                                               ->  Parallel Hash  (cost=70969230.13..70969230.13 rows=30 width=160)
+                                                     ->  Hash Join  (cost=144361.22..70969230.13 rows=30 width=160)
+                                                           Hash Cond: ((store_sales.ss_store_sk = store.s_store_sk) AND ((customer_address.ca_zip)::text = (store.s_zip)::text))
+                                                           ->  Parallel Hash Join  (cost=144309.43..70960521.08 rows=1154262 width=163)
+                                                                 Hash Cond: (store_sales.ss_customer_sk = customer.c_customer_sk)
+                                                                 ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=22)
+                                                                 ->  Parallel Hash  (cost=144308.66..144308.66 rows=62 width=149)
+                                                                       ->  Hash Join  (cost=13.38..144308.66 rows=62 width=149)
+                                                                             Hash Cond: (customer_address.ca_address_sk = customer.c_current_addr_sk)
+                                                                             Join Filter: ((customer.c_birth_country)::text <> upper((customer_address.ca_country)::text))
+                                                                             ->  Parallel Seq Scan on customer_address  (cost=0.00..134919.52 rows=2499952 width=27)
+                                                                             ->  Hash  (cost=11.50..11.50 rows=150 width=202)
+                                                                                   ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=202)
+                                                           ->  Hash  (cost=50.52..50.52 rows=84 width=17)
+                                                                 ->  Seq Scan on store  (cost=0.00..50.52 rows=84 width=17)
+                                                                       Filter: (s_market_id = 8)
+   InitPlan 2 (returns $2)
+     ->  Aggregate  (cost=0.02..0.04 rows=1 width=32)
+           ->  CTE Scan on ssales ssales_1  (cost=0.00..0.02 rows=1 width=32)
+   ->  Sort  (cost=0.03..0.04 rows=1 width=286)
+         Sort Key: ssales.c_last_name, ssales.c_first_name, ssales.s_store_name
+         ->  CTE Scan on ssales  (cost=0.00..0.02 rows=1 width=286)
+               Filter: ((i_color)::text = 'peach'::text)
+ JIT:
+   Functions: 77
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(45 rows)
+

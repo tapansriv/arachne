@@ -1,0 +1,231 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     224   0                    00  Start at 224 
+1     Integer        70    1     0                    00  r[1]=70      
+2     Once           0     70    0                    00  materialize "customer_total_return"
+3     OpenEphemeral  0     3     0                    00  nColumn=3    
+4     SorterOpen     8     3     0     k(2,B,B)       00               
+5     Integer        0     7     0                    00  r[7]=0; clear abort flag
+6     Null           0     10    11                   00  r[10..11]=NULL
+7     Gosub          9     67    0                    00               
+8     OpenRead       4     11    0     7              00  root=11 iDb=0; date_dim
+9     OpenRead       3     21    0     12             00  root=21 iDb=0; store_returns
+10    Rewind         4     35    0                    00               
+11      Column         4     6     14                   00  r[14]=date_dim.d_year
+12      Ne             15    34    14    (BINARY)       54  if r[14]!=r[15] goto 34
+13      Once           0     24    0                    00               
+14      OpenAutoindex  9     5     0     k(5,B,,,,)     00  nColumn=5; for store_returns
+15      Rewind         3     24    0                    00               
+16        Column         3     0     16                   00  r[16]=store_returns.sr_returned_date_sk
+17        Column         3     3     17                   00  r[17]=store_returns.sr_customer_sk
+18        Column         3     7     18                   00  r[18]=store_returns.sr_store_sk
+19        Column         3     11    19                   00  r[19]=store_returns.sr_return_amt
+20        Rowid          3     20    0                    00  r[20]=rowid  
+21        MakeRecord     16    5     14                   00  r[14]=mkrec(r[16..20])
+22        IdxInsert      9     14    0                    10  key=r[14]    
+23      Next           3     16    0                    03               
+24      Column         4     0     21                   00  r[21]=date_dim.d_date_sk
+25      Affinity       21    1     0     C              00  affinity(r[21])
+26      SeekGE         9     34    21    1              00  key=r[21]    
+27        IdxGT          9     34    21    1              00  key=r[21]    
+28        Column         9     1     16                   00  r[16]=store_returns.sr_customer_sk
+29        Column         9     2     17                   00  r[17]=store_returns.sr_store_sk
+30        Column         9     3     18                   00  r[18]=store_returns.sr_return_amt
+31        MakeRecord     16    3     14                   00  r[14]=mkrec(r[16..18])
+32        SorterInsert   8     14    0                    00  key=r[14]    
+33      Next           9     27    0                    00               
+34    Next           4     11    0                    01               
+35    OpenPseudo     10    14    3                    00  3 columns in r[14]
+36    SorterSort     8     70    0                    00  GROUP BY sort
+37      SorterData     8     14    10                   00  r[14]=data   
+38      Column         10    0     12                   00  r[12]=       
+39      Column         10    1     13                   00  r[13]=       
+40      Compare        10    12    2     k(2,B,B)       00  r[10..11] <-> r[12..13]
+41      Jump           42    46    42                   00               
+42      Move           12    10    2                    00  r[10..11]=r[12..13]
+43      Gosub          8     57    0                    00  output one row
+44      IfPos          7     70    0                    00  if r[7]>0 then r[7]-=0, goto 70; check abort flag
+45      Gosub          9     67    0                    00  reset accumulator
+46      Column         10    2     22                   00  r[22]=       
+47      AggStep        0     22    4     sum(1)         01  accum=r[4] step(r[22])
+48      If             6     51    0                    00               
+49      Column         10    0     2                    00  r[2]=        
+50      Column         10    1     3                    00  r[3]=        
+51      Integer        1     6     0                    00  r[6]=1; indicate data in accumulator
+52    SorterNext     8     37    0                    00               
+53    Gosub          8     57    0                    00  output final row
+54    Goto           0     70    0                    00               
+55    Integer        1     7     0                    00  r[7]=1; set abort flag
+56    Return         8     0     0                    00               
+57    IfPos          6     59    0                    00  if r[6]>0 then r[6]-=0, goto 59; Groupby result generator entry point
+58    Return         8     0     0                    00               
+59    AggFinal       4     1     0     sum(1)         00  accum=r[4] N=1
+60    SCopy          2     23    0                    00  r[23]=r[2]   
+61    SCopy          3     24    0                    00  r[24]=r[3]   
+62    SCopy          4     25    0                    00  r[25]=r[4]   
+63    MakeRecord     23    3     22                   00  r[22]=mkrec(r[23..25])
+64    NewRowid       0     26    0                    00  r[26]=rowid  
+65    Insert         0     22    26                   08  intkey=r[26] data=r[22]
+66    Return         8     0     0                    00  end groupby result generator
+67    Null           0     2     5                    00  r[2..5]=NULL 
+68    Integer        0     6     0                    00  r[6]=0; indicate accumulator empty
+69    Return         9     0     0                    00               
+70    Return         1     0     0                    00  end customer_total_return
+71    OpenEphemeral  11    3     0     k(1,B)         00  nColumn=3    
+72    Integer        100   27    0                    00  r[27]=100; LIMIT counter
+73    OpenRead       1     19    0     25             00  root=19 iDb=0; store
+74    OpenRead       2     3     0     2              00  root=3 iDb=0; customer
+75    Rewind         1     219   0                    00               
+76      Column         1     24    28                   00  r[28]=store.s_state
+77      Ne             29    218   28    (BINARY)       52  if r[28]!=r[29] goto 218
+78      Once           0     88    0                    00               
+79      OpenAutoindex  12    4     0     k(4,B,,,)      00  nColumn=4; for customer_total_return
+80      Rewind         0     88    0                    00               
+81        Column         0     1     30                   00  r[30]=customer_total_return.ctr_store_sk
+82        Column         0     0     31                   00  r[31]=customer_total_return.ctr_customer_sk
+83        Column         0     2     32                   00  r[32]=customer_total_return.ctr_total_return
+84        Rowid          0     33    0                    00  r[33]=rowid  
+85        MakeRecord     30    4     28                   00  r[28]=mkrec(r[30..33])
+86        IdxInsert      12    28    0                    10  key=r[28]    
+87      Next           0     81    0                    03               
+88      Column         1     0     34                   00  r[34]=store.s_store_sk
+89      Affinity       34    1     0     C              00  affinity(r[34])
+90      SeekGE         12    218   34    1              00  key=r[34]    
+91        IdxGT          12    218   34    1              00  key=r[34]    
+92        Column         12    2     28                   00  r[28]=customer_total_return.ctr_total_return
+93        Null           0     36    36                   00  r[36..36]=NULL; Init subquery result
+94        InitCoroutine  37    169   95                   00  customer_total_return
+95        SorterOpen     13    3     0     k(2,B,B)       00               
+96        Integer        0     43    0                    00  r[43]=0; clear abort flag
+97        Null           0     46    47                   00  r[46..47]=NULL
+98        Gosub          45    165   0                    00               
+99        OpenRead       7     11    0     7              00  root=11 iDb=0; date_dim
+100       OpenRead       6     21    0     12             00  root=21 iDb=0; store_returns
+101       Once           0     112   0                    00               
+102       OpenAutoindex  14    3     0     k(3,B,,)       00  nColumn=3; for date_dim
+103       Rewind         7     112   0                    00               
+104         Column         7     6     50                   00  r[50]=date_dim.d_year
+105         Ne             15    111   50    (BINARY)       54  if r[50]!=r[15] goto 111
+106         Column         7     6     30                   00  r[30]=date_dim.d_year
+107         Column         7     0     31                   00  r[31]=date_dim.d_date_sk
+108         Rowid          7     32    0                    00  r[32]=rowid  
+109         MakeRecord     30    3     50                   00  r[50]=mkrec(r[30..32])
+110         IdxInsert      14    50    0                    10  key=r[50]    
+111       Next           7     104   0                    03               
+112       Integer        2000  51    0                    00  r[51]=2000   
+113       SeekGE         14    137   51    1              00  key=r[51]    
+114         IdxGT          14    137   51    1              00  key=r[51]    
+115         Once           0     126   0                    00               
+116         OpenAutoindex  15    5     0     k(5,B,,,,)     00  nColumn=5; for store_returns
+117         Rewind         6     126   0                    00               
+118           Column         6     0     52                   00  r[52]=store_returns.sr_returned_date_sk
+119           Column         6     3     53                   00  r[53]=store_returns.sr_customer_sk
+120           Column         6     7     54                   00  r[54]=store_returns.sr_store_sk
+121           Column         6     11    55                   00  r[55]=store_returns.sr_return_amt
+122           Rowid          6     56    0                    00  r[56]=rowid  
+123           MakeRecord     52    5     50                   00  r[50]=mkrec(r[52..56])
+124           IdxInsert      15    50    0                    10  key=r[50]    
+125         Next           6     118   0                    03               
+126         Column         14    1     57                   00  r[57]=date_dim.d_date_sk
+127         Affinity       57    1     0     C              00  affinity(r[57])
+128         SeekGE         15    136   57    1              00  key=r[57]    
+129           IdxGT          15    136   57    1              00  key=r[57]    
+130           Column         15    1     52                   00  r[52]=store_returns.sr_customer_sk
+131           Column         15    2     53                   00  r[53]=store_returns.sr_store_sk
+132           Column         15    3     54                   00  r[54]=store_returns.sr_return_amt
+133           MakeRecord     52    3     50                   00  r[50]=mkrec(r[52..54])
+134           SorterInsert   13    50    0                    00  key=r[50]    
+135         Next           15    129   0                    00               
+136       Next           14    114   0                    00               
+137       OpenPseudo     16    50    3                    00  3 columns in r[50]
+138       SorterSort     13    168   0                    00  GROUP BY sort
+139         SorterData     13    50    16                   00  r[50]=data   
+140         Column         16    0     48                   00  r[48]=       
+141         Column         16    1     49                   00  r[49]=       
+142         Compare        46    48    2     k(2,B,B)       00  r[46..47] <-> r[48..49]
+143         Jump           144   148   144                  00               
+144         Move           48    46    2                    00  r[46..47]=r[48..49]
+145         Gosub          44    159   0                    00  output one row
+146         IfPos          43    168   0                    00  if r[43]>0 then r[43]-=0, goto 168; check abort flag
+147         Gosub          45    165   0                    00  reset accumulator
+148         Column         16    2     58                   00  r[58]=       
+149         AggStep        0     58    40    sum(1)         01  accum=r[40] step(r[58])
+150         If             42    153   0                    00               
+151         Column         16    0     38                   00  r[38]=       
+152         Column         16    1     39                   00  r[39]=       
+153         Integer        1     42    0                    00  r[42]=1; indicate data in accumulator
+154       SorterNext     13    139   0                    00               
+155       Gosub          44    159   0                    00  output final row
+156       Goto           0     168   0                    00               
+157       Integer        1     43    0                    00  r[43]=1; set abort flag
+158       Return         44    0     0                    00               
+159       IfPos          42    161   0                    00  if r[42]>0 then r[42]-=0, goto 161; Groupby result generator entry point
+160       Return         44    0     0                    00               
+161       AggFinal       40    1     0     sum(1)         00  accum=r[40] N=1
+162       Copy           38    59    2                    00  r[59..61]=r[38..40]
+163       Yield          37    0     0                    00               
+164       Return         44    0     0                    00  end groupby result generator
+165       Null           0     38    41                   00  r[38..41]=NULL
+166       Integer        0     42    0                    00  r[42]=0; indicate accumulator empty
+167       Return         45    0     0                    00               
+168       EndCoroutine   37    0     0                    00               
+169       Integer        1     62    0                    00  r[62]=1; LIMIT counter
+170       Null           0     63    64                   00  r[63..64]=NULL
+171       Once           0     182   0                    00               
+172       OpenAutoindex  17    3     0     k(3,B,,)       00  nColumn=3; for customer_total_return
+173       Integer        0     68    0                    00  r[68]=0      
+174       InitCoroutine  37    0     95                   00               
+175         Yield          37    182   0                    00  next row of customer_total_return
+176         Copy           60    66    0                    00  r[66]=r[60]; customer_total_return.ctr_store_sk
+177         Copy           61    67    0                    00  r[67]=r[61]; customer_total_return.ctr_total_return
+178         Sequence       17    68    0                    00  r[68]=cursor[17].ctr++
+179         MakeRecord     66    3     65                   00  r[65]=mkrec(r[66..68])
+180         IdxInsert      17    65    0                    10  key=r[65]    
+181       Goto           0     175   0                    00               
+182       Column         12    0     69                   00  r[69]=customer_total_return.ctr_store_sk
+183       IsNull         69    190   0                    00  if r[69]==NULL goto 190
+184       Affinity       69    1     0     C              00  affinity(r[69])
+185       SeekGE         17    190   69    1              00  key=r[69]    
+186         IdxGT          17    190   69    1              00  key=r[69]    
+187         Column         17    1     65                   00  r[65]=customer_total_return.ctr_total_return
+188         AggStep        0     65    63    avg(1)         01  accum=r[63] step(r[65])
+189       Next           17    186   0                    00               
+190       AggFinal       63    1     0     avg(1)         00  accum=r[63] N=1
+191       Multiply       70    63    36                   00  r[36]=r[70]*r[63]
+192       DecrJumpZero   62    193   0                    00  if (--r[62])==0 goto 193
+193       Le             36    217   28    (BINARY)       50  if r[28]<=r[36] goto 217
+194       Once           0     203   0                    00               
+195       OpenAutoindex  18    3     0     k(3,B,,)       00  nColumn=3; for customer
+196       Rewind         2     203   0                    00               
+197         Column         2     0     66                   00  r[66]=customer.c_customer_sk
+198         Column         2     1     67                   00  r[67]=customer.c_customer_id
+199         Rowid          2     68    0                    00  r[68]=rowid  
+200         MakeRecord     66    3     28                   00  r[28]=mkrec(r[66..68])
+201         IdxInsert      18    28    0                    10  key=r[28]    
+202       Next           2     197   0                    03               
+203       Column         12    1     71                   00  r[71]=customer_total_return.ctr_customer_sk
+204       IsNull         71    217   0                    00  if r[71]==NULL goto 217
+205       Affinity       71    1     0     C              00  affinity(r[71])
+206       SeekGE         18    217   71    1              00  key=r[71]    
+207         IdxGT          18    217   71    1              00  key=r[71]    
+208         Column         18    1     72                   00  r[72]=customer.c_customer_id
+209         Sequence       11    73    0                    00  r[73]=cursor[11].ctr++
+210         IfNotZero      27    214   0                    00  if r[27]!=0 then r[27]--, goto 214
+211         Last           11    0     0                    00               
+212         IdxLE          11    216   72    1              00  key=r[72]    
+213         Delete         11    0     0                    00               
+214         MakeRecord     72    2     75                   00  r[75]=mkrec(r[72..73])
+215         IdxInsert      11    75    72    2              00  key=r[75]    
+216       Next           18    207   0                    00               
+217     Next           12    91    0                    00               
+218   Next           1     76    0                    01               
+219   Sort           11    223   0                    00               
+220     Column         11    0     74                   00  r[74]=c_customer_id
+221     ResultRow      74    1     0                    00  output=r[74] 
+222   Next           11    220   0                    00               
+223   Halt           0     0     0                    00               
+224   Transaction    0     0     28    0              01  usesStmtJournal=0
+225   Integer        2000  15    0                    00  r[15]=2000   
+226   String8        0     29    0     TN             00  r[29]='TN'   
+227   Real           0     70    0     1.2            00  r[70]=1.2    
+228   Goto           0     1     0                    00               

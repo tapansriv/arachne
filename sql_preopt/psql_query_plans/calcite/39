@@ -1,0 +1,64 @@
+                                                                                                                                                                 QUERY PLAN                                                                                                                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=17773882.02..17774599.31 rows=286913 width=296)
+   Sort Key: t8.w_warehouse_sk NULLS FIRST, t8.i_item_sk NULLS FIRST, t8.mean NULLS FIRST, (CASE WHEN (t8.mean = '0'::numeric) THEN NULL::numeric ELSE ((t8."$f4" * 1.000) / t8.mean) END) NULLS FIRST, t22.mean NULLS FIRST, (CASE WHEN (t22.mean = '0'::numeric) THEN NULL::numeric ELSE ((t22."$f4" * 1.000) / t22.mean) END) NULLS FIRST
+   ->  Merge Join  (cost=17654734.61..17669417.00 rows=286913 width=296)
+         Merge Cond: ((t22.i_item_sk = t8.i_item_sk) AND (t22.w_warehouse_sk = t8.w_warehouse_sk))
+         ->  Sort  (cost=8824315.49..8824574.53 rows=103615 width=76)
+               Sort Key: t22.i_item_sk, t22.w_warehouse_sk
+               ->  Subquery Scan on t22  (cost=8759030.74..8811077.91 rows=103615 width=76)
+                     ->  Finalize GroupAggregate  (cost=8759030.74..8810041.76 rows=103615 width=134)
+                           Group Key: warehouse.w_warehouse_name, warehouse.w_warehouse_sk, item.i_item_sk, date_dim.d_moy
+                           Filter: (CASE WHEN (avg(inventory0.inv_quantity_on_hand) = '0'::numeric) THEN '0'::numeric ELSE ((stddev_samp(inventory0.inv_quantity_on_hand) * 1.000) / avg(inventory0.inv_quantity_on_hand)) END > '1'::numeric)
+                           ->  Gather Merge  (cost=8759030.74..8792815.72 rows=259038 width=134)
+                                 Workers Planned: 2
+                                 ->  Partial GroupAggregate  (cost=8758030.72..8761916.29 rows=129519 width=134)
+                                       Group Key: warehouse.w_warehouse_name, warehouse.w_warehouse_sk, item.i_item_sk, date_dim.d_moy
+                                       ->  Sort  (cost=8758030.72..8758354.51 rows=129519 width=74)
+                                             Sort Key: warehouse.w_warehouse_name, warehouse.w_warehouse_sk, item.i_item_sk
+                                             ->  Hash Join  (cost=17583.51..8741275.24 rows=129519 width=74)
+                                                   Hash Cond: (inventory0.inv_warehouse_sk = warehouse.w_warehouse_sk)
+                                                   ->  Parallel Hash Join  (cost=17571.26..8739482.10 rows=129519 width=16)
+                                                         Hash Cond: (inventory0.inv_item_sk = item.i_item_sk)
+                                                         ->  Parallel Hash Join  (cost=2105.76..8721236.24 rows=129519 width=16)
+                                                               Hash Cond: (inventory0.inv_date_sk = date_dim.d_date_sk)
+                                                               ->  Parallel Seq Scan on inventory inventory0  (cost=0.00..7494933.53 rows=326250053 width=16)
+                                                               ->  Parallel Hash  (cost=2105.55..2105.55 rows=17 width=8)
+                                                                     ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=17 width=8)
+                                                                           Filter: ((d_year = 2001) AND (d_moy = 2))
+                                                         ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=4)
+                                                               ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=4)
+                                                   ->  Hash  (cost=11.00..11.00 rows=100 width=62)
+                                                         ->  Seq Scan on warehouse  (cost=0.00..11.00 rows=100 width=62)
+         ->  Materialize  (cost=8830419.12..8830972.93 rows=110761 width=76)
+               ->  Sort  (cost=8830419.12..8830696.02 rows=110761 width=76)
+                     Sort Key: t8.i_item_sk, t8.w_warehouse_sk
+                     ->  Subquery Scan on t8  (cost=8760577.61..8816214.46 rows=110761 width=76)
+                           ->  Finalize GroupAggregate  (cost=8760577.61..8815106.85 rows=110761 width=134)
+                                 Group Key: warehouse_1.w_warehouse_name, warehouse_1.w_warehouse_sk, item_1.i_item_sk, date_dim_1.d_moy
+                                 Filter: (CASE WHEN (avg(inventory.inv_quantity_on_hand) = '0'::numeric) THEN '0'::numeric ELSE ((stddev_samp(inventory.inv_quantity_on_hand) * 1.000) / avg(inventory.inv_quantity_on_hand)) END > '1'::numeric)
+                                 ->  Gather Merge  (cost=8760577.61..8796692.76 rows=276904 width=134)
+                                       Workers Planned: 2
+                                       ->  Partial GroupAggregate  (cost=8759577.58..8763731.14 rows=138452 width=134)
+                                             Group Key: warehouse_1.w_warehouse_name, warehouse_1.w_warehouse_sk, item_1.i_item_sk, date_dim_1.d_moy
+                                             ->  Sort  (cost=8759577.58..8759923.71 rows=138452 width=74)
+                                                   Sort Key: warehouse_1.w_warehouse_name, warehouse_1.w_warehouse_sk, item_1.i_item_sk
+                                                   ->  Hash Join  (cost=17583.53..8741601.46 rows=138452 width=74)
+                                                         Hash Cond: (inventory.inv_warehouse_sk = warehouse_1.w_warehouse_sk)
+                                                         ->  Parallel Hash Join  (cost=17571.28..8739685.49 rows=138452 width=16)
+                                                               Hash Cond: (inventory.inv_item_sk = item_1.i_item_sk)
+                                                               ->  Parallel Hash Join  (cost=2105.78..8721280.92 rows=138452 width=16)
+                                                                     Hash Cond: (inventory.inv_date_sk = date_dim_1.d_date_sk)
+                                                                     ->  Parallel Seq Scan on inventory  (cost=0.00..7494933.53 rows=326250053 width=16)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=8)
+                                                                           ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=18 width=8)
+                                                                                 Filter: ((d_year = 2001) AND (d_moy = 1))
+                                                               ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=4)
+                                                                     ->  Parallel Seq Scan on item item_1  (cost=0.00..13414.00 rows=125000 width=4)
+                                                         ->  Hash  (cost=11.00..11.00 rows=100 width=62)
+                                                               ->  Seq Scan on warehouse warehouse_1  (cost=0.00..11.00 rows=100 width=62)
+ JIT:
+   Functions: 89
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(60 rows)
+

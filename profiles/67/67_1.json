@@ -1,0 +1,208 @@
+{
+   "name":  "Query", 
+   "result": 1044.792250,
+   "timing": 1044.792250,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE results AS\n  (SELECT i_category,\n          i_class,\n          i_brand,\n          i_product_name,\n          d_year,\n          d_qoy,\n          d_moy,\n          s_store_id ,\n          sum(coalesce(ss_sales_price*ss_quantity,0)) sumsales\n   FROM '/home/cc/store_sales.parquet',\n        '/home/cc/date_dim.parquet',\n        '/home/cc/store.parquet',\n        '/home/cc/item.parquet'\n   WHERE ss_sold_date_sk=d_date_sk\n     AND ss_item_sk=i_item_sk\n     AND ss_store_sk = s_store_sk\n     AND d_month_seq BETWEEN 1200 AND 1200 + 11\n   GROUP BY i_category,\n            i_class,\n            i_brand,\n            i_product_name,\n            d_year,\n            d_qoy,\n            d_moy,\n            s_store_id);\n\n", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000806
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000116
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000088
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000074
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000000
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000477
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000000
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000033
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000015
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 5.312946
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 5.312942
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":158.617803,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":415.470276,
+         "cardinality":383381227,
+         "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":9.346649,
+            "cardinality":539988812,
+            "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nCASE WHEN (IS_NOT_NULL(#8)) THEN (#8) ELSE (0.000000)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":9.124318,
+               "cardinality":539988812,
+               "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\n*(ss_sales_price, CAST(ss_quantity AS DOUBLE))\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":17.860494,
+                  "cardinality":539988812,
+                  "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":46.180995,
+                     "cardinality":553018161,
+                     "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":28.837654,
+                        "cardinality":553018161,
+                        "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":347.521064,
+                           "cardinality":2879987999,
+                           "extra_info": "ss_sales_price\nss_quantity\nss_sold_date_sk\nss_item_sk\nss_store_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.012894,
+                           "cardinality":732,
+                           "extra_info": "d_year\nd_qoy\nd_moy\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.225799,
+                        "cardinality":600000,
+                        "extra_info": "i_category\ni_class\ni_brand\ni_product_name\ni_item_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.000873,
+                     "cardinality":2004,
+                     "extra_info": "s_store_id\ns_store_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

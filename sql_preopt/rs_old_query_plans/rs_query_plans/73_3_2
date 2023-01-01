@@ -1,0 +1,14 @@
+XN Merge  (cost=1000252194517.72..1000252194520.21 rows=997 width=43)
+  Merge Key: t0.cnt, customer.c_last_name
+  ->  XN Network  (cost=1000252194517.72..1000252194520.21 rows=997 width=43)
+        Send to leader
+        ->  XN Sort  (cost=1000252194517.72..1000252194520.21 rows=997 width=43)
+              Sort Key: t0.cnt, customer.c_last_name
+              ->  XN Hash Join DS_BCAST_INNER  (cost=44458.09..252194468.06 rows=997 width=43)
+                    Hash Cond: ("outer".c_customer_sk = "inner".ss_customer_sk)
+                    ->  XN Seq Scan on customer  (cost=0.00..120000.00 rows=12000000 width=35)
+                    ->  XN Hash  (cost=44455.59..44455.59 rows=1000 width=16)
+                          ->  XN Subquery Scan t0  (cost=42106.34..44455.59 rows=1000 width=16)
+                                ->  XN HashAggregate  (cost=42106.34..44445.59 rows=1000 width=8)
+                                      Filter: ((count(*) <= 5) AND (count(*) >= 1))
+                                      ->  XN Seq Scan on rs_table_73_0  (cost=0.00..18713.93 rows=1871393 width=8)

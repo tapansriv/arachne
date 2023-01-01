@@ -1,0 +1,322 @@
+{
+   "name":  "Query", 
+   "result": 96.255284,
+   "timing": 96.255284,
+   "cardinality": 0,
+   "extra-info": "SELECT ca_zip,\n       ca_city,\n       sum(ws_sales_price)\nFROM 'web_sales.parquet' AS web_sales,\n     'customer.parquet' AS customer,\n     'customer_address.parquet' AS customer_address,\n     'date_dim.parquet' AS date_dim,\n     'item.parquet' AS item\nWHERE ws_bill_customer_sk = c_customer_sk\n  AND c_current_addr_sk = ca_address_sk\n  AND ws_item_sk = i_item_sk\n  AND (SUBSTRING(ca_zip,1,5) IN ('85669',\n                              '86197',\n                              '88274',\n                              '83405',\n                              '86475',\n                              '85392',\n                              '85460',\n                              '80348',\n                              '81792')\n       OR i_item_id IN\n         (SELECT i_item_id\n          FROM 'item.parquet' AS item\n          WHERE i_item_sk IN (2,\n                              3,\n                              5,\n                              7,\n                              11,\n                              13,\n                              17,\n                              19,\n                              23,\n                              29) ))\n  AND ws_sold_date_sk = d_date_sk\n  AND d_qoy = 2\n  AND d_year = 2001\nGROUP BY ca_zip,\n         ca_city\nORDER BY ca_zip,\n         ca_city\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001964
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000086
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000279
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000463
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000336
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000714
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000065
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000014
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000030
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "planner", 
+   "timing": 6.752137
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 6.752130
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000211,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.027670,
+         "cardinality":770,
+         "extra_info": "#0\n#1\nsum(#2)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.003764,
+            "cardinality":1217,
+            "extra_info": "ca_zip\nca_city\nws_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.006406,
+               "cardinality":1217,
+               "extra_info": "#0\n#7\n#8\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "FILTER",
+                  "timing":0.308583,
+                  "cardinality":1217,
+                  "extra_info": "(#11 OR #10)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":1.227376,
+                     "cardinality":20758602,
+                     "extra_info": "MARK\nsubstring(ca_zip, 1, 5)=#0\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":4.816440,
+                        "cardinality":20758602,
+                        "extra_info": "MARK\ni_item_id=#0\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":2.435467,
+                           "cardinality":20758602,
+                           "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":3.516695,
+                              "cardinality":20758602,
+                              "extra_info": "INNER\nws_bill_customer_sk=c_customer_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":6.945905,
+                                 "cardinality":20761190,
+                                 "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":65.519652,
+                                    "cardinality":720000376,
+                                    "extra_info": "ws_sales_price\nws_bill_customer_sk\nws_item_sk\nws_sold_date_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.004734,
+                                    "cardinality":182,
+                                    "extra_info": "d_date_sk\nd_qoy\nd_year\n[INFOSEPARATOR]\nFilters: d_qoy=2 AND d_qoy IS NOT NULL\nd_year=2001 AND d_year IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":3.187582,
+                                 "cardinality":24000000,
+                                 "extra_info": "INNER\nc_current_addr_sk=ca_address_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.523870,
+                                    "cardinality":24000000,
+                                    "extra_info": "c_customer_sk\nc_current_addr_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":2.375666,
+                                    "cardinality":12000000,
+                                    "extra_info": "ca_zip\nca_city\nca_address_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.049323,
+                              "cardinality":600000,
+                              "extra_info": "i_item_sk\ni_item_id",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000026,
+                           "cardinality":20,
+                           "extra_info": "#0\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":0.001010,
+                              "cardinality":20,
+                              "extra_info": "IN (...)",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.004629,
+                                 "cardinality":600000,
+                                 "extra_info": "MARK\ni_item_sk=#0\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.046220,
+                                    "cardinality":600000,
+                                    "extra_info": "i_item_id\ni_item_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "CHUNK_SCAN",
+                                    "timing":0.000008,
+                                    "cardinality":20,
+                                    "extra_info": "",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "CHUNK_SCAN",
+                        "timing":0.000004,
+                        "cardinality":18,
+                        "extra_info": "",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

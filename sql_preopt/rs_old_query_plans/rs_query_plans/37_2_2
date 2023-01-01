@@ -1,0 +1,13 @@
+XN Limit  (cost=1001647249188.72..1001647249188.80 rows=30 width=150)
+  ->  XN Merge  (cost=1001647249188.72..1001647249188.80 rows=30 width=150)
+        Merge Key: rs_table_37_0.i_item_id
+        ->  XN Network  (cost=1001647249188.72..1001647249188.80 rows=30 width=150)
+              Send to leader
+              ->  XN Sort  (cost=1001647249188.72..1001647249188.80 rows=30 width=150)
+                    Sort Key: rs_table_37_0.i_item_id
+                    ->  XN HashAggregate  (cost=1647249187.99..1647249187.99 rows=30 width=150)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=3.64..1647238432.41 rows=1434077 width=150)
+                                Hash Cond: ("outer".cs_item_sk = "inner".i_item_sk)
+                                ->  XN Seq Scan on catalog_sales  (cost=0.00..14399804.16 rows=1439980416 width=4)
+                                ->  XN Hash  (cost=2.91..2.91 rows=291 width=154)
+                                      ->  XN Seq Scan on rs_table_37_0  (cost=0.00..2.91 rows=291 width=154)

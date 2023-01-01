@@ -1,0 +1,3 @@
+XN Aggregate  (cost=86569551.94..86569551.94 rows=1 width=8)
+  ->  XN Seq Scan on store_sales  (cost=0.00..86399639.04 rows=22655052 width=8)
+        Filter: ((ss_quantity <= 30) AND (ss_quantity >= 26) AND (((ss_wholesale_cost <= 27::double precision) AND (ss_wholesale_cost >= 7::double precision)) OR ((ss_list_price >= 154::double precision) AND (ss_list_price <= 164::double precision)) OR ((ss_coupon_amt >= 7326::double precision) AND (ss_coupon_amt <= 8326::double precision))))

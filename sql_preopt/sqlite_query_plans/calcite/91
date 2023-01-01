@@ -1,0 +1,196 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     184   0                    00  Start at 184 
+1     SorterOpen     7     6     0     k(1,-B)        00               
+2     SorterOpen     8     6     0     k(5,B,B,B,B,B)  00               
+3     Integer        0     7     0                    00  r[7]=0; clear abort flag
+4     Null           0     10    14                   00  r[10..14]=NULL
+5     Gosub          9     171   0                    00               
+6     OpenRead       2     11    0     9              00  root=11 iDb=0; date_dim
+7     OpenRead       1     5     0     27             00  root=5 iDb=0; catalog_returns
+8     OpenRead       0     2     0     12             00  root=2 iDb=0; call_center
+9     OpenRead       3     3     0     5              00  root=3 iDb=0; customer
+10    OpenRead       4     7     0     12             00  root=7 iDb=0; customer_address
+11    OpenRead       5     10    0     4              00  root=10 iDb=0; customer_demographics
+12    OpenRead       6     12    0     3              00  root=12 iDb=0; household_demographics
+13    Rewind         2     137   0                    00               
+14      Column         2     6     20                   00  r[20]=date_dim.d_year
+15      Ne             21    136   20    (BINARY)       54  if r[20]!=r[21] goto 136
+16      Column         2     8     20                   00  r[20]=date_dim.d_moy
+17      Ne             22    136   20    (BINARY)       54  if r[20]!=r[22] goto 136
+18      Once           0     29    0                    00               
+19      OpenAutoindex  9     5     0     k(5,B,,,,)     00  nColumn=5; for catalog_returns
+20      Rewind         1     29    0                    00               
+21        Column         1     0     23                   00  r[23]=catalog_returns.cr_returned_date_sk
+22        Column         1     7     24                   00  r[24]=catalog_returns.cr_returning_customer_sk
+23        Column         1     11    25                   00  r[25]=catalog_returns.cr_call_center_sk
+24        Column         1     26    26                   00  r[26]=catalog_returns.cr_net_loss
+25        Rowid          1     27    0                    00  r[27]=rowid  
+26        MakeRecord     23    5     20                   00  r[20]=mkrec(r[23..27])
+27        IdxInsert      9     20    0                    10  key=r[20]    
+28      Next           1     21    0                    03               
+29      Column         2     0     28                   00  r[28]=date_dim.d_date_sk
+30      Affinity       28    1     0     C              00  affinity(r[28])
+31      SeekGE         9     136   28    1              00  key=r[28]    
+32        IdxGT          9     136   28    1              00  key=r[28]    
+33        Once           0     44    0                    00               
+34        OpenAutoindex  10    5     0     k(5,B,,,,)     00  nColumn=5; for call_center
+35        Rewind         0     44    0                    00               
+36          Column         0     0     23                   00  r[23]=call_center.cc_call_center_sk
+37          Column         0     1     24                   00  r[24]=call_center.cc_call_center_id
+38          Column         0     6     25                   00  r[25]=call_center.cc_name
+39          Column         0     11    26                   00  r[26]=call_center.cc_manager
+40          Rowid          0     27    0                    00  r[27]=rowid  
+41          MakeRecord     23    5     20                   00  r[20]=mkrec(r[23..27])
+42          IdxInsert      10    20    0                    10  key=r[20]    
+43        Next           0     36    0                    03               
+44        Column         9     2     29                   00  r[29]=catalog_returns.cr_call_center_sk
+45        IsNull         29    135   0                    00  if r[29]==NULL goto 135
+46        Affinity       29    1     0     C              00  affinity(r[29])
+47        SeekGE         10    135   29    1              00  key=r[29]    
+48          IdxGT          10    135   29    1              00  key=r[29]    
+49          Once           0     60    0                    00               
+50          OpenAutoindex  11    5     0     k(5,B,,,,)     00  nColumn=5; for customer
+51          Rewind         3     60    0                    00               
+52            Column         3     0     23                   00  r[23]=customer.c_customer_sk
+53            Column         3     2     24                   00  r[24]=customer.c_current_cdemo_sk
+54            Column         3     3     25                   00  r[25]=customer.c_current_hdemo_sk
+55            Column         3     4     26                   00  r[26]=customer.c_current_addr_sk
+56            Rowid          3     27    0                    00  r[27]=rowid  
+57            MakeRecord     23    5     20                   00  r[20]=mkrec(r[23..27])
+58            IdxInsert      11    20    0                    10  key=r[20]    
+59          Next           3     52    0                    03               
+60          Column         9     1     30                   00  r[30]=catalog_returns.cr_returning_customer_sk
+61          IsNull         30    134   0                    00  if r[30]==NULL goto 134
+62          Affinity       30    1     0     C              00  affinity(r[30])
+63          SeekGE         11    134   30    1              00  key=r[30]    
+64            IdxGT          11    134   30    1              00  key=r[30]    
+65            Once           0     76    0                    00               
+66            OpenAutoindex  12    3     0     k(3,B,B,)      00  nColumn=3; for customer_address
+67            Rewind         4     76    0                    00               
+68              Column         4     11    20                   00  r[20]=customer_address.ca_gmt_offset
+69              Ne             31    75    20    (BINARY)       53  if r[20]!=r[31] goto 75
+70              Column         4     0     23                   00  r[23]=customer_address.ca_address_sk
+71              Column         4     11    24                   00  r[24]=customer_address.ca_gmt_offset
+72              Rowid          4     25    0                    00  r[25]=rowid  
+73              MakeRecord     23    3     20                   00  r[20]=mkrec(r[23..25])
+74              IdxInsert      12    20    0                    10  key=r[20]    
+75            Next           4     68    0                    03               
+76            Column         11    3     32                   00  r[32]=customer.c_current_addr_sk
+77            IsNull         32    133   0                    00  if r[32]==NULL goto 133
+78            Integer        -7    33    0                    00  r[33]=-7     
+79            Affinity       32    1     0     C              00  affinity(r[32])
+80            SeekGE         12    133   32    2              00  key=r[32..33]
+81              IdxGT          12    133   32    2              00  key=r[32..33]
+82              Once           0     92    0                    00               
+83              OpenAutoindex  13    4     0     k(4,B,,,)      00  nColumn=4; for customer_demographics
+84              Rewind         5     92    0                    00               
+85                Column         5     0     34                   00  r[34]=customer_demographics.cd_demo_sk
+86                Column         5     2     35                   00  r[35]=customer_demographics.cd_marital_status
+87                Column         5     3     36                   00  r[36]=customer_demographics.cd_education_status
+88                Rowid          5     37    0                    00  r[37]=rowid  
+89                MakeRecord     34    4     20                   00  r[20]=mkrec(r[34..37])
+90                IdxInsert      13    20    0                    10  key=r[20]    
+91              Next           5     85    0                    03               
+92              Column         11    1     38                   00  r[38]=customer.c_current_cdemo_sk
+93              IsNull         38    132   0                    00  if r[38]==NULL goto 132
+94              Affinity       38    1     0     C              00  affinity(r[38])
+95              SeekGE         13    132   38    1              00  key=r[38]    
+96                IdxGT          13    132   38    1              00  key=r[38]    
+97                Column         13    1     20                   00  r[20]=customer_demographics.cd_marital_status
+98                Ne             39    101   20    (BINARY)       52  if r[20]!=r[39] goto 101
+99                Column         13    2     20                   00  r[20]=customer_demographics.cd_education_status
+100               Eq             40    105   20    (BINARY)       42  if r[20]==r[40] goto 105
+101               Column         13    1     20                   00  r[20]=customer_demographics.cd_marital_status
+102               Ne             41    131   20    (BINARY)       52  if r[20]!=r[41] goto 131
+103               Column         13    2     20                   00  r[20]=customer_demographics.cd_education_status
+104               Ne             42    131   20    (BINARY)       52  if r[20]!=r[42] goto 131
+105               Once           0     114   0                    00               
+106               OpenAutoindex  14    3     0     k(3,B,,)       00  nColumn=3; for household_demographics
+107               Rewind         6     114   0                    00               
+108                 Column         6     0     34                   00  r[34]=household_demographics.hd_demo_sk
+109                 Column         6     2     35                   00  r[35]=household_demographics.hd_buy_potential
+110                 Rowid          6     36    0                    00  r[36]=rowid  
+111                 MakeRecord     34    3     20                   00  r[20]=mkrec(r[34..36])
+112                 IdxInsert      14    20    0                    10  key=r[20]    
+113               Next           6     108   0                    03               
+114               Column         11    2     43                   00  r[43]=customer.c_current_hdemo_sk
+115               IsNull         43    131   0                    00  if r[43]==NULL goto 131
+116               Affinity       43    1     0     C              00  affinity(r[43])
+117               SeekGE         14    131   43    1              00  key=r[43]    
+118                 IdxGT          14    131   43    1              00  key=r[43]    
+119                 Column         14    1     45                   00  r[45]=household_demographics.hd_buy_potential
+120                 Function       1     44    20    like(2)        00  r[20]=func(r[44])
+121                 IfNot          20    130   1                    00               
+122                 Column         10    1     46                   00  r[46]=call_center.cc_call_center_id
+123                 Column         10    2     47                   00  r[47]=call_center.cc_name
+124                 Column         10    3     48                   00  r[48]=call_center.cc_manager
+125                 Column         13    1     49                   00  r[49]=customer_demographics.cd_marital_status
+126                 Column         13    2     50                   00  r[50]=customer_demographics.cd_education_status
+127                 Column         9     3     51                   00  r[51]=catalog_returns.cr_net_loss
+128                 MakeRecord     46    6     20                   00  r[20]=mkrec(r[46..51])
+129                 SorterInsert   8     20    0                    00  key=r[20]    
+130               Next           14    118   0                    00               
+131             Next           13    96    0                    00               
+132           Next           12    81    0                    00               
+133         Next           11    64    0                    00               
+134       Next           10    48    0                    00               
+135     Next           9     32    0                    00               
+136   Next           2     14    0                    01               
+137   OpenPseudo     15    20    6                    00  6 columns in r[20]
+138   SorterSort     8     174   0                    00  GROUP BY sort
+139     SorterData     8     20    15                   00  r[20]=data   
+140     Column         15    0     15                   00  r[15]=       
+141     Column         15    1     16                   00  r[16]=       
+142     Column         15    2     17                   00  r[17]=       
+143     Column         15    3     18                   00  r[18]=       
+144     Column         15    4     19                   00  r[19]=       
+145     Compare        10    15    5     k(5,B,B,B,B,B)  00  r[10..14] <-> r[15..19]
+146     Jump           147   151   147                  00               
+147     Move           15    10    5                    00  r[10..14]=r[15..19]
+148     Gosub          8     163   0                    00  output one row
+149     IfPos          7     174   0                    00  if r[7]>0 then r[7]-=0, goto 174; check abort flag
+150     Gosub          9     171   0                    00  reset accumulator
+151     Column         15    5     52                   00  r[52]=       
+152     AggStep        0     52    4     sum(1)         01  accum=r[4] step(r[52])
+153     If             6     157   0                    00               
+154     Column         15    0     1                    00  r[1]=        
+155     Column         15    1     2                    00  r[2]=        
+156     Column         15    2     3                    00  r[3]=        
+157     Integer        1     6     0                    00  r[6]=1; indicate data in accumulator
+158   SorterNext     8     139   0                    00               
+159   Gosub          8     163   0                    00  output final row
+160   Goto           0     174   0                    00               
+161   Integer        1     7     0                    00  r[7]=1; set abort flag
+162   Return         8     0     0                    00               
+163   IfPos          6     165   0                    00  if r[6]>0 then r[6]-=0, goto 165; Groupby result generator entry point
+164   Return         8     0     0                    00               
+165   AggFinal       4     1     0     sum(1)         00  accum=r[4] N=1
+166   Copy           1     54    2                    00  r[54..56]=r[1..3]
+167   Copy           4     53    0                    00  r[53]=r[4]   
+168   MakeRecord     53    4     58                   00  r[58]=mkrec(r[53..56])
+169   SorterInsert   7     58    53    4              00  key=r[58]    
+170   Return         8     0     0                    00  end groupby result generator
+171   Null           0     1     5                    00  r[1..5]=NULL 
+172   Integer        0     6     0                    00  r[6]=0; indicate accumulator empty
+173   Return         9     0     0                    00               
+174   OpenPseudo     16    59    6                    00  6 columns in r[59]
+175   SorterSort     7     183   0                    00               
+176     SorterData     7     59    16                   00  r[59]=data   
+177     Column         16    0     57                   00  r[57]=Returns_Loss
+178     Column         16    3     56                   00  r[56]=Manager
+179     Column         16    2     55                   00  r[55]=Call_Center_Name
+180     Column         16    1     54                   00  r[54]=Call_Center
+181     ResultRow      54    4     0                    00  output=r[54..57]
+182   SorterNext     7     176   0                    00               
+183   Halt           0     0     0                    00               
+184   Transaction    0     0     28    0              01  usesStmtJournal=0
+185   Integer        1998  21    0                    00  r[21]=1998   
+186   Integer        11    22    0                    00  r[22]=11     
+187   Integer        -7    31    0                    00  r[31]=-7     
+188   String8        0     39    0     M              00  r[39]='M'    
+189   String8        0     40    0     Unknown        00  r[40]='Unknown'
+190   String8        0     41    0     W              00  r[41]='W'    
+191   String8        0     42    0     Advanced Degree  00  r[42]='Advanced Degree'
+192   String8        0     44    0     Unknown%       00  r[44]='Unknown%'
+193   Goto           0     1     0                    00               

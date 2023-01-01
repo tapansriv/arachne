@@ -1,0 +1,317 @@
+{
+   "name":  "Query", 
+   "result": 544.952679,
+   "timing": 544.952679,
+   "cardinality": 20,
+   "extra-info": "SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_", SUM("jan_sales") AS "jan_sales", SUM("feb_sales") AS "feb_sales", SUM("mar_sales") AS "mar_sales", SUM("apr_sales") AS "apr_sales", SUM("may_sales") AS "may_sales", SUM("jun_sales") AS "jun_sales", SUM("jul_sales") AS "jul_sales", SUM("aug_sales") AS "aug_sales", SUM("sep_sales") AS "sep_sales", SUM("oct_sales") AS "oct_sales", SUM("nov_sales") AS "nov_sales", SUM("dec_sales") AS "dec_sales", SUM("jan_sales" / "w_warehouse_sq_ft") AS "jan_sales_per_sq_foot", SUM("feb_sales" / "w_warehouse_sq_ft") AS "feb_sales_per_sq_foot", SUM("mar_sales" / "w_warehouse_sq_ft") AS "mar_sales_per_sq_foot", SUM("apr_sales" / "w_warehouse_sq_ft") AS "apr_sales_per_sq_foot", SUM("may_sales" / "w_warehouse_sq_ft") AS "may_sales_per_sq_foot", SUM("jun_sales" / "w_warehouse_sq_ft") AS "jun_sales_per_sq_foot", SUM("jul_sales" / "w_warehouse_sq_ft") AS "jul_sales_per_sq_foot", SUM("aug_sales" / "w_warehouse_sq_ft") AS "aug_sales_per_sq_foot", SUM("sep_sales" / "w_warehouse_sq_ft") AS "sep_sales_per_sq_foot", SUM("oct_sales" / "w_warehouse_sq_ft") AS "oct_sales_per_sq_foot", SUM("nov_sales" / "w_warehouse_sq_ft") AS "nov_sales_per_sq_foot", SUM("dec_sales" / "w_warehouse_sq_ft") AS "dec_sales_per_sq_foot", SUM("jan_net") AS "jan_net", SUM("feb_net") AS "feb_net", SUM("mar_net") AS "mar_net", SUM("apr_net") AS "apr_net", SUM("may_net") AS "may_net", SUM("jun_net") AS "jun_net", SUM("jul_net") AS "jul_net", SUM("aug_net") AS "aug_net", SUM("sep_net") AS "sep_net", SUM("oct_net") AS "oct_net", SUM("nov_net") AS "nov_net", SUM("dec_net") AS "dec_net"\nFROM (SELECT "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", 'DHL,BARIAN' AS "ship_carriers", "t10"."d_year" AS "year_", SUM("t10"."CASE") AS "jan_sales", SUM("t10"."CASE9") AS "feb_sales", SUM("t10"."CASE10") AS "mar_sales", SUM("t10"."CASE11") AS "apr_sales", SUM("t10"."CASE12") AS "may_sales", SUM("t10"."CASE13") AS "jun_sales", SUM("t10"."CASE14") AS "jul_sales", SUM("t10"."CASE15") AS "aug_sales", SUM("t10"."CASE16") AS "sep_sales", SUM("t10"."CASE17") AS "oct_sales", SUM("t10"."CASE18") AS "nov_sales", SUM("t10"."CASE19") AS "dec_sales", SUM("t10"."CASE20") AS "jan_net", SUM("t10"."CASE21") AS "feb_net", SUM("t10"."CASE22") AS "mar_net", SUM("t10"."CASE23") AS "apr_net", SUM("t10"."CASE24") AS "may_net", SUM("t10"."CASE25") AS "jun_net", SUM("t10"."CASE26") AS "jul_net", SUM("t10"."CASE27") AS "aug_net", SUM("t10"."CASE28") AS "sep_net", SUM("t10"."CASE29") AS "oct_net", SUM("t10"."CASE30") AS "nov_net", SUM("t10"."CASE31") AS "dec_net"\nFROM (SELECT "t5"."ws_ship_mode_sk", "t5"."w_warehouse_name", "t5"."w_warehouse_sq_ft", "t5"."w_city", "t5"."w_county", "t5"."w_state", "t5"."w_country", "t5"."d_year", CASE WHEN "t5"."=" THEN "t5"."*" ELSE 0 END AS "CASE", CASE WHEN "t5"."=11" THEN "t5"."*" ELSE 0 END AS "CASE9", CASE WHEN "t5"."=12" THEN "t5"."*" ELSE 0 END AS "CASE10", CASE WHEN "t5"."=13" THEN "t5"."*" ELSE 0 END AS "CASE11", CASE WHEN "t5"."=14" THEN "t5"."*" ELSE 0 END AS "CASE12", CASE WHEN "t5"."=15" THEN "t5"."*" ELSE 0 END AS "CASE13", CASE WHEN "t5"."=16" THEN "t5"."*" ELSE 0 END AS "CASE14", CASE WHEN "t5"."=17" THEN "t5"."*" ELSE 0 END AS "CASE15", CASE WHEN "t5"."=18" THEN "t5"."*" ELSE 0 END AS "CASE16", CASE WHEN "t5"."=19" THEN "t5"."*" ELSE 0 END AS "CASE17", CASE WHEN "t5"."=20" THEN "t5"."*" ELSE 0 END AS "CASE18", CASE WHEN "t5"."=21" THEN "t5"."*" ELSE 0 END AS "CASE19", CASE WHEN "t5"."=" THEN "t5"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t5"."=11" THEN "t5"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t5"."=12" THEN "t5"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t5"."=13" THEN "t5"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t5"."=14" THEN "t5"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t5"."=15" THEN "t5"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t5"."=16" THEN "t5"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t5"."=17" THEN "t5"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t5"."=18" THEN "t5"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t5"."=19" THEN "t5"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t5"."=20" THEN "t5"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t5"."=21" THEN "t5"."*22" ELSE 0 END AS "CASE31"\nFROM (SELECT "t1"."ws_sold_time_sk", "t1"."ws_ship_mode_sk", "t1"."w_warehouse_name", "t1"."w_warehouse_sq_ft", "t1"."w_city", "t1"."w_county", "t1"."w_state", "t1"."w_country", "t4"."d_year", "t4"."=", "t1"."*" AS "*", "t4"."=3" AS "=11", "t4"."=4" AS "=12", "t4"."=5" AS "=13", "t4"."=6" AS "=14", "t4"."=7" AS "=15", "t4"."=8" AS "=16", "t4"."=9" AS "=17", "t4"."=10" AS "=18", "t4"."=11" AS "=19", "t4"."=12" AS "=20", "t4"."=13" AS "=21", "t1"."*10" AS "*22"\nFROM (SELECT "t"."ws_sold_date_sk", "t"."ws_sold_time_sk", "t"."ws_ship_mode_sk", "t0"."w_warehouse_name", "t0"."w_warehouse_sq_ft", "t0"."w_city", "t0"."w_county", "t0"."w_state", "t0"."w_country", "t"."*" AS "*", "t"."*5" AS "*10"\nFROM (SELECT "ws_sold_date_sk", "ws_sold_time_sk", "ws_ship_mode_sk", "ws_warehouse_sk", "ws_ext_sales_price" * "ws_quantity" AS "*", "ws_net_paid" * "ws_quantity" AS "*5"\nFROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"\nINNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"\nFROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t0" ON "t"."ws_warehouse_sk" = "t0"."w_warehouse_sk") AS "t1"\nINNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"\nFROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim\nWHERE "d_year" = 2001) AS "t4" ON "t1"."ws_sold_date_sk" = "t4"."d_date_sk") AS "t5"\nINNER JOIN (SELECT "t_time_sk"\nFROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim\nWHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t8" ON "t5"."ws_sold_time_sk" = "t8"."t_time_sk") AS "t10"\nINNER JOIN (SELECT "sm_ship_mode_sk"\nFROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode\nWHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t13" ON "t10"."ws_ship_mode_sk" = "t13"."sm_ship_mode_sk"\nGROUP BY "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", "t10"."d_year"\nUNION ALL\nSELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", 'DHL,BARIAN' AS "ship_carriers", "year_", SUM("$f7") AS "jan_sales", SUM("$f8") AS "feb_sales", SUM("$f9") AS "mar_sales", SUM("$f10") AS "apr_sales", SUM("$f11") AS "may_sales", SUM("$f12") AS "jun_sales", SUM("$f13") AS "jul_sales", SUM("$f14") AS "aug_sales", SUM("$f15") AS "sep_sales", SUM("$f16") AS "oct_sales", SUM("$f17") AS "nov_sales", SUM("$f18") AS "dec_sales", SUM("$f19") AS "jan_net", SUM("$f20") AS "feb_net", SUM("$f21") AS "mar_net", SUM("$f22") AS "apr_net", SUM("$f23") AS "may_net", SUM("$f24") AS "jun_net", SUM("$f25") AS "jul_net", SUM("$f26") AS "aug_net", SUM("$f27") AS "sep_net", SUM("$f28") AS "oct_net", SUM("$f29") AS "nov_net", SUM("$f30") AS "dec_net"\nFROM "duck_table_66_0"\nGROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "year_") AS "t19"\nGROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_"\nORDER BY "w_warehouse_name" NULLS FIRST\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000177,
+      "cardinality":20,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.000173,
+         "cardinality":20,
+         "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)\nsum(#9)\nsum(#10)\nsum(#11)\nsum(#12)\nsum(#13)\nsum(#14)\nsum(#15)\nsum(#16)\nsum(#17)\nsum(#18)\nsum(#19)\nsum(#20)\nsum(#21)\nsum(#22)\nsum(#23)\nsum(#24)\nsum(#25)\nsum(#26)\nsum(#27)\nsum(#28)\nsum(#29)\nsum(#30)\nsum(#31)\nsum(#32)\nsum(#33)\nsum(#34)\nsum(#35)\nsum(#36)\nsum(#37)\nsum(#38)\nsum(#39)\nsum(#40)\nsum(#41)\nsum(#42)\nsum(#43)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000116,
+            "cardinality":40,
+            "extra_info": "w_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nship_carriers\nyear_\njan_sales\nfeb_sales\nmar_sales\napr_sales\nmay_sales\njun_sales\njul_sales\naug_sales\nsep_sales\noct_sales\nnov_sales\ndec_sales\n/(jan_sales, #20)\n/(feb_sales, #20)\n/(mar_sales, #20)\n/(apr_sales, #20)\n/(may_sales, #20)\n/(jun_sales, #20)\n/(jul_sales, #20)\n/(aug_sales, #20)\n/(sep_sales, #20)\n/(oct_sales, #20)\n/(nov_sales, #20)\n/(dec_sales, #20)\njan_net\nfeb_net\nmar_net\napr_net\nmay_net\njun_net\njul_net\naug_net\nsep_net\noct_net\nnov_net\ndec_net\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000070,
+               "cardinality":40,
+               "extra_info": "w_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nship_carriers\nyear_\njan_sales\nfeb_sales\nmar_sales\napr_sales\nmay_sales\njun_sales\njul_sales\naug_sales\nsep_sales\noct_sales\nnov_sales\ndec_sales\nCAST(w_warehouse_sq_ft AS DOUBLE)\njan_net\nfeb_net\nmar_net\napr_net\nmay_net\njun_net\njul_net\naug_net\nsep_net\noct_net\nnov_net\ndec_net\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "UNION",
+                  "timing":0.000007,
+                  "cardinality":40,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000055,
+                     "cardinality":20,
+                     "extra_info": "w_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nship_carriers\nyear_\njan_sales\nfeb_sales\nmar_sales\napr_sales\nmay_sales\njun_sales\njul_sales\naug_sales\nsep_sales\noct_sales\nnov_sales\ndec_sales\njan_net\nfeb_net\nmar_net\napr_net\nmay_net\njun_net\njul_net\naug_net\nsep_net\noct_net\nnov_net\ndec_net\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":2.500997,
+                        "cardinality":20,
+                        "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\nsum(#7)\nsum(#8)\nsum(#9)\nsum(#10)\nsum(#11)\nsum(#12)\nsum(#13)\nsum(#14)\nsum(#15)\nsum(#16)\nsum(#17)\nsum(#18)\nsum(#19)\nsum(#20)\nsum(#21)\nsum(#22)\nsum(#23)\nsum(#24)\nsum(#25)\nsum(#26)\nsum(#27)\nsum(#28)\nsum(#29)\nsum(#30)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.097145,
+                           "cardinality":5526097,
+                           "extra_info": "w_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nd_year\nCASE\nCASE9\nCASE10\nCASE11\nCASE12\nCASE13\nCASE14\nCASE15\nCASE16\nCASE17\nCASE18\nCASE19\nCASE20\nCASE21\nCASE22\nCASE23\nCASE24\nCASE25\nCASE26\nCASE27\nCASE28\nCASE29\nCASE30\nCASE31\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":18.334059,
+                              "cardinality":5526097,
+                              "extra_info": "INNER\nws_ship_mode_sk=sm_ship_mode_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":24.517429,
+                                 "cardinality":55257320,
+                                 "extra_info": "ws_ship_mode_sk\nw_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nd_year\nCASE\nCASE9\nCASE10\nCASE11\nCASE12\nCASE13\nCASE14\nCASE15\nCASE16\nCASE17\nCASE18\nCASE19\nCASE20\nCASE21\nCASE22\nCASE23\nCASE24\nCASE25\nCASE26\nCASE27\nCASE28\nCASE29\nCASE30\nCASE31\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":16.336569,
+                                    "cardinality":55257320,
+                                    "extra_info": "INNER\nws_sold_time_sk=t_time_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":3.120176,
+                                       "cardinality":143206034,
+                                       "extra_info": "ws_sold_time_sk\nws_ship_mode_sk\nw_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nd_year\n=\n*\n=11\n=12\n=13\n=14\n=15\n=16\n=17\n=18\n=19\n=20\n=21\n*22\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "HASH_JOIN",
+                                          "timing":19.933650,
+                                          "cardinality":143206034,
+                                          "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":1.845403,
+                                             "cardinality":719820271,
+                                             "extra_info": "ws_sold_date_sk\nws_sold_time_sk\nws_ship_mode_sk\nw_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\n*\n*10\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "HASH_JOIN",
+                                                "timing":35.052520,
+                                                "cardinality":719820271,
+                                                "extra_info": "INNER\nws_warehouse_sk=w_warehouse_sk\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PROJECTION",
+                                                   "timing":13.150217,
+                                                   "cardinality":720000376,
+                                                   "extra_info": "ws_sold_date_sk\nws_sold_time_sk\nws_ship_mode_sk\nws_warehouse_sk\n*\n*5\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PROJECTION",
+                                                      "timing":1.676975,
+                                                      "cardinality":720000376,
+                                                      "extra_info": "ws_sold_date_sk\nws_sold_time_sk\nws_ship_mode_sk\nws_warehouse_sk\nws_ext_sales_price\nCAST(ws_quantity AS DOUBLE)\nws_net_paid\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "PARQUET_SCAN",
+                                                         "timing":400.099554,
+                                                         "cardinality":720000376,
+                                                         "extra_info": "ws_sold_date_sk\nws_sold_time_sk\nws_ship_mode_sk\nws_warehouse_sk\nws_ext_sales_price\nws_quantity\nws_net_paid",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+,
+                                                 {
+                                                   "name": "PARQUET_SCAN",
+                                                   "timing":0.000433,
+                                                   "cardinality":40,
+                                                   "extra_info": "w_warehouse_sk\nw_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+,
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":0.000070,
+                                             "cardinality":730,
+                                             "extra_info": "d_date_sk\nd_year\n=\n=3\n=4\n=5\n=6\n=7\n=8\n=9\n=10\n=11\n=12\n=13\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":0.004108,
+                                                "cardinality":730,
+                                                "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000022,
+                                       "cardinality":57602,
+                                       "extra_info": "t_time_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.003440,
+                                          "cardinality":57602,
+                                          "extra_info": "t_time_sk\nt_time\n[INFOSEPARATOR]\nFilters: t_time>=30838 AND t_time<=59638 AND t_time IS NOT NULL\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000004,
+                                 "cardinality":4,
+                                 "extra_info": "#0\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":0.000026,
+                                    "cardinality":4,
+                                    "extra_info": "(sm_carrier=BARIAN OR sm_carrier=DHL)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.000124,
+                                       "cardinality":40,
+                                       "extra_info": "sm_ship_mode_sk\nsm_carrier",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000054,
+                     "cardinality":20,
+                     "extra_info": "w_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nship_carriers\nyear_\njan_sales\nfeb_sales\nmar_sales\napr_sales\nmay_sales\njun_sales\njul_sales\naug_sales\nsep_sales\noct_sales\nnov_sales\ndec_sales\njan_net\nfeb_net\nmar_net\napr_net\nmay_net\njun_net\njul_net\naug_net\nsep_net\noct_net\nnov_net\ndec_net\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":2.536736,
+                        "cardinality":20,
+                        "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\nsum(#7)\nsum(#8)\nsum(#9)\nsum(#10)\nsum(#11)\nsum(#12)\nsum(#13)\nsum(#14)\nsum(#15)\nsum(#16)\nsum(#17)\nsum(#18)\nsum(#19)\nsum(#20)\nsum(#21)\nsum(#22)\nsum(#23)\nsum(#24)\nsum(#25)\nsum(#26)\nsum(#27)\nsum(#28)\nsum(#29)\nsum(#30)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.026780,
+                           "cardinality":10943222,
+                           "extra_info": "w_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nyear_\n$f7\n$f8\n$f9\n$f10\n$f11\n$f12\n$f13\n$f14\n$f15\n$f16\n$f17\n$f18\n$f19\n$f20\n$f21\n$f22\n$f23\n$f24\n$f25\n$f26\n$f27\n$f28\n$f29\n$f30\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "SEQ_SCAN",
+                              "timing":4.307475,
+                              "cardinality":10943222,
+                              "extra_info": "duck_table_66_0\n[INFOSEPARATOR]\nw_warehouse_name\nw_warehouse_sq_ft\nw_city\nw_county\nw_state\nw_country\nyear_\n$f7\n$f8\n$f9\n$f10\n$f11\n$f12\n$f13\n$f14\n$f15\n$f16\n$f17\n$f18\n$f19\n$f20\n$f21\n$f22\n$f23\n$f24\n$f25\n$f26\n$f27\n$f28\n$f29\n$f30",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

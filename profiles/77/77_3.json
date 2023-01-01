@@ -1,0 +1,73 @@
+{
+   "name":  "Query", 
+   "result": 18.541736,
+   "timing": 18.541736,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE cr AS\n  (SELECT cr_call_center_sk,\n          sum(cr_return_amount) AS returns_,\n          sum(cr_net_loss) AS profit_loss\n   FROM 'catalog_returns.parquet' AS catalog_returns,\n        'date_dim.parquet' AS date_dim\n   WHERE cr_returned_date_sk = d_date_sk\n     AND d_date BETWEEN cast('2000-08-23' AS date) AND cast('2000-09-22' AS date)\n   GROUP BY cr_call_center_sk)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000015,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.050725,
+         "cardinality":29,
+         "extra_info": "#0\nsum(#1)\nsum(#2)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.017626,
+            "cardinality":1532392,
+            "extra_info": "cr_call_center_sk\ncr_return_amount\ncr_net_loss\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.747979,
+               "cardinality":1532392,
+               "extra_info": "INNER\ncr_returned_date_sk=d_date_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":17.478082,
+                  "cardinality":143996756,
+                  "extra_info": "cr_call_center_sk\ncr_return_amount\ncr_net_loss\ncr_returned_date_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.006273,
+                  "cardinality":62,
+                  "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-22 00:00:00 AND d_date IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

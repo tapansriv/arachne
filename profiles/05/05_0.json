@@ -1,0 +1,218 @@
+{
+   "name":  "Query", 
+   "result": 464.652620,
+   "timing": 464.652620,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE ssr AS\n  (SELECT s_store_id,\n          sum(sales_price) AS sales,\n          sum(profit) AS profit,\n          sum(return_amt) AS returns_,\n          sum(net_loss) AS profit_loss\n   FROM\n     (SELECT ss_store_sk AS store_sk,\n             ss_sold_date_sk AS date_sk,\n             ss_ext_sales_price AS sales_price,\n             ss_net_profit AS profit,\n             cast(0 AS decimal(7,2)) AS return_amt,\n             cast(0 AS decimal(7,2)) AS net_loss\n      FROM 'store_sales.parquet' AS store_sales\n      UNION ALL SELECT sr_store_sk AS store_sk,\n                       sr_returned_date_sk AS date_sk,\n                       cast(0 AS decimal(7,2)) AS sales_price,\n                       cast(0 AS decimal(7,2)) AS profit,\n                       sr_return_amt AS return_amt,\n                       sr_net_loss AS net_loss\n      FROM 'store_returns.parquet' AS store_returns ) salesreturns,\n        'date_dim.parquet' AS date_dim,\n        'store.parquet' AS store\n   WHERE date_sk = d_date_sk\n     AND d_date BETWEEN cast('2000-08-23' AS date) AND cast('2000-09-06' AS date)\n     AND store_sk = s_store_sk\n   GROUP BY s_store_id)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001398
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000461
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000160
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000044
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000631
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000051
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000025
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "planner", 
+   "timing": 19.787544
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 19.787538
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000062,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":3.168335,
+         "cardinality":501,
+         "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.160611,
+            "cardinality":30513329,
+            "extra_info": "s_store_id\nsales_price\nprofit\nreturn_amt\nnet_loss\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":1.322487,
+               "cardinality":30513329,
+               "extra_info": "INNER\nstore_sk=s_store_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":39.448778,
+                  "cardinality":31240592,
+                  "extra_info": "INNER\ndate_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "UNION",
+                     "timing":4.654844,
+                     "cardinality":3167987763,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":6.892307,
+                        "cardinality":2879987999,
+                        "extra_info": "store_sk\ndate_sk\nsales_price\nprofit\n0.000000\n0.000000\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":338.174504,
+                           "cardinality":2879987999,
+                           "extra_info": "ss_store_sk\nss_sold_date_sk\nss_ext_sales_price\nss_net_profit",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.686591,
+                        "cardinality":287999764,
+                        "extra_info": "store_sk\ndate_sk\n0.000000\n0.000000\nreturn_amt\nnet_loss\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":36.447244,
+                           "cardinality":287999764,
+                           "extra_info": "sr_store_sk\nsr_returned_date_sk\nsr_return_amt\nsr_net_loss",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.006182,
+                     "cardinality":30,
+                     "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-06 00:00:00 AND d_date IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.002785,
+                  "cardinality":2004,
+                  "extra_info": "s_store_id\ns_store_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

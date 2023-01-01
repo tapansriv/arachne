@@ -1,0 +1,51 @@
+┌───────────────────────────┐                                                          
+│      CREATE_TABLE_AS      │                                                          
+└─────────────┬─────────────┘                                                                                       
+┌─────────────┴─────────────┐                                                          
+│         PROJECTION        │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│       ss_customer_sk      │                                                          
+│         act_sales         │                                                          
+└─────────────┬─────────────┘                                                                                       
+┌─────────────┴─────────────┐                                                          
+│         HASH_JOIN         │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│           INNER           ├───────────────────────────────────────────┐              
+│  sr_reason_sk=r_reason_sk │                                           │              
+└─────────────┬─────────────┘                                           │                                           
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐
+│         PROJECTION        │                             │         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│       ss_customer_sk      │                             │        r_reason_sk        │
+│        sr_reason_sk       │                             │                           │
+│            CASE           │                             │                           │
+└─────────────┬─────────────┘                             └─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                             │        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│            LEFT           │                             │        r_reason_sk        │
+│   ss_item_sk=sr_item_sk   │                             │       r_reason_desc       │
+│      ss_ticket_number     ├──────────────┐              │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│     =sr_ticket_number     │              │              │   Filters: r_reason_desc  │
+│                           │              │              │=reason 28 AND r_reaso...  │
+│                           │              │              │          NOT NULL         │
+└─────────────┬─────────────┘              │              └───────────────────────────┘                             
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐                             
+│         PROJECTION        ││        PARQUET_SCAN       │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│         ss_item_sk        ││         sr_item_sk        │                             
+│       ss_customer_sk      ││        sr_reason_sk       │                             
+│      ss_ticket_number     ││      sr_ticket_number     │                             
+│        ss_quantity        ││     sr_return_quantity    │                             
+│       ss_sales_price      ││                           │                             
+│             *             ││                           │                             
+└─────────────┬─────────────┘└───────────────────────────┘                                                          
+┌─────────────┴─────────────┐                                                          
+│        PARQUET_SCAN       │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│         ss_item_sk        │                                                          
+│       ss_customer_sk      │                                                          
+│      ss_ticket_number     │                                                          
+│        ss_quantity        │                                                          
+│       ss_sales_price      │                                                          
+└───────────────────────────┘                                                                                       

@@ -1,0 +1,36 @@
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=48932035.69..48932035.94 rows=100 width=300)
+   ->  Sort  (cost=48932035.69..48934035.69 rows=800000 width=300)
+         Sort Key: ("substring"((warehouse.w_warehouse_name)::text, 1, 20)) NULLS FIRST, ship_mode.sm_type NULLS FIRST, (lower((call_center.cc_name)::text)) NULLS FIRST
+         ->  Finalize GroupAggregate  (cost=48445785.75..48901460.26 rows=800000 width=300)
+               Group Key: ("substring"((warehouse.w_warehouse_name)::text, 1, 20)), ship_mode.sm_type, call_center.cc_name
+               ->  Gather Merge  (cost=48445785.75..48857460.26 rows=1600000 width=268)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=48444785.72..48671780.54 rows=800000 width=268)
+                           Group Key: ("substring"((warehouse.w_warehouse_name)::text, 1, 20)), ship_mode.sm_type, call_center.cc_name
+                           ->  Sort  (cost=48444785.72..48453465.52 rows=3471917 width=236)
+                                 Sort Key: ("substring"((warehouse.w_warehouse_name)::text, 1, 20)) NULLS FIRST, ship_mode.sm_type NULLS FIRST, call_center.cc_name
+                                 ->  Hash Join  (cost=2147.00..47284392.79 rows=3471917 width=236)
+                                       Hash Cond: (catalog_sales.cs_ship_mode_sk = ship_mode.sm_ship_mode_sk)
+                                       ->  Hash Join  (cost=2131.38..47146740.14 rows=2792239 width=188)
+                                             Hash Cond: (catalog_sales.cs_warehouse_sk = warehouse.w_warehouse_sk)
+                                             ->  Hash Join  (cost=2119.13..47108273.52 rows=2808528 width=134)
+                                                   Hash Cond: (catalog_sales.cs_call_center_sk = call_center.cc_call_center_sk)
+                                                   ->  Parallel Hash Join  (cost=2108.23..47069059.47 rows=2964767 width=20)
+                                                         Hash Cond: (catalog_sales.cs_ship_date_sk = date_dim.d_date_sk)
+                                                         ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=20)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                               ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=214 width=4)
+                                                                     Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                   ->  Hash  (cost=10.40..10.40 rows=40 width=122)
+                                                         ->  Seq Scan on call_center  (cost=0.00..10.40 rows=40 width=122)
+                                             ->  Hash  (cost=11.00..11.00 rows=100 width=62)
+                                                   ->  Seq Scan on warehouse  (cost=0.00..11.00 rows=100 width=62)
+                                       ->  Hash  (cost=12.50..12.50 rows=250 width=82)
+                                             ->  Seq Scan on ship_mode  (cost=0.00..12.50 rows=250 width=82)
+ JIT:
+   Functions: 45
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(32 rows)
+

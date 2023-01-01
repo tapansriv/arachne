@@ -1,0 +1,9 @@
+XN Limit  (cost=1000068398187.71..1000068398187.74 rows=10 width=15)
+  ->  XN Merge  (cost=1000068398187.71..1000068398187.74 rows=10 width=15)
+        Merge Key: s_store_name
+        ->  XN Network  (cost=1000068398187.71..1000068398187.74 rows=10 width=15)
+              Send to leader
+              ->  XN Sort  (cost=1000068398187.71..1000068398187.74 rows=10 width=15)
+                    Sort Key: s_store_name
+                    ->  XN HashAggregate  (cost=68398187.52..68398187.55 rows=10 width=15)
+                          ->  XN Seq Scan on rs_table_08_0  (cost=0.00..45598791.68 rows=4559879168 width=15)

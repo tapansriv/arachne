@@ -1,0 +1,187 @@
+{
+   "name":  "Query", 
+   "result": 183.745232,
+   "timing": 183.745232,
+   "cardinality": 0,
+   "extra-info": "SELECT dt.d_year,\n       item.i_brand_id brand_id,\n       item.i_brand brand,\n       sum(ss_ext_sales_price) sum_agg\nFROM 'date_dim.parquet' AS dt,\n     'store_sales.parquet' AS store_sales,\n     'item.parquet' AS item\nWHERE dt.d_date_sk = store_sales.ss_sold_date_sk\n  AND store_sales.ss_item_sk = item.i_item_sk\n  AND item.i_manufact_id = 128\n  AND dt.d_moy=11\nGROUP BY dt.d_year,\n         item.i_brand,\n         item.i_brand_id\nORDER BY dt.d_year,\n         sum_agg DESC,\n         brand_id\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000872
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000070
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000161
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000043
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000503
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000065
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000045
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 17.987614
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 17.987606
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000215,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#3 DESC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000027,
+         "cardinality":862,
+         "extra_info": "d_year\nbrand_id\nbrand\nsum_agg\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_GROUP_BY",
+            "timing":0.314367,
+            "cardinality":862,
+            "extra_info": "#0\n#1\n#2\nsum(#3)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.023620,
+               "cardinality":777785,
+               "extra_info": "d_year\ni_brand\ni_brand_id\nss_ext_sales_price\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.171145,
+                  "cardinality":777785,
+                  "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":22.933169,
+                     "cardinality":5078225,
+                     "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":137.832872,
+                        "cardinality":2879987999,
+                        "extra_info": "ss_ext_sales_price\nss_sold_date_sk\nss_item_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.082957,
+                        "cardinality":1050,
+                        "extra_info": "i_brand_id\ni_brand\ni_item_sk\ni_manufact_id\n[INFOSEPARATOR]\nFilters: i_manufact_id=128 AND i_manufact_id IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.007205,
+                     "cardinality":12000,
+                     "extra_info": "d_year\nd_date_sk\nd_moy\n[INFOSEPARATOR]\nFilters: d_moy=11 AND d_moy IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

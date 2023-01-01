@@ -1,0 +1,96 @@
+{
+    "name": "TOP_N",
+    "timing": 0.017229,
+    "cardinality": 0,
+    "extra_info": "Top 100\n[INFOSEPARATOR]\n#2 ASC\n#3 ASC\n#0 ASC\n#1 ASC\n#6 ASC",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.00113,
+            "cardinality": 45075,
+            "extra_info": "i_item_id\ni_item_desc\ni_category\ni_class\ni_current_price\nitemrevenue\nrevenueratio\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "WINDOW",
+                    "timing": 0.17955,
+                    "cardinality": 45075,
+                    "extra_info": "sum(sum(#[6.0])) OVER(PARTITION BY i_class)",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_GROUP_BY",
+                            "timing": 1.231853,
+                            "cardinality": 45075,
+                            "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PROJECTION",
+                                    "timing": 0.016882,
+                                    "cardinality": 2055600,
+                                    "extra_info": "i_item_id\ni_item_desc\ni_category\ni_class\ni_current_price\nws_ext_sales_price\n",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_JOIN",
+                                            "timing": 6.680753,
+                                            "cardinality": 2055600,
+                                            "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_JOIN",
+                                                    "timing": 38.033271,
+                                                    "cardinality": 215648048,
+                                                    "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing": 54.260388,
+                                                            "cardinality": 720000376,
+                                                            "extra_info": "ws_ext_sales_price\nws_item_sk\nws_sold_date_sk",
+                                                            "timings": [],
+                                                            "children": []
+                                                        },
+                                                        {
+                                                            "name": "FILTER",
+                                                            "timing": 0.013773,
+                                                            "cardinality": 179388,
+                                                            "extra_info": "(i_category=Sports OR i_category=Books OR i_category=Home)",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "PARQUET_SCAN",
+                                                                    "timing": 0.407275,
+                                                                    "cardinality": 600000,
+                                                                    "extra_info": "i_item_id\ni_item_desc\ni_category\ni_class\ni_current_price\ni_item_sk",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PARQUET_SCAN",
+                                                    "timing": 0.011215,
+                                                    "cardinality": 62,
+                                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=1999-02-22 00:00:00 AND d_date<=1999-03-24 00:00:00 AND d_date IS NOT NULL\n",
+                                                    "timings": [],
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

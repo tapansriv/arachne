@@ -1,0 +1,77 @@
+┌───────────────────────────┐
+│           TOP_N           │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          Top 100          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           #8 ASC          │
+│           #3 ASC          │
+│           #0 ASC          │
+│           #1 ASC          │
+│           #2 ASC          │
+│           #4 ASC          │
+│           #5 ASC          │
+│           #6 ASC          │
+│           #7 ASC          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         i_category        │
+│          i_class          │
+│          i_brand          │
+│        s_store_name       │
+│       s_company_name      │
+│           d_moy           │
+│         sum_sales         │
+│     avg_monthly_sales     │
+│        -(sum_sales,       │
+│     avg_monthly_sales)    │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         i_category        │
+│          i_class          │
+│          i_brand          │
+│        s_store_name       │
+│       s_company_name      │
+│           d_moy           │
+│         sum_sales         │
+│     avg_monthly_sales     │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│           FILTER          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         CASE WHEN         │
+│(avg_monthly_sales!=0....  │
+│     (abs(-(sum_sales,     │
+│ avg_monthly_sales)), ...  │
+│ ) AS DECIMAL(19,0))) ELSE │
+│          (NULL)>0         │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│           WINDOW          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│    sum(sum_sales) OVER    │
+│(PARTITION BY i_catego...  │
+│        s_store_name,      │
+│ s_company_name ROWS U...  │
+│   count(sum_sales) OVER   │
+│(PARTITION BY i_catego...  │
+│      , s_store_name,      │
+│ s_company_name ROWS U...  │
+│         PRECEDING)        │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│          SEQ_SCAN         │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      duck_table_89_0      │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         i_category        │
+│          i_class          │
+│          i_brand          │
+│        s_store_name       │
+│       s_company_name      │
+│           d_moy           │
+│         sum_sales         │
+└───────────────────────────┘                             

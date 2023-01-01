@@ -1,0 +1,43 @@
+                                                                                                                                                                                                                        QUERY PLAN                                                                                                                                                                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=9131875420.59..9131875420.84 rows=100 width=341)
+   CTE customer_total_return
+     ->  Finalize GroupAggregate  (cost=4042753.99..4123232.63 rows=636719 width=39)
+           Group Key: catalog_returns.cr_returning_customer_sk, customer_address_1.ca_state
+           ->  Gather Merge  (cost=4042753.99..4109967.65 rows=530600 width=39)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=4041753.97..4047723.22 rows=265300 width=39)
+                       Group Key: catalog_returns.cr_returning_customer_sk, customer_address_1.ca_state
+                       ->  Sort  (cost=4041753.97..4042417.22 rows=265300 width=13)
+                             Sort Key: catalog_returns.cr_returning_customer_sk, customer_address_1.ca_state
+                             ->  Parallel Hash Join  (cost=3846926.32..4013318.06 rows=265300 width=13)
+                                   Hash Cond: (customer_address_1.ca_address_sk = catalog_returns.cr_returning_addr_sk)
+                                   ->  Parallel Seq Scan on customer_address customer_address_1  (cost=0.00..134919.52 rows=2499952 width=7)
+                                   ->  Parallel Hash  (cost=3841729.04..3841729.04 rows=298982 width=14)
+                                         ->  Parallel Hash Join  (cost=2000.80..3841729.04 rows=298982 width=14)
+                                               Hash Cond: (catalog_returns.cr_returned_date_sk = date_dim.d_date_sk)
+                                               ->  Parallel Seq Scan on catalog_returns  (cost=0.00..3612966.53 rows=60001053 width=18)
+                                               ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                                     ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                                           Filter: (d_year = 2000)
+   ->  Sort  (cost=9127752187.96..9127752207.94 rows=7991 width=341)
+         Sort Key: customer.c_customer_id, customer.c_salutation, customer.c_first_name, customer.c_last_name, customer_address.ca_street_number, customer_address.ca_street_name, customer_address.ca_street_type, customer_address.ca_suite_number, customer_address.ca_city, customer_address.ca_county, customer_address.ca_zip, customer_address.ca_country, customer_address.ca_gmt_offset, customer_address.ca_location_type, ctr1.ctr_total_return
+         ->  Nested Loop  (cost=0.00..9127751882.55 rows=7991 width=341)
+               Join Filter: (customer.c_customer_sk = ctr1.ctr_customer_sk)
+               ->  Nested Loop  (cost=0.00..862616.93 rows=8 width=313)
+                     Join Filter: (customer_address.ca_address_sk = customer.c_current_addr_sk)
+                     ->  Seq Scan on customer_address  (cost=0.00..184918.55 rows=301194 width=89)
+                           Filter: ((ca_state)::text = 'GA'::text)
+                     ->  Materialize  (cost=0.00..12.25 rows=150 width=232)
+                           ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=232)
+               ->  CTE Scan on customer_total_return ctr1  (cost=0.00..9126841571.83 rows=212240 width=36)
+                     Filter: (ctr_total_return > (SubPlan 2))
+                     SubPlan 2
+                       ->  Aggregate  (cost=14334.14..14334.15 rows=1 width=32)
+                             ->  CTE Scan on customer_total_return ctr2  (cost=0.00..14326.18 rows=3184 width=32)
+                                   Filter: ((ctr1.ctr_state)::text = (ctr_state)::text)
+ JIT:
+   Functions: 52
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(39 rows)
+

@@ -1,0 +1,166 @@
+{
+   "name":  "Query", 
+   "result": 20.195642,
+   "timing": 20.195642,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE cr_items AS\n  (SELECT i_item_id item_id,\n          sum(cr_return_quantity) cr_item_qty\n   FROM 'catalog_returns.parquet' AS catalog_returns,\n        'item.parquet' AS item,\n        'date_dim.parquet' AS date_dim\n   WHERE cr_item_sk = i_item_sk\n     AND d_date IN\n       (SELECT d_date\n        FROM 'date_dim.parquet' AS date_dim\n        WHERE d_week_seq IN\n            (SELECT d_week_seq\n             FROM 'date_dim.parquet' AS date_dim\n             WHERE d_date IN ('2000-06-30',\n                              '2000-09-27',\n                              '2000-11-17')))\n     AND cr_returned_date_sk = d_date_sk\n   GROUP BY i_item_id)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.004338,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.414703,
+         "cardinality":149974,
+         "extra_info": "#0\nsum(#1)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.018572,
+            "cardinality":1319867,
+            "extra_info": "i_item_id\ncr_return_quantity\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":3.784392,
+               "cardinality":1319867,
+               "extra_info": "SEMI\nd_date=#0\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":2.264099,
+                  "cardinality":143996756,
+                  "extra_info": "INNER\ncr_returned_date_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":7.167585,
+                     "cardinality":143996756,
+                     "extra_info": "INNER\ncr_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":5.835895,
+                        "cardinality":143996756,
+                        "extra_info": "cr_return_quantity\ncr_item_sk\ncr_returned_date_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.039907,
+                        "cardinality":600000,
+                        "extra_info": "i_item_id\ni_item_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.005482,
+                     "cardinality":146098,
+                     "extra_info": "d_date\nd_date_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000020,
+                  "cardinality":42,
+                  "extra_info": "d_date\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":0.001166,
+                     "cardinality":42,
+                     "extra_info": "SEMI\nd_week_seq=#0\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.005415,
+                        "cardinality":146098,
+                        "extra_info": "d_date\nd_week_seq",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000021,
+                        "cardinality":6,
+                        "extra_info": "#0\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "FILTER",
+                           "timing":0.001280,
+                           "cardinality":6,
+                           "extra_info": "(d_date=2000-06-30 00:00:00 OR d_date=2000-09-27 00:00:00 OR d_date=2000-11-17 00:00:00)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.005623,
+                              "cardinality":146098,
+                              "extra_info": "d_week_seq\nd_date",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

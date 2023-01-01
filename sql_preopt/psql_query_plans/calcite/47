@@ -1,0 +1,90 @@
+                                                                                                                                        QUERY PLAN                                                                                                                                         
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=226489767.07..226489767.08 rows=1 width=203)
+   ->  Sort  (cost=226489767.07..226489767.08 rows=1 width=203)
+         Sort Key: ((t8.sum_sales - t8.avg_monthly_sales)), t8.i_category, t8.i_brand, t8.s_store_name, t8.s_company_name, t8.d_moy, t8.avg_monthly_sales, t8.sum_sales, (sum(store_sales_1.ss_sales_price)), (sum(store_sales.ss_sales_price))
+         ->  Merge Join  (cost=216743499.44..226489767.06 rows=1 width=203)
+               Merge Cond: (((item.i_category)::text = (t8.i_category)::text) AND ((item.i_brand)::text = (t8.i_brand)::text) AND ((store.s_store_name)::text = (t8.s_store_name)::text) AND ((store.s_company_name)::text = (t8.s_company_name)::text))
+               Join Filter: (t8.rn = ((rank() OVER (?) - 1)))
+               ->  WindowAgg  (cost=72247833.15..74986299.37 rows=15307616 width=83)
+                     ->  Finalize GroupAggregate  (cost=72247833.15..74373994.73 rows=15307616 width=75)
+                           Group Key: item.i_category, item.i_brand, store.s_store_name, store.s_company_name, date_dim.d_year, date_dim.d_moy
+                           ->  Gather Merge  (cost=72247833.15..73927522.61 rows=12756346 width=75)
+                                 Workers Planned: 2
+                                 ->  Partial GroupAggregate  (cost=72246833.12..72454123.74 rows=6378173 width=75)
+                                       Group Key: item.i_category, item.i_brand, store.s_store_name, store.s_company_name, date_dim.d_year, date_dim.d_moy
+                                       ->  Sort  (cost=72246833.12..72262778.55 rows=6378173 width=49)
+                                             Sort Key: item.i_category, item.i_brand, store.s_store_name, store.s_company_name, date_dim.d_year, date_dim.d_moy
+                                             ->  Hash Join  (cost=18323.01..71089940.31 rows=6378173 width=49)
+                                                   Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                                   ->  Parallel Hash Join  (cost=18262.46..71001049.35 rows=6679648 width=41)
+                                                         Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                                         ->  Parallel Hash Join  (cost=2430.96..70853204.30 rows=6679648 width=22)
+                                                               Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                               ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=18)
+                                                               ->  Parallel Hash  (cost=2427.82..2427.82 rows=251 width=12)
+                                                                     ->  Parallel Seq Scan on date_dim  (cost=0.00..2427.82 rows=251 width=12)
+                                                                           Filter: ((d_year = 1999) OR ((d_year = 1998) AND (d_moy = 12)) OR ((d_year = 2000) AND (d_moy = 1)))
+                                                         ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=27)
+                                                               ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=27)
+                                                   ->  Hash  (cost=48.02..48.02 rows=1002 width=16)
+                                                         ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=16)
+               ->  Materialize  (cost=144495666.29..151197315.34 rows=1 width=190)
+                     ->  Merge Join  (cost=144495666.29..151197315.34 rows=1 width=190)
+                           Merge Cond: (((item_1.i_category)::text = (t8.i_category)::text) AND ((item_1.i_brand)::text = (t8.i_brand)::text) AND ((store_1.s_store_name)::text = (t8.s_store_name)::text) AND ((store_1.s_company_name)::text = (t8.s_company_name)::text))
+                           Join Filter: (t8.rn = ((rank() OVER (?) + 1)))
+                           ->  WindowAgg  (cost=72247833.15..74986299.37 rows=15307616 width=83)
+                                 ->  Finalize GroupAggregate  (cost=72247833.15..74373994.73 rows=15307616 width=75)
+                                       Group Key: item_1.i_category, item_1.i_brand, store_1.s_store_name, store_1.s_company_name, date_dim_1.d_year, date_dim_1.d_moy
+                                       ->  Gather Merge  (cost=72247833.15..73927522.61 rows=12756346 width=75)
+                                             Workers Planned: 2
+                                             ->  Partial GroupAggregate  (cost=72246833.12..72454123.74 rows=6378173 width=75)
+                                                   Group Key: item_1.i_category, item_1.i_brand, store_1.s_store_name, store_1.s_company_name, date_dim_1.d_year, date_dim_1.d_moy
+                                                   ->  Sort  (cost=72246833.12..72262778.55 rows=6378173 width=49)
+                                                         Sort Key: item_1.i_category, item_1.i_brand, store_1.s_store_name, store_1.s_company_name, date_dim_1.d_year, date_dim_1.d_moy
+                                                         ->  Hash Join  (cost=18323.01..71089940.31 rows=6378173 width=49)
+                                                               Hash Cond: (store_sales_1.ss_store_sk = store_1.s_store_sk)
+                                                               ->  Parallel Hash Join  (cost=18262.46..71001049.35 rows=6679648 width=41)
+                                                                     Hash Cond: (store_sales_1.ss_item_sk = item_1.i_item_sk)
+                                                                     ->  Parallel Hash Join  (cost=2430.96..70853204.30 rows=6679648 width=22)
+                                                                           Hash Cond: (store_sales_1.ss_sold_date_sk = date_dim_1.d_date_sk)
+                                                                           ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=18)
+                                                                           ->  Parallel Hash  (cost=2427.82..2427.82 rows=251 width=12)
+                                                                                 ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2427.82 rows=251 width=12)
+                                                                                       Filter: ((d_year = 1999) OR ((d_year = 1998) AND (d_moy = 12)) OR ((d_year = 2000) AND (d_moy = 1)))
+                                                                     ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=27)
+                                                                           ->  Parallel Seq Scan on item item_1  (cost=0.00..13414.00 rows=125000 width=27)
+                                                               ->  Hash  (cost=48.02..48.02 rows=1002 width=16)
+                                                                     ->  Seq Scan on store store_1  (cost=0.00..48.02 rows=1002 width=16)
+                           ->  Materialize  (cost=72247833.15..75904777.59 rows=8504 width=115)
+                                 ->  Subquery Scan on t8  (cost=72247833.15..75904756.33 rows=8504 width=115)
+                                       Filter: ((t8.avg_monthly_sales > '0'::numeric) AND (t8.d_year = 1999) AND (CASE WHEN (t8.avg_monthly_sales > '0'::numeric) THEN ((abs((t8.sum_sales - t8.avg_monthly_sales)) / t8.avg_monthly_sales))::numeric(19,0) ELSE NULL::numeric END > 0.1))
+                                       ->  WindowAgg  (cost=72247833.15..75445527.85 rows=15307616 width=115)
+                                             ->  WindowAgg  (cost=72247833.15..74948030.33 rows=15307616 width=83)
+                                                   ->  Finalize GroupAggregate  (cost=72247833.15..74373994.73 rows=15307616 width=75)
+                                                         Group Key: item_2.i_category, item_2.i_brand, store_2.s_store_name, store_2.s_company_name, date_dim_2.d_year, date_dim_2.d_moy
+                                                         ->  Gather Merge  (cost=72247833.15..73927522.61 rows=12756346 width=75)
+                                                               Workers Planned: 2
+                                                               ->  Partial GroupAggregate  (cost=72246833.12..72454123.74 rows=6378173 width=75)
+                                                                     Group Key: item_2.i_category, item_2.i_brand, store_2.s_store_name, store_2.s_company_name, date_dim_2.d_year, date_dim_2.d_moy
+                                                                     ->  Sort  (cost=72246833.12..72262778.55 rows=6378173 width=49)
+                                                                           Sort Key: item_2.i_category, item_2.i_brand, store_2.s_store_name, store_2.s_company_name, date_dim_2.d_year, date_dim_2.d_moy
+                                                                           ->  Hash Join  (cost=18323.01..71089940.31 rows=6378173 width=49)
+                                                                                 Hash Cond: (store_sales_2.ss_store_sk = store_2.s_store_sk)
+                                                                                 ->  Parallel Hash Join  (cost=18262.46..71001049.35 rows=6679648 width=41)
+                                                                                       Hash Cond: (store_sales_2.ss_item_sk = item_2.i_item_sk)
+                                                                                       ->  Parallel Hash Join  (cost=2430.96..70853204.30 rows=6679648 width=22)
+                                                                                             Hash Cond: (store_sales_2.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                                                                             ->  Parallel Seq Scan on store_sales store_sales_2  (cost=0.00..66312505.53 rows=1199709653 width=18)
+                                                                                             ->  Parallel Hash  (cost=2427.82..2427.82 rows=251 width=12)
+                                                                                                   ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2427.82 rows=251 width=12)
+                                                                                                         Filter: ((d_year = 1999) OR ((d_year = 1998) AND (d_moy = 12)) OR ((d_year = 2000) AND (d_moy = 1)))
+                                                                                       ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=27)
+                                                                                             ->  Parallel Seq Scan on item item_2  (cost=0.00..13414.00 rows=125000 width=27)
+                                                                                 ->  Hash  (cost=48.02..48.02 rows=1002 width=16)
+                                                                                       ->  Seq Scan on store store_2  (cost=0.00..48.02 rows=1002 width=16)
+ JIT:
+   Functions: 164
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(86 rows)
+

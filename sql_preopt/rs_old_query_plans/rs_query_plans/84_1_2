@@ -1,0 +1,13 @@
+XN Limit  (cost=1010266434049.20..1010266434049.45 rows=100 width=37)
+  ->  XN Merge  (cost=1010266434049.20..1010266440708.25 rows=2663623 width=37)
+        Merge Key: rs_table_84_0.c_customer_id
+        ->  XN Network  (cost=1010266434049.20..1010266440708.25 rows=2663623 width=37)
+              Send to leader
+              ->  XN Sort  (cost=1010266434049.20..1010266440708.25 rows=2663623 width=37)
+                    Sort Key: rs_table_84_0.c_customer_id
+                    ->  XN Hash Join DS_BCAST_INNER  (cost=246.56..10266149774.58 rows=2663623 width=37)
+                          Hash Cond: ("outer".sr_cdemo_sk = "inner".cd_demo_sk)
+                          ->  XN Seq Scan on store_returns  (cost=0.00..2879997.76 rows=277461957 width=4)
+                                Filter: (sr_cdemo_sk IS NOT NULL)
+                          ->  XN Hash  (cost=197.25..197.25 rows=19725 width=41)
+                                ->  XN Seq Scan on rs_table_84_0  (cost=0.00..197.25 rows=19725 width=41)

@@ -1,0 +1,69 @@
+                                                                                                                                                      QUERY PLAN                                                                                                                                                      
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=489097816.77..489245505.37 rows=1 width=210)
+   Join Filter: (((ss1.ca_county)::text = (ws3.ca_county)::text) AND (CASE WHEN (ws2.web_sales > '0'::numeric) THEN ((ws3.web_sales * 1.0000) / ws2.web_sales) ELSE NULL::numeric END > CASE WHEN (ss2.store_sales > '0'::numeric) THEN ((ss3.store_sales * 1.0000) / ss2.store_sales) ELSE NULL::numeric END))
+   CTE ss
+     ->  Finalize GroupAggregate  (cost=368641857.86..382729862.46 rows=1476800 width=54)
+           Group Key: customer_address.ca_county, date_dim.d_qoy, date_dim.d_year
+           ->  Gather Merge  (cost=368641857.86..382674482.46 rows=2953600 width=54)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=368640857.84..382332563.71 rows=1476800 width=54)
+                       Group Key: customer_address.ca_county, date_dim.d_qoy, date_dim.d_year
+                       ->  Sort  (cost=368640857.84..371375507.01 rows=1093859670 width=28)
+                             Sort Key: customer_address.ca_county, date_dim.d_qoy, date_dim.d_year
+                             ->  Parallel Hash Join  (cost=183245.74..99729638.67 rows=1093859670 width=28)
+                                   Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                   ->  Parallel Hash Join  (cost=180817.92..88996282.00 rows=1145722717 width=24)
+                                         Hash Cond: (store_sales.ss_addr_sk = customer_address.ca_address_sk)
+                                         ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                         ->  Parallel Hash  (cost=134919.52..134919.52 rows=2499952 width=18)
+                                               ->  Parallel Seq Scan on customer_address  (cost=0.00..134919.52 rows=2499952 width=18)
+                                   ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=12)
+                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..1890.70 rows=42970 width=12)
+   CTE ws
+     ->  Finalize GroupAggregate  (cost=102131374.42..106294112.38 rows=1476800 width=54)
+           Group Key: customer_address_1.ca_county, date_dim_1.d_qoy, date_dim_1.d_year
+           ->  Gather Merge  (cost=102131374.42..106238732.38 rows=2953600 width=54)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=102130374.40..105896813.63 rows=1476800 width=54)
+                       Group Key: customer_address_1.ca_county, date_dim_1.d_qoy, date_dim_1.d_year
+                       ->  Sort  (cost=102130374.40..102879970.24 rows=299838339 width=28)
+                             Sort Key: customer_address_1.ca_county, date_dim_1.d_qoy, date_dim_1.d_year
+                             ->  Parallel Hash Join  (cost=183245.74..31218243.51 rows=299838339 width=28)
+                                   Hash Cond: (web_sales.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                   ->  Parallel Hash Join  (cost=180817.92..28327479.56 rows=299888320 width=24)
+                                         Hash Cond: (web_sales.ws_bill_addr_sk = customer_address_1.ca_address_sk)
+                                         ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                         ->  Parallel Hash  (cost=134919.52..134919.52 rows=2499952 width=18)
+                                               ->  Parallel Seq Scan on customer_address customer_address_1  (cost=0.00..134919.52 rows=2499952 width=18)
+                                   ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=12)
+                                         ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..1890.70 rows=42970 width=12)
+   ->  Nested Loop  (cost=73841.93..184609.40 rows=1 width=554)
+         Join Filter: (((ss1.ca_county)::text = (ws2.ca_county)::text) AND (CASE WHEN (ws1.web_sales > '0'::numeric) THEN ((ws2.web_sales * 1.0000) / ws1.web_sales) ELSE NULL::numeric END > CASE WHEN (ss1.store_sales > '0'::numeric) THEN ((ss2.store_sales * 1.0000) / ss1.store_sales) ELSE NULL::numeric END))
+         ->  Nested Loop  (cost=73841.93..147688.29 rows=1 width=444)
+               Join Filter: ((ss1.ca_county)::text = (ws1.ca_county)::text)
+               ->  Nested Loop  (cost=73841.93..110767.82 rows=1 width=334)
+                     Join Filter: ((ss1.ca_county)::text = (ss3.ca_county)::text)
+                     ->  Merge Join  (cost=73841.93..73842.37 rows=7 width=224)
+                           Merge Cond: ((ss1.ca_county)::text = (ss2.ca_county)::text)
+                           ->  Sort  (cost=36920.96..36921.06 rows=37 width=114)
+                                 Sort Key: ss1.ca_county
+                                 ->  CTE Scan on ss ss1  (cost=0.00..36920.00 rows=37 width=114)
+                                       Filter: ((d_qoy = 1) AND (d_year = 2000))
+                           ->  Sort  (cost=36920.96..36921.06 rows=37 width=110)
+                                 Sort Key: ss2.ca_county
+                                 ->  CTE Scan on ss ss2  (cost=0.00..36920.00 rows=37 width=110)
+                                       Filter: ((d_year = 2000) AND (d_qoy = 2))
+                     ->  CTE Scan on ss ss3  (cost=0.00..36920.00 rows=37 width=110)
+                           Filter: ((d_year = 2000) AND (d_qoy = 3))
+               ->  CTE Scan on ws ws1  (cost=0.00..36920.00 rows=37 width=110)
+                     Filter: ((d_qoy = 1) AND (d_year = 2000))
+         ->  CTE Scan on ws ws2  (cost=0.00..36920.00 rows=37 width=110)
+               Filter: ((d_year = 2000) AND (d_qoy = 2))
+   ->  CTE Scan on ws ws3  (cost=0.00..36920.00 rows=37 width=110)
+         Filter: ((d_year = 2000) AND (d_qoy = 3))
+ JIT:
+   Functions: 91
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(65 rows)
+

@@ -1,0 +1,20 @@
+XN Limit  (cost=4840360609128.79..4840360609129.04 rows=100 width=71)
+  ->  XN Merge  (cost=4840360609128.79..4840360662081.62 rows=21181128 width=71)
+        Merge Key: customer.c_last_name, customer.c_first_name, t5."substring", t5.profit
+        ->  XN Network  (cost=4840360609128.79..4840360662081.62 rows=21181128 width=71)
+              Send to leader
+              ->  XN Sort  (cost=4840360609128.79..4840360662081.62 rows=21181128 width=71)
+                    Sort Key: customer.c_last_name, customer.c_first_name, t5."substring", t5.profit
+                    ->  XN Hash Join DS_BCAST_INNER  (cost=354845523.72..3840358031779.90 rows=21181128 width=71)
+                          Hash Cond: ("outer".ss_customer_sk = "inner".c_customer_sk)
+                          ->  XN Subquery Scan t5  (cost=354695523.72..355067329.33 rows=21246035 width=56)
+                                ->  XN HashAggregate  (cost=354695523.72..354854868.98 rows=21246035 width=41)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=115.20..353397360.27 rows=86544230 width=41)
+                                            Hash Cond: ("outer".ss_hdemo_sk = "inner".hd_demo_sk)
+                                            ->  XN Seq Scan on rs_table_79_0  (cost=0.00..2151445.12 rows=212460340 width=45)
+                                                  Filter: (ss_hdemo_sk IS NOT NULL)
+                                            ->  XN Hash  (cost=108.00..108.00 rows=2880 width=4)
+                                                  ->  XN Seq Scan on household_demographics  (cost=0.00..108.00 rows=2880 width=4)
+                                                        Filter: ((hd_vehicle_count > 2) OR (hd_dep_count = 6))
+                          ->  XN Hash  (cost=120000.00..120000.00 rows=12000000 width=23)
+                                ->  XN Seq Scan on customer  (cost=0.00..120000.00 rows=12000000 width=23)

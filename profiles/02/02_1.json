@@ -1,0 +1,73 @@
+{
+   "name":  "Query", 
+   "result": 232.994370,
+   "timing": 232.994370,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE wswscs AS\n  (SELECT d_week_seq,\n          sum(CASE\n                  WHEN (d_day_name='Sunday') THEN sales_price\n                  ELSE NULL\n              END) sun_sales,\n          sum(CASE\n                  WHEN (d_day_name='Monday') THEN sales_price\n                  ELSE NULL\n              END) mon_sales,\n          sum(CASE\n                  WHEN (d_day_name='Tuesday') THEN sales_price\n                  ELSE NULL\n              END) tue_sales,\n          sum(CASE\n                  WHEN (d_day_name='Wednesday') THEN sales_price\n                  ELSE NULL\n              END) wed_sales,\n          sum(CASE\n                  WHEN (d_day_name='Thursday') THEN sales_price\n                  ELSE NULL\n              END) thu_sales,\n          sum(CASE\n                  WHEN (d_day_name='Friday') THEN sales_price\n                  ELSE NULL\n              END) fri_sales,\n          sum(CASE\n                  WHEN (d_day_name='Saturday') THEN sales_price\n                  ELSE NULL\n              END) sat_sales\n   FROM wscs,\n        'date_dim.parquet' AS date_dim\n   WHERE d_date_sk = sold_date_sk\n   GROUP BY d_week_seq)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000055,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":47.468542,
+         "cardinality":264,
+         "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)\nsum(#5)\nsum(#6)\nsum(#7)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":111.726713,
+            "cardinality":2152597545,
+            "extra_info": "d_week_seq\nCASE WHEN (d_day_name=Sunday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Monday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Tuesday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Wednesday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Thursday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Friday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Saturday) THEN (sales_price) ELSE (NULL)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":35.065205,
+               "cardinality":2152597545,
+               "extra_info": "INNER\nsold_date_sk=d_date_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":28.804083,
+                  "cardinality":2159980792,
+                  "extra_info": "wscs\n[INFOSEPARATOR]\nsales_price\nsold_date_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.015882,
+                  "cardinality":146098,
+                  "extra_info": "d_week_seq\nd_day_name\nd_date_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

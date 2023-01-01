@@ -1,0 +1,118 @@
+┌───────────────────────────┐                                                                                       
+│         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│             #0            │                                                                                       
+│             #1            │                                                                                       
+│             #2            │                                                                                       
+│             #3            │                                                                                       
+│             #4            │                                                                                       
+│             #5            │                                                                                       
+│             #6            │                                                                                       
+│             #7            │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│           TOP_N           │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│          Top 100          │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│           #8 ASC          │                                                                                       
+│           #3 ASC          │                                                                                       
+│           #0 ASC          │                                                                                       
+│           #1 ASC          │                                                                                       
+│           #2 ASC          │                                                                                       
+│           #4 ASC          │                                                                                       
+│           #5 ASC          │                                                                                       
+│           #6 ASC          │                                                                                       
+│           #7 ASC          │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│         i_category        │                                                                                       
+│          i_class          │                                                                                       
+│          i_brand          │                                                                                       
+│        s_store_name       │                                                                                       
+│       s_company_name      │                                                                                       
+│           d_moy           │                                                                                       
+│         sum_sales         │                                                                                       
+│     avg_monthly_sales     │                                                                                       
+│        -(sum_sales,       │                                                                                       
+│     avg_monthly_sales)    │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│           FILTER          │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│         CASE WHEN         │                                                                                       
+│(avg_monthly_sales!=0....  │                                                                                       
+│        (sum_sales,        │                                                                                       
+│ avg_monthly_sales)), ...  │                                                                                       
+│    ELSE (NULL)>0.100000   │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│           WINDOW          │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│   avg(sum(#[13.0])) OVER  │                                                                                       
+│ (PARTITION BY i_category, │                                                                                       
+│   i_brand, s_store_name,  │                                                                                       
+│       s_company_name)     │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│       HASH_GROUP_BY       │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│             #0            │                                                                                       
+│             #1            │                                                                                       
+│             #2            │                                                                                       
+│             #3            │                                                                                       
+│             #4            │                                                                                       
+│             #5            │                                                                                       
+│          sum(#6)          │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│         i_category        │                                                                                       
+│          i_class          │                                                                                       
+│          i_brand          │                                                                                       
+│        s_store_name       │                                                                                       
+│       s_company_name      │                                                                                       
+│           d_moy           │                                                                                       
+│       ss_sales_price      │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         HASH_JOIN         │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│           INNER           ├────────────────────────────────────────────────────────────────────────┐              
+│    ss_item_sk=i_item_sk   │                                                                        │              
+└─────────────┬─────────────┘                                                                        │                                           
+┌─────────────┴─────────────┐                                                          ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                                                          │           FILTER          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           INNER           │                                                          │   (((i_category=Books OR  │
+│   ss_store_sk=s_store_sk  │                                                          │  i_category=Electronics OR│
+│                           │                                                          │ i_category=Sports) AN...  │
+│                           │                                                          │=computers OR i_class=...  │
+│                           ├───────────────────────────────────────────┐              │ OR i_class=football)) OR (│
+│                           │                                           │              │     (i_category=Men OR    │
+│                           │                                           │              │ i_category=Jewelry OR...  │
+│                           │                                           │              │=Women) AND (i_class=s...  │
+│                           │                                           │              │  i_class=birdal OR i_class│
+│                           │                                           │              │        =dresses)))        │
+└─────────────┬─────────────┘                                           │              └─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│         HASH_JOIN         │                             │        PARQUET_SCAN       ││        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           INNER           │                             │        s_store_name       ││         i_category        │
+│ ss_sold_date_sk=d_date_sk ├──────────────┐              │       s_company_name      ││          i_class          │
+│                           │              │              │         s_store_sk        ││          i_brand          │
+│                           │              │              │                           ││         i_item_sk         │
+└─────────────┬─────────────┘              │              └───────────────────────────┘└───────────────────────────┘                             
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐                                                          
+│        PARQUET_SCAN       ││        PARQUET_SCAN       │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│       ss_sales_price      ││           d_moy           │                                                          
+│         ss_item_sk        ││         d_date_sk         │                                                          
+│      ss_sold_date_sk      ││           d_year          │                                                          
+│        ss_store_sk        ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│                           ││  Filters: d_year=1999 AND │                                                          
+│                           ││     d_year IS NOT NULL    │                                                          
+└───────────────────────────┘└───────────────────────────┘                                                                                       

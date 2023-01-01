@@ -1,0 +1,194 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     173   0                    00  Start at 173 
+1     Null           0     1     2                    00  r[1..2]=NULL 
+2     OpenRead       2     10    0     4              00  root=10 iDb=0; customer_demographics
+3     OpenRead       3     7     0     11             00  root=7 iDb=0; customer_address
+4     OpenRead       4     11    0     7              00  root=11 iDb=0; date_dim
+5     OpenRead       0     22    0     23             00  root=22 iDb=0; store_sales
+6     OpenRead       1     19    0     1              00  root=19 iDb=0; store
+7     Rewind         2     169   0                    00               
+8       Rewind         3     169   0                    00               
+9         Once           0     20    0                    00               
+10        OpenAutoindex  5     3     0     k(3,B,,)       00  nColumn=3; for date_dim
+11        Rewind         4     20    0                    00               
+12          Column         4     6     3                    00  r[3]=date_dim.d_year
+13          Ne             4     19    3     (BINARY)       54  if r[3]!=r[4] goto 19
+14          Column         4     6     5                    00  r[5]=date_dim.d_year
+15          Column         4     0     6                    00  r[6]=date_dim.d_date_sk
+16          Rowid          4     7     0                    00  r[7]=rowid   
+17          MakeRecord     5     3     3                    00  r[3]=mkrec(r[5..7])
+18          IdxInsert      5     3     0                    10  key=r[3]     
+19        Next           4     12    0                    03               
+20        Integer        2000  8     0                    00  r[8]=2000    
+21        SeekGE         5     167   8     1              00  key=r[8]     
+22          IdxGT          5     167   8     1              00  key=r[8]     
+23          Once           0     37    0                    00               
+24          OpenAutoindex  6     8     0     k(8,B,,,,,,,)  00  nColumn=8; for store_sales
+25          Rewind         0     37    0                    00               
+26            Column         0     0     9                    00  r[9]=store_sales.ss_sold_date_sk
+27            Column         0     4     10                   00  r[10]=store_sales.ss_cdemo_sk
+28            Column         0     6     11                   00  r[11]=store_sales.ss_addr_sk
+29            Column         0     7     12                   00  r[12]=store_sales.ss_store_sk
+30            Column         0     10    13                   00  r[13]=store_sales.ss_quantity
+31            Column         0     13    14                   00  r[14]=store_sales.ss_sales_price
+32            Column         0     22    15                   00  r[15]=store_sales.ss_net_profit
+33            Rowid          0     16    0                    00  r[16]=rowid  
+34            MakeRecord     9     8     3                    00  r[3]=mkrec(r[9..16])
+35            IdxInsert      6     3     0                    10  key=r[3]     
+36          Next           0     26    0                    03               
+37          Column         5     1     17                   00  r[17]=date_dim.d_date_sk
+38          Affinity       17    1     0     C              00  affinity(r[17])
+39          SeekGE         6     166   17    1              00  key=r[17]    
+40            IdxGT          6     166   17    1              00  key=r[17]    
+41            Column         2     0     3                    00  r[3]=customer_demographics.cd_demo_sk
+42            Column         6     1     18                   00  r[18]=store_sales.ss_cdemo_sk
+43            Ne             18    51    3     (BINARY)       53  if r[3]!=r[18] goto 51
+44            Column         2     2     18                   00  r[18]=customer_demographics.cd_marital_status
+45            Ne             19    51    18    (BINARY)       52  if r[18]!=r[19] goto 51
+46            Column         2     3     18                   00  r[18]=customer_demographics.cd_education_status
+47            Ne             20    51    18    (BINARY)       52  if r[18]!=r[20] goto 51
+48            Column         6     5     18                   00  r[18]=store_sales.ss_sales_price
+49            Lt             21    51    18    (BINARY)       53  if r[18]<r[21] goto 51
+50            Le             22    71    18    (BINARY)       43  if r[18]<=r[22] goto 71
+51            Column         2     0     18                   00  r[18]=customer_demographics.cd_demo_sk
+52            Column         6     1     3                    00  r[3]=store_sales.ss_cdemo_sk
+53            Ne             3     61    18    (BINARY)       53  if r[18]!=r[3] goto 61
+54            Column         2     2     3                    00  r[3]=customer_demographics.cd_marital_status
+55            Ne             23    61    3     (BINARY)       52  if r[3]!=r[23] goto 61
+56            Column         2     3     3                    00  r[3]=customer_demographics.cd_education_status
+57            Ne             24    61    3     (BINARY)       52  if r[3]!=r[24] goto 61
+58            Column         6     5     3                    00  r[3]=store_sales.ss_sales_price
+59            Lt             25    61    3     (BINARY)       53  if r[3]<r[25] goto 61
+60            Le             21    71    3     (BINARY)       43  if r[3]<=r[21] goto 71
+61            Column         2     0     3                    00  r[3]=customer_demographics.cd_demo_sk
+62            Column         6     1     18                   00  r[18]=store_sales.ss_cdemo_sk
+63            Ne             18    165   3     (BINARY)       53  if r[3]!=r[18] goto 165
+64            Column         2     2     18                   00  r[18]=customer_demographics.cd_marital_status
+65            Ne             26    165   18    (BINARY)       52  if r[18]!=r[26] goto 165
+66            Column         2     3     18                   00  r[18]=customer_demographics.cd_education_status
+67            Ne             27    165   18    (BINARY)       52  if r[18]!=r[27] goto 165
+68            Column         6     5     18                   00  r[18]=store_sales.ss_sales_price
+69            Lt             22    165   18    (BINARY)       53  if r[18]<r[22] goto 165
+70            Gt             28    165   18    (BINARY)       53  if r[18]>r[28] goto 165
+71            Column         6     2     18                   00  r[18]=store_sales.ss_addr_sk
+72            Column         3     0     3                    00  r[3]=customer_address.ca_address_sk
+73            Ne             3     97    18    (BINARY)       53  if r[18]!=r[3] goto 97
+74            Column         3     10    3                    00  r[3]=customer_address.ca_country
+75            Ne             29    97    3     (BINARY)       52  if r[3]!=r[29] goto 97
+76            Noop           0     0     0                    00  begin IN expr
+77            Integer        89    30    0                    00  r[30]=89; return address
+78            Once           0     89    0                    00               
+79            OpenEphemeral  7     1     0     k(1,B)         00  nColumn=1; RHS of IN operator
+80            String8        0     3     0     CO             00  r[3]='CO'    
+81            MakeRecord     3     1     18    B              00  r[18]=mkrec(r[3])
+82            IdxInsert      7     18    3     1              00  key=r[18]    
+83            String8        0     3     0     OH             00  r[3]='OH'    
+84            MakeRecord     3     1     18    B              00  r[18]=mkrec(r[3])
+85            IdxInsert      7     18    3     1              00  key=r[18]    
+86            String8        0     3     0     TX             00  r[3]='TX'    
+87            MakeRecord     3     1     18    B              00  r[18]=mkrec(r[3])
+88            IdxInsert      7     18    3     1              00  key=r[18]    
+89            Return         30    0     0                    00               
+90            Column         3     8     31                   00  r[31]=customer_address.ca_state
+91            IsNull         31    97    0                    00  if r[31]==NULL goto 97
+92            Affinity       31    1     0     B              00  affinity(r[31])
+93            NotFound       7     97    31    1              00  key=r[31]; end IN expr
+94            Column         6     6     32                   00  r[32]=store_sales.ss_net_profit
+95            Lt             34    97    32    (BINARY)       53  if r[32]<r[34] goto 97
+96            Le             4     149   32    (BINARY)       43  if r[32]<=r[4] goto 149
+97            Column         6     2     32                   00  r[32]=store_sales.ss_addr_sk
+98            Column         3     0     33                   00  r[33]=customer_address.ca_address_sk
+99            Ne             33    123   32    (BINARY)       53  if r[32]!=r[33] goto 123
+100           Column         3     10    33                   00  r[33]=customer_address.ca_country
+101           Ne             29    123   33    (BINARY)       52  if r[33]!=r[29] goto 123
+102           Noop           0     0     0                    00  begin IN expr
+103           Integer        115   35    0                    00  r[35]=115; return address
+104           Once           0     115   0                    00               
+105           OpenEphemeral  8     1     0     k(1,B)         00  nColumn=1; RHS of IN operator
+106           String8        0     33    0     OR             00  r[33]='OR'   
+107           MakeRecord     33    1     32    B              00  r[32]=mkrec(r[33])
+108           IdxInsert      8     32    33    1              00  key=r[32]    
+109           String8        0     33    0     MN             00  r[33]='MN'   
+110           MakeRecord     33    1     32    B              00  r[32]=mkrec(r[33])
+111           IdxInsert      8     32    33    1              00  key=r[32]    
+112           String8        0     33    0     KY             00  r[33]='KY'   
+113           MakeRecord     33    1     32    B              00  r[32]=mkrec(r[33])
+114           IdxInsert      8     32    33    1              00  key=r[32]    
+115           Return         35    0     0                    00               
+116           Column         3     8     36                   00  r[36]=customer_address.ca_state
+117           IsNull         36    123   0                    00  if r[36]==NULL goto 123
+118           Affinity       36    1     0     B              00  affinity(r[36])
+119           NotFound       8     123   36    1              00  key=r[36]; end IN expr
+120           Column         6     6     37                   00  r[37]=store_sales.ss_net_profit
+121           Lt             39    123   37    (BINARY)       53  if r[37]<r[39] goto 123
+122           Le             40    149   37    (BINARY)       43  if r[37]<=r[40] goto 149
+123           Column         6     2     37                   00  r[37]=store_sales.ss_addr_sk
+124           Column         3     0     38                   00  r[38]=customer_address.ca_address_sk
+125           Ne             38    165   37    (BINARY)       53  if r[37]!=r[38] goto 165
+126           Column         3     10    38                   00  r[38]=customer_address.ca_country
+127           Ne             29    165   38    (BINARY)       52  if r[38]!=r[29] goto 165
+128           Noop           0     0     0                    00  begin IN expr
+129           Integer        141   41    0                    00  r[41]=141; return address
+130           Once           0     141   0                    00               
+131           OpenEphemeral  9     1     0     k(1,B)         00  nColumn=1; RHS of IN operator
+132           String8        0     38    0     VA             00  r[38]='VA'   
+133           MakeRecord     38    1     37    B              00  r[37]=mkrec(r[38])
+134           IdxInsert      9     37    38    1              00  key=r[37]    
+135           String8        0     38    0     CA             00  r[38]='CA'   
+136           MakeRecord     38    1     37    B              00  r[37]=mkrec(r[38])
+137           IdxInsert      9     37    38    1              00  key=r[37]    
+138           String8        0     38    0     MS             00  r[38]='MS'   
+139           MakeRecord     38    1     37    B              00  r[37]=mkrec(r[38])
+140           IdxInsert      9     37    38    1              00  key=r[37]    
+141           Return         41    0     0                    00               
+142           Column         3     8     42                   00  r[42]=customer_address.ca_state
+143           IsNull         42    165   0                    00  if r[42]==NULL goto 165
+144           Affinity       42    1     0     B              00  affinity(r[42])
+145           NotFound       9     165   42    1              00  key=r[42]; end IN expr
+146           Column         6     6     43                   00  r[43]=store_sales.ss_net_profit
+147           Lt             45    165   43    (BINARY)       53  if r[43]<r[45] goto 165
+148           Gt             46    165   43    (BINARY)       53  if r[43]>r[46] goto 165
+149           Once           0     157   0                    00               
+150           OpenAutoindex  10    2     0     k(2,B,)        00  nColumn=2; for store
+151           Rewind         1     157   0                    00               
+152             Column         1     0     47                   00  r[47]=store.s_store_sk
+153             Rowid          1     48    0                    00  r[48]=rowid  
+154             MakeRecord     47    2     43                   00  r[43]=mkrec(r[47..48])
+155             IdxInsert      10    43    0                    10  key=r[43]    
+156           Next           1     152   0                    03               
+157           Column         6     3     49                   00  r[49]=store_sales.ss_store_sk
+158           IsNull         49    165   0                    00  if r[49]==NULL goto 165
+159           Affinity       49    1     0     C              00  affinity(r[49])
+160           SeekGE         10    165   49    1              00  key=r[49]    
+161             IdxGT          10    165   49    1              00  key=r[49]    
+162             Column         6     4     43                   00  r[43]=store_sales.ss_quantity
+163             AggStep        0     43    1     sum(1)         01  accum=r[1] step(r[43])
+164           Next           10    161   0                    00               
+165         Next           6     40    0                    00               
+166       Next           5     22    0                    00               
+167     Next           3     9     0                    01               
+168   Next           2     8     0                    01               
+169   AggFinal       1     1     0     sum(1)         00  accum=r[1] N=1
+170   Copy           1     50    0                    00  r[50]=r[1]   
+171   ResultRow      50    1     0                    00  output=r[50] 
+172   Halt           0     0     0                    00               
+173   Transaction    0     0     28    0              01  usesStmtJournal=0
+174   Integer        2000  4     0                    00  r[4]=2000    
+175   String8        0     19    0     M              00  r[19]='M'    
+176   String8        0     20    0     4 yr Degree    00  r[20]='4 yr Degree'
+177   Real           0     21    0     100            00  r[21]=100    
+178   Real           0     22    0     150            00  r[22]=150    
+179   String8        0     23    0     D              00  r[23]='D'    
+180   String8        0     24    0     2 yr Degree    00  r[24]='2 yr Degree'
+181   Real           0     25    0     50             00  r[25]=50     
+182   String8        0     26    0     S              00  r[26]='S'    
+183   String8        0     27    0     College        00  r[27]='College'
+184   Real           0     28    0     200            00  r[28]=200    
+185   String8        0     29    0     United States  00  r[29]='United States'
+186   Integer        0     34    0                    00  r[34]=0      
+187   Integer        150   39    0                    00  r[39]=150    
+188   Integer        3000  40    0                    00  r[40]=3000   
+189   Integer        50    45    0                    00  r[45]=50     
+190   Integer        25000  46    0                    00  r[46]=25000  
+191   Goto           0     1     0                    00               

@@ -1,0 +1,143 @@
+{
+   "name":  "Query", 
+   "result": 0.008355,
+   "timing": 0.008355,
+   "cardinality": 0,
+   "extra-info": "\nSELECT c_last_name,\n       c_first_name,\n       s_store_name,\n       sum(netpaid) paid\nFROM ssales\nWHERE i_color = 'peach'\nGROUP BY c_last_name,\n         c_first_name,\n         s_store_name\nHAVING sum(netpaid) >\n  (SELECT 0.05*avg(netpaid)\n   FROM ssales)\nORDER BY c_last_name,\n         c_first_name,\n         s_store_name ", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "ORDER_BY",
+      "timing":0.000117,
+      "cardinality":0,
+      "extra_info": "#0 ASC\n#1 ASC\n#2 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000027,
+         "cardinality":403,
+         "extra_info": "c_last_name\nc_first_name\ns_store_name\npaid\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PIECEWISE_MERGE_JOIN",
+            "timing":0.000086,
+            "cardinality":403,
+            "extra_info": "INNER\nsum(#[6.3])>SUBQUERY\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":0.000249,
+               "cardinality":453,
+               "extra_info": "#0\n#1\n#2\nsum(#3)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000065,
+                  "cardinality":460,
+                  "extra_info": "c_last_name\nc_first_name\ns_store_name\nnetpaid\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.001526,
+                     "cardinality":460,
+                     "extra_info": "ssales\n[INFOSEPARATOR]\nc_last_name\nc_first_name\ns_store_name\nnetpaid\ni_color\n[INFOSEPARATOR]\nFilters: i_color=peach AND i_color IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "SIMPLE_AGGREGATE",
+               "timing":0.002685,
+               "cardinality":2,
+               "extra_info": "(#0)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000018,
+                  "cardinality":2,
+                  "extra_info": "#0\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "LIMIT",
+                     "timing":0.000005,
+                     "cardinality":2,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000103,
+                        "cardinality":2,
+                        "extra_info": "*(0.050000, avg(#[13.0]))\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "SIMPLE_AGGREGATE",
+                           "timing":0.000147,
+                           "cardinality":2,
+                           "extra_info": "avg(#0)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000071,
+                              "cardinality":39404,
+                              "extra_info": "netpaid\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "SEQ_SCAN",
+                                 "timing":0.000096,
+                                 "cardinality":39404,
+                                 "extra_info": "ssales\n[INFOSEPARATOR]\nnetpaid",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

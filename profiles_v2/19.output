@@ -1,0 +1,360 @@
+-Dexec.args="single duck 19 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+GCP
+19 1.48 0.0 GCP
+SELECT i_brand_id brand_id,
+       i_brand brand,
+       i_manufact_id,
+       i_manufact,
+       sum(ss_ext_sales_price) ext_price
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim,
+     '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales,
+     '/mnt/disks/tpcds/parquet/item.parquet' AS item,
+     '/mnt/disks/tpcds/parquet/customer.parquet' AS customer,
+     '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address,
+     '/mnt/disks/tpcds/parquet/store.parquet' AS store
+WHERE d_date_sk = ss_sold_date_sk
+  AND ss_item_sk = i_item_sk
+  AND i_manager_id=8
+  AND d_moy=11
+  AND d_year=1998
+  AND ss_customer_sk = c_customer_sk
+  AND c_current_addr_sk = ca_address_sk
+  AND SUBSTRING(ca_zip, 1, 5) <> SUBSTRING(s_zip, 1, 5)
+  AND ss_store_sk = s_store_sk
+GROUP BY i_brand,
+         i_brand_id,
+         i_manufact_id,
+         i_manufact
+ORDER BY ext_price DESC,
+         i_brand,
+         i_brand_id,
+         i_manufact_id,
+         i_manufact
+LIMIT 100 ;
+
+BASE:
+297:ProfileSort(sort0=[$4], sort1=[$1], sort2=[$0], sort3=[$2], sort4=[$3], dir0=[DESC-nulls-last], dir1=[ASC], dir2=[ASC], dir3=[ASC], dir4=[ASC], fetch=[100]): rowcount = 100.0, cumulative cost = {100.0 rows, 1.06508098715935E19 cpu, 0.0 io, 0.0 money}
+  321:ProfileProject(brand_id=[$1], brand=[$0], i_manufact_id=[$2], i_manufact=[$3], ext_price=[$4]): rowcount = 7.2274811797402176E16, cumulative cost = {7.2274811797402176E16 rows, 3.6137405898701088E17 cpu, 0.0 io, 0.0 money}
+    344:ProfileAggregate(group=[{0, 1, 2, 3}], ext_price=[SUM($4)]): rowcount = 7.2274811797402176E16, cumulative cost = {8.221260186587656E16 rows, 0.0 cpu, 0.0 io, 0.0 money}
+      366:ProfileProject(brand=[$3], brand_id=[$2], i_manufact_id=[$4], i_manufact=[$5], ss_ext_sales_price=[$1]): rowcount = 7.2274811797402176E17, cumulative cost = {7.2274811797402176E17 rows, 3.6137405898701087E18 cpu, 0.0 io, 0.0 money}
+        388:ProfileJoin(condition=[AND(<>($6, $8), =($0, $7))], joinType=[inner]): rowcount = 7.2274811797402176E17, cumulative cost = {7.2274811797402176E17 rows, 0.0 cpu, 0.0 io, 0.0 money}
+          407:ProfileProject(ss_store_sk=[$0], ss_ext_sales_price=[$1], i_brand_id=[$2], i_brand=[$3], i_manufact_id=[$4], i_manufact=[$5], SUBSTRING=[SUBSTRING($6, 1, 5)]): rowcount = 2.4091603932467392E17, cumulative cost = {2.4091603932467392E17 rows, 1.68641227527271731E18 cpu, 0.0 io, 0.0 money}
+            425:ProfileProject(ss_store_sk=[$0], ss_ext_sales_price=[$1], i_brand_id=[$2], i_brand=[$3], i_manufact_id=[$4], i_manufact=[$5], ca_zip=[$8]): rowcount = 2.4091603932467392E17, cumulative cost = {2.4091603932467392E17 rows, 1.68641227527271731E18 cpu, 0.0 io, 0.0 money}
+              443:ProfileJoin(condition=[=($6, $7)], joinType=[inner]): rowcount = 2.4091603932467392E17, cumulative cost = {2.4091603932467392E17 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                458:ProfileProject(ss_store_sk=[$1], ss_ext_sales_price=[$2], i_brand_id=[$3], i_brand=[$4], i_manufact_id=[$5], i_manufact=[$6], c_current_addr_sk=[$8]): rowcount = 2.920194416056654E12, cumulative cost = {2.920194416056654E12 rows, 2.044136091239658E13 cpu, 0.0 io, 0.0 money}
+                  473:ProfileJoin(condition=[=($0, $7)], joinType=[inner]): rowcount = 2.920194416056654E12, cumulative cost = {2.920194416056654E12 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                    485:ProfileProject(ss_customer_sk=[$1], ss_store_sk=[$2], ss_ext_sales_price=[$3], i_brand_id=[$5], i_brand=[$6], i_manufact_id=[$7], i_manufact=[$8]): rowcount = 1.9467962773711027E13, cumulative cost = {1.9467962773711027E13 rows, 1.3627573941597719E14 cpu, 0.0 io, 0.0 money}
+                      497:ProfileJoin(condition=[=($0, $4)], joinType=[inner]): rowcount = 1.9467962773711027E13, cumulative cost = {1.9467962773711027E13 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                        504:ProfileProject(ss_item_sk=[$2], ss_customer_sk=[$3], ss_store_sk=[$4], ss_ext_sales_price=[$5]): rowcount = 3.932921772466875E10, cumulative cost = {3.932921772466875E10 rows, 1.57316870898675E11 cpu, 0.0 io, 0.0 money}
+                          511:ProfileJoin(condition=[=($0, $1)], joinType=[inner]): rowcount = 3.932921772466875E10, cumulative cost = {3.932921772466875E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                            515:ProfileProject(d_date_sk=[$0]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 1643.6025 cpu, 0.0 io, 0.0 money}
+                              518:ProfileProject(d_date_sk=[$0], d_year=[$6], d_moy=[$8]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 4930.8075 cpu, 0.0 io, 0.0 money}
+                                520:ProfileFilter(condition=[AND(=($8, 11), =($6, 1998))]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                                  521:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+                            523:ProfileProject(ss_sold_date_sk=[$0], ss_item_sk=[$2], ss_customer_sk=[$3], ss_store_sk=[$7], ss_ext_sales_price=[$15]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 7.9762225E8 cpu, 0.0 io, 0.0 money}
+                              524:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+                        528:ProfileProject(i_item_sk=[$0], i_brand_id=[$1], i_brand=[$2], i_manufact_id=[$3], i_manufact=[$4]): rowcount = 3300.0, cumulative cost = {3300.0 rows, 16500.0 cpu, 0.0 io, 0.0 money}
+                          531:ProfileProject(i_item_sk=[$0], i_brand_id=[$7], i_brand=[$8], i_manufact_id=[$13], i_manufact=[$14], i_manager_id=[$20]): rowcount = 3300.0, cumulative cost = {3300.0 rows, 19800.0 cpu, 0.0 io, 0.0 money}
+                            533:ProfileFilter(condition=[=($20, 8)]): rowcount = 3300.0, cumulative cost = {3300.0 rows, 22000.0 cpu, 0.0 io, 0.0 money}
+                              534:ProfileTableScan(table=[[tpcds, item]]): rowcount = 22000.0, cumulative cost = {22000.0 rows, 22001.0 cpu, 0.0 io, 0.0 money}
+                    536:ProfileProject(c_customer_sk=[$0], c_current_addr_sk=[$4]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                      537:ProfileTableScan(table=[[tpcds, customer]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                539:ProfileProject(ca_address_sk=[$0], ca_zip=[$9]): rowcount = 550000.0, cumulative cost = {550000.0 rows, 1100000.0 cpu, 0.0 io, 0.0 money}
+                  540:ProfileTableScan(table=[[tpcds, customer_address]]): rowcount = 550000.0, cumulative cost = {550000.0 rows, 550001.0 cpu, 0.0 io, 0.0 money}
+          542:ProfileProject(s_store_sk=[$0], SUBSTRING=[SUBSTRING($25, 1, 5)]): rowcount = 40.0, cumulative cost = {40.0 rows, 80.0 cpu, 0.0 io, 0.0 money}
+            543:ProfileTableScan(table=[[tpcds, store]]): rowcount = 40.0, cumulative cost = {40.0 rows, 41.0 cpu, 0.0 io, 0.0 money}
+
+trial 0
+java.lang.RuntimeException: Issue matching: rel#996:ProfileJoin.PROFILE(left=ProfileProject#1002,right=ProfileProject#1019,condition==($0, $4),joinType=inner) , 0 2879987999 244.41211 PARQUET_SCAN
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:184)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.goMatchCard(ProfileMatcher.java:131)
+	at org.arachne.collection.Collector.constructTree(Collector.java:662)
+	at org.arachne.collection.Collector.go(Collector.java:98)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:281)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:340)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+STARTING QRY: CREATE TABLE duck_table_19_0 AS SELECT "t12"."i_brand" AS "brand", "t12"."i_brand_id" AS "brand_id", "t12"."i_manufact_id", "t12"."i_manufact", "t12"."ss_ext_sales_price"
+FROM (SELECT "t9"."ss_store_sk", "t9"."ss_ext_sales_price", "t9"."i_brand_id", "t9"."i_brand", "t9"."i_manufact_id", "t9"."i_manufact", SUBSTRING("t10"."ca_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM (SELECT "t7"."ss_store_sk", "t7"."ss_ext_sales_price", "t7"."i_brand_id", "t7"."i_brand", "t7"."i_manufact_id", "t7"."i_manufact", "t8"."c_current_addr_sk"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_store_sk", "t3"."ss_ext_sales_price", "t6"."i_brand_id", "t6"."i_brand", "t6"."i_manufact_id", "t6"."i_manufact"
+FROM (SELECT "t2"."ss_item_sk", "t2"."ss_customer_sk", "t2"."ss_store_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 1998) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_customer_sk", "ss_store_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand", "i_manufact_id", "i_manufact"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 8) AS "t6" ON "t3"."ss_item_sk" = "t6"."i_item_sk") AS "t7"
+INNER JOIN (SELECT "c_customer_sk", "c_current_addr_sk"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t8" ON "t7"."ss_customer_sk" = "t8"."c_customer_sk") AS "t9"
+INNER JOIN (SELECT "ca_address_sk", "ca_zip"
+FROM '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address) AS "t10" ON "t9"."c_current_addr_sk" = "t10"."ca_address_sk") AS "t12"
+INNER JOIN (SELECT "s_store_sk", SUBSTRING("s_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store) AS "t13" ON "t12"."SUBSTRING" <> "t13"."SUBSTRING" AND "t12"."ss_store_sk" = "t13"."s_store_sk"
+
+1369.740702288
+1513130
+1513130
+finished query
+STARTING QRY: SELECT "brand_id", "brand", "i_manufact_id", "i_manufact", SUM("ss_ext_sales_price") AS "ext_price"
+FROM "duck_table_19_0"
+GROUP BY "brand", "brand_id", "i_manufact_id", "i_manufact"
+ORDER BY SUM("ss_ext_sales_price") DESC NULLS LAST, "brand", "brand_id", "i_manufact_id", "i_manufact"
+FETCH NEXT 100 ROWS ONLY
+
+0.384826903
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1369.740702288 CARDINALITY: 1513130 COST: 0.5631156220517333
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.384826903 CARDINALITY: -1 COST: 1.5820661567777779E-4
+2
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1369.740702288 CARDINALITY: 1513130 COST: 0.5631156220517333
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.384826903 CARDINALITY: -1 COST: 1.5820661567777779E-4
+BEGUN PROCESSING
+missing column name: brand
+missing column name: brand_id
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.384826903 CARDINALITY: -1 COST: 1.5820661567777779E-4
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1369.740702288 CARDINALITY: 1513130 COST: 0.5631156220517333
+rowSize: 66
+{"bqSize":0.09986658,"compressed":0.04755551428571428,"mvmtCost":0.0,"runtime":1369.740702288,"runCost":0.5631156220517333,"bqCost":4.993329E-4,"cutNoHybrid":1370.125529191}
+baseline runtime: 445.47953391075134 baselineBQ read size: 1.11354576896E11
+arachneCost: 0.5636149549517333, baselineCost2: 0.18314158616330886, baseline: 0.55677288448, cutNoHybrid: 0.563273828667411
+FINISHED PROCESSING FOR TRIAL 0 plan not found. repeating...
+trial 1
+java.lang.RuntimeException: Issue matching: rel#1486:ProfileJoin.PROFILE(left=ProfileProject#1492,right=ProfileProject#1509,condition==($0, $4),joinType=inner) , 0 2879987999 244.41211 PARQUET_SCAN
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:184)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.goMatchCard(ProfileMatcher.java:131)
+	at org.arachne.collection.Collector.constructTree(Collector.java:662)
+	at org.arachne.collection.Collector.go(Collector.java:98)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:281)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:340)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: SUBSTRING
+missing column name: SUBSTRING0
+STARTING QRY: CREATE TABLE duck_table_19_0 AS SELECT "t9"."ss_store_sk", "t9"."ss_ext_sales_price", "t9"."i_brand_id", "t9"."i_brand", "t9"."i_manufact_id", "t9"."i_manufact", SUBSTRING("t10"."ca_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM (SELECT "t7"."ss_store_sk", "t7"."ss_ext_sales_price", "t7"."i_brand_id", "t7"."i_brand", "t7"."i_manufact_id", "t7"."i_manufact", "t8"."c_current_addr_sk"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_store_sk", "t3"."ss_ext_sales_price", "t6"."i_brand_id", "t6"."i_brand", "t6"."i_manufact_id", "t6"."i_manufact"
+FROM (SELECT "t2"."ss_item_sk", "t2"."ss_customer_sk", "t2"."ss_store_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 1998) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_customer_sk", "ss_store_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand", "i_manufact_id", "i_manufact"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 8) AS "t6" ON "t3"."ss_item_sk" = "t6"."i_item_sk") AS "t7"
+INNER JOIN (SELECT "c_customer_sk", "c_current_addr_sk"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t8" ON "t7"."ss_customer_sk" = "t8"."c_customer_sk") AS "t9"
+INNER JOIN (SELECT "ca_address_sk", "ca_zip"
+FROM '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address) AS "t10" ON "t9"."c_current_addr_sk" = "t10"."ca_address_sk"
+
+3898.967736957
+1587332
+1587332
+finished query
+STARTING QRY: SELECT "duck_table_19_0"."i_brand_id" AS "brand_id", "duck_table_19_0"."i_brand" AS "brand", "duck_table_19_0"."i_manufact_id", "duck_table_19_0"."i_manufact", SUM("duck_table_19_0"."ss_ext_sales_price") AS "ext_price"
+FROM "duck_table_19_0"
+INNER JOIN (SELECT "s_store_sk", SUBSTRING("s_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store) AS "t" ON "duck_table_19_0"."SUBSTRING" <> "t"."SUBSTRING" AND "duck_table_19_0"."ss_store_sk" = "t"."s_store_sk"
+GROUP BY "duck_table_19_0"."i_brand", "duck_table_19_0"."i_brand_id", "duck_table_19_0"."i_manufact_id", "duck_table_19_0"."i_manufact"
+ORDER BY SUM("duck_table_19_0"."ss_ext_sales_price") DESC NULLS LAST, "duck_table_19_0"."i_brand", "duck_table_19_0"."i_brand_id", "duck_table_19_0"."i_manufact_id", "duck_table_19_0"."i_manufact"
+FETCH NEXT 100 ROWS ONLY
+
+0.600309627
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3898.967736957 CARDINALITY: 1587332 COST: 1.6029089585267666
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.600309627 CARDINALITY: -1 COST: 2.4679395776666663E-4
+2
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3898.967736957 CARDINALITY: 1587332 COST: 1.6029089585267666
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.600309627 CARDINALITY: -1 COST: 2.4679395776666663E-4
+BEGUN PROCESSING
+missing column name: SUBSTRING
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.600309627 CARDINALITY: -1 COST: 2.4679395776666663E-4
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 3898.967736957 CARDINALITY: 1587332 COST: 1.6029089585267666
+rowSize: 120
+{"bqSize":0.19120829399999997,"compressed":0.0908126857142857,"mvmtCost":0.0,"runtime":3898.967736957,"runCost":1.6029089585267666,"bqCost":9.560414699999999E-4,"cutNoHybrid":3899.568046584}
+baseline runtime: 445.47953391075134 baselineBQ read size: 1.11354576896E11
+arachneCost: 1.6038649999967667, baselineCost2: 0.18314158616330886, baseline: 0.55677288448, cutNoHybrid: 1.6031557524845332
+FINISHED PROCESSING FOR TRIAL 1 plan not found. repeating...
+trial 2
+java.lang.RuntimeException: Issue matching: rel#1976:ProfileJoin.PROFILE(left=ProfileProject#1982,right=ProfileProject#1999,condition==($0, $4),joinType=inner) , 0 2879987999 244.41211 PARQUET_SCAN
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:184)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.goMatchCard(ProfileMatcher.java:131)
+	at org.arachne.collection.Collector.constructTree(Collector.java:662)
+	at org.arachne.collection.Collector.go(Collector.java:98)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:281)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:340)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: SUBSTRING
+missing column name: SUBSTRING0
+STARTING QRY: CREATE TABLE duck_table_19_0 AS SELECT "s_store_sk", SUBSTRING("s_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store
+
+0.004216138
+1002
+1002
+finished query
+STARTING QRY: SELECT "t12"."i_brand_id" AS "brand_id", "t12"."i_brand" AS "brand", "t12"."i_manufact_id", "t12"."i_manufact", SUM("t12"."ss_ext_sales_price") AS "ext_price"
+FROM (SELECT "t9"."ss_store_sk", "t9"."ss_ext_sales_price", "t9"."i_brand_id", "t9"."i_brand", "t9"."i_manufact_id", "t9"."i_manufact", SUBSTRING("t10"."ca_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM (SELECT "t7"."ss_store_sk", "t7"."ss_ext_sales_price", "t7"."i_brand_id", "t7"."i_brand", "t7"."i_manufact_id", "t7"."i_manufact", "t8"."c_current_addr_sk"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_store_sk", "t3"."ss_ext_sales_price", "t6"."i_brand_id", "t6"."i_brand", "t6"."i_manufact_id", "t6"."i_manufact"
+FROM (SELECT "t2"."ss_item_sk", "t2"."ss_customer_sk", "t2"."ss_store_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 1998) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_customer_sk", "ss_store_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand", "i_manufact_id", "i_manufact"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 8) AS "t6" ON "t3"."ss_item_sk" = "t6"."i_item_sk") AS "t7"
+INNER JOIN (SELECT "c_customer_sk", "c_current_addr_sk"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t8" ON "t7"."ss_customer_sk" = "t8"."c_customer_sk") AS "t9"
+INNER JOIN (SELECT "ca_address_sk", "ca_zip"
+FROM '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address) AS "t10" ON "t9"."c_current_addr_sk" = "t10"."ca_address_sk") AS "t12"
+INNER JOIN "duck_table_19_0" ON "t12"."SUBSTRING" <> "duck_table_19_0"."SUBSTRING" AND "t12"."ss_store_sk" = "duck_table_19_0"."s_store_sk"
+GROUP BY "t12"."i_brand", "t12"."i_brand_id", "t12"."i_manufact_id", "t12"."i_manufact"
+ORDER BY SUM("t12"."ss_ext_sales_price") DESC NULLS LAST, "t12"."i_brand", "t12"."i_brand_id", "t12"."i_manufact_id", "t12"."i_manufact"
+FETCH NEXT 100 ROWS ONLY
+
+3334.430101143
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.004216138 CARDINALITY: 1002 COST: 1.733301177777778E-6
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 3334.430101143 CARDINALITY: -1 COST: 1.370821263803233
+2
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.004216138 CARDINALITY: 1002 COST: 1.733301177777778E-6
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 3334.430101143 CARDINALITY: -1 COST: 1.370821263803233
+BEGUN PROCESSING
+missing column name: d_month_seq
+missing column name: SUBSTRING
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 3334.430101143 CARDINALITY: -1 COST: 1.370821263803233
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 0.004216138 CARDINALITY: 1002 COST: 1.733301177777778E-6
+rowSize: 8
+{"bqSize":269.1085201669999,"compressed":176.16310381714288,"mvmtCost":0.0,"runtime":0.004216138,"runCost":1.733301177777778E-6,"bqCost":1.3455426008349993,"cutNoHybrid":3334.434317281}
+baseline runtime: 445.47953391075134 baselineBQ read size: 1.11354576896E11
+arachneCost: 1.345544334136177, baselineCost2: 0.18314158616330886, baseline: 0.55677288448, cutNoHybrid: 1.370822997104411
+FINISHED PROCESSING FOR TRIAL 2 plan not found. repeating...
+trial 3
+java.lang.RuntimeException: Issue matching: rel#2466:ProfileJoin.PROFILE(left=ProfileProject#2472,right=ProfileProject#2489,condition==($0, $4),joinType=inner) , 0 2879987999 244.41211 PARQUET_SCAN
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:184)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.matchCardinality(ProfileMatcher.java:222)
+	at org.arachne.profiling.ProfileMatcher.goMatchCard(ProfileMatcher.java:131)
+	at org.arachne.collection.Collector.constructTree(Collector.java:662)
+	at org.arachne.collection.Collector.go(Collector.java:98)
+	at org.arachne.ArachneQueryProcessor.run(ArachneQueryProcessor.java:281)
+	at org.arachne.ArachneQueryProcessor.main(ArachneQueryProcessor.java:340)
+	at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:254)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+missing column name: brand_id
+missing column name: brand
+missing column name: ext_price
+missing column name: brand
+missing column name: brand_id
+missing column name: ext_price
+missing column name: SUBSTRING
+missing column name: SUBSTRING0
+STARTING QRY: CREATE TABLE duck_table_19_0 AS SELECT "t7"."ss_store_sk", "t7"."ss_ext_sales_price", "t7"."i_brand_id", "t7"."i_brand", "t7"."i_manufact_id", "t7"."i_manufact", "t8"."c_current_addr_sk"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_store_sk", "t3"."ss_ext_sales_price", "t6"."i_brand_id", "t6"."i_brand", "t6"."i_manufact_id", "t6"."i_manufact"
+FROM (SELECT "t2"."ss_item_sk", "t2"."ss_customer_sk", "t2"."ss_store_sk", "t2"."ss_ext_sales_price"
+FROM (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_moy" = 11 AND "d_year" = 1998) AS "t1"
+INNER JOIN (SELECT "ss_sold_date_sk", "ss_item_sk", "ss_customer_sk", "ss_store_sk", "ss_ext_sales_price"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t2" ON "t1"."d_date_sk" = "t2"."ss_sold_date_sk") AS "t3"
+INNER JOIN (SELECT "i_item_sk", "i_brand_id", "i_brand", "i_manufact_id", "i_manufact"
+FROM '/mnt/disks/tpcds/parquet/item.parquet' AS item
+WHERE "i_manager_id" = 8) AS "t6" ON "t3"."ss_item_sk" = "t6"."i_item_sk") AS "t7"
+INNER JOIN (SELECT "c_customer_sk", "c_current_addr_sk"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t8" ON "t7"."ss_customer_sk" = "t8"."c_customer_sk"
+
+1966.389876352
+1587332
+1587332
+finished query
+STARTING QRY: SELECT "t1"."i_brand_id" AS "brand_id", "t1"."i_brand" AS "brand", "t1"."i_manufact_id", "t1"."i_manufact", SUM("t1"."ss_ext_sales_price") AS "ext_price"
+FROM (SELECT "duck_table_19_0"."ss_store_sk", "duck_table_19_0"."ss_ext_sales_price", "duck_table_19_0"."i_brand_id", "duck_table_19_0"."i_brand", "duck_table_19_0"."i_manufact_id", "duck_table_19_0"."i_manufact", SUBSTRING("t"."ca_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM "duck_table_19_0"
+INNER JOIN (SELECT "ca_address_sk", "ca_zip"
+FROM '/mnt/disks/tpcds/parquet/customer_address.parquet' AS customer_address) AS "t" ON "duck_table_19_0"."c_current_addr_sk" = "t"."ca_address_sk") AS "t1"
+INNER JOIN (SELECT "s_store_sk", SUBSTRING("s_zip" FROM 1 FOR 5) AS "SUBSTRING"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store) AS "t2" ON "t1"."SUBSTRING" <> "t2"."SUBSTRING" AND "t1"."ss_store_sk" = "t2"."s_store_sk"
+GROUP BY "t1"."i_brand", "t1"."i_brand_id", "t1"."i_manufact_id", "t1"."i_manufact"
+ORDER BY SUM("t1"."ss_ext_sales_price") DESC NULLS LAST, "t1"."i_brand", "t1"."i_brand_id", "t1"."i_manufact_id", "t1"."i_manufact"
+FETCH NEXT 100 ROWS ONLY
+
+7.443692171
+finished query
+FINISHED PROFILING FOR TRIAL 3
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1966.389876352 CARDINALITY: 1587332 COST: 0.8084047269447112
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7.443692171 CARDINALITY: -1 COST: 0.003060184559188889
+2
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1966.389876352 CARDINALITY: 1587332 COST: 0.8084047269447112
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7.443692171 CARDINALITY: -1 COST: 0.003060184559188889
+BEGUN PROCESSING
+CTAS: duck_table_19_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 7.443692171 CARDINALITY: -1 COST: 0.003060184559188889
+CTAS: duck_table_19_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1966.389876352 CARDINALITY: 1587332 COST: 0.8084047269447112
+rowSize: 120
+{"bqSize":1.7572082940000002,"compressed":0.3418126857142857,"mvmtCost":0.0,"runtime":1966.389876352,"runCost":0.8084047269447112,"bqCost":0.008786041470000002,"cutNoHybrid":1973.8335685230002}
+baseline runtime: 445.47953391075134 baselineBQ read size: 1.11354576896E11
+arachneCost: 0.8171907684147112, baselineCost2: 0.18314158616330886, baseline: 0.55677288448, cutNoHybrid: 0.8114649115039
+FINISHED PROCESSING FOR TRIAL 3 plan not found. repeating...
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  04:05 h
+[[1;34mINFO[m] Finished at: 2022-03-29T09:42:41Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

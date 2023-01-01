@@ -1,0 +1,220 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     173   0                    00  Start at 173 
+1     Noop           2     3     0                    00               
+2     Integer        100   1     0                    00  r[1]=100; LIMIT counter
+3     SorterOpen     3     1     0     k(1,B)         00               
+4     Integer        0     4     0                    00  r[4]=0; clear abort flag
+5     Null           0     7     7                    00  r[7..7]=NULL 
+6     Gosub          6     169   0                    00               
+7     OpenRead       0     15    0     22             00  root=15 iDb=0; item
+8     Rewind         0     145   0                    00               
+9       Column         0     13    9                    00  r[9]=item.i_manufact_id
+10      Lt             11    144   9     (BINARY)       54  if r[9]<r[11] goto 144
+11      Gt             12    144   9     (BINARY)       54  if r[9]>r[12] goto 144
+12      Null           0     13    13                   00  r[13..13]=NULL; Init subquery result
+13      Integer        1     14    0                    00  r[14]=1; LIMIT counter
+14      Null           0     15    15                   00  r[15..15]=NULL
+15      OpenRead       1     15    0     19             00  root=15 iDb=0; item
+16      Rewind         1     137   0                    00               
+17        Column         1     14    10                   00  r[10]=item.i_manufact
+18        Column         0     14    16                   00  r[16]=item.i_manufact
+19        Ne             16    76    10    (BINARY)       51  if r[10]!=r[16] goto 76
+20        Column         1     12    16                   00  r[16]=item.i_category
+21        Ne             17    34    16    (BINARY)       52  if r[16]!=r[17] goto 34
+22        Column         1     17    16                   00  r[16]=item.i_color
+23        Eq             18    26    16    (BINARY)       42  if r[16]==r[18] goto 26
+24        Column         1     17    16                   00  r[16]=item.i_color
+25        Ne             19    34    16    (BINARY)       52  if r[16]!=r[19] goto 34
+26        Column         1     18    16                   00  r[16]=item.i_units
+27        Eq             20    30    16    (BINARY)       42  if r[16]==r[20] goto 30
+28        Column         1     18    16                   00  r[16]=item.i_units
+29        Ne             21    34    16    (BINARY)       52  if r[16]!=r[21] goto 34
+30        Column         1     15    16                   00  r[16]=item.i_size
+31        Eq             22    135   16    (BINARY)       42  if r[16]==r[22] goto 135
+32        Column         1     15    16                   00  r[16]=item.i_size
+33        Eq             23    135   16    (BINARY)       42  if r[16]==r[23] goto 135
+34        Column         1     12    16                   00  r[16]=item.i_category
+35        Ne             17    48    16    (BINARY)       52  if r[16]!=r[17] goto 48
+36        Column         1     17    16                   00  r[16]=item.i_color
+37        Eq             24    40    16    (BINARY)       42  if r[16]==r[24] goto 40
+38        Column         1     17    16                   00  r[16]=item.i_color
+39        Ne             25    48    16    (BINARY)       52  if r[16]!=r[25] goto 48
+40        Column         1     18    16                   00  r[16]=item.i_units
+41        Eq             26    44    16    (BINARY)       42  if r[16]==r[26] goto 44
+42        Column         1     18    16                   00  r[16]=item.i_units
+43        Ne             27    48    16    (BINARY)       52  if r[16]!=r[27] goto 48
+44        Column         1     15    16                   00  r[16]=item.i_size
+45        Eq             28    135   16    (BINARY)       42  if r[16]==r[28] goto 135
+46        Column         1     15    16                   00  r[16]=item.i_size
+47        Eq             29    135   16    (BINARY)       42  if r[16]==r[29] goto 135
+48        Column         1     12    16                   00  r[16]=item.i_category
+49        Ne             30    62    16    (BINARY)       52  if r[16]!=r[30] goto 62
+50        Column         1     17    16                   00  r[16]=item.i_color
+51        Eq             31    54    16    (BINARY)       42  if r[16]==r[31] goto 54
+52        Column         1     17    16                   00  r[16]=item.i_color
+53        Ne             32    62    16    (BINARY)       52  if r[16]!=r[32] goto 62
+54        Column         1     18    16                   00  r[16]=item.i_units
+55        Eq             28    58    16    (BINARY)       42  if r[16]==r[28] goto 58
+56        Column         1     18    16                   00  r[16]=item.i_units
+57        Ne             33    62    16    (BINARY)       52  if r[16]!=r[33] goto 62
+58        Column         1     15    16                   00  r[16]=item.i_size
+59        Eq             34    135   16    (BINARY)       42  if r[16]==r[34] goto 135
+60        Column         1     15    16                   00  r[16]=item.i_size
+61        Eq             34    135   16    (BINARY)       42  if r[16]==r[34] goto 135
+62        Column         1     12    16                   00  r[16]=item.i_category
+63        Ne             30    76    16    (BINARY)       52  if r[16]!=r[30] goto 76
+64        Column         1     17    16                   00  r[16]=item.i_color
+65        Eq             35    68    16    (BINARY)       42  if r[16]==r[35] goto 68
+66        Column         1     17    16                   00  r[16]=item.i_color
+67        Ne             36    76    16    (BINARY)       52  if r[16]!=r[36] goto 76
+68        Column         1     18    16                   00  r[16]=item.i_units
+69        Eq             37    72    16    (BINARY)       42  if r[16]==r[37] goto 72
+70        Column         1     18    16                   00  r[16]=item.i_units
+71        Ne             38    76    16    (BINARY)       52  if r[16]!=r[38] goto 76
+72        Column         1     15    16                   00  r[16]=item.i_size
+73        Eq             22    135   16    (BINARY)       42  if r[16]==r[22] goto 135
+74        Column         1     15    16                   00  r[16]=item.i_size
+75        Eq             23    135   16    (BINARY)       42  if r[16]==r[23] goto 135
+76        Column         1     14    16                   00  r[16]=item.i_manufact
+77        Column         0     14    10                   00  r[10]=item.i_manufact
+78        Ne             10    136   16    (BINARY)       51  if r[16]!=r[10] goto 136
+79        Column         1     12    10                   00  r[10]=item.i_category
+80        Ne             17    93    10    (BINARY)       52  if r[10]!=r[17] goto 93
+81        Column         1     17    10                   00  r[10]=item.i_color
+82        Eq             39    85    10    (BINARY)       42  if r[10]==r[39] goto 85
+83        Column         1     17    10                   00  r[10]=item.i_color
+84        Ne             40    93    10    (BINARY)       52  if r[10]!=r[40] goto 93
+85        Column         1     18    10                   00  r[10]=item.i_units
+86        Eq             41    89    10    (BINARY)       42  if r[10]==r[41] goto 89
+87        Column         1     18    10                   00  r[10]=item.i_units
+88        Ne             42    93    10    (BINARY)       52  if r[10]!=r[42] goto 93
+89        Column         1     15    10                   00  r[10]=item.i_size
+90        Eq             22    135   10    (BINARY)       42  if r[10]==r[22] goto 135
+91        Column         1     15    10                   00  r[10]=item.i_size
+92        Eq             23    135   10    (BINARY)       42  if r[10]==r[23] goto 135
+93        Column         1     12    10                   00  r[10]=item.i_category
+94        Ne             17    107   10    (BINARY)       52  if r[10]!=r[17] goto 107
+95        Column         1     17    10                   00  r[10]=item.i_color
+96        Eq             43    99    10    (BINARY)       42  if r[10]==r[43] goto 99
+97        Column         1     17    10                   00  r[10]=item.i_color
+98        Ne             44    107   10    (BINARY)       52  if r[10]!=r[44] goto 107
+99        Column         1     18    10                   00  r[10]=item.i_units
+100       Eq             45    103   10    (BINARY)       42  if r[10]==r[45] goto 103
+101       Column         1     18    10                   00  r[10]=item.i_units
+102       Ne             46    107   10    (BINARY)       52  if r[10]!=r[46] goto 107
+103       Column         1     15    10                   00  r[10]=item.i_size
+104       Eq             28    135   10    (BINARY)       42  if r[10]==r[28] goto 135
+105       Column         1     15    10                   00  r[10]=item.i_size
+106       Eq             29    135   10    (BINARY)       42  if r[10]==r[29] goto 135
+107       Column         1     12    10                   00  r[10]=item.i_category
+108       Ne             30    121   10    (BINARY)       52  if r[10]!=r[30] goto 121
+109       Column         1     17    10                   00  r[10]=item.i_color
+110       Eq             47    113   10    (BINARY)       42  if r[10]==r[47] goto 113
+111       Column         1     17    10                   00  r[10]=item.i_color
+112       Ne             48    121   10    (BINARY)       52  if r[10]!=r[48] goto 121
+113       Column         1     18    10                   00  r[10]=item.i_units
+114       Eq             49    117   10    (BINARY)       42  if r[10]==r[49] goto 117
+115       Column         1     18    10                   00  r[10]=item.i_units
+116       Ne             50    121   10    (BINARY)       52  if r[10]!=r[50] goto 121
+117       Column         1     15    10                   00  r[10]=item.i_size
+118       Eq             34    135   10    (BINARY)       42  if r[10]==r[34] goto 135
+119       Column         1     15    10                   00  r[10]=item.i_size
+120       Eq             34    135   10    (BINARY)       42  if r[10]==r[34] goto 135
+121       Column         1     12    10                   00  r[10]=item.i_category
+122       Ne             30    136   10    (BINARY)       52  if r[10]!=r[30] goto 136
+123       Column         1     17    10                   00  r[10]=item.i_color
+124       Eq             51    127   10    (BINARY)       42  if r[10]==r[51] goto 127
+125       Column         1     17    10                   00  r[10]=item.i_color
+126       Ne             52    136   10    (BINARY)       52  if r[10]!=r[52] goto 136
+127       Column         1     18    10                   00  r[10]=item.i_units
+128       Eq             53    131   10    (BINARY)       42  if r[10]==r[53] goto 131
+129       Column         1     18    10                   00  r[10]=item.i_units
+130       Ne             54    136   10    (BINARY)       52  if r[10]!=r[54] goto 136
+131       Column         1     15    10                   00  r[10]=item.i_size
+132       Eq             22    135   10    (BINARY)       42  if r[10]==r[22] goto 135
+133       Column         1     15    10                   00  r[10]=item.i_size
+134       Ne             23    136   10    (BINARY)       52  if r[10]!=r[23] goto 136
+135       AggStep        0     0     15    count(0)       00  accum=r[15] step(r[0])
+136     Next           1     17    0                    01               
+137     AggFinal       15    0     0     count(0)       00  accum=r[15] N=0
+138     Copy           15    13    0                    00  r[13]=r[15]  
+139     DecrJumpZero   14    140   0                    00  if (--r[14])==0 goto 140
+140     Le             55    144   13                   50  if r[13]<=r[55] goto 144
+141     Column         0     21    9                    00  r[9]=item.i_product_name
+142     MakeRecord     9     1     10                   00  r[10]=mkrec(r[9])
+143     SorterInsert   3     10    0                    00  key=r[10]    
+144   Next           0     9     0                    01               
+145   OpenPseudo     4     9     1                    00  1 columns in r[9]
+146   SorterSort     3     172   0                    00  GROUP BY sort
+147     SorterData     3     9     4                    00  r[9]=data    
+148     Column         4     0     8                    00  r[8]=        
+149     Compare        7     8     1     k(1,B)         00  r[7] <-> r[8]
+150     Jump           151   155   151                  00               
+151     Move           8     7     1                    00  r[7]=r[8]    
+152     Gosub          5     163   0                    00  output one row
+153     IfPos          4     172   0                    00  if r[4]>0 then r[4]-=0, goto 172; check abort flag
+154     Gosub          6     169   0                    00  reset accumulator
+155     If             3     157   0                    00               
+156     Column         4     0     2                    00  r[2]=        
+157     Integer        1     3     0                    00  r[3]=1; indicate data in accumulator
+158   SorterNext     3     147   0                    00               
+159   Gosub          5     163   0                    00  output final row
+160   Goto           0     172   0                    00               
+161   Integer        1     4     0                    00  r[4]=1; set abort flag
+162   Return         5     0     0                    00               
+163   IfPos          3     165   0                    00  if r[3]>0 then r[3]-=0, goto 165; Groupby result generator entry point
+164   Return         5     0     0                    00               
+165   Copy           2     56    0                    00  r[56]=r[2]   
+166   ResultRow      56    1     0                    00  output=r[56] 
+167   DecrJumpZero   1     161   0                    00  if (--r[1])==0 goto 161
+168   Return         5     0     0                    00  end groupby result generator
+169   Null           0     2     2                    00  r[2..2]=NULL 
+170   Integer        0     3     0                    00  r[3]=0; indicate accumulator empty
+171   Return         6     0     0                    00               
+172   Halt           0     0     0                    00               
+173   Transaction    0     0     28    0              01  usesStmtJournal=0
+174   Integer        738   11    0                    00  r[11]=738    
+175   Integer        738   10    0                    00  r[10]=738    
+176   Integer        40    16    0                    00  r[16]=40     
+177   Add            16    10    12                   00  r[12]=r[16]+r[10]
+178   String8        0     17    0     Women          00  r[17]='Women'
+179   String8        0     18    0     powder         00  r[18]='powder'
+180   String8        0     19    0     khaki          00  r[19]='khaki'
+181   String8        0     20    0     Ounce          00  r[20]='Ounce'
+182   String8        0     21    0     Oz             00  r[21]='Oz'   
+183   String8        0     22    0     medium         00  r[22]='medium'
+184   String8        0     23    0     extra large    00  r[23]='extra large'
+185   String8        0     24    0     brown          00  r[24]='brown'
+186   String8        0     25    0     honeydew       00  r[25]='honeydew'
+187   String8        0     26    0     Bunch          00  r[26]='Bunch'
+188   String8        0     27    0     Ton            00  r[27]='Ton'  
+189   String8        0     28    0     N/A            00  r[28]='N/A'  
+190   String8        0     29    0     small          00  r[29]='small'
+191   String8        0     30    0     Men            00  r[30]='Men'  
+192   String8        0     31    0     floral         00  r[31]='floral'
+193   String8        0     32    0     deep           00  r[32]='deep' 
+194   String8        0     33    0     Dozen          00  r[33]='Dozen'
+195   String8        0     34    0     petite         00  r[34]='petite'
+196   String8        0     35    0     light          00  r[35]='light'
+197   String8        0     36    0     cornflower     00  r[36]='cornflower'
+198   String8        0     37    0     Box            00  r[37]='Box'  
+199   String8        0     38    0     Pound          00  r[38]='Pound'
+200   String8        0     39    0     midnight       00  r[39]='midnight'
+201   String8        0     40    0     snow           00  r[40]='snow' 
+202   String8        0     41    0     Pallet         00  r[41]='Pallet'
+203   String8        0     42    0     Gross          00  r[42]='Gross'
+204   String8        0     43    0     cyan           00  r[43]='cyan' 
+205   String8        0     44    0     papaya         00  r[44]='papaya'
+206   String8        0     45    0     Cup            00  r[45]='Cup'  
+207   String8        0     46    0     Dram           00  r[46]='Dram' 
+208   String8        0     47    0     orange         00  r[47]='orange'
+209   String8        0     48    0     frosted        00  r[48]='frosted'
+210   String8        0     49    0     Each           00  r[49]='Each' 
+211   String8        0     50    0     Tbl            00  r[50]='Tbl'  
+212   String8        0     51    0     forest         00  r[51]='forest'
+213   String8        0     52    0     ghost          00  r[52]='ghost'
+214   String8        0     53    0     Lb             00  r[53]='Lb'   
+215   String8        0     54    0     Bundle         00  r[54]='Bundle'
+216   Integer        0     55    0                    00  r[55]=0      
+217   Goto           0     1     0                    00               

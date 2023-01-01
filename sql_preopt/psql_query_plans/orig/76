@@ -1,0 +1,47 @@
+                                                                                        QUERY PLAN                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=180138720.23..180138769.82 rows=100 width=118)
+   ->  Finalize GroupAggregate  (cost=180138720.23..186671839.45 rows=13175606 width=118)
+         Group Key: ('store'::text), ('ss_store_sk'::text), date_dim.d_year, date_dim.d_qoy, item.i_category
+         ->  Gather Merge  (cost=180138720.23..185980120.13 rows=26351212 width=118)
+               Workers Planned: 2
+               ->  Partial GroupAggregate  (cost=180137720.21..182937536.40 rows=13175606 width=118)
+                     Group Key: ('store'::text), ('ss_store_sk'::text), date_dim.d_year, date_dim.d_qoy, item.i_category
+                     ->  Sort  (cost=180137720.21..180467110.35 rows=131756056 width=84)
+                           Sort Key: ('store'::text) NULLS FIRST, ('ss_store_sk'::text) NULLS FIRST, date_dim.d_year NULLS FIRST, date_dim.d_qoy NULLS FIRST, item.i_category NULLS FIRST
+                           ->  Parallel Append  (cost=18015.33..137149304.01 rows=131756056 width=84)
+                                 ->  Parallel Hash Join  (cost=18015.33..67795718.87 rows=51695847 width=84)
+                                       Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                       ->  Parallel Hash Join  (cost=15587.50..67286146.96 rows=54146896 width=16)
+                                             Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=54146896 width=14)
+                                                   Filter: (ss_store_sk IS NULL)
+                                             ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=10)
+                                                   ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=10)
+                                       ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=12)
+                                             ->  Parallel Seq Scan on date_dim  (cost=0.00..1890.70 rows=42970 width=12)
+                                 ->  Parallel Hash Join  (cost=18015.33..44903617.94 rows=3122524 width=84)
+                                       Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                       ->  Parallel Hash Join  (cost=15587.50..44871046.52 rows=3140214 width=16)
+                                             Hash Cond: (catalog_sales.cs_item_sk = item_1.i_item_sk)
+                                             ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=3140214 width=14)
+                                                   Filter: (cs_ship_addr_sk IS NULL)
+                                             ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=10)
+                                                   ->  Parallel Seq Scan on item item_1  (cost=0.00..13414.00 rows=125000 width=10)
+                                       ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=12)
+                                             ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..1890.70 rows=42970 width=12)
+                                 ->  Parallel Hash Join  (cost=18015.33..22473626.36 rows=79986 width=84)
+                                       Hash Cond: (web_sales.ws_sold_date_sk = date_dim_2.d_date_sk)
+                                       ->  Parallel Hash Join  (cost=15587.50..22470428.03 rows=80000 width=16)
+                                             Hash Cond: (web_sales.ws_item_sk = item_2.i_item_sk)
+                                             ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=80000 width=14)
+                                                   Filter: (ws_ship_customer_sk IS NULL)
+                                             ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=10)
+                                                   ->  Parallel Seq Scan on item item_2  (cost=0.00..13414.00 rows=125000 width=10)
+                                       ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=12)
+                                             ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..1890.70 rows=42970 width=12)
+ JIT:
+   Functions: 69
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(43 rows)
+

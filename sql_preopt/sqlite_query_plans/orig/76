@@ -1,0 +1,197 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     193   0                    00  Start at 193 
+1     InitCoroutine  1     135   2                    00  foo          
+2     OpenRead       7     22    0     16             00  root=22 iDb=0; store_sales
+3     OpenRead       8     15    0     13             00  root=15 iDb=0; item
+4     OpenRead       9     11    0     11             00  root=11 iDb=0; date_dim
+5     Rewind         7     46    0                    00               
+6       Column         7     7     2                    00  r[2]=store_sales.ss_store_sk
+7       NotNull        2     45    0                    00  if r[2]!=NULL goto 45
+8       Once           0     17    0                    00               
+9       OpenAutoindex  10    3     0     k(3,B,,)       00  nColumn=3; for item
+10      Rewind         8     17    0                    00               
+11        Column         8     0     3                    00  r[3]=item.i_item_sk
+12        Column         8     12    4                    00  r[4]=item.i_category
+13        Rowid          8     5     0                    00  r[5]=rowid   
+14        MakeRecord     3     3     2                    00  r[2]=mkrec(r[3..5])
+15        IdxInsert      10    2     0                    10  key=r[2]     
+16      Next           8     11    0                    03               
+17      Column         7     2     6                    00  r[6]=store_sales.ss_item_sk
+18      Affinity       6     1     0     C              00  affinity(r[6])
+19      SeekGE         10    45    6     1              00  key=r[6]     
+20        IdxGT          10    45    6     1              00  key=r[6]     
+21        Once           0     31    0                    00               
+22        OpenAutoindex  11    4     0     k(4,B,,,)      00  nColumn=4; for date_dim
+23        Rewind         9     31    0                    00               
+24          Column         9     0     7                    00  r[7]=date_dim.d_date_sk
+25          Column         9     6     8                    00  r[8]=date_dim.d_year
+26          Column         9     10    9                    00  r[9]=date_dim.d_qoy
+27          Rowid          9     10    0                    00  r[10]=rowid  
+28          MakeRecord     7     4     2                    00  r[2]=mkrec(r[7..10])
+29          IdxInsert      11    2     0                    10  key=r[2]     
+30        Next           9     24    0                    03               
+31        Column         7     0     11                   00  r[11]=store_sales.ss_sold_date_sk
+32        IsNull         11    44    0                    00  if r[11]==NULL goto 44
+33        Affinity       11    1     0     C              00  affinity(r[11])
+34        SeekGE         11    44    11    1              00  key=r[11]    
+35          IdxGT          11    44    11    1              00  key=r[11]    
+36          String8        0     12    0     store          00  r[12]='store'
+37          String8        0     13    0     ss_store_sk    00  r[13]='ss_store_sk'
+38          Column         11    1     14                   00  r[14]=date_dim.d_year
+39          Column         11    2     15                   00  r[15]=date_dim.d_qoy
+40          Column         10    1     16                   00  r[16]=item.i_category
+41          Column         7     15    17                   00  r[17]=store_sales.ss_ext_sales_price
+42          Yield          1     0     0                    00               
+43        Next           11    35    0                    00               
+44      Next           10    20    0                    00               
+45    Next           7     6     0                    01               
+46    OpenRead       4     28    0     24             00  root=28 iDb=0; web_sales
+47    OpenRead       5     15    0     13             00  root=15 iDb=0; item
+48    OpenRead       6     11    0     11             00  root=11 iDb=0; date_dim
+49    Rewind         4     90    0                    00               
+50      Column         4     8     2                    00  r[2]=web_sales.ws_ship_customer_sk
+51      NotNull        2     89    0                    00  if r[2]!=NULL goto 89
+52      Once           0     61    0                    00               
+53      OpenAutoindex  12    3     0     k(3,B,,)       00  nColumn=3; for item
+54      Rewind         5     61    0                    00               
+55        Column         5     0     7                    00  r[7]=item.i_item_sk
+56        Column         5     12    8                    00  r[8]=item.i_category
+57        Rowid          5     9     0                    00  r[9]=rowid   
+58        MakeRecord     7     3     2                    00  r[2]=mkrec(r[7..9])
+59        IdxInsert      12    2     0                    10  key=r[2]     
+60      Next           5     55    0                    03               
+61      Column         4     3     18                   00  r[18]=web_sales.ws_item_sk
+62      Affinity       18    1     0     C              00  affinity(r[18])
+63      SeekGE         12    89    18    1              00  key=r[18]    
+64        IdxGT          12    89    18    1              00  key=r[18]    
+65        Once           0     75    0                    00               
+66        OpenAutoindex  13    4     0     k(4,B,,,)      00  nColumn=4; for date_dim
+67        Rewind         6     75    0                    00               
+68          Column         6     0     19                   00  r[19]=date_dim.d_date_sk
+69          Column         6     6     20                   00  r[20]=date_dim.d_year
+70          Column         6     10    21                   00  r[21]=date_dim.d_qoy
+71          Rowid          6     22    0                    00  r[22]=rowid  
+72          MakeRecord     19    4     2                    00  r[2]=mkrec(r[19..22])
+73          IdxInsert      13    2     0                    10  key=r[2]     
+74        Next           6     68    0                    03               
+75        Column         4     0     23                   00  r[23]=web_sales.ws_sold_date_sk
+76        IsNull         23    88    0                    00  if r[23]==NULL goto 88
+77        Affinity       23    1     0     C              00  affinity(r[23])
+78        SeekGE         13    88    23    1              00  key=r[23]    
+79          IdxGT          13    88    23    1              00  key=r[23]    
+80          String8        0     12    0     web            00  r[12]='web'  
+81          String8        0     13    0     ws_ship_customer_sk  00  r[13]='ws_ship_customer_sk'
+82          Column         13    1     14                   00  r[14]=date_dim.d_year
+83          Column         13    2     15                   00  r[15]=date_dim.d_qoy
+84          Column         12    1     16                   00  r[16]=item.i_category
+85          Column         4     23    17                   00  r[17]=web_sales.ws_ext_sales_price
+86          Yield          1     0     0                    00               
+87        Next           13    79    0                    00               
+88      Next           12    64    0                    00               
+89    Next           4     50    0                    01               
+90    OpenRead       1     6     0     24             00  root=6 iDb=0; catalog_sales
+91    OpenRead       2     15    0     13             00  root=15 iDb=0; item
+92    OpenRead       3     11    0     11             00  root=11 iDb=0; date_dim
+93    Rewind         1     134   0                    00               
+94      Column         1     10    2                    00  r[2]=catalog_sales.cs_ship_addr_sk
+95      NotNull        2     133   0                    00  if r[2]!=NULL goto 133
+96      Once           0     105   0                    00               
+97      OpenAutoindex  14    3     0     k(3,B,,)       00  nColumn=3; for item
+98      Rewind         2     105   0                    00               
+99        Column         2     0     19                   00  r[19]=item.i_item_sk
+100       Column         2     12    20                   00  r[20]=item.i_category
+101       Rowid          2     21    0                    00  r[21]=rowid  
+102       MakeRecord     19    3     2                    00  r[2]=mkrec(r[19..21])
+103       IdxInsert      14    2     0                    10  key=r[2]     
+104     Next           2     99    0                    03               
+105     Column         1     15    24                   00  r[24]=catalog_sales.cs_item_sk
+106     Affinity       24    1     0     C              00  affinity(r[24])
+107     SeekGE         14    133   24    1              00  key=r[24]    
+108       IdxGT          14    133   24    1              00  key=r[24]    
+109       Once           0     119   0                    00               
+110       OpenAutoindex  15    4     0     k(4,B,,,)      00  nColumn=4; for date_dim
+111       Rewind         3     119   0                    00               
+112         Column         3     0     25                   00  r[25]=date_dim.d_date_sk
+113         Column         3     6     26                   00  r[26]=date_dim.d_year
+114         Column         3     10    27                   00  r[27]=date_dim.d_qoy
+115         Rowid          3     28    0                    00  r[28]=rowid  
+116         MakeRecord     25    4     2                    00  r[2]=mkrec(r[25..28])
+117         IdxInsert      15    2     0                    10  key=r[2]     
+118       Next           3     112   0                    03               
+119       Column         1     0     29                   00  r[29]=catalog_sales.cs_sold_date_sk
+120       IsNull         29    132   0                    00  if r[29]==NULL goto 132
+121       Affinity       29    1     0     C              00  affinity(r[29])
+122       SeekGE         15    132   29    1              00  key=r[29]    
+123         IdxGT          15    132   29    1              00  key=r[29]    
+124         String8        0     12    0     catalog        00  r[12]='catalog'
+125         String8        0     13    0     cs_ship_addr_sk  00  r[13]='cs_ship_addr_sk'
+126         Column         15    1     14                   00  r[14]=date_dim.d_year
+127         Column         15    2     15                   00  r[15]=date_dim.d_qoy
+128         Column         14    1     16                   00  r[16]=item.i_category
+129         Column         1     23    17                   00  r[17]=catalog_sales.cs_ext_sales_price
+130         Yield          1     0     0                    00               
+131       Next           15    123   0                    00               
+132     Next           14    108   0                    00               
+133   Next           1     94    0                    01               
+134   EndCoroutine   1     0     0                    00               
+135   Noop           16    13    0                    00               
+136   Integer        100   30    0                    00  r[30]=100; LIMIT counter
+137   SorterOpen     17    6     0     k(5,B,B,B,B,B)  00               
+138   Integer        0     40    0                    00  r[40]=0; clear abort flag
+139   Null           0     43    47                   00  r[43..47]=NULL
+140   Gosub          42    189   0                    00               
+141   InitCoroutine  1     0     2                    00               
+142     Yield          1     152   0                    00  next row of foo
+143     Copy           12    53    0                    00  r[53]=r[12]; foo.channel
+144     Copy           13    54    0                    00  r[54]=r[13]; foo.col_name
+145     Copy           14    55    0                    00  r[55]=r[14]; foo.d_year
+146     Copy           15    56    0                    00  r[56]=r[15]; foo.d_qoy
+147     Copy           16    57    0                    00  r[57]=r[16]; foo.i_category
+148     Copy           17    58    0                    00  r[58]=r[17]; foo.ext_sales_price
+149     MakeRecord     53    6     59                   00  r[59]=mkrec(r[53..58])
+150     SorterInsert   17    59    0                    00  key=r[59]    
+151   Goto           0     142   0                    00               
+152   OpenPseudo     18    59    6                    00  6 columns in r[59]
+153   SorterSort     17    192   0                    00  GROUP BY sort
+154     SorterData     17    59    18                   00  r[59]=data   
+155     Column         18    0     48                   00  r[48]=       
+156     Column         18    1     49                   00  r[49]=       
+157     Column         18    2     50                   00  r[50]=       
+158     Column         18    3     51                   00  r[51]=       
+159     Column         18    4     52                   00  r[52]=       
+160     Compare        43    48    5     k(5,B,B,B,B,B)  00  r[43..47] <-> r[48..52]
+161     Jump           162   166   162                  00               
+162     Move           48    43    5                    00  r[43..47]=r[48..52]
+163     Gosub          41    181   0                    00  output one row
+164     IfPos          40    192   0                    00  if r[40]>0 then r[40]-=0, goto 192; check abort flag
+165     Gosub          42    189   0                    00  reset accumulator
+166     AggStep        0     0     36    count(0)       00  accum=r[36] step(r[0])
+167     Column         18    5     60                   00  r[60]=       
+168     AggStep        0     60    37    sum(1)         01  accum=r[37] step(r[60])
+169     If             39    175   0                    00               
+170     Column         18    0     31                   00  r[31]=       
+171     Column         18    1     32                   00  r[32]=       
+172     Column         18    2     33                   00  r[33]=       
+173     Column         18    3     34                   00  r[34]=       
+174     Column         18    4     35                   00  r[35]=       
+175     Integer        1     39    0                    00  r[39]=1; indicate data in accumulator
+176   SorterNext     17    154   0                    00               
+177   Gosub          41    181   0                    00  output final row
+178   Goto           0     192   0                    00               
+179   Integer        1     40    0                    00  r[40]=1; set abort flag
+180   Return         41    0     0                    00               
+181   IfPos          39    183   0                    00  if r[39]>0 then r[39]-=0, goto 183; Groupby result generator entry point
+182   Return         41    0     0                    00               
+183   AggFinal       36    0     0     count(0)       00  accum=r[36] N=0
+184   AggFinal       37    1     0     sum(1)         00  accum=r[37] N=1
+185   Copy           31    61    6                    00  r[61..67]=r[31..37]
+186   ResultRow      61    7     0                    00  output=r[61..67]
+187   DecrJumpZero   30    179   0                    00  if (--r[30])==0 goto 179
+188   Return         41    0     0                    00  end groupby result generator
+189   Null           0     31    38                   00  r[31..38]=NULL
+190   Integer        0     39    0                    00  r[39]=0; indicate accumulator empty
+191   Return         42    0     0                    00               
+192   Halt           0     0     0                    00               
+193   Transaction    0     0     28    0              01  usesStmtJournal=0
+194   Goto           0     1     0                    00               

@@ -1,0 +1,60 @@
+{
+    "name": "HASH_GROUP_BY",
+    "timing": 0.131589,
+    "cardinality": 501,
+    "extra_info": "#0\nsum(#1)\nsum(#2)",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 0.011927,
+            "cardinality": 3308868,
+            "extra_info": "s_store_sk\nsr_return_amt\nsr_net_loss\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 0.103915,
+                    "cardinality": 3308868,
+                    "extra_info": "INNER\nsr_store_sk=s_store_sk\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "HASH_JOIN",
+                            "timing": 3.128084,
+                            "cardinality": 3369910,
+                            "extra_info": "INNER\nsr_returned_date_sk=d_date_sk\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 34.333565,
+                                    "cardinality": 287999764,
+                                    "extra_info": "sr_return_amt\nsr_net_loss\nsr_returned_date_sk\nsr_store_sk",
+                                    "timings": [],
+                                    "children": []
+                                },
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 0.006462,
+                                    "cardinality": 62,
+                                    "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-22 00:00:00 AND d_date IS NOT NULL\n",
+                                    "timings": [],
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PARQUET_SCAN",
+                            "timing": 0.000201,
+                            "cardinality": 2004,
+                            "extra_info": "s_store_sk",
+                            "timings": [],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

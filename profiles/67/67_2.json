@@ -1,0 +1,440 @@
+{
+   "name":  "Query", 
+   "result": 864.877182,
+   "timing": 864.877182,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE results_rollup AS\n  SELECT i_category,\n          i_class,\n          i_brand,\n          i_product_name,\n          d_year,\n          d_qoy,\n          d_moy,\n          s_store_id,\n          sumsales\n   FROM results\n   UNION ALL SELECT i_category,\n                    i_class,\n                    i_brand,\n                    i_product_name,\n                    d_year,\n                    d_qoy,\n                    d_moy,\n                    NULL s_store_id,\n                         sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category,\n            i_class,\n            i_brand,\n            i_product_name,\n            d_year,\n            d_qoy,\n            d_moy\n   UNION ALL SELECT i_category,\n                    i_class,\n                    i_brand,\n                    i_product_name,\n                    d_year,\n                    d_qoy,\n                    NULL d_moy,\n                         NULL s_store_id,\n                              sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category,\n            i_class,\n            i_brand,\n            i_product_name,\n            d_year,\n            d_qoy\n   UNION ALL SELECT i_category,\n                    i_class,\n                    i_brand,\n                    i_product_name,\n                    d_year,\n                    NULL d_qoy,\n                         NULL d_moy,\n                              NULL s_store_id,\n                                   sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category,\n            i_class,\n            i_brand,\n            i_product_name,\n            d_year\n   UNION ALL SELECT i_category,\n                    i_class,\n                    i_brand,\n                    i_product_name,\n                    NULL d_year,\n                         NULL d_qoy,\n                              NULL d_moy,\n                                   NULL s_store_id,\n                                        sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category,\n            i_class,\n            i_brand,\n            i_product_name\n   UNION ALL SELECT i_category,\n                    i_class,\n                    i_brand,\n                    NULL i_product_name,\n                         NULL d_year,\n                              NULL d_qoy,\n                                   NULL d_moy,\n                                        NULL s_store_id,\n                                             sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category,\n            i_class,\n            i_brand\n   UNION ALL SELECT i_category,\n                    i_class,\n                    NULL i_brand,\n                         NULL i_product_name,\n                              NULL d_year,\n                                   NULL d_qoy,\n                                        NULL d_moy,\n                                             NULL s_store_id,\n                                                  sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category,\n            i_class\n   UNION ALL SELECT i_category,\n                    NULL i_class,\n                         NULL i_brand,\n                              NULL i_product_name,\n                                   NULL d_year,\n                                        NULL d_qoy,\n                                             NULL d_moy,\n                                                  NULL s_store_id,\n                                                       sum(sumsales) sumsales\n   FROM results\n   GROUP BY i_category\n   UNION ALL SELECT NULL i_category,\n                         NULL i_class,\n                              NULL i_brand,\n                                   NULL i_product_name,\n                                        NULL d_year,\n                                             NULL d_qoy,\n                                                  NULL d_moy,\n                                                       NULL s_store_id,\n                                                            sum(sumsales) sumsales\n   FROM results;\n\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":155.711955,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "UNION",
+         "timing":0.160120,
+         "cardinality":386280181,
+         "extra_info": "",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "UNION",
+            "timing":0.144044,
+            "cardinality":386280180,
+            "extra_info": "",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "UNION",
+               "timing":0.144903,
+               "cardinality":386280169,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "UNION",
+                  "timing":0.139069,
+                  "cardinality":386279979,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "UNION",
+                     "timing":0.141146,
+                     "cardinality":386278687,
+                     "extra_info": "",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "UNION",
+                        "timing":0.138242,
+                        "cardinality":386078867,
+                        "extra_info": "",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "UNION",
+                           "timing":0.144101,
+                           "cardinality":385879047,
+                           "extra_info": "",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "UNION",
+                              "timing":0.151172,
+                              "cardinality":385229617,
+                              "extra_info": "",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "SEQ_SCAN",
+                                 "timing":46.982540,
+                                 "cardinality":383381227,
+                                 "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\ns_store_id\nsumsales",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.001793,
+                                 "cardinality":1848390,
+                                 "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\nNULL\nsumsales\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing":115.747908,
+                                    "cardinality":1848390,
+                                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\nsum(#7)",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.372229,
+                                       "cardinality":383381227,
+                                       "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\nsumsales\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "SEQ_SCAN",
+                                          "timing":119.674251,
+                                          "cardinality":383381227,
+                                          "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nd_moy\nsumsales",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000846,
+                              "cardinality":649430,
+                              "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nNULL\nNULL\nsumsales\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_GROUP_BY",
+                                 "timing":113.538206,
+                                 "cardinality":649430,
+                                 "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\nsum(#6)",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.264985,
+                                    "cardinality":383381227,
+                                    "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nsumsales\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "SEQ_SCAN",
+                                       "timing":25.121607,
+                                       "cardinality":383381227,
+                                       "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\ni_brand\ni_product_name\nd_year\nd_qoy\nsumsales",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000341,
+                           "cardinality":199820,
+                           "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nNULL\nNULL\nNULL\nsumsales\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_GROUP_BY",
+                              "timing":72.761010,
+                              "cardinality":199820,
+                              "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.259570,
+                                 "cardinality":383381227,
+                                 "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nd_year\nsumsales\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "SEQ_SCAN",
+                                    "timing":24.718960,
+                                    "cardinality":383381227,
+                                    "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\ni_brand\ni_product_name\nd_year\nsumsales",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000479,
+                        "cardinality":199820,
+                        "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_GROUP_BY",
+                           "timing":67.520529,
+                           "cardinality":199820,
+                           "extra_info": "#0\n#1\n#2\n#3\nsum(#4)",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.239168,
+                              "cardinality":383381227,
+                              "extra_info": "i_category\ni_class\ni_brand\ni_product_name\nsumsales\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "SEQ_SCAN",
+                                 "timing":24.225510,
+                                 "cardinality":383381227,
+                                 "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\ni_brand\ni_product_name\nsumsales",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000054,
+                     "cardinality":1292,
+                     "extra_info": "i_category\ni_class\ni_brand\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_GROUP_BY",
+                        "timing":31.456997,
+                        "cardinality":1292,
+                        "extra_info": "#0\n#1\n#2\nsum(#3)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.175641,
+                           "cardinality":383381227,
+                           "extra_info": "i_category\ni_class\ni_brand\nsumsales\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "SEQ_SCAN",
+                              "timing":16.495346,
+                              "cardinality":383381227,
+                              "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\ni_brand\nsumsales",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000051,
+                  "cardinality":190,
+                  "extra_info": "i_category\ni_class\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":18.251783,
+                     "cardinality":190,
+                     "extra_info": "#0\n#1\nsum(#2)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.156668,
+                        "cardinality":383381227,
+                        "extra_info": "i_category\ni_class\nsumsales\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "SEQ_SCAN",
+                           "timing":11.076035,
+                           "cardinality":383381227,
+                           "extra_info": "results\n[INFOSEPARATOR]\ni_category\ni_class\nsumsales",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PROJECTION",
+               "timing":0.000051,
+               "cardinality":11,
+               "extra_info": "i_category\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":9.484895,
+                  "cardinality":11,
+                  "extra_info": "#0\nsum(#1)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.138022,
+                     "cardinality":383381227,
+                     "extra_info": "i_category\nsumsales\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":4.899539,
+                        "cardinality":383381227,
+                        "extra_info": "results\n[INFOSEPARATOR]\ni_category\nsumsales",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+,
+          {
+            "name": "PROJECTION",
+            "timing":0.000051,
+            "cardinality":1,
+            "extra_info": "NULL\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nNULL\nsumsales\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "SIMPLE_AGGREGATE",
+               "timing":0.909052,
+               "cardinality":1,
+               "extra_info": "sum(#0)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.220821,
+                  "cardinality":766762454,
+                  "extra_info": "sumsales\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.995104,
+                     "cardinality":766762454,
+                     "extra_info": "results\n[INFOSEPARATOR]\nsumsales",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

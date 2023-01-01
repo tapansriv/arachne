@@ -1,0 +1,186 @@
+{
+   "name":  "Query", 
+   "result": 444.858966,
+   "timing": 444.858966,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE web_v1 AS\n  (SELECT ws_item_sk item_sk,\n          d_date,\n          sum(sum(ws_sales_price)) OVER (PARTITION BY ws_item_sk\n                                         ORDER BY d_date ROWS BETWEEN unbounded preceding AND CURRENT ROW) cume_sales\n   FROM 'web_sales.parquet' AS web_sales,\n        'date_dim.parquet' AS date_dim\n   WHERE ws_sold_date_sk=d_date_sk\n     AND d_month_seq BETWEEN 1200 AND 1200+11\n     AND ws_item_sk IS NOT NULL\n   GROUP BY ws_item_sk,\n            d_date)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000805
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000189
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000146
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000384
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000040
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000021
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "planner", 
+   "timing": 6.626173
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 6.626168
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":1.616863,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.085364,
+         "cardinality":47431081,
+         "extra_info": "item_sk\nd_date\ncume_sales\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "WINDOW",
+            "timing":332.618156,
+            "cardinality":47431081,
+            "extra_info": "sum(sum(#[6.1])) OVER(PARTITION BY ws_item_sk ORDER BY d_date ASC NULLS FIRST ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_GROUP_BY",
+               "timing":33.585802,
+               "cardinality":47431081,
+               "extra_info": "#0\n#1\nsum(#2)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":1.245638,
+                  "cardinality":144769368,
+                  "extra_info": "ws_item_sk\nd_date\nws_sales_price\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":6.863140,
+                     "cardinality":144769368,
+                     "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "FILTER",
+                        "timing":2.278198,
+                        "cardinality":720000376,
+                        "extra_info": "IS_NOT_NULL(ws_item_sk)",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":55.224026,
+                           "cardinality":720000376,
+                           "extra_info": "ws_item_sk\nws_sales_price\nws_sold_date_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.008327,
+                        "cardinality":732,
+                        "extra_info": "d_date\nd_date_sk\nd_month_seq\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

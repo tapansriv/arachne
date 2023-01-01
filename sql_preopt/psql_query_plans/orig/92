@@ -1,0 +1,36 @@
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=21908934550.16..21908934550.16 rows=1 width=32)
+   ->  Sort  (cost=21908934550.16..21908934550.16 rows=1 width=32)
+         Sort Key: (sum(web_sales.ws_ext_discount_amt))
+         ->  Aggregate  (cost=21908934550.14..21908934550.15 rows=1 width=32)
+               ->  Hash Join  (cost=17862.29..21908934549.49 rows=256 width=6)
+                     Hash Cond: (web_sales.ws_item_sk = item.i_item_sk)
+                     Join Filter: (web_sales.ws_ext_discount_amt > (SubPlan 1))
+                     ->  Gather  (cost=3106.20..23670756.08 rows=877068 width=10)
+                           Workers Planned: 2
+                           ->  Parallel Hash Join  (cost=2106.20..23582049.28 rows=365445 width=10)
+                                 Hash Cond: (web_sales.ws_sold_date_sk = date_dim.d_date_sk)
+                                 ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=52 width=4)
+                                       ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=52 width=4)
+                                             Filter: ((d_date >= '2000-01-27'::date) AND (d_date <= '2000-04-26'::date))
+                     ->  Hash  (cost=14752.80..14752.80 rows=263 width=4)
+                           ->  Gather  (cost=1000.00..14752.80 rows=263 width=4)
+                                 Workers Planned: 2
+                                 ->  Parallel Seq Scan on item  (cost=0.00..13726.50 rows=110 width=4)
+                                       Filter: (i_manufact_id = 350)
+                     SubPlan 1
+                       ->  Aggregate  (cost=28459357.26..28459357.27 rows=1 width=32)
+                             ->  Nested Loop  (cost=0.00..28459357.24 rows=4 width=6)
+                                   Join Filter: (web_sales_1.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                   ->  Seq Scan on web_sales web_sales_1  (cost=0.00..28452780.60 rows=3011 width=10)
+                                         Filter: (ws_item_sk = item.i_item_sk)
+                                   ->  Materialize  (cost=0.00..2557.18 rows=89 width=4)
+                                         ->  Seq Scan on date_dim date_dim_1  (cost=0.00..2556.73 rows=89 width=4)
+                                               Filter: ((d_date >= '2000-01-27'::date) AND (d_date <= '2000-04-26'::date))
+ JIT:
+   Functions: 41
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(32 rows)
+

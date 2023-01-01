@@ -1,0 +1,128 @@
+                                                                                                                                                                                              QUERY PLAN                                                                                                                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=141630439.59..188792861.25 rows=6 width=186)
+   ->  Nested Loop  (cost=141630439.59..188792861.25 rows=6 width=186)
+         Join Filter: ((("*SELECT* 1".customer_id)::text = ("*SELECT* 1_3".customer_id)::text) AND (CASE WHEN ("*SELECT* 1_2".year_total > '0'::numeric) THEN (("*SELECT* 1_3".year_total / "*SELECT* 1_2".year_total))::numeric(19,0) ELSE NULL::numeric END > CASE WHEN ("*SELECT* 1".year_total > '0'::numeric) THEN ("*SELECT* 1_1".year_total / "*SELECT* 1".year_total) ELSE NULL::numeric END))
+         ->  Nested Loop  (cost=141630439.59..165211642.25 rows=19 width=382)
+               Join Filter: (("*SELECT* 1".customer_id)::text = ("*SELECT* 1_2".customer_id)::text)
+               ->  Merge Join  (cost=141630439.59..141630441.07 rows=50 width=300)
+                     Merge Cond: (("*SELECT* 1".customer_id)::text = ("*SELECT* 1_1".customer_id)::text)
+                     ->  Sort  (cost=70815217.55..70815217.68 rows=50 width=82)
+                           Sort Key: "*SELECT* 1".customer_id NULLS FIRST
+                           ->  Merge Append  (cost=70815194.37..70815216.14 rows=50 width=82)
+                                 Sort Key: "*SELECT* 1".customer_id
+                                 ->  Subquery Scan on "*SELECT* 1"  (cost=70815194.35..70815215.59 rows=49 width=82)
+                                       ->  Finalize GroupAggregate  (cost=70815194.35..70815215.10 rows=49 width=254)
+                                             Group Key: customer.c_customer_id, customer.c_first_name, customer.c_last_name, date_dim.d_year
+                                             Filter: (sum(store_sales.ss_net_paid) > '0'::numeric)
+                                             ->  Gather Merge  (cost=70815194.35..70815210.11 rows=122 width=222)
+                                                   Workers Planned: 2
+                                                   ->  Partial GroupAggregate  (cost=70814194.33..70814196.00 rows=61 width=222)
+                                                         Group Key: customer.c_customer_id, customer.c_first_name, customer.c_last_name, date_dim.d_year
+                                                         ->  Sort  (cost=70814194.33..70814194.48 rows=61 width=196)
+                                                               Sort Key: customer.c_customer_id, customer.c_first_name, customer.c_last_name
+                                                               ->  Hash Join  (cost=2226.38..70814192.52 rows=61 width=196)
+                                                                     Hash Cond: (store_sales.ss_customer_sk = customer.c_customer_sk)
+                                                                     ->  Parallel Hash Join  (cost=2213.00..70813943.33 rows=62720 width=14)
+                                                                           Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                           ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                           ->  Parallel Hash  (cost=2212.97..2212.97 rows=2 width=8)
+                                                                                 ->  Parallel Seq Scan on date_dim  (cost=0.00..2212.97 rows=2 width=8)
+                                                                                       Filter: ((d_year = 2001) AND ((d_year = 2001) OR (d_year = 2002)))
+                                                                     ->  Hash  (cost=11.50..11.50 rows=150 width=190)
+                                                                           ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=190)
+                                 ->  Subquery Scan on "*SELECT* 2"  (cost=0.01..0.04 rows=1 width=82)
+                                       ->  GroupAggregate  (cost=0.01..0.03 rows=1 width=254)
+                                             Group Key: c_customer_id, c_first_name, c_last_name, d_year
+                                             ->  Sort  (cost=0.01..0.02 rows=0 width=196)
+                                                   Sort Key: c_customer_id, c_first_name, c_last_name, d_year
+                                                   ->  Result  (cost=0.00..0.00 rows=0 width=196)
+                                                         One-Time Filter: false
+                     ->  Sort  (cost=70815222.03..70815222.40 rows=147 width=218)
+                           Sort Key: "*SELECT* 1_1".customer_id NULLS FIRST
+                           ->  Merge Append  (cost=70815194.37..70815216.74 rows=147 width=218)
+                                 Sort Key: "*SELECT* 1_1".customer_id
+                                 ->  Subquery Scan on "*SELECT* 1_1"  (cost=70815194.35..70815215.22 rows=146 width=218)
+                                       ->  Finalize GroupAggregate  (cost=70815194.35..70815213.76 rows=146 width=254)
+                                             Group Key: customer_1.c_customer_id, customer_1.c_first_name, customer_1.c_last_name, date_dim_1.d_year
+                                             ->  Gather Merge  (cost=70815194.35..70815210.11 rows=122 width=222)
+                                                   Workers Planned: 2
+                                                   ->  Partial GroupAggregate  (cost=70814194.33..70814196.00 rows=61 width=222)
+                                                         Group Key: customer_1.c_customer_id, customer_1.c_first_name, customer_1.c_last_name, date_dim_1.d_year
+                                                         ->  Sort  (cost=70814194.33..70814194.48 rows=61 width=196)
+                                                               Sort Key: customer_1.c_customer_id, customer_1.c_first_name, customer_1.c_last_name
+                                                               ->  Hash Join  (cost=2226.38..70814192.52 rows=61 width=196)
+                                                                     Hash Cond: (store_sales_1.ss_customer_sk = customer_1.c_customer_sk)
+                                                                     ->  Parallel Hash Join  (cost=2213.00..70813943.33 rows=62720 width=14)
+                                                                           Hash Cond: (store_sales_1.ss_sold_date_sk = date_dim_1.d_date_sk)
+                                                                           ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                           ->  Parallel Hash  (cost=2212.97..2212.97 rows=2 width=8)
+                                                                                 ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2212.97 rows=2 width=8)
+                                                                                       Filter: ((d_year = 2002) AND ((d_year = 2001) OR (d_year = 2002)))
+                                                                     ->  Hash  (cost=11.50..11.50 rows=150 width=190)
+                                                                           ->  Seq Scan on customer customer_1  (cost=0.00..11.50 rows=150 width=190)
+                                 ->  Subquery Scan on "*SELECT* 2_1"  (cost=0.01..0.04 rows=1 width=218)
+                                       ->  GroupAggregate  (cost=0.01..0.03 rows=1 width=254)
+                                             Group Key: c_customer_id, c_first_name, c_last_name, d_year
+                                             ->  Sort  (cost=0.01..0.02 rows=0 width=196)
+                                                   Sort Key: c_customer_id, c_first_name, c_last_name, d_year
+                                                   ->  Result  (cost=0.00..0.00 rows=0 width=196)
+                                                         One-Time Filter: false
+               ->  Materialize  (cost=0.00..23581186.98 rows=19 width=82)
+                     ->  Append  (cost=0.00..23581186.88 rows=19 width=82)
+                           ->  Subquery Scan on "*SELECT* 1_2"  (cost=0.00..0.02 rows=1 width=82)
+                                 ->  HashAggregate  (cost=0.00..0.01 rows=1 width=254)
+                                       Group Key: c_customer_id, c_first_name, c_last_name, d_year
+                                       ->  Result  (cost=0.00..0.00 rows=0 width=196)
+                                             One-Time Filter: false
+                           ->  Subquery Scan on "*SELECT* 2_2"  (cost=23581178.76..23581186.77 rows=18 width=82)
+                                 ->  Finalize GroupAggregate  (cost=23581178.76..23581186.59 rows=18 width=254)
+                                       Group Key: customer_2.c_customer_id, customer_2.c_first_name, customer_2.c_last_name, date_dim_2.d_year
+                                       Filter: (sum(web_sales.ws_net_paid) > '0'::numeric)
+                                       ->  Gather Merge  (cost=23581178.76..23581184.70 rows=46 width=222)
+                                             Workers Planned: 2
+                                             ->  Partial GroupAggregate  (cost=23580178.74..23580179.37 rows=23 width=222)
+                                                   Group Key: customer_2.c_customer_id, customer_2.c_first_name, customer_2.c_last_name, date_dim_2.d_year
+                                                   ->  Sort  (cost=23580178.74..23580178.80 rows=23 width=196)
+                                                         Sort Key: customer_2.c_customer_id, customer_2.c_first_name, customer_2.c_last_name
+                                                         ->  Hash Join  (cost=2226.38..23580178.22 rows=23 width=196)
+                                                               Hash Cond: (web_sales.ws_bill_customer_sk = customer_2.c_customer_sk)
+                                                               ->  Parallel Hash Join  (cost=2213.00..23580103.02 rows=16425 width=14)
+                                                                     Hash Cond: (web_sales.ws_sold_date_sk = date_dim_2.d_date_sk)
+                                                                     ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                                                     ->  Parallel Hash  (cost=2212.97..2212.97 rows=2 width=8)
+                                                                           ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2212.97 rows=2 width=8)
+                                                                                 Filter: ((d_year = 2001) AND ((d_year = 2001) OR (d_year = 2002)))
+                                                               ->  Hash  (cost=11.50..11.50 rows=150 width=190)
+                                                                     ->  Seq Scan on customer customer_2  (cost=0.00..11.50 rows=150 width=190)
+         ->  Materialize  (cost=0.00..23581187.21 rows=56 width=82)
+               ->  Append  (cost=0.00..23581186.93 rows=56 width=82)
+                     ->  Subquery Scan on "*SELECT* 1_3"  (cost=0.00..0.02 rows=1 width=82)
+                           ->  HashAggregate  (cost=0.00..0.01 rows=1 width=254)
+                                 Group Key: c_customer_id, c_first_name, c_last_name, d_year
+                                 ->  Result  (cost=0.00..0.00 rows=0 width=196)
+                                       One-Time Filter: false
+                     ->  Subquery Scan on "*SELECT* 2_3"  (cost=23581178.76..23581186.63 rows=55 width=82)
+                           ->  Finalize GroupAggregate  (cost=23581178.76..23581186.08 rows=55 width=254)
+                                 Group Key: customer_3.c_customer_id, customer_3.c_first_name, customer_3.c_last_name, date_dim_3.d_year
+                                 ->  Gather Merge  (cost=23581178.76..23581184.70 rows=46 width=222)
+                                       Workers Planned: 2
+                                       ->  Partial GroupAggregate  (cost=23580178.74..23580179.37 rows=23 width=222)
+                                             Group Key: customer_3.c_customer_id, customer_3.c_first_name, customer_3.c_last_name, date_dim_3.d_year
+                                             ->  Sort  (cost=23580178.74..23580178.80 rows=23 width=196)
+                                                   Sort Key: customer_3.c_customer_id, customer_3.c_first_name, customer_3.c_last_name
+                                                   ->  Hash Join  (cost=2226.38..23580178.22 rows=23 width=196)
+                                                         Hash Cond: (web_sales_1.ws_bill_customer_sk = customer_3.c_customer_sk)
+                                                         ->  Parallel Hash Join  (cost=2213.00..23580103.02 rows=16425 width=14)
+                                                               Hash Cond: (web_sales_1.ws_sold_date_sk = date_dim_3.d_date_sk)
+                                                               ->  Parallel Seq Scan on web_sales web_sales_1  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                                               ->  Parallel Hash  (cost=2212.97..2212.97 rows=2 width=8)
+                                                                     ->  Parallel Seq Scan on date_dim date_dim_3  (cost=0.00..2212.97 rows=2 width=8)
+                                                                           Filter: ((d_year = 2002) AND ((d_year = 2001) OR (d_year = 2002)))
+                                                         ->  Hash  (cost=11.50..11.50 rows=150 width=190)
+                                                               ->  Seq Scan on customer customer_3  (cost=0.00..11.50 rows=150 width=190)
+ JIT:
+   Functions: 163
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(124 rows)
+

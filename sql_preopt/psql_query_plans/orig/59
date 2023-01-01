@@ -1,0 +1,51 @@
+                                                             QUERY PLAN                                                             
+------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=394857463.53..394857463.78 rows=100 width=249)
+   CTE wss
+     ->  Finalize GroupAggregate  (cost=343855560.66..394443601.95 rows=5216412 width=232)
+           Group Key: date_dim.d_week_seq, store_sales.ss_store_sk
+           ->  Gather Merge  (cost=343855560.66..393882837.66 rows=10432824 width=232)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=343854560.64..392677630.88 rows=5216412 width=232)
+                       Group Key: date_dim.d_week_seq, store_sales.ss_store_sk
+                       ->  Sort  (cost=343854560.64..346718067.63 rows=1145402798 width=22)
+                             Sort Key: date_dim.d_week_seq, store_sales.ss_store_sk
+                             ->  Parallel Hash Join  (cost=2427.82..77551508.07 rows=1145402798 width=22)
+                                   Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                   ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                   ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=16)
+                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..1890.70 rows=42970 width=16)
+   ->  Sort  (cost=413861.58..413876.53 rows=5978 width=249)
+         Sort Key: store.s_store_name NULLS FIRST, store.s_store_id NULLS FIRST, wss.d_week_seq NULLS FIRST
+         ->  Merge Join  (cost=409619.78..413633.11 rows=5978 width=249)
+               Merge Cond: ((d.d_week_seq = ((wss_1.d_week_seq - 52))) AND ((store.s_store_id)::text = (store_1.s_store_id)::text))
+               ->  Sort  (cost=205695.03..206129.65 rows=173847 width=253)
+                     Sort Key: wss.d_week_seq, store.s_store_id
+                     ->  Hash Join  (cost=2621.62..169763.36 rows=173847 width=253)
+                           Hash Cond: (wss.ss_store_sk = store.s_store_sk)
+                           ->  Hash Join  (cost=2561.07..167312.42 rows=173847 width=236)
+                                 Hash Cond: (wss.d_week_seq = d.d_week_seq)
+                                 ->  CTE Scan on wss  (cost=0.00..104328.24 rows=5216412 width=232)
+                                 ->  Hash  (cost=2556.73..2556.73 rows=347 width=4)
+                                       ->  Seq Scan on date_dim d  (cost=0.00..2556.73 rows=347 width=4)
+                                             Filter: ((d_month_seq >= 1212) AND (d_month_seq <= 1223))
+                           ->  Hash  (cost=48.02..48.02 rows=1002 width=25)
+                                 ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=25)
+               ->  Materialize  (cost=203924.75..204768.93 rows=168837 width=245)
+                     ->  Sort  (cost=203924.75..204346.84 rows=168837 width=245)
+                           Sort Key: ((wss_1.d_week_seq - 52)), store_1.s_store_id
+                           ->  Hash Join  (cost=2621.49..169644.25 rows=168837 width=245)
+                                 Hash Cond: (wss_1.ss_store_sk = store_1.s_store_sk)
+                                 ->  Hash Join  (cost=2560.95..167262.19 rows=168837 width=232)
+                                       Hash Cond: (wss_1.d_week_seq = d_1.d_week_seq)
+                                       ->  CTE Scan on wss wss_1  (cost=0.00..104328.24 rows=5216412 width=232)
+                                       ->  Hash  (cost=2556.73..2556.73 rows=337 width=4)
+                                             ->  Seq Scan on date_dim d_1  (cost=0.00..2556.73 rows=337 width=4)
+                                                   Filter: ((d_month_seq >= 1224) AND (d_month_seq <= 1235))
+                                 ->  Hash  (cost=48.02..48.02 rows=1002 width=21)
+                                       ->  Seq Scan on store store_1  (cost=0.00..48.02 rows=1002 width=21)
+ JIT:
+   Functions: 72
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(47 rows)
+

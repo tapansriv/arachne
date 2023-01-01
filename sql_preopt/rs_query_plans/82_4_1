@@ -1,0 +1,2 @@
+XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=58 width=4)
+  Filter: ((d_date >= '2000-05-25'::date) AND (d_date <= '2000-07-24'::date))

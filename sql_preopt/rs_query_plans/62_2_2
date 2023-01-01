@@ -1,0 +1,14 @@
+XN Limit  (cost=1000054808893.19..1000054808893.44 rows=100 width=60)
+  ->  XN Merge  (cost=1000054808893.19..1000054808895.75 rows=1026 width=60)
+        Merge Key: rs_table_62_0.w_substr, rs_table_62_0.sm_type, rs_table_62_0.web_name
+        ->  XN Network  (cost=1000054808893.19..1000054808895.75 rows=1026 width=60)
+              Send to leader
+              ->  XN Sort  (cost=1000054808893.19..1000054808895.75 rows=1026 width=60)
+                    Sort Key: rs_table_62_0.w_substr, rs_table_62_0.sm_type, rs_table_62_0.web_name
+                    ->  XN HashAggregate  (cost=54808829.05..54808841.87 rows=1026 width=60)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=1096.54..54745624.23 rows=3160241 width=60)
+                                Hash Cond: ("outer".ws_ship_date_sk = "inner".d_date_sk)
+                                ->  XN Seq Scan on rs_table_62_0  (cost=0.00..7196855.68 rows=719685568 width=64)
+                                ->  XN Hash  (cost=1095.73..1095.73 rows=321 width=4)
+                                      ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=321 width=4)
+                                            Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))

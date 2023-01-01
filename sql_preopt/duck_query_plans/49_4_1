@@ -1,0 +1,66 @@
+┌───────────────────────────┐                                                          
+│      CREATE_TABLE_AS      │                                                          
+└─────────────┬─────────────┘                                                                                       
+┌─────────────┴─────────────┐                                                          
+│         PROJECTION        │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│            item           │                                                          
+│            $f1            │                                                          
+│            $f2            │                                                          
+│            $f3            │                                                          
+│            $f4            │                                                          
+└─────────────┬─────────────┘                                                                                       
+┌─────────────┴─────────────┐                                                          
+│         HASH_JOIN         │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│           INNER           ├───────────────────────────────────────────┐              
+│ ss_sold_date_sk=d_date_sk │                                           │              
+└─────────────┬─────────────┘                                           │                                           
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐
+│         PROJECTION        │                             │         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│      ss_sold_date_sk      │                             │         d_date_sk         │
+│         ss_item_sk        │                             │                           │
+│        ss_quantity        │                             │                           │
+│        ss_net_paid        │                             │                           │
+│            CASE           │                             │                           │
+│           CASE5           │                             │                           │
+└─────────────┬─────────────┘                             └─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                             │        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           INNER           │                             │         d_date_sk         │
+│      ss_ticket_number     │                             │           d_year          │
+│     =sr_ticket_number     │                             │           d_moy           │
+│   ss_item_sk=sr_item_sk   ├──────────────┐              │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│                           │              │              │  Filters: d_year=2001 AND │
+│                           │              │              │     d_year IS NOT NULL    │
+│                           │              │              │ d_moy=12 AND d_moy IS NOT │
+│                           │              │              │            NULL           │
+└─────────────┬─────────────┘              │              └───────────────────────────┘                             
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐                             
+│         PROJECTION        ││         PROJECTION        │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│      ss_sold_date_sk      ││         sr_item_sk        │                             
+│         ss_item_sk        ││      sr_ticket_number     │                             
+│      ss_ticket_number     ││           CAST12          │                             
+│        ss_quantity        ││           CAST13          │                             
+│        ss_net_paid        ││                           │                             
+└─────────────┬─────────────┘└─────────────┬─────────────┘                                                          
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐                             
+│        PARQUET_SCAN       ││        PARQUET_SCAN       │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│      ss_sold_date_sk      ││         sr_item_sk        │                             
+│         ss_item_sk        ││      sr_ticket_number     │                             
+│      ss_ticket_number     ││     sr_return_quantity    │                             
+│        ss_quantity        ││       sr_return_amt       │                             
+│        ss_net_paid        ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│       ss_net_profit       ││   Filters: sr_return_amt  │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││>10000.000000 AND sr_r...  │                             
+│ Filters: ss_quantity>0 AND││         IS NOT NULL       │                             
+│   ss_quantity IS NOT NULL ││                           │                             
+│  ss_net_paid>0.000000 AND ││                           │                             
+│   ss_net_paid IS NOT NULL ││                           │                             
+│ ss_net_profit>1.000000 AND││                           │                             
+│  ss_net_profit IS NOT NULL││                           │                             
+└───────────────────────────┘└───────────────────────────┘                                                          

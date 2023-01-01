@@ -1,0 +1,18 @@
+XN Limit  (cost=2739694451367.56..2739694451367.81 rows=100 width=20)
+  ->  XN Merge  (cost=2739694451367.56..2739694472177.68 rows=8324048 width=20)
+        Merge Key: sum(CASE WHEN (store_returns.sr_return_quantity IS NOT NULL) THEN (store_sales.ss_sales_price * ((store_sales.ss_quantity - store_returns.sr_return_quantity))::double precision) ELSE ((store_sales.ss_quantity)::double precision * store_sales.ss_sales_price) END), store_sales.ss_customer_sk
+        ->  XN Network  (cost=2739694451367.56..2739694472177.68 rows=8324048 width=20)
+              Send to leader
+              ->  XN Sort  (cost=2739694451367.56..2739694472177.68 rows=8324048 width=20)
+                    Sort Key: sum(CASE WHEN (store_returns.sr_return_quantity IS NOT NULL) THEN (store_sales.ss_sales_price * ((store_sales.ss_quantity - store_returns.sr_return_quantity))::double precision) ELSE ((store_sales.ss_quantity)::double precision * store_sales.ss_sales_price) END), store_sales.ss_customer_sk
+                    ->  XN HashAggregate  (cost=1739693369705.23..1739693494565.95 rows=8324048 width=20)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=9730427.69..1739693328084.99 rows=8324048 width=20)
+                                Hash Cond: (("outer".ss_ticket_number = "inner".sr_ticket_number) AND ("outer".ss_item_sk = "inner".sr_item_sk))
+                                ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2879987968 width=24)
+                                ->  XN Hash  (cost=9686949.64..9686949.64 rows=8695610 width=12)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=0.82..9686949.64 rows=8695610 width=12)
+                                            Hash Cond: ("outer".sr_reason_sk = "inner".r_reason_sk)
+                                            ->  XN Seq Scan on store_returns  (cost=0.00..2879997.76 rows=287999776 width=16)
+                                            ->  XN Hash  (cost=0.81..0.81 rows=2 width=4)
+                                                  ->  XN Seq Scan on reason  (cost=0.00..0.81 rows=2 width=4)
+                                                        Filter: ((r_reason_desc)::text = 'reason 28'::text)

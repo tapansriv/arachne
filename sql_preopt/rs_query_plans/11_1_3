@@ -1,0 +1,33 @@
+XN Limit  (cost=3825088874800.48..3825088874800.73 rows=100 width=44)
+  ->  XN Merge  (cost=3825088874800.48..3825088877816.59 rows=1206444 width=44)
+        Merge Key: rs_table_11_1.customer_id0, rs_table_11_1.customer_first_name0, rs_table_11_1.customer_last_name0, rs_table_11_1.customer_preferred_cust_flag0
+        ->  XN Network  (cost=3825088874800.48..3825088877816.59 rows=1206444 width=44)
+              Send to leader
+              ->  XN Sort  (cost=3825088874800.48..3825088877816.59 rows=1206444 width=44)
+                    Sort Key: rs_table_11_1.customer_id0, rs_table_11_1.customer_first_name0, rs_table_11_1.customer_last_name0, rs_table_11_1.customer_preferred_cust_flag0
+                    ->  XN Hash Join DS_BCAST_INNER  (cost=1122022204440.16..2825088752935.58 rows=1206444 width=44)
+                          Hash Cond: (("outer".customer_id)::text = ("inner".customer_id)::text)
+                          Join Filter: ("outer"."case" < CASE WHEN "outer".">" THEN (("inner".year_total * 1::double precision) / "outer".year_total1) ELSE 0::double precision END)
+                          ->  XN Seq Scan on rs_table_11_1  (cost=0.00..73064.54 rows=7306454 width=81)
+                          ->  XN Hash  (cost=1122022195703.01..1122022195703.01 rows=3494857 width=40)
+                                ->  XN Subquery Scan t13  (cost=0.03..1122022195703.01 rows=3494857 width=40)
+                                      ->  XN Append  (cost=0.03..1122022160754.44 rows=3494857 width=144)
+                                            ->  XN Subquery Scan "*SELECT* 1"  (cost=0.03..0.04 rows=1 width=0)
+                                                  ->  XN HashAggregate  (cost=0.03..0.03 rows=1 width=0)
+                                                        ->  XN Result  (cost=0.00..0.01 rows=1 width=0)
+                                                              ->  XN Network  (cost=0.00..0.01 rows=1 width=0)
+                                                                    Distribute Round Robin
+                                                                    ->  XN Result  (cost=0.00..0.01 rows=1 width=0)
+                                                                          One-Time Filter: false
+                                            ->  XN Subquery Scan "*SELECT* 2"  (cost=1122022108331.56..1122022160754.40 rows=3494856 width=144)
+                                                  ->  XN HashAggregate  (cost=1122022108331.56..1122022125805.84 rows=3494856 width=144)
+                                                        ->  XN Hash Join DS_BCAST_INNER  (cost=73204748.74..1122022029697.30 rows=3494856 width=144)
+                                                              Hash Cond: ("outer".c_customer_sk = "inner".ws_bill_customer_sk)
+                                                              ->  XN Seq Scan on customer  (cost=0.00..120000.00 rows=12000000 width=128)
+                                                              ->  XN Hash  (cost=73195983.52..73195983.52 rows=3506088 width=24)
+                                                                    ->  XN Hash Join DS_BCAST_INNER  (cost=914.00..73195983.52 rows=3506088 width=24)
+                                                                          Hash Cond: ("outer".ws_sold_date_sk = "inner".d_date_sk)
+                                                                          ->  XN Seq Scan on web_sales  (cost=0.00..7200003.84 rows=720000384 width=24)
+                                                                          ->  XN Hash  (cost=913.11..913.11 rows=356 width=8)
+                                                                                ->  XN Seq Scan on date_dim  (cost=0.00..913.11 rows=356 width=8)
+                                                                                      Filter: (d_year = 2002)

@@ -1,0 +1,7 @@
+XN Hash Join DS_BCAST_INNER  (cost=708223.88..4333274095490.12 rows=12139394 width=75)
+  Hash Cond: (("outer".customer_id)::text = ("inner".customer_id)::text)
+  ->  XN Seq Scan on rs_table_74_0  (cost=0.00..581255.76 rows=11954110 width=47)
+        Filter: ((year_ = 2002) AND ((sale_type)::text = 's'::text))
+  ->  XN Hash  (cost=678131.72..678131.72 rows=12036864 width=28)
+        ->  XN Seq Scan on rs_table_74_0 volt_dt_0  (cost=0.00..678131.72 rows=12036864 width=28)
+              Filter: ((year_ = 2001) AND ((sale_type)::text = 's'::text) AND (year_total > 0::double precision))

@@ -1,0 +1,238 @@
+-Dexec.args="single duck 34 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+GCP
+34 1.48 0.0 GCP
+SELECT c_last_name ,
+       c_first_name ,
+       c_salutation ,
+       c_preferred_cust_flag ,
+       ss_ticket_number ,
+       cnt
+FROM
+  (SELECT ss_ticket_number ,
+          ss_customer_sk ,
+          count(*) cnt
+   FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales,
+        '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim,
+        '/mnt/disks/tpcds/parquet/store.parquet' AS store,
+        '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics
+   WHERE store_sales.ss_sold_date_sk = date_dim.d_date_sk
+     AND store_sales.ss_store_sk = store.s_store_sk
+     AND store_sales.ss_hdemo_sk = household_demographics.hd_demo_sk
+     AND (date_dim.d_dom BETWEEN 1 AND 3
+          OR date_dim.d_dom BETWEEN 25 AND 28)
+     AND (household_demographics.hd_buy_potential = '>10000'
+          OR household_demographics.hd_buy_potential = 'Unknown')
+     AND household_demographics.hd_vehicle_count > 0
+     AND (CASE
+              WHEN household_demographics.hd_vehicle_count > 0 THEN (household_demographics.hd_dep_count*1.000)/ household_demographics.hd_vehicle_count
+              ELSE NULL
+          END) > 1.2
+     AND date_dim.d_year IN (1999,
+                             1999+1,
+                             1999+2)
+     AND store.s_county = 'Williamson County'
+   GROUP BY ss_ticket_number,
+            ss_customer_sk) dn,
+     '/mnt/disks/tpcds/parquet/customer.parquet' AS customer
+WHERE ss_customer_sk = c_customer_sk
+  AND cnt BETWEEN 15 AND 20
+ORDER BY c_last_name NULLS FIRST,
+         c_first_name NULLS FIRST,
+         c_salutation NULLS FIRST,
+         c_preferred_cust_flag DESC NULLS FIRST,
+         ss_ticket_number NULLS FIRST;
+
+BASE:
+262:ProfileSort(sort0=[$0], sort1=[$1], sort2=[$2], sort3=[$3], sort4=[$4], dir0=[ASC-nulls-first], dir1=[ASC-nulls-first], dir2=[ASC-nulls-first], dir3=[DESC], dir4=[ASC-nulls-first]): rowcount = 5.530671242531542E7, cumulative cost = {5.530671242531542E7 rows, 3.549709654383573E10 cpu, 0.0 io, 0.0 money}
+  284:ProfileProject(c_last_name=[$6], c_first_name=[$5], c_salutation=[$4], c_preferred_cust_flag=[$7], ss_ticket_number=[$0], cnt=[$2]): rowcount = 5.530671242531542E7, cumulative cost = {5.530671242531542E7 rows, 3.318402745518925E8 cpu, 0.0 io, 0.0 money}
+    306:ProfileJoin(condition=[=($1, $3)], joinType=[inner]): rowcount = 5.530671242531542E7, cumulative cost = {5.530671242531542E7 rows, 0.0 cpu, 0.0 io, 0.0 money}
+      325:ProfileFilter(condition=[SEARCH($2, Sarg[[15..20]])]): rowcount = 3.687114161687695E8, cumulative cost = {3.687114161687695E8 rows, 1.474845664675078E9 cpu, 0.0 io, 0.0 money}
+        343:ProfileAggregate(group=[{0, 1}], cnt=[COUNT()]): rowcount = 1.474845664675078E9, cumulative cost = {1.6592013727594626E9 rows, 0.0 cpu, 0.0 io, 0.0 money}
+          360:ProfileProject(ss_ticket_number=[$2], ss_customer_sk=[$0]): rowcount = 1.474845664675078E10, cumulative cost = {1.474845664675078E10 rows, 2.949691329350156E10 cpu, 0.0 io, 0.0 money}
+            377:ProfileJoin(condition=[=($1, $3)], joinType=[inner]): rowcount = 1.474845664675078E10, cumulative cost = {1.474845664675078E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+              389:ProfileProject(ss_customer_sk=[$0], ss_hdemo_sk=[$1], ss_ticket_number=[$3]): rowcount = 9.832304431167188E10, cumulative cost = {9.832304431167188E10 rows, 2.949691329350156E11 cpu, 0.0 io, 0.0 money}
+                401:ProfileJoin(condition=[=($2, $4)], joinType=[inner]): rowcount = 9.832304431167188E10, cumulative cost = {9.832304431167188E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                  408:ProfileProject(ss_customer_sk=[$1], ss_hdemo_sk=[$2], ss_store_sk=[$3], ss_ticket_number=[$4]): rowcount = 1.0924782701296875E11, cumulative cost = {1.0924782701296875E11 rows, 4.36991308051875E11 cpu, 0.0 io, 0.0 money}
+                    415:ProfileJoin(condition=[=($0, $5)], joinType=[inner]): rowcount = 1.0924782701296875E11, cumulative cost = {1.0924782701296875E11 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                      417:ProfileProject(ss_sold_date_sk=[$0], ss_customer_sk=[$3], ss_hdemo_sk=[$5], ss_store_sk=[$7], ss_ticket_number=[$9]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 7.9762225E8 cpu, 0.0 io, 0.0 money}
+                        418:ProfileTableScan(table=[[tpcds, store_sales]]): rowcount = 1.5952445E8, cumulative cost = {1.5952445E8 rows, 1.59524451E8 cpu, 0.0 io, 0.0 money}
+                      422:ProfileProject(d_date_sk=[$0]): rowcount = 4565.5625, cumulative cost = {4565.5625 rows, 4565.5625 cpu, 0.0 io, 0.0 money}
+                        425:ProfileProject(d_date_sk=[$0], d_year=[$6], d_dom=[$9]): rowcount = 4565.5625, cumulative cost = {4565.5625 rows, 13696.6875 cpu, 0.0 io, 0.0 money}
+                          427:ProfileFilter(condition=[AND(SEARCH($9, Sarg[[1..3], [25..28]]), OR(=($6, 1999), =($6, +(1999, 1)), =($6, +(1999, 2))))]): rowcount = 4565.5625, cumulative cost = {4565.5625 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                            428:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+                  432:ProfileProject(s_store_sk=[$0]): rowcount = 6.0, cumulative cost = {6.0 rows, 6.0 cpu, 0.0 io, 0.0 money}
+                    435:ProfileProject(s_store_sk=[$0], s_county=[$23]): rowcount = 6.0, cumulative cost = {6.0 rows, 12.0 cpu, 0.0 io, 0.0 money}
+                      437:ProfileFilter(condition=[=($23, 'Williamson County')]): rowcount = 6.0, cumulative cost = {6.0 rows, 40.0 cpu, 0.0 io, 0.0 money}
+                        438:ProfileTableScan(table=[[tpcds, store]]): rowcount = 40.0, cumulative cost = {40.0 rows, 41.0 cpu, 0.0 io, 0.0 money}
+              442:ProfileProject(hd_demo_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                445:ProfileProject(hd_demo_sk=[$0], hd_buy_potential=[$2], hd_dep_count=[$3], hd_vehicle_count=[$4]): rowcount = 1.0, cumulative cost = {1.0 rows, 4.0 cpu, 0.0 io, 0.0 money}
+                  447:ProfileFilter(condition=[AND(SEARCH($2, Sarg['>10000':VARCHAR, 'Unknown':VARCHAR]:VARCHAR), >($4, 0), >(CASE(>($4, 0), /(*($3, 1.000:DECIMAL(4, 3)), $4), null:DECIMAL(19, 8)), 1.2:DECIMAL(2, 1)))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                    448:ProfileTableScan(table=[[tpcds, household_demographics]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+      450:ProfileProject(c_customer_sk=[$0], c_salutation=[$7], c_first_name=[$8], c_last_name=[$9], c_preferred_cust_flag=[$10]): rowcount = 1.0, cumulative cost = {1.0 rows, 5.0 cpu, 0.0 io, 0.0 money}
+        451:ProfileTableScan(table=[[tpcds, customer]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+
+trial 0
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+STARTING QRY: CREATE TABLE duck_table_34_0 AS SELECT "t7"."ss_ticket_number", "t7"."ss_customer_sk", COUNT(*) AS "cnt"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_hdemo_sk", "t3"."ss_ticket_number"
+FROM (SELECT "t"."ss_customer_sk", "t"."ss_hdemo_sk", "t"."ss_store_sk", "t"."ss_ticket_number"
+FROM (SELECT "ss_sold_date_sk", "ss_customer_sk", "ss_hdemo_sk", "ss_store_sk", "ss_ticket_number"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE ("d_dom" >= 1 AND "d_dom" <= 3 OR "d_dom" >= 25 AND "d_dom" <= 28) AND ("d_year" = 1999 OR "d_year" = 1999 + 1 OR "d_year" = 1999 + 2)) AS "t2" ON "t"."ss_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "s_store_sk"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store
+WHERE "s_county" = 'Williamson County') AS "t6" ON "t3"."ss_store_sk" = "t6"."s_store_sk") AS "t7"
+INNER JOIN (SELECT "hd_demo_sk"
+FROM '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics
+WHERE "hd_buy_potential" IN ('>10000', 'Unknown') AND "hd_vehicle_count" > 0 AND CASE WHEN "hd_vehicle_count" > 0 THEN "hd_dep_count" * 1.000 / "hd_vehicle_count" ELSE NULL END > 1.2) AS "t10" ON "t7"."ss_hdemo_sk" = "t10"."hd_demo_sk"
+GROUP BY "t7"."ss_ticket_number", "t7"."ss_customer_sk"
+HAVING COUNT(*) >= 15 AND COUNT(*) <= 20
+
+760.775794976
+24231
+24231
+finished query
+STARTING QRY: SELECT "t"."c_last_name", "t"."c_first_name", "t"."c_salutation", "t"."c_preferred_cust_flag", "duck_table_34_0"."ss_ticket_number", "duck_table_34_0"."cnt"
+FROM "duck_table_34_0"
+INNER JOIN (SELECT "c_customer_sk", "c_salutation", "c_first_name", "c_last_name", "c_preferred_cust_flag"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t" ON "duck_table_34_0"."ss_customer_sk" = "t"."c_customer_sk"
+ORDER BY "t"."c_last_name" NULLS FIRST, "t"."c_first_name" NULLS FIRST, "t"."c_salutation" NULLS FIRST, "t"."c_preferred_cust_flag" DESC, "duck_table_34_0"."ss_ticket_number" NULLS FIRST
+
+8.162838553
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 760.775794976 CARDINALITY: 24231 COST: 0.31276338237902224
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 8.162838553 CARDINALITY: -1 COST: 0.0033558336273444445
+2
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 760.775794976 CARDINALITY: 24231 COST: 0.31276338237902224
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 8.162838553 CARDINALITY: -1 COST: 0.0033558336273444445
+BEGUN PROCESSING
+missing column name: cnt
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 8.162838553 CARDINALITY: -1 COST: 0.0033558336273444445
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 760.775794976 CARDINALITY: 24231 COST: 0.31276338237902224
+rowSize: 12
+{"bqSize":2.400290772,"compressed":0.8741384628571428,"mvmtCost":0.0,"runtime":760.775794976,"runCost":0.31276338237902224,"bqCost":0.01200145386,"cutNoHybrid":768.9386335290001}
+baseline runtime: 282.6501581668854 baselineBQ read size: 1.11431122944E11
+arachneCost: 0.32476483623902225, baselineCost2: 0.11620062057971954, baseline: 0.55715561472, cutNoHybrid: 0.31611921600636667
+FINISHED PROCESSING FOR TRIAL 0 plan not found. repeating...
+trial 1
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+STARTING QRY: CREATE TABLE duck_table_34_0 AS SELECT "c_customer_sk", "c_salutation", "c_first_name", "c_last_name", "c_preferred_cust_flag"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer
+
+11.24773252
+12000000
+12000000
+finished query
+STARTING QRY: SELECT "duck_table_34_0"."c_last_name", "duck_table_34_0"."c_first_name", "duck_table_34_0"."c_salutation", "duck_table_34_0"."c_preferred_cust_flag", "t13"."ss_ticket_number", "t13"."cnt"
+FROM (SELECT "t7"."ss_ticket_number", "t7"."ss_customer_sk", COUNT(*) AS "cnt"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_hdemo_sk", "t3"."ss_ticket_number"
+FROM (SELECT "t"."ss_customer_sk", "t"."ss_hdemo_sk", "t"."ss_store_sk", "t"."ss_ticket_number"
+FROM (SELECT "ss_sold_date_sk", "ss_customer_sk", "ss_hdemo_sk", "ss_store_sk", "ss_ticket_number"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE ("d_dom" >= 1 AND "d_dom" <= 3 OR "d_dom" >= 25 AND "d_dom" <= 28) AND ("d_year" = 1999 OR "d_year" = 1999 + 1 OR "d_year" = 1999 + 2)) AS "t2" ON "t"."ss_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "s_store_sk"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store
+WHERE "s_county" = 'Williamson County') AS "t6" ON "t3"."ss_store_sk" = "t6"."s_store_sk") AS "t7"
+INNER JOIN (SELECT "hd_demo_sk"
+FROM '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics
+WHERE "hd_buy_potential" IN ('>10000', 'Unknown') AND "hd_vehicle_count" > 0 AND CASE WHEN "hd_vehicle_count" > 0 THEN "hd_dep_count" * 1.000 / "hd_vehicle_count" ELSE NULL END > 1.2) AS "t10" ON "t7"."ss_hdemo_sk" = "t10"."hd_demo_sk"
+GROUP BY "t7"."ss_ticket_number", "t7"."ss_customer_sk"
+HAVING COUNT(*) >= 15 AND COUNT(*) <= 20) AS "t13"
+INNER JOIN "duck_table_34_0" ON "t13"."ss_customer_sk" = "duck_table_34_0"."c_customer_sk"
+ORDER BY "duck_table_34_0"."c_last_name" NULLS FIRST, "duck_table_34_0"."c_first_name" NULLS FIRST, "duck_table_34_0"."c_salutation" NULLS FIRST, "duck_table_34_0"."c_preferred_cust_flag" DESC, "t13"."ss_ticket_number" NULLS FIRST
+
+180.471089846
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 11.24773252 CARDINALITY: 12000000 COST: 0.004624067813777778
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 180.471089846 CARDINALITY: -1 COST: 0.07419367027002223
+2
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 11.24773252 CARDINALITY: 12000000 COST: 0.004624067813777778
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 180.471089846 CARDINALITY: -1 COST: 0.07419367027002223
+BEGUN PROCESSING
+missing column name: d_month_seq
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 180.471089846 CARDINALITY: -1 COST: 0.07419367027002223
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 11.24773252 CARDINALITY: 12000000 COST: 0.004624067813777778
+rowSize: 65
+{"bqSize":265.74766380499995,"compressed":175.3736765714286,"mvmtCost":0.0,"runtime":11.24773252,"runCost":0.004624067813777778,"bqCost":1.3287383190249997,"cutNoHybrid":191.718822366}
+baseline runtime: 282.6501581668854 baselineBQ read size: 1.11431122944E11
+arachneCost: 1.3333623868387776, baselineCost2: 0.11620062057971954, baseline: 0.55715561472, cutNoHybrid: 0.0788177380838
+FINISHED PROCESSING FOR TRIAL 1 plan not found. repeating...
+trial 2
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+missing column name: cnt
+STARTING QRY: CREATE TABLE duck_table_34_0 AS SELECT "t7"."ss_ticket_number", "t7"."ss_customer_sk"
+FROM (SELECT "t3"."ss_customer_sk", "t3"."ss_hdemo_sk", "t3"."ss_ticket_number"
+FROM (SELECT "t"."ss_customer_sk", "t"."ss_hdemo_sk", "t"."ss_store_sk", "t"."ss_ticket_number"
+FROM (SELECT "ss_sold_date_sk", "ss_customer_sk", "ss_hdemo_sk", "ss_store_sk", "ss_ticket_number"
+FROM '/mnt/disks/tpcds/parquet/store_sales.parquet' AS store_sales) AS "t"
+INNER JOIN (SELECT "d_date_sk"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE ("d_dom" >= 1 AND "d_dom" <= 3 OR "d_dom" >= 25 AND "d_dom" <= 28) AND ("d_year" = 1999 OR "d_year" = 1999 + 1 OR "d_year" = 1999 + 2)) AS "t2" ON "t"."ss_sold_date_sk" = "t2"."d_date_sk") AS "t3"
+INNER JOIN (SELECT "s_store_sk"
+FROM '/mnt/disks/tpcds/parquet/store.parquet' AS store
+WHERE "s_county" = 'Williamson County') AS "t6" ON "t3"."ss_store_sk" = "t6"."s_store_sk") AS "t7"
+INNER JOIN (SELECT "hd_demo_sk"
+FROM '/mnt/disks/tpcds/parquet/household_demographics.parquet' AS household_demographics
+WHERE "hd_buy_potential" IN ('>10000', 'Unknown') AND "hd_vehicle_count" > 0 AND CASE WHEN "hd_vehicle_count" > 0 THEN "hd_dep_count" * 1.000 / "hd_vehicle_count" ELSE NULL END > 1.2) AS "t10" ON "t7"."ss_hdemo_sk" = "t10"."hd_demo_sk"
+
+192.905019268
+2744350
+2744350
+finished query
+STARTING QRY: SELECT "t1"."c_last_name", "t1"."c_first_name", "t1"."c_salutation", "t1"."c_preferred_cust_flag", "t0"."ss_ticket_number", "t0"."cnt"
+FROM (SELECT "ss_ticket_number", "ss_customer_sk", COUNT(*) AS "cnt"
+FROM "duck_table_34_0"
+GROUP BY "ss_ticket_number", "ss_customer_sk"
+HAVING COUNT(*) >= 15 AND COUNT(*) <= 20) AS "t0"
+INNER JOIN (SELECT "c_customer_sk", "c_salutation", "c_first_name", "c_last_name", "c_preferred_cust_flag"
+FROM '/mnt/disks/tpcds/parquet/customer.parquet' AS customer) AS "t1" ON "t0"."ss_customer_sk" = "t1"."c_customer_sk"
+ORDER BY "t1"."c_last_name" NULLS FIRST, "t1"."c_first_name" NULLS FIRST, "t1"."c_salutation" NULLS FIRST, "t1"."c_preferred_cust_flag" DESC, "t0"."ss_ticket_number" NULLS FIRST
+
+2.803639543
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 192.905019268 CARDINALITY: 2744350 COST: 0.07930539681017777
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 2.803639543 CARDINALITY: -1 COST: 0.001152607367677778
+2
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 192.905019268 CARDINALITY: 2744350 COST: 0.07930539681017777
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 2.803639543 CARDINALITY: -1 COST: 0.001152607367677778
+BEGUN PROCESSING
+CTAS: duck_table_34_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 2.803639543 CARDINALITY: -1 COST: 0.001152607367677778
+CTAS: duck_table_34_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 192.905019268 CARDINALITY: 2744350 COST: 0.07930539681017777
+rowSize: 8
+{"bqSize":2.4219548,"compressed":0.8844546666666666,"mvmtCost":0.0,"runtime":192.905019268,"runCost":0.07930539681017777,"bqCost":0.012109774,"cutNoHybrid":195.708658811}
+baseline runtime: 282.6501581668854 baselineBQ read size: 1.11431122944E11
+arachneCost: 0.09141517081017778, baselineCost2: 0.11620062057971954, baseline: 0.55715561472, cutNoHybrid: 0.08045800417785555
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  44:00 min
+[[1;34mINFO[m] Finished at: 2022-03-30T01:12:55Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

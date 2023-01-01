@@ -1,0 +1,132 @@
+                                                                                                                                                                                                              QUERY PLAN                                                                                                                                                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Merge Join  (cost=285220251.04..451206414309962560.00 rows=5821992033560402944 width=146)
+   Merge Cond: ((customer_address.ca_county)::text = (customer_address_2.ca_county)::text)
+   Join Filter: (CASE WHEN ((sum(web_sales.ws_ext_sales_price) > '0'::numeric)) THEN (((sum(web_sales_1.ws_ext_sales_price) * 1.0000)) / (sum(web_sales.ws_ext_sales_price))) ELSE NULL::numeric END > CASE WHEN ((sum(store_sales.ss_ext_sales_price) > '0'::numeric)) THEN (((sum(store_sales_1.ss_ext_sales_price) * 1.0000)) / (sum(store_sales.ss_ext_sales_price))) ELSE NULL::numeric END)
+   ->  Merge Join  (cost=95075557.73..97130615.33 rows=128965012 width=98)
+         Merge Cond: ((customer_address.ca_county)::text = (customer_address_1.ca_county)::text)
+         ->  Finalize GroupAggregate  (cost=71254718.11..71319452.63 rows=160602 width=55)
+               Group Key: customer_address.ca_county, date_dim.d_qoy, date_dim.d_year
+               ->  Gather Merge  (cost=71254718.11..71311021.02 rows=321204 width=54)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=71253718.09..71272946.09 rows=160602 width=54)
+                           Group Key: customer_address.ca_county, date_dim.d_qoy, date_dim.d_year
+                           ->  Sort  (cost=71253718.09..71257162.18 rows=1377638 width=28)
+                                 Sort Key: customer_address.ca_county
+                                 ->  Parallel Hash Join  (cost=182924.14..71047315.96 rows=1377638 width=28)
+                                       Hash Cond: (store_sales.ss_addr_sk = customer_address.ca_address_sk)
+                                       ->  Parallel Hash Join  (cost=2106.23..70821990.12 rows=1442553 width=18)
+                                             Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=12)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=54 width=12)
+                                                         Filter: ((d_qoy = 1) AND (d_year = 2000))
+                                       ->  Parallel Hash  (cost=134919.52..134919.52 rows=2499952 width=18)
+                                             ->  Parallel Seq Scan on customer_address  (cost=0.00..134919.52 rows=2499952 width=18)
+         ->  Materialize  (cost=23820839.62..23875081.50 rows=160602 width=47)
+               ->  Finalize GroupAggregate  (cost=23820839.62..23873073.97 rows=160602 width=55)
+                     Group Key: customer_address_1.ca_county, date_dim_1.d_qoy, date_dim_1.d_year
+                     ->  Gather Merge  (cost=23820839.62..23864642.37 rows=321204 width=54)
+                           Workers Planned: 2
+                           ->  Partial GroupAggregate  (cost=23819839.60..23826567.43 rows=160602 width=54)
+                                 Group Key: customer_address_1.ca_county, date_dim_1.d_qoy, date_dim_1.d_year
+                                 ->  Sort  (cost=23819839.60..23820783.66 rows=377625 width=28)
+                                       Sort Key: customer_address_1.ca_county
+                                       ->  Parallel Hash Join  (cost=23589067.47..23775822.07 rows=377625 width=28)
+                                             Hash Cond: (customer_address_1.ca_address_sk = web_sales.ws_bill_addr_sk)
+                                             ->  Parallel Seq Scan on customer_address customer_address_1  (cost=0.00..134919.52 rows=2499952 width=18)
+                                             ->  Parallel Hash  (cost=23582131.43..23582131.43 rows=377763 width=18)
+                                                   ->  Parallel Hash Join  (cost=2106.23..23582131.43 rows=377763 width=18)
+                                                         Hash Cond: (web_sales.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                                         ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=12)
+                                                               ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=54 width=12)
+                                                                     Filter: ((d_qoy = 1) AND (d_year = 2000))
+   ->  Materialize  (cost=190144693.31..2099388911454.21 rows=27086379207956 width=248)
+         ->  Merge Join  (cost=190144693.31..2031672963434.32 rows=27086379207956 width=248)
+               Merge Cond: ((customer_address_2.ca_county)::text = (customer_address_4.ca_county)::text)
+               Join Filter: (CASE WHEN ((sum(web_sales_1.ws_ext_sales_price) > '0'::numeric)) THEN ((((sum(web_sales_2.ws_ext_sales_price) * 1.0000)) / (sum(web_sales_1.ws_ext_sales_price))))::numeric(19,4) ELSE NULL::numeric END > CASE WHEN ((sum(store_sales_1.ss_ext_sales_price) > '0'::numeric)) THEN (((sum(store_sales_2.ss_ext_sales_price) * 1.0000)) / (sum(store_sales_1.ss_ext_sales_price))) ELSE NULL::numeric END)
+               ->  Merge Join  (cost=95069135.58..97083368.44 rows=126017338 width=158)
+                     Merge Cond: ((customer_address_2.ca_county)::text = (customer_address_3.ca_county)::text)
+                     ->  Finalize GroupAggregate  (cost=71252045.02..71318427.56 rows=158756 width=87)
+                           Group Key: customer_address_2.ca_county, date_dim_2.d_qoy, date_dim_2.d_year
+                           ->  Gather Merge  (cost=71252045.02..71307711.53 rows=317512 width=54)
+                                 Workers Planned: 2
+                                 ->  Partial GroupAggregate  (cost=71251044.99..71270062.74 rows=158756 width=54)
+                                       Group Key: customer_address_2.ca_county, date_dim_2.d_qoy, date_dim_2.d_year
+                                       ->  Sort  (cost=71251044.99..71254451.65 rows=1362664 width=28)
+                                             Sort Key: customer_address_2.ca_county
+                                             ->  Parallel Hash Join  (cost=182924.14..71046991.17 rows=1362664 width=28)
+                                                   Hash Cond: (store_sales_1.ss_addr_sk = customer_address_2.ca_address_sk)
+                                                   ->  Parallel Hash Join  (cost=2106.23..70821990.12 rows=1426873 width=18)
+                                                         Hash Cond: (store_sales_1.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                                         ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=12)
+                                                               ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=54 width=12)
+                                                                     Filter: ((d_qoy = 2) AND (d_year = 2000))
+                                                   ->  Parallel Hash  (cost=134919.52..134919.52 rows=2499952 width=18)
+                                                         ->  Parallel Seq Scan on customer_address customer_address_2  (cost=0.00..134919.52 rows=2499952 width=18)
+                     ->  Materialize  (cost=23817090.56..23873093.25 rows=158756 width=79)
+                           ->  Finalize GroupAggregate  (cost=23817090.56..23871108.80 rows=158756 width=87)
+                                 Group Key: customer_address_3.ca_county, date_dim_3.d_qoy, date_dim_3.d_year
+                                 ->  Gather Merge  (cost=23817090.56..23860392.77 rows=317512 width=54)
+                                       Workers Planned: 2
+                                       ->  Partial GroupAggregate  (cost=23816090.54..23822743.99 rows=158756 width=54)
+                                             Group Key: customer_address_3.ca_county, date_dim_3.d_qoy, date_dim_3.d_year
+                                             ->  Sort  (cost=23816090.54..23817024.34 rows=373520 width=28)
+                                                   Sort Key: customer_address_3.ca_county
+                                                   ->  Parallel Hash Join  (cost=23588992.16..23772580.72 rows=373520 width=28)
+                                                         Hash Cond: (customer_address_3.ca_address_sk = web_sales_1.ws_bill_addr_sk)
+                                                         ->  Parallel Seq Scan on customer_address customer_address_3  (cost=0.00..134919.52 rows=2499952 width=18)
+                                                         ->  Parallel Hash  (cost=23582131.43..23582131.43 rows=373658 width=18)
+                                                               ->  Parallel Hash Join  (cost=2106.23..23582131.43 rows=373658 width=18)
+                                                                     Hash Cond: (web_sales_1.ws_sold_date_sk = date_dim_3.d_date_sk)
+                                                                     ->  Parallel Seq Scan on web_sales web_sales_1  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=12)
+                                                                           ->  Parallel Seq Scan on date_dim date_dim_3  (cost=0.00..2105.55 rows=54 width=12)
+                                                                                 Filter: ((d_qoy = 2) AND (d_year = 2000))
+               ->  Materialize  (cost=95075557.73..97449012.81 rows=128965012 width=92)
+                     ->  Merge Join  (cost=95075557.73..97126600.28 rows=128965012 width=92)
+                           Merge Cond: ((customer_address_4.ca_county)::text = (customer_address_5.ca_county)::text)
+                           ->  Finalize GroupAggregate  (cost=71254718.11..71317445.10 rows=160602 width=54)
+                                 Group Key: customer_address_4.ca_county, date_dim_4.d_qoy, date_dim_4.d_year
+                                 ->  Gather Merge  (cost=71254718.11..71311021.02 rows=321204 width=54)
+                                       Workers Planned: 2
+                                       ->  Partial GroupAggregate  (cost=71253718.09..71272946.09 rows=160602 width=54)
+                                             Group Key: customer_address_4.ca_county, date_dim_4.d_qoy, date_dim_4.d_year
+                                             ->  Sort  (cost=71253718.09..71257162.18 rows=1377638 width=28)
+                                                   Sort Key: customer_address_4.ca_county
+                                                   ->  Parallel Hash Join  (cost=182924.14..71047315.96 rows=1377638 width=28)
+                                                         Hash Cond: (store_sales_2.ss_addr_sk = customer_address_4.ca_address_sk)
+                                                         ->  Parallel Hash Join  (cost=2106.23..70821990.12 rows=1442553 width=18)
+                                                               Hash Cond: (store_sales_2.ss_sold_date_sk = date_dim_4.d_date_sk)
+                                                               ->  Parallel Seq Scan on store_sales store_sales_2  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                               ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=12)
+                                                                     ->  Parallel Seq Scan on date_dim date_dim_4  (cost=0.00..2105.55 rows=54 width=12)
+                                                                           Filter: ((d_qoy = 3) AND (d_year = 2000))
+                                                         ->  Parallel Hash  (cost=134919.52..134919.52 rows=2499952 width=18)
+                                                               ->  Parallel Seq Scan on customer_address customer_address_4  (cost=0.00..134919.52 rows=2499952 width=18)
+                           ->  Materialize  (cost=23820839.62..23873073.97 rows=160602 width=46)
+                                 ->  Finalize GroupAggregate  (cost=23820839.62..23871066.45 rows=160602 width=54)
+                                       Group Key: customer_address_5.ca_county, date_dim_5.d_qoy, date_dim_5.d_year
+                                       ->  Gather Merge  (cost=23820839.62..23864642.37 rows=321204 width=54)
+                                             Workers Planned: 2
+                                             ->  Partial GroupAggregate  (cost=23819839.60..23826567.43 rows=160602 width=54)
+                                                   Group Key: customer_address_5.ca_county, date_dim_5.d_qoy, date_dim_5.d_year
+                                                   ->  Sort  (cost=23819839.60..23820783.66 rows=377625 width=28)
+                                                         Sort Key: customer_address_5.ca_county
+                                                         ->  Parallel Hash Join  (cost=23589067.47..23775822.07 rows=377625 width=28)
+                                                               Hash Cond: (customer_address_5.ca_address_sk = web_sales_2.ws_bill_addr_sk)
+                                                               ->  Parallel Seq Scan on customer_address customer_address_5  (cost=0.00..134919.52 rows=2499952 width=18)
+                                                               ->  Parallel Hash  (cost=23582131.43..23582131.43 rows=377763 width=18)
+                                                                     ->  Parallel Hash Join  (cost=2106.23..23582131.43 rows=377763 width=18)
+                                                                           Hash Cond: (web_sales_2.ws_sold_date_sk = date_dim_5.d_date_sk)
+                                                                           ->  Parallel Seq Scan on web_sales web_sales_2  (cost=0.00..22452814.20 rows=299998320 width=14)
+                                                                           ->  Parallel Hash  (cost=2105.55..2105.55 rows=54 width=12)
+                                                                                 ->  Parallel Seq Scan on date_dim date_dim_5  (cost=0.00..2105.55 rows=54 width=12)
+                                                                                       Filter: ((d_qoy = 3) AND (d_year = 2000))
+ JIT:
+   Functions: 203
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(128 rows)
+

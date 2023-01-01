@@ -1,0 +1,1714 @@
+-Dexec.args="single duck 66 1.48 0.0"
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36morg.arachne:arachne[0;1m >-------------------------[m
+[[1;34mINFO[m] [1mBuilding arachne 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.0.0:java[m [1m(default-cli)[m @ [36marachne[0;1m ---[m
+GCP
+66 1.48 0.0 GCP
+select
+         w_warehouse_name
+  ,w_warehouse_sq_ft
+  ,w_city
+  ,w_county
+  ,w_state
+  ,w_country
+        ,ship_carriers
+        ,year_
+  ,sum(jan_sales) as jan_sales
+  ,sum(feb_sales) as feb_sales
+  ,sum(mar_sales) as mar_sales
+  ,sum(apr_sales) as apr_sales
+  ,sum(may_sales) as may_sales
+  ,sum(jun_sales) as jun_sales
+  ,sum(jul_sales) as jul_sales
+  ,sum(aug_sales) as aug_sales
+  ,sum(sep_sales) as sep_sales
+  ,sum(oct_sales) as oct_sales
+  ,sum(nov_sales) as nov_sales
+  ,sum(dec_sales) as dec_sales
+  ,sum(jan_sales/w_warehouse_sq_ft) as jan_sales_per_sq_foot
+  ,sum(feb_sales/w_warehouse_sq_ft) as feb_sales_per_sq_foot
+  ,sum(mar_sales/w_warehouse_sq_ft) as mar_sales_per_sq_foot
+  ,sum(apr_sales/w_warehouse_sq_ft) as apr_sales_per_sq_foot
+  ,sum(may_sales/w_warehouse_sq_ft) as may_sales_per_sq_foot
+  ,sum(jun_sales/w_warehouse_sq_ft) as jun_sales_per_sq_foot
+  ,sum(jul_sales/w_warehouse_sq_ft) as jul_sales_per_sq_foot
+  ,sum(aug_sales/w_warehouse_sq_ft) as aug_sales_per_sq_foot
+  ,sum(sep_sales/w_warehouse_sq_ft) as sep_sales_per_sq_foot
+  ,sum(oct_sales/w_warehouse_sq_ft) as oct_sales_per_sq_foot
+  ,sum(nov_sales/w_warehouse_sq_ft) as nov_sales_per_sq_foot
+  ,sum(dec_sales/w_warehouse_sq_ft) as dec_sales_per_sq_foot
+  ,sum(jan_net) as jan_net
+  ,sum(feb_net) as feb_net
+  ,sum(mar_net) as mar_net
+  ,sum(apr_net) as apr_net
+  ,sum(may_net) as may_net
+  ,sum(jun_net) as jun_net
+  ,sum(jul_net) as jul_net
+  ,sum(aug_net) as aug_net
+  ,sum(sep_net) as sep_net
+  ,sum(oct_net) as oct_net
+  ,sum(nov_net) as nov_net
+  ,sum(dec_net) as dec_net
+ from (
+     select
+  w_warehouse_name
+  ,w_warehouse_sq_ft
+  ,w_city
+  ,w_county
+  ,w_state
+  ,w_country
+  ,'DHL,BARIAN' as ship_carriers
+       ,d_year as year_
+  ,sum(case when d_moy = 1
+    then ws_ext_sales_price* ws_quantity else 0 end) as jan_sales
+  ,sum(case when d_moy = 2
+    then ws_ext_sales_price* ws_quantity else 0 end) as feb_sales
+  ,sum(case when d_moy = 3
+    then ws_ext_sales_price* ws_quantity else 0 end) as mar_sales
+  ,sum(case when d_moy = 4
+    then ws_ext_sales_price* ws_quantity else 0 end) as apr_sales
+  ,sum(case when d_moy = 5
+    then ws_ext_sales_price* ws_quantity else 0 end) as may_sales
+  ,sum(case when d_moy = 6
+    then ws_ext_sales_price* ws_quantity else 0 end) as jun_sales
+  ,sum(case when d_moy = 7
+    then ws_ext_sales_price* ws_quantity else 0 end) as jul_sales
+  ,sum(case when d_moy = 8
+    then ws_ext_sales_price* ws_quantity else 0 end) as aug_sales
+  ,sum(case when d_moy = 9
+    then ws_ext_sales_price* ws_quantity else 0 end) as sep_sales
+  ,sum(case when d_moy = 10
+    then ws_ext_sales_price* ws_quantity else 0 end) as oct_sales
+  ,sum(case when d_moy = 11
+    then ws_ext_sales_price* ws_quantity else 0 end) as nov_sales
+  ,sum(case when d_moy = 12
+    then ws_ext_sales_price* ws_quantity else 0 end) as dec_sales
+  ,sum(case when d_moy = 1
+    then ws_net_paid * ws_quantity else 0 end) as jan_net
+  ,sum(case when d_moy = 2
+    then ws_net_paid * ws_quantity else 0 end) as feb_net
+  ,sum(case when d_moy = 3
+    then ws_net_paid * ws_quantity else 0 end) as mar_net
+  ,sum(case when d_moy = 4
+    then ws_net_paid * ws_quantity else 0 end) as apr_net
+  ,sum(case when d_moy = 5
+    then ws_net_paid * ws_quantity else 0 end) as may_net
+  ,sum(case when d_moy = 6
+    then ws_net_paid * ws_quantity else 0 end) as jun_net
+  ,sum(case when d_moy = 7
+    then ws_net_paid * ws_quantity else 0 end) as jul_net
+  ,sum(case when d_moy = 8
+    then ws_net_paid * ws_quantity else 0 end) as aug_net
+  ,sum(case when d_moy = 9
+    then ws_net_paid * ws_quantity else 0 end) as sep_net
+  ,sum(case when d_moy = 10
+    then ws_net_paid * ws_quantity else 0 end) as oct_net
+  ,sum(case when d_moy = 11
+    then ws_net_paid * ws_quantity else 0 end) as nov_net
+  ,sum(case when d_moy = 12
+    then ws_net_paid * ws_quantity else 0 end) as dec_net
+     from
+          '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales
+         ,'/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse
+         ,'/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+         ,'/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+    ,'/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+     where
+            ws_warehouse_sk =  w_warehouse_sk
+        and ws_sold_date_sk = d_date_sk
+        and ws_sold_time_sk = t_time_sk
+  and ws_ship_mode_sk = sm_ship_mode_sk
+        and d_year = 2001
+  and t_time between 30838 and 30838+28800
+  and sm_carrier in ('DHL','BARIAN')
+     group by
+        w_warehouse_name
+  ,w_warehouse_sq_ft
+  ,w_city
+  ,w_county
+  ,w_state
+  ,w_country
+       ,d_year
+ union all
+     select
+  w_warehouse_name
+  ,w_warehouse_sq_ft
+  ,w_city
+  ,w_county
+  ,w_state
+  ,w_country
+  ,'DHL,BARIAN' as ship_carriers
+       ,d_year as year_
+  ,sum(case when d_moy = 1
+    then cs_sales_price* cs_quantity else 0 end) as jan_sales
+  ,sum(case when d_moy = 2
+    then cs_sales_price* cs_quantity else 0 end) as feb_sales
+  ,sum(case when d_moy = 3
+    then cs_sales_price* cs_quantity else 0 end) as mar_sales
+  ,sum(case when d_moy = 4
+    then cs_sales_price* cs_quantity else 0 end) as apr_sales
+  ,sum(case when d_moy = 5
+    then cs_sales_price* cs_quantity else 0 end) as may_sales
+  ,sum(case when d_moy = 6
+    then cs_sales_price* cs_quantity else 0 end) as jun_sales
+  ,sum(case when d_moy = 7
+    then cs_sales_price* cs_quantity else 0 end) as jul_sales
+  ,sum(case when d_moy = 8
+    then cs_sales_price* cs_quantity else 0 end) as aug_sales
+  ,sum(case when d_moy = 9
+    then cs_sales_price* cs_quantity else 0 end) as sep_sales
+  ,sum(case when d_moy = 10
+    then cs_sales_price* cs_quantity else 0 end) as oct_sales
+  ,sum(case when d_moy = 11
+    then cs_sales_price* cs_quantity else 0 end) as nov_sales
+  ,sum(case when d_moy = 12
+    then cs_sales_price* cs_quantity else 0 end) as dec_sales
+  ,sum(case when d_moy = 1
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as jan_net
+  ,sum(case when d_moy = 2
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as feb_net
+  ,sum(case when d_moy = 3
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as mar_net
+  ,sum(case when d_moy = 4
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as apr_net
+  ,sum(case when d_moy = 5
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as may_net
+  ,sum(case when d_moy = 6
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as jun_net
+  ,sum(case when d_moy = 7
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as jul_net
+  ,sum(case when d_moy = 8
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as aug_net
+  ,sum(case when d_moy = 9
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as sep_net
+  ,sum(case when d_moy = 10
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as oct_net
+  ,sum(case when d_moy = 11
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as nov_net
+  ,sum(case when d_moy = 12
+    then cs_net_paid_inc_tax * cs_quantity else 0 end) as dec_net
+     from
+          '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales
+         ,'/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse
+         ,'/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+         ,'/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+   ,'/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+     where
+            cs_warehouse_sk =  w_warehouse_sk
+        and cs_sold_date_sk = d_date_sk
+        and cs_sold_time_sk = t_time_sk
+  and cs_ship_mode_sk = sm_ship_mode_sk
+        and d_year = 2001
+  and t_time between 30838 AND 30838+28800
+  and sm_carrier in ('DHL','BARIAN')
+     group by
+        w_warehouse_name
+  ,w_warehouse_sq_ft
+  ,w_city
+  ,w_county
+  ,w_state
+  ,w_country
+       ,d_year
+ ) x
+ group by
+        w_warehouse_name
+  ,w_warehouse_sq_ft
+  ,w_city
+  ,w_county
+  ,w_state
+  ,w_country
+  ,ship_carriers
+       ,year_
+ order by w_warehouse_name NULLS FIRST
+LIMIT 100;
+
+BASE:
+479:ProfileSort(sort0=[$0], dir0=[ASC-nulls-first], fetch=[100]): rowcount = 100.0, cumulative cost = {100.0 rows, 2.76629105183747E10 cpu, 0.0 io, 0.0 money}
+  527:ProfileAggregate(group=[{0, 1, 2, 3, 4, 5, 6, 7}], jan_sales=[SUM($8)], feb_sales=[SUM($9)], mar_sales=[SUM($10)], apr_sales=[SUM($11)], may_sales=[SUM($12)], jun_sales=[SUM($13)], jul_sales=[SUM($14)], aug_sales=[SUM($15)], sep_sales=[SUM($16)], oct_sales=[SUM($17)], nov_sales=[SUM($18)], dec_sales=[SUM($19)], jan_sales_per_sq_foot=[SUM($20)], feb_sales_per_sq_foot=[SUM($21)], mar_sales_per_sq_foot=[SUM($22)], apr_sales_per_sq_foot=[SUM($23)], may_sales_per_sq_foot=[SUM($24)], jun_sales_per_sq_foot=[SUM($25)], jul_sales_per_sq_foot=[SUM($26)], aug_sales_per_sq_foot=[SUM($27)], sep_sales_per_sq_foot=[SUM($28)], oct_sales_per_sq_foot=[SUM($29)], nov_sales_per_sq_foot=[SUM($30)], dec_sales_per_sq_foot=[SUM($31)], jan_net=[SUM($32)], feb_net=[SUM($33)], mar_net=[SUM($34)], apr_net=[SUM($35)], may_net=[SUM($36)], jun_net=[SUM($37)], jul_net=[SUM($38)], aug_net=[SUM($39)], sep_net=[SUM($40)], oct_net=[SUM($41)], nov_net=[SUM($42)], dec_net=[SUM($43)]): rowcount = 3.195172710508924E7, cumulative cost = {1.9011255688018215E8 rows, 0.0 cpu, 0.0 io, 0.0 money}
+    574:ProfileProject(w_warehouse_name=[$0], w_warehouse_sq_ft=[$1], w_city=[$2], w_county=[$3], w_state=[$4], w_country=[$5], ship_carriers=[$6], year_=[$7], jan_sales=[$8], feb_sales=[$9], mar_sales=[$10], apr_sales=[$11], may_sales=[$12], jun_sales=[$13], jul_sales=[$14], aug_sales=[$15], sep_sales=[$16], oct_sales=[$17], nov_sales=[$18], dec_sales=[$19], $f20=[/($8, $1)], $f21=[/($9, $1)], $f22=[/($10, $1)], $f23=[/($11, $1)], $f24=[/($12, $1)], $f25=[/($13, $1)], $f26=[/($14, $1)], $f27=[/($15, $1)], $f28=[/($16, $1)], $f29=[/($17, $1)], $f30=[/($18, $1)], $f31=[/($19, $1)], jan_net=[$20], feb_net=[$21], mar_net=[$22], apr_net=[$23], may_net=[$24], jun_net=[$25], jul_net=[$26], aug_net=[$27], sep_net=[$28], oct_net=[$29], nov_net=[$30], dec_net=[$31]): rowcount = 3.195172710508924E8, cumulative cost = {3.195172710508924E8 rows, 1.4058759926239265E10 cpu, 0.0 io, 0.0 money}
+      575:ProfileUnion(all=[true]): rowcount = 3.195172710508924E8, cumulative cost = {3.195172710508924E8 rows, 3.195172710508924E8 cpu, 0.0 io, 0.0 money}
+        644:ProfileProject(w_warehouse_name=[$0], w_warehouse_sq_ft=[$1], w_city=[$2], w_county=[$3], w_state=[$4], w_country=[$5], ship_carriers=['DHL,BARIAN'], year_=[$6], jan_sales=[$7], feb_sales=[$8], mar_sales=[$9], apr_sales=[$10], may_sales=[$11], jun_sales=[$12], jul_sales=[$13], aug_sales=[$14], sep_sales=[$15], oct_sales=[$16], nov_sales=[$17], dec_sales=[$18], jan_net=[$19], feb_net=[$20], mar_net=[$21], apr_net=[$22], may_net=[$23], jun_net=[$24], jul_net=[$25], aug_net=[$26], sep_net=[$27], oct_net=[$28], nov_net=[$29], dec_net=[$30]): rowcount = 3.6981056249999993, cumulative cost = {3.6981056249999993 rows, 118.33937999999998 cpu, 0.0 io, 0.0 money}
+          666:ProfileAggregate(group=[{0, 1, 2, 3, 4, 5, 6}], jan_sales=[SUM($7)], feb_sales=[SUM($8)], mar_sales=[SUM($9)], apr_sales=[SUM($10)], may_sales=[SUM($11)], jun_sales=[SUM($12)], jul_sales=[SUM($13)], aug_sales=[SUM($14)], sep_sales=[SUM($15)], oct_sales=[SUM($16)], nov_sales=[SUM($17)], dec_sales=[SUM($18)], jan_net=[SUM($19)], feb_net=[SUM($20)], mar_net=[SUM($21)], apr_net=[SUM($22)], may_net=[SUM($23)], jun_net=[SUM($24)], jul_net=[SUM($25)], aug_net=[SUM($26)], sep_net=[SUM($27)], oct_net=[SUM($28)], nov_net=[SUM($29)], dec_net=[SUM($30)]): rowcount = 3.6981056249999993, cumulative cost = {15.901837258915899 rows, 0.0 cpu, 0.0 io, 0.0 money}
+            687:ProfileProject(w_warehouse_name=[$1], w_warehouse_sq_ft=[$2], w_city=[$3], w_county=[$4], w_state=[$5], w_country=[$6], year_=[$7], $f7=[$8], $f8=[$9], $f9=[$10], $f10=[$11], $f11=[$12], $f12=[$13], $f13=[$14], $f14=[$15], $f15=[$16], $f16=[$17], $f17=[$18], $f18=[$19], $f19=[$20], $f20=[$21], $f21=[$22], $f22=[$23], $f23=[$24], $f24=[$25], $f25=[$26], $f26=[$27], $f27=[$28], $f28=[$29], $f29=[$30], $f30=[$31]): rowcount = 36.981056249999995, cumulative cost = {36.981056249999995 rows, 1146.41274375 cpu, 0.0 io, 0.0 money}
+              708:ProfileJoin(condition=[=($0, $32)], joinType=[inner]): rowcount = 36.981056249999995, cumulative cost = {36.981056249999995 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                724:ProfileProject(ws_ship_mode_sk=[$0], w_warehouse_name=[$1], w_warehouse_sq_ft=[$2], w_city=[$3], w_county=[$4], w_state=[$5], w_country=[$6], d_year=[$7], CASE=[CASE($8, $9, 0:DECIMAL(19, 0))], CASE9=[CASE($10, $9, 0:DECIMAL(19, 0))], CASE10=[CASE($11, $9, 0:DECIMAL(19, 0))], CASE11=[CASE($12, $9, 0:DECIMAL(19, 0))], CASE12=[CASE($13, $9, 0:DECIMAL(19, 0))], CASE13=[CASE($14, $9, 0:DECIMAL(19, 0))], CASE14=[CASE($15, $9, 0:DECIMAL(19, 0))], CASE15=[CASE($16, $9, 0:DECIMAL(19, 0))], CASE16=[CASE($17, $9, 0:DECIMAL(19, 0))], CASE17=[CASE($18, $9, 0:DECIMAL(19, 0))], CASE18=[CASE($19, $9, 0:DECIMAL(19, 0))], CASE19=[CASE($20, $9, 0:DECIMAL(19, 0))], CASE20=[CASE($8, $21, 0:DECIMAL(19, 0))], CASE21=[CASE($10, $21, 0:DECIMAL(19, 0))], CASE22=[CASE($11, $21, 0:DECIMAL(19, 0))], CASE23=[CASE($12, $21, 0:DECIMAL(19, 0))], CASE24=[CASE($13, $21, 0:DECIMAL(19, 0))], CASE25=[CASE($14, $21, 0:DECIMAL(19, 0))], CASE26=[CASE($15, $21, 0:DECIMAL(19, 0))], CASE27=[CASE($16, $21, 0:DECIMAL(19, 0))], CASE28=[CASE($17, $21, 0:DECIMAL(19, 0))], CASE29=[CASE($18, $21, 0:DECIMAL(19, 0))], CASE30=[CASE($19, $21, 0:DECIMAL(19, 0))], CASE31=[CASE($20, $21, 0:DECIMAL(19, 0))]): rowcount = 246.54037499999998, cumulative cost = {246.54037499999998 rows, 7889.2919999999995 cpu, 0.0 io, 0.0 money}
+                  739:ProfileProject(ws_ship_mode_sk=[$1], w_warehouse_name=[$2], w_warehouse_sq_ft=[$3], w_city=[$4], w_county=[$5], w_state=[$6], w_country=[$7], d_year=[$8], ==[$9], *=[$10], =10=[$11], =11=[$12], =12=[$13], =13=[$14], =14=[$15], =15=[$16], =16=[$17], =17=[$18], =18=[$19], =19=[$20], =20=[$21], *21=[$22]): rowcount = 246.54037499999998, cumulative cost = {246.54037499999998 rows, 5423.88825 cpu, 0.0 io, 0.0 money}
+                    754:ProfileJoin(condition=[=($0, $23)], joinType=[inner]): rowcount = 246.54037499999998, cumulative cost = {246.54037499999998 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                      764:ProfileProject(ws_sold_time_sk=[$1], ws_ship_mode_sk=[$2], w_warehouse_name=[$3], w_warehouse_sq_ft=[$4], w_city=[$5], w_county=[$6], w_state=[$7], w_country=[$8], d_year=[$12], ==[$13], *=[$9], =11=[$14], =12=[$15], =13=[$16], =14=[$17], =15=[$18], =16=[$19], =17=[$20], =18=[$21], =19=[$22], =20=[$23], =21=[$24], *22=[$10]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 37802.8575 cpu, 0.0 io, 0.0 money}
+                        774:ProfileJoin(condition=[=($0, $11)], joinType=[inner]): rowcount = 1643.6025, cumulative cost = {1643.6025 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                          779:ProfileProject(ws_sold_date_sk=[$0], ws_sold_time_sk=[$1], ws_ship_mode_sk=[$2], w_warehouse_name=[$7], w_warehouse_sq_ft=[$8], w_city=[$9], w_county=[$10], w_state=[$11], w_country=[$12], *=[$4], *10=[$5]): rowcount = 1.0, cumulative cost = {1.0 rows, 11.0 cpu, 0.0 io, 0.0 money}
+                            784:ProfileJoin(condition=[=($3, $6)], joinType=[inner]): rowcount = 1.0, cumulative cost = {1.0 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                              786:ProfileProject(ws_sold_date_sk=[$0], ws_sold_time_sk=[$1], ws_ship_mode_sk=[$14], ws_warehouse_sk=[$15], *=[*($23, $18)], *5=[*($29, $18)]): rowcount = 1.0, cumulative cost = {1.0 rows, 6.0 cpu, 0.0 io, 0.0 money}
+                                787:ProfileTableScan(table=[[tpcds, web_sales]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                              789:ProfileProject(w_warehouse_sk=[$0], w_warehouse_name=[$2], w_warehouse_sq_ft=[$3], w_city=[$8], w_county=[$9], w_state=[$10], w_country=[$12]): rowcount = 1.0, cumulative cost = {1.0 rows, 7.0 cpu, 0.0 io, 0.0 money}
+                                790:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                          794:ProfileProject(d_date_sk=[$0], d_year=[$1], ==[=($2, 1)], =3=[=($2, 2)], =4=[=($2, 3)], =5=[=($2, 4)], =6=[=($2, 5)], =7=[=($2, 6)], =8=[=($2, 7)], =9=[=($2, 8)], =10=[=($2, 9)], =11=[=($2, 10)], =12=[=($2, 11)], =13=[=($2, 12)]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 153402.9 cpu, 0.0 io, 0.0 money}
+                            797:ProfileProject(d_date_sk=[$0], d_year=[$6], d_moy=[$8]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 32872.05 cpu, 0.0 io, 0.0 money}
+                              799:ProfileFilter(condition=[=($6, 2001)]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                                800:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+                      804:ProfileProject(t_time_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                        807:ProfileProject(t_time_sk=[$0], t_time=[$2]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                          809:ProfileFilter(condition=[AND(>=($2, 30838), <=($2, +(30838, 28800)))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                            810:ProfileTableScan(table=[[tpcds, time_dim]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                814:ProfileProject(sm_ship_mode_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                  817:ProfileProject(sm_ship_mode_sk=[$0], sm_carrier=[$4]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                    819:ProfileFilter(condition=[SEARCH($4, Sarg['BARIAN', 'DHL':CHAR(6)]:CHAR(6))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                      820:ProfileTableScan(table=[[tpcds, ship_mode]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+        843:ProfileProject(w_warehouse_name=[$0], w_warehouse_sq_ft=[$1], w_city=[$2], w_county=[$3], w_state=[$4], w_country=[$5], ship_carriers=['DHL,BARIAN'], year_=[$6], jan_sales=[$7], feb_sales=[$8], mar_sales=[$9], apr_sales=[$10], may_sales=[$11], jun_sales=[$12], jul_sales=[$13], aug_sales=[$14], sep_sales=[$15], oct_sales=[$16], nov_sales=[$17], dec_sales=[$18], jan_net=[$19], feb_net=[$20], mar_net=[$21], apr_net=[$22], may_net=[$23], jun_net=[$24], jul_net=[$25], aug_net=[$26], sep_net=[$27], oct_net=[$28], nov_net=[$29], dec_net=[$30]): rowcount = 3.195172673527868E8, cumulative cost = {3.195172673527868E8 rows, 1.0224552555289177E10 cpu, 0.0 io, 0.0 money}
+          865:ProfileAggregate(group=[{0, 1, 2, 3, 4, 5, 6}], jan_sales=[SUM($7)], feb_sales=[SUM($8)], mar_sales=[SUM($9)], apr_sales=[SUM($10)], may_sales=[SUM($11)], jun_sales=[SUM($12)], jul_sales=[SUM($13)], aug_sales=[SUM($14)], sep_sales=[SUM($15)], oct_sales=[SUM($16)], nov_sales=[SUM($17)], dec_sales=[SUM($18)], jan_net=[SUM($19)], feb_net=[SUM($20)], mar_net=[SUM($21)], apr_net=[SUM($22)], may_net=[SUM($23)], jun_net=[SUM($24)], jul_net=[SUM($25)], aug_net=[SUM($26)], sep_net=[SUM($27)], oct_net=[SUM($28)], nov_net=[SUM($29)], dec_net=[SUM($30)]): rowcount = 3.195172673527868E8, cumulative cost = {1.373922786983008E9 rows, 0.0 cpu, 0.0 io, 0.0 money}
+            886:ProfileProject(w_warehouse_name=[$1], w_warehouse_sq_ft=[$2], w_city=[$3], w_county=[$4], w_state=[$5], w_country=[$6], year_=[$7], $f7=[$8], $f8=[$9], $f9=[$10], $f10=[$11], $f11=[$12], $f12=[$13], $f13=[$14], $f14=[$15], $f15=[$16], $f16=[$17], $f17=[$18], $f18=[$19], $f19=[$20], $f20=[$21], $f21=[$22], $f22=[$23], $f23=[$24], $f24=[$25], $f25=[$26], $f26=[$27], $f27=[$28], $f28=[$29], $f29=[$30], $f30=[$31]): rowcount = 3.195172673527868E9, cumulative cost = {3.195172673527868E9 rows, 9.90503528793639E10 cpu, 0.0 io, 0.0 money}
+              906:ProfileJoin(condition=[=($0, $32)], joinType=[inner]): rowcount = 3.195172673527868E9, cumulative cost = {3.195172673527868E9 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                922:ProfileProject(cs_ship_mode_sk=[$0], w_warehouse_name=[$1], w_warehouse_sq_ft=[$2], w_city=[$3], w_county=[$4], w_state=[$5], w_country=[$6], d_year=[$7], CASE=[CASE($8, $9, 0:DECIMAL(19, 0))], CASE9=[CASE($10, $9, 0:DECIMAL(19, 0))], CASE10=[CASE($11, $9, 0:DECIMAL(19, 0))], CASE11=[CASE($12, $9, 0:DECIMAL(19, 0))], CASE12=[CASE($13, $9, 0:DECIMAL(19, 0))], CASE13=[CASE($14, $9, 0:DECIMAL(19, 0))], CASE14=[CASE($15, $9, 0:DECIMAL(19, 0))], CASE15=[CASE($16, $9, 0:DECIMAL(19, 0))], CASE16=[CASE($17, $9, 0:DECIMAL(19, 0))], CASE17=[CASE($18, $9, 0:DECIMAL(19, 0))], CASE18=[CASE($19, $9, 0:DECIMAL(19, 0))], CASE19=[CASE($20, $9, 0:DECIMAL(19, 0))], CASE20=[CASE($8, $21, 0:DECIMAL(19, 0))], CASE21=[CASE($10, $21, 0:DECIMAL(19, 0))], CASE22=[CASE($11, $21, 0:DECIMAL(19, 0))], CASE23=[CASE($12, $21, 0:DECIMAL(19, 0))], CASE24=[CASE($13, $21, 0:DECIMAL(19, 0))], CASE25=[CASE($14, $21, 0:DECIMAL(19, 0))], CASE26=[CASE($15, $21, 0:DECIMAL(19, 0))], CASE27=[CASE($16, $21, 0:DECIMAL(19, 0))], CASE28=[CASE($17, $21, 0:DECIMAL(19, 0))], CASE29=[CASE($18, $21, 0:DECIMAL(19, 0))], CASE30=[CASE($19, $21, 0:DECIMAL(19, 0))], CASE31=[CASE($20, $21, 0:DECIMAL(19, 0))]): rowcount = 2.130115115685245E10, cumulative cost = {2.130115115685245E10 rows, 6.816368370192784E11 cpu, 0.0 io, 0.0 money}
+                  937:ProfileProject(cs_ship_mode_sk=[$1], w_warehouse_name=[$2], w_warehouse_sq_ft=[$3], w_city=[$4], w_county=[$5], w_state=[$6], w_country=[$7], d_year=[$8], ==[$9], *=[$10], =10=[$11], =11=[$12], =12=[$13], =13=[$14], =14=[$15], =15=[$16], =16=[$17], =17=[$18], =18=[$19], =19=[$20], =20=[$21], *21=[$22]): rowcount = 2.130115115685245E10, cumulative cost = {2.130115115685245E10 rows, 4.686253254507539E11 cpu, 0.0 io, 0.0 money}
+                    951:ProfileJoin(condition=[=($0, $23)], joinType=[inner]): rowcount = 2.130115115685245E10, cumulative cost = {2.130115115685245E10 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                      961:ProfileProject(cs_sold_time_sk=[$1], cs_ship_mode_sk=[$2], w_warehouse_name=[$3], w_warehouse_sq_ft=[$4], w_city=[$5], w_county=[$6], w_state=[$7], w_country=[$8], d_year=[$12], ==[$13], *=[$9], =11=[$14], =12=[$15], =13=[$16], =14=[$17], =15=[$18], =16=[$19], =17=[$20], =18=[$21], =19=[$22], =20=[$23], =21=[$24], *22=[$10]): rowcount = 1.4200767437901636E11, cumulative cost = {1.4200767437901636E11 rows, 3.266176510717376E12 cpu, 0.0 io, 0.0 money}
+                        970:ProfileJoin(condition=[=($0, $11)], joinType=[inner]): rowcount = 1.4200767437901636E11, cumulative cost = {1.4200767437901636E11 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                          975:ProfileProject(cs_sold_date_sk=[$0], cs_sold_time_sk=[$1], cs_ship_mode_sk=[$2], w_warehouse_name=[$7], w_warehouse_sq_ft=[$8], w_city=[$9], w_county=[$10], w_state=[$11], w_country=[$12], *=[$4], *10=[$5]): rowcount = 8.640025455E7, cumulative cost = {8.640025455E7 rows, 9.5040280005E8 cpu, 0.0 io, 0.0 money}
+                            979:ProfileJoin(condition=[=($3, $6)], joinType=[inner]): rowcount = 8.640025455E7, cumulative cost = {8.640025455E7 rows, 0.0 cpu, 0.0 io, 0.0 money}
+                              981:ProfileProject(cs_sold_date_sk=[$0], cs_sold_time_sk=[$1], cs_ship_mode_sk=[$13], cs_warehouse_sk=[$14], *=[*($21, $18)], *5=[*($30, $18)]): rowcount = 5.76001697E8, cumulative cost = {5.76001697E8 rows, 3.456010182E9 cpu, 0.0 io, 0.0 money}
+                                982:ProfileTableScan(table=[[tpcds, catalog_sales]]): rowcount = 5.76001697E8, cumulative cost = {5.76001697E8 rows, 5.76001698E8 cpu, 0.0 io, 0.0 money}
+                              789:ProfileProject(w_warehouse_sk=[$0], w_warehouse_name=[$2], w_warehouse_sq_ft=[$3], w_city=[$8], w_county=[$9], w_state=[$10], w_country=[$12]): rowcount = 1.0, cumulative cost = {1.0 rows, 7.0 cpu, 0.0 io, 0.0 money}
+                                790:ProfileTableScan(table=[[tpcds, warehouse]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                          794:ProfileProject(d_date_sk=[$0], d_year=[$1], ==[=($2, 1)], =3=[=($2, 2)], =4=[=($2, 3)], =5=[=($2, 4)], =6=[=($2, 5)], =7=[=($2, 6)], =8=[=($2, 7)], =9=[=($2, 8)], =10=[=($2, 9)], =11=[=($2, 10)], =12=[=($2, 11)], =13=[=($2, 12)]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 153402.9 cpu, 0.0 io, 0.0 money}
+                            797:ProfileProject(d_date_sk=[$0], d_year=[$6], d_moy=[$8]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 32872.05 cpu, 0.0 io, 0.0 money}
+                              799:ProfileFilter(condition=[=($6, 2001)]): rowcount = 10957.35, cumulative cost = {10957.35 rows, 73049.0 cpu, 0.0 io, 0.0 money}
+                                800:ProfileTableScan(table=[[tpcds, date_dim]]): rowcount = 73049.0, cumulative cost = {73049.0 rows, 73050.0 cpu, 0.0 io, 0.0 money}
+                      804:ProfileProject(t_time_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                        807:ProfileProject(t_time_sk=[$0], t_time=[$2]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                          809:ProfileFilter(condition=[AND(>=($2, 30838), <=($2, +(30838, 28800)))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                            810:ProfileTableScan(table=[[tpcds, time_dim]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                814:ProfileProject(sm_ship_mode_sk=[$0]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                  817:ProfileProject(sm_ship_mode_sk=[$0], sm_carrier=[$4]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+                    819:ProfileFilter(condition=[SEARCH($4, Sarg['BARIAN', 'DHL':CHAR(6)]:CHAR(6))]): rowcount = 1.0, cumulative cost = {1.0 rows, 1.0 cpu, 0.0 io, 0.0 money}
+                      820:ProfileTableScan(table=[[tpcds, ship_mode]]): rowcount = 1.0, cumulative cost = {1.0 rows, 2.0 cpu, 0.0 io, 0.0 money}
+
+trial 0
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: $f31
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+STARTING QRY: CREATE TABLE duck_table_66_0 AS SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_", "jan_sales", "feb_sales", "mar_sales", "apr_sales", "may_sales", "jun_sales", "jul_sales", "aug_sales", "sep_sales", "oct_sales", "nov_sales", "dec_sales", "jan_sales" / "w_warehouse_sq_ft" AS "$f20", "feb_sales" / "w_warehouse_sq_ft" AS "$f21", "mar_sales" / "w_warehouse_sq_ft" AS "$f22", "apr_sales" / "w_warehouse_sq_ft" AS "$f23", "may_sales" / "w_warehouse_sq_ft" AS "$f24", "jun_sales" / "w_warehouse_sq_ft" AS "$f25", "jul_sales" / "w_warehouse_sq_ft" AS "$f26", "aug_sales" / "w_warehouse_sq_ft" AS "$f27", "sep_sales" / "w_warehouse_sq_ft" AS "$f28", "oct_sales" / "w_warehouse_sq_ft" AS "$f29", "nov_sales" / "w_warehouse_sq_ft" AS "$f30", "dec_sales" / "w_warehouse_sq_ft" AS "$f31", "jan_net", "feb_net", "mar_net", "apr_net", "may_net", "jun_net", "jul_net", "aug_net", "sep_net", "oct_net", "nov_net", "dec_net"
+FROM (SELECT "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", 'DHL,BARIAN' AS "ship_carriers", "t10"."d_year" AS "year_", SUM("t10"."CASE") AS "jan_sales", SUM("t10"."CASE9") AS "feb_sales", SUM("t10"."CASE10") AS "mar_sales", SUM("t10"."CASE11") AS "apr_sales", SUM("t10"."CASE12") AS "may_sales", SUM("t10"."CASE13") AS "jun_sales", SUM("t10"."CASE14") AS "jul_sales", SUM("t10"."CASE15") AS "aug_sales", SUM("t10"."CASE16") AS "sep_sales", SUM("t10"."CASE17") AS "oct_sales", SUM("t10"."CASE18") AS "nov_sales", SUM("t10"."CASE19") AS "dec_sales", SUM("t10"."CASE20") AS "jan_net", SUM("t10"."CASE21") AS "feb_net", SUM("t10"."CASE22") AS "mar_net", SUM("t10"."CASE23") AS "apr_net", SUM("t10"."CASE24") AS "may_net", SUM("t10"."CASE25") AS "jun_net", SUM("t10"."CASE26") AS "jul_net", SUM("t10"."CASE27") AS "aug_net", SUM("t10"."CASE28") AS "sep_net", SUM("t10"."CASE29") AS "oct_net", SUM("t10"."CASE30") AS "nov_net", SUM("t10"."CASE31") AS "dec_net"
+FROM (SELECT "t5"."ws_ship_mode_sk", "t5"."w_warehouse_name", "t5"."w_warehouse_sq_ft", "t5"."w_city", "t5"."w_county", "t5"."w_state", "t5"."w_country", "t5"."d_year", CASE WHEN "t5"."=" THEN "t5"."*" ELSE 0 END AS "CASE", CASE WHEN "t5"."=11" THEN "t5"."*" ELSE 0 END AS "CASE9", CASE WHEN "t5"."=12" THEN "t5"."*" ELSE 0 END AS "CASE10", CASE WHEN "t5"."=13" THEN "t5"."*" ELSE 0 END AS "CASE11", CASE WHEN "t5"."=14" THEN "t5"."*" ELSE 0 END AS "CASE12", CASE WHEN "t5"."=15" THEN "t5"."*" ELSE 0 END AS "CASE13", CASE WHEN "t5"."=16" THEN "t5"."*" ELSE 0 END AS "CASE14", CASE WHEN "t5"."=17" THEN "t5"."*" ELSE 0 END AS "CASE15", CASE WHEN "t5"."=18" THEN "t5"."*" ELSE 0 END AS "CASE16", CASE WHEN "t5"."=19" THEN "t5"."*" ELSE 0 END AS "CASE17", CASE WHEN "t5"."=20" THEN "t5"."*" ELSE 0 END AS "CASE18", CASE WHEN "t5"."=21" THEN "t5"."*" ELSE 0 END AS "CASE19", CASE WHEN "t5"."=" THEN "t5"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t5"."=11" THEN "t5"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t5"."=12" THEN "t5"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t5"."=13" THEN "t5"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t5"."=14" THEN "t5"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t5"."=15" THEN "t5"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t5"."=16" THEN "t5"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t5"."=17" THEN "t5"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t5"."=18" THEN "t5"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t5"."=19" THEN "t5"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t5"."=20" THEN "t5"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t5"."=21" THEN "t5"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t1"."ws_sold_time_sk", "t1"."ws_ship_mode_sk", "t1"."w_warehouse_name", "t1"."w_warehouse_sq_ft", "t1"."w_city", "t1"."w_county", "t1"."w_state", "t1"."w_country", "t4"."d_year", "t4"."=", "t1"."*" AS "*", "t4"."=3" AS "=11", "t4"."=4" AS "=12", "t4"."=5" AS "=13", "t4"."=6" AS "=14", "t4"."=7" AS "=15", "t4"."=8" AS "=16", "t4"."=9" AS "=17", "t4"."=10" AS "=18", "t4"."=11" AS "=19", "t4"."=12" AS "=20", "t4"."=13" AS "=21", "t1"."*10" AS "*22"
+FROM (SELECT "t"."ws_sold_date_sk", "t"."ws_sold_time_sk", "t"."ws_ship_mode_sk", "t0"."w_warehouse_name", "t0"."w_warehouse_sq_ft", "t0"."w_city", "t0"."w_county", "t0"."w_state", "t0"."w_country", "t"."*" AS "*", "t"."*5" AS "*10"
+FROM (SELECT "ws_sold_date_sk", "ws_sold_time_sk", "ws_ship_mode_sk", "ws_warehouse_sk", "ws_ext_sales_price" * "ws_quantity" AS "*", "ws_net_paid" * "ws_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t0" ON "t"."ws_warehouse_sk" = "t0"."w_warehouse_sk") AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t4" ON "t1"."ws_sold_date_sk" = "t4"."d_date_sk") AS "t5"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t8" ON "t5"."ws_sold_time_sk" = "t8"."t_time_sk") AS "t10"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t13" ON "t10"."ws_ship_mode_sk" = "t13"."sm_ship_mode_sk"
+GROUP BY "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", "t10"."d_year"
+UNION ALL
+SELECT "t28"."w_warehouse_name", "t28"."w_warehouse_sq_ft", "t28"."w_city", "t28"."w_county", "t28"."w_state", "t28"."w_country", 'DHL,BARIAN' AS "ship_carriers", "t28"."d_year" AS "year_", SUM("t28"."CASE") AS "jan_sales", SUM("t28"."CASE9") AS "feb_sales", SUM("t28"."CASE10") AS "mar_sales", SUM("t28"."CASE11") AS "apr_sales", SUM("t28"."CASE12") AS "may_sales", SUM("t28"."CASE13") AS "jun_sales", SUM("t28"."CASE14") AS "jul_sales", SUM("t28"."CASE15") AS "aug_sales", SUM("t28"."CASE16") AS "sep_sales", SUM("t28"."CASE17") AS "oct_sales", SUM("t28"."CASE18") AS "nov_sales", SUM("t28"."CASE19") AS "dec_sales", SUM("t28"."CASE20") AS "jan_net", SUM("t28"."CASE21") AS "feb_net", SUM("t28"."CASE22") AS "mar_net", SUM("t28"."CASE23") AS "apr_net", SUM("t28"."CASE24") AS "may_net", SUM("t28"."CASE25") AS "jun_net", SUM("t28"."CASE26") AS "jul_net", SUM("t28"."CASE27") AS "aug_net", SUM("t28"."CASE28") AS "sep_net", SUM("t28"."CASE29") AS "oct_net", SUM("t28"."CASE30") AS "nov_net", SUM("t28"."CASE31") AS "dec_net"
+FROM (SELECT "t23"."cs_ship_mode_sk", "t23"."w_warehouse_name", "t23"."w_warehouse_sq_ft", "t23"."w_city", "t23"."w_county", "t23"."w_state", "t23"."w_country", "t23"."d_year", CASE WHEN "t23"."=" THEN "t23"."*" ELSE 0 END AS "CASE", CASE WHEN "t23"."=11" THEN "t23"."*" ELSE 0 END AS "CASE9", CASE WHEN "t23"."=12" THEN "t23"."*" ELSE 0 END AS "CASE10", CASE WHEN "t23"."=13" THEN "t23"."*" ELSE 0 END AS "CASE11", CASE WHEN "t23"."=14" THEN "t23"."*" ELSE 0 END AS "CASE12", CASE WHEN "t23"."=15" THEN "t23"."*" ELSE 0 END AS "CASE13", CASE WHEN "t23"."=16" THEN "t23"."*" ELSE 0 END AS "CASE14", CASE WHEN "t23"."=17" THEN "t23"."*" ELSE 0 END AS "CASE15", CASE WHEN "t23"."=18" THEN "t23"."*" ELSE 0 END AS "CASE16", CASE WHEN "t23"."=19" THEN "t23"."*" ELSE 0 END AS "CASE17", CASE WHEN "t23"."=20" THEN "t23"."*" ELSE 0 END AS "CASE18", CASE WHEN "t23"."=21" THEN "t23"."*" ELSE 0 END AS "CASE19", CASE WHEN "t23"."=" THEN "t23"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t23"."=11" THEN "t23"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t23"."=12" THEN "t23"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t23"."=13" THEN "t23"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t23"."=14" THEN "t23"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t23"."=15" THEN "t23"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t23"."=16" THEN "t23"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t23"."=17" THEN "t23"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t23"."=18" THEN "t23"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t23"."=19" THEN "t23"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t23"."=20" THEN "t23"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t23"."=21" THEN "t23"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t19"."cs_sold_time_sk", "t19"."cs_ship_mode_sk", "t19"."w_warehouse_name", "t19"."w_warehouse_sq_ft", "t19"."w_city", "t19"."w_county", "t19"."w_state", "t19"."w_country", "t22"."d_year", "t22"."=", "t19"."*" AS "*", "t22"."=3" AS "=11", "t22"."=4" AS "=12", "t22"."=5" AS "=13", "t22"."=6" AS "=14", "t22"."=7" AS "=15", "t22"."=8" AS "=16", "t22"."=9" AS "=17", "t22"."=10" AS "=18", "t22"."=11" AS "=19", "t22"."=12" AS "=20", "t22"."=13" AS "=21", "t19"."*10" AS "*22"
+FROM (SELECT "t17"."cs_sold_date_sk", "t17"."cs_sold_time_sk", "t17"."cs_ship_mode_sk", "t18"."w_warehouse_name", "t18"."w_warehouse_sq_ft", "t18"."w_city", "t18"."w_county", "t18"."w_state", "t18"."w_country", "t17"."*" AS "*", "t17"."*5" AS "*10"
+FROM (SELECT "cs_sold_date_sk", "cs_sold_time_sk", "cs_ship_mode_sk", "cs_warehouse_sk", "cs_sales_price" * "cs_quantity" AS "*", "cs_net_paid_inc_tax" * "cs_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales) AS "t17"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t18" ON "t17"."cs_warehouse_sk" = "t18"."w_warehouse_sk") AS "t19"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t22" ON "t19"."cs_sold_date_sk" = "t22"."d_date_sk") AS "t23"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t26" ON "t23"."cs_sold_time_sk" = "t26"."t_time_sk") AS "t28"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t31" ON "t28"."cs_ship_mode_sk" = "t31"."sm_ship_mode_sk"
+GROUP BY "t28"."w_warehouse_name", "t28"."w_warehouse_sq_ft", "t28"."w_city", "t28"."w_county", "t28"."w_state", "t28"."w_country", "t28"."d_year") AS "t35"
+
+1573.09350609
+40
+40
+finished query
+STARTING QRY: SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_", SUM("jan_sales") AS "jan_sales", SUM("feb_sales") AS "feb_sales", SUM("mar_sales") AS "mar_sales", SUM("apr_sales") AS "apr_sales", SUM("may_sales") AS "may_sales", SUM("jun_sales") AS "jun_sales", SUM("jul_sales") AS "jul_sales", SUM("aug_sales") AS "aug_sales", SUM("sep_sales") AS "sep_sales", SUM("oct_sales") AS "oct_sales", SUM("nov_sales") AS "nov_sales", SUM("dec_sales") AS "dec_sales", SUM("$f20") AS "jan_sales_per_sq_foot", SUM("$f21") AS "feb_sales_per_sq_foot", SUM("$f22") AS "mar_sales_per_sq_foot", SUM("$f23") AS "apr_sales_per_sq_foot", SUM("$f24") AS "may_sales_per_sq_foot", SUM("$f25") AS "jun_sales_per_sq_foot", SUM("$f26") AS "jul_sales_per_sq_foot", SUM("$f27") AS "aug_sales_per_sq_foot", SUM("$f28") AS "sep_sales_per_sq_foot", SUM("$f29") AS "oct_sales_per_sq_foot", SUM("$f30") AS "nov_sales_per_sq_foot", SUM("$f31") AS "dec_sales_per_sq_foot", SUM("jan_net") AS "jan_net", SUM("feb_net") AS "feb_net", SUM("mar_net") AS "mar_net", SUM("apr_net") AS "apr_net", SUM("may_net") AS "may_net", SUM("jun_net") AS "jun_net", SUM("jul_net") AS "jul_net", SUM("aug_net") AS "aug_net", SUM("sep_net") AS "sep_net", SUM("oct_net") AS "oct_net", SUM("nov_net") AS "nov_net", SUM("dec_net") AS "dec_net"
+FROM "duck_table_66_0"
+GROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_"
+ORDER BY "w_warehouse_name" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+0.005414869
+finished query
+FINISHED PROFILING FOR TRIAL 0
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1573.09350609 CARDINALITY: 40 COST: 0.6467162191703333
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.005414869 CARDINALITY: -1 COST: 2.226112811111111E-6
+2
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1573.09350609 CARDINALITY: 40 COST: 0.6467162191703333
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.005414869 CARDINALITY: -1 COST: 2.226112811111111E-6
+BEGUN PROCESSING
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: $f31
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 0.005414869 CARDINALITY: -1 COST: 2.226112811111111E-6
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1573.09350609 CARDINALITY: 40 COST: 0.6467162191703333
+rowSize: 288
+{"bqSize":0.01048576,"compressed":5.485714285714285E-6,"mvmtCost":0.0,"runtime":1573.09350609,"runCost":0.6467162191703333,"bqCost":5.24288E-5,"cutNoHybrid":1573.098920959}
+baseline runtime: 601.2637565135956 baselineBQ read size: 1.20552685568E11
+arachneCost: 0.6467686479703333, baselineCost2: 0.24718621101114485, baseline: 0.60276342784, cutNoHybrid: 0.6467184452831445
+FINISHED PROCESSING FOR TRIAL 0 plan not found. repeating...
+trial 1
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: $f31
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+STARTING QRY: CREATE TABLE duck_table_66_0 AS SELECT "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", "t10"."d_year" AS "year_", "t10"."CASE" AS "$f7", "t10"."CASE9" AS "$f8", "t10"."CASE10" AS "$f9", "t10"."CASE11" AS "$f10", "t10"."CASE12" AS "$f11", "t10"."CASE13" AS "$f12", "t10"."CASE14" AS "$f13", "t10"."CASE15" AS "$f14", "t10"."CASE16" AS "$f15", "t10"."CASE17" AS "$f16", "t10"."CASE18" AS "$f17", "t10"."CASE19" AS "$f18", "t10"."CASE20" AS "$f19", "t10"."CASE21" AS "$f20", "t10"."CASE22" AS "$f21", "t10"."CASE23" AS "$f22", "t10"."CASE24" AS "$f23", "t10"."CASE25" AS "$f24", "t10"."CASE26" AS "$f25", "t10"."CASE27" AS "$f26", "t10"."CASE28" AS "$f27", "t10"."CASE29" AS "$f28", "t10"."CASE30" AS "$f29", "t10"."CASE31" AS "$f30"
+FROM (SELECT "t5"."ws_ship_mode_sk", "t5"."w_warehouse_name", "t5"."w_warehouse_sq_ft", "t5"."w_city", "t5"."w_county", "t5"."w_state", "t5"."w_country", "t5"."d_year", CASE WHEN "t5"."=" THEN "t5"."*" ELSE 0 END AS "CASE", CASE WHEN "t5"."=11" THEN "t5"."*" ELSE 0 END AS "CASE9", CASE WHEN "t5"."=12" THEN "t5"."*" ELSE 0 END AS "CASE10", CASE WHEN "t5"."=13" THEN "t5"."*" ELSE 0 END AS "CASE11", CASE WHEN "t5"."=14" THEN "t5"."*" ELSE 0 END AS "CASE12", CASE WHEN "t5"."=15" THEN "t5"."*" ELSE 0 END AS "CASE13", CASE WHEN "t5"."=16" THEN "t5"."*" ELSE 0 END AS "CASE14", CASE WHEN "t5"."=17" THEN "t5"."*" ELSE 0 END AS "CASE15", CASE WHEN "t5"."=18" THEN "t5"."*" ELSE 0 END AS "CASE16", CASE WHEN "t5"."=19" THEN "t5"."*" ELSE 0 END AS "CASE17", CASE WHEN "t5"."=20" THEN "t5"."*" ELSE 0 END AS "CASE18", CASE WHEN "t5"."=21" THEN "t5"."*" ELSE 0 END AS "CASE19", CASE WHEN "t5"."=" THEN "t5"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t5"."=11" THEN "t5"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t5"."=12" THEN "t5"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t5"."=13" THEN "t5"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t5"."=14" THEN "t5"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t5"."=15" THEN "t5"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t5"."=16" THEN "t5"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t5"."=17" THEN "t5"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t5"."=18" THEN "t5"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t5"."=19" THEN "t5"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t5"."=20" THEN "t5"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t5"."=21" THEN "t5"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t1"."ws_sold_time_sk", "t1"."ws_ship_mode_sk", "t1"."w_warehouse_name", "t1"."w_warehouse_sq_ft", "t1"."w_city", "t1"."w_county", "t1"."w_state", "t1"."w_country", "t4"."d_year", "t4"."=", "t1"."*" AS "*", "t4"."=3" AS "=11", "t4"."=4" AS "=12", "t4"."=5" AS "=13", "t4"."=6" AS "=14", "t4"."=7" AS "=15", "t4"."=8" AS "=16", "t4"."=9" AS "=17", "t4"."=10" AS "=18", "t4"."=11" AS "=19", "t4"."=12" AS "=20", "t4"."=13" AS "=21", "t1"."*10" AS "*22"
+FROM (SELECT "t"."ws_sold_date_sk", "t"."ws_sold_time_sk", "t"."ws_ship_mode_sk", "t0"."w_warehouse_name", "t0"."w_warehouse_sq_ft", "t0"."w_city", "t0"."w_county", "t0"."w_state", "t0"."w_country", "t"."*" AS "*", "t"."*5" AS "*10"
+FROM (SELECT "ws_sold_date_sk", "ws_sold_time_sk", "ws_ship_mode_sk", "ws_warehouse_sk", "ws_ext_sales_price" * "ws_quantity" AS "*", "ws_net_paid" * "ws_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t0" ON "t"."ws_warehouse_sk" = "t0"."w_warehouse_sk") AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t4" ON "t1"."ws_sold_date_sk" = "t4"."d_date_sk") AS "t5"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t8" ON "t5"."ws_sold_time_sk" = "t8"."t_time_sk") AS "t10"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t13" ON "t10"."ws_ship_mode_sk" = "t13"."sm_ship_mode_sk"
+
+576.815319454
+5526097
+5526097
+finished query
+STARTING QRY: SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_", SUM("jan_sales") AS "jan_sales", SUM("feb_sales") AS "feb_sales", SUM("mar_sales") AS "mar_sales", SUM("apr_sales") AS "apr_sales", SUM("may_sales") AS "may_sales", SUM("jun_sales") AS "jun_sales", SUM("jul_sales") AS "jul_sales", SUM("aug_sales") AS "aug_sales", SUM("sep_sales") AS "sep_sales", SUM("oct_sales") AS "oct_sales", SUM("nov_sales") AS "nov_sales", SUM("dec_sales") AS "dec_sales", SUM("jan_sales" / "w_warehouse_sq_ft") AS "jan_sales_per_sq_foot", SUM("feb_sales" / "w_warehouse_sq_ft") AS "feb_sales_per_sq_foot", SUM("mar_sales" / "w_warehouse_sq_ft") AS "mar_sales_per_sq_foot", SUM("apr_sales" / "w_warehouse_sq_ft") AS "apr_sales_per_sq_foot", SUM("may_sales" / "w_warehouse_sq_ft") AS "may_sales_per_sq_foot", SUM("jun_sales" / "w_warehouse_sq_ft") AS "jun_sales_per_sq_foot", SUM("jul_sales" / "w_warehouse_sq_ft") AS "jul_sales_per_sq_foot", SUM("aug_sales" / "w_warehouse_sq_ft") AS "aug_sales_per_sq_foot", SUM("sep_sales" / "w_warehouse_sq_ft") AS "sep_sales_per_sq_foot", SUM("oct_sales" / "w_warehouse_sq_ft") AS "oct_sales_per_sq_foot", SUM("nov_sales" / "w_warehouse_sq_ft") AS "nov_sales_per_sq_foot", SUM("dec_sales" / "w_warehouse_sq_ft") AS "dec_sales_per_sq_foot", SUM("jan_net") AS "jan_net", SUM("feb_net") AS "feb_net", SUM("mar_net") AS "mar_net", SUM("apr_net") AS "apr_net", SUM("may_net") AS "may_net", SUM("jun_net") AS "jun_net", SUM("jul_net") AS "jul_net", SUM("aug_net") AS "aug_net", SUM("sep_net") AS "sep_net", SUM("oct_net") AS "oct_net", SUM("nov_net") AS "nov_net", SUM("dec_net") AS "dec_net"
+FROM (SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", 'DHL,BARIAN' AS "ship_carriers", "year_", SUM("$f7") AS "jan_sales", SUM("$f8") AS "feb_sales", SUM("$f9") AS "mar_sales", SUM("$f10") AS "apr_sales", SUM("$f11") AS "may_sales", SUM("$f12") AS "jun_sales", SUM("$f13") AS "jul_sales", SUM("$f14") AS "aug_sales", SUM("$f15") AS "sep_sales", SUM("$f16") AS "oct_sales", SUM("$f17") AS "nov_sales", SUM("$f18") AS "dec_sales", SUM("$f19") AS "jan_net", SUM("$f20") AS "feb_net", SUM("$f21") AS "mar_net", SUM("$f22") AS "apr_net", SUM("$f23") AS "may_net", SUM("$f24") AS "jun_net", SUM("$f25") AS "jul_net", SUM("$f26") AS "aug_net", SUM("$f27") AS "sep_net", SUM("$f28") AS "oct_net", SUM("$f29") AS "nov_net", SUM("$f30") AS "dec_net"
+FROM "duck_table_66_0"
+GROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "year_"
+UNION ALL
+SELECT "t12"."w_warehouse_name", "t12"."w_warehouse_sq_ft", "t12"."w_city", "t12"."w_county", "t12"."w_state", "t12"."w_country", 'DHL,BARIAN' AS "ship_carriers", "t12"."d_year" AS "year_", SUM("t12"."CASE") AS "jan_sales", SUM("t12"."CASE9") AS "feb_sales", SUM("t12"."CASE10") AS "mar_sales", SUM("t12"."CASE11") AS "apr_sales", SUM("t12"."CASE12") AS "may_sales", SUM("t12"."CASE13") AS "jun_sales", SUM("t12"."CASE14") AS "jul_sales", SUM("t12"."CASE15") AS "aug_sales", SUM("t12"."CASE16") AS "sep_sales", SUM("t12"."CASE17") AS "oct_sales", SUM("t12"."CASE18") AS "nov_sales", SUM("t12"."CASE19") AS "dec_sales", SUM("t12"."CASE20") AS "jan_net", SUM("t12"."CASE21") AS "feb_net", SUM("t12"."CASE22") AS "mar_net", SUM("t12"."CASE23") AS "apr_net", SUM("t12"."CASE24") AS "may_net", SUM("t12"."CASE25") AS "jun_net", SUM("t12"."CASE26") AS "jul_net", SUM("t12"."CASE27") AS "aug_net", SUM("t12"."CASE28") AS "sep_net", SUM("t12"."CASE29") AS "oct_net", SUM("t12"."CASE30") AS "nov_net", SUM("t12"."CASE31") AS "dec_net"
+FROM (SELECT "t7"."cs_ship_mode_sk", "t7"."w_warehouse_name", "t7"."w_warehouse_sq_ft", "t7"."w_city", "t7"."w_county", "t7"."w_state", "t7"."w_country", "t7"."d_year", CASE WHEN "t7"."=" THEN "t7"."*" ELSE 0 END AS "CASE", CASE WHEN "t7"."=11" THEN "t7"."*" ELSE 0 END AS "CASE9", CASE WHEN "t7"."=12" THEN "t7"."*" ELSE 0 END AS "CASE10", CASE WHEN "t7"."=13" THEN "t7"."*" ELSE 0 END AS "CASE11", CASE WHEN "t7"."=14" THEN "t7"."*" ELSE 0 END AS "CASE12", CASE WHEN "t7"."=15" THEN "t7"."*" ELSE 0 END AS "CASE13", CASE WHEN "t7"."=16" THEN "t7"."*" ELSE 0 END AS "CASE14", CASE WHEN "t7"."=17" THEN "t7"."*" ELSE 0 END AS "CASE15", CASE WHEN "t7"."=18" THEN "t7"."*" ELSE 0 END AS "CASE16", CASE WHEN "t7"."=19" THEN "t7"."*" ELSE 0 END AS "CASE17", CASE WHEN "t7"."=20" THEN "t7"."*" ELSE 0 END AS "CASE18", CASE WHEN "t7"."=21" THEN "t7"."*" ELSE 0 END AS "CASE19", CASE WHEN "t7"."=" THEN "t7"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t7"."=11" THEN "t7"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t7"."=12" THEN "t7"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t7"."=13" THEN "t7"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t7"."=14" THEN "t7"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t7"."=15" THEN "t7"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t7"."=16" THEN "t7"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t7"."=17" THEN "t7"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t7"."=18" THEN "t7"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t7"."=19" THEN "t7"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t7"."=20" THEN "t7"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t7"."=21" THEN "t7"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t3"."cs_sold_time_sk", "t3"."cs_ship_mode_sk", "t3"."w_warehouse_name", "t3"."w_warehouse_sq_ft", "t3"."w_city", "t3"."w_county", "t3"."w_state", "t3"."w_country", "t6"."d_year", "t6"."=", "t3"."*" AS "*", "t6"."=3" AS "=11", "t6"."=4" AS "=12", "t6"."=5" AS "=13", "t6"."=6" AS "=14", "t6"."=7" AS "=15", "t6"."=8" AS "=16", "t6"."=9" AS "=17", "t6"."=10" AS "=18", "t6"."=11" AS "=19", "t6"."=12" AS "=20", "t6"."=13" AS "=21", "t3"."*10" AS "*22"
+FROM (SELECT "t1"."cs_sold_date_sk", "t1"."cs_sold_time_sk", "t1"."cs_ship_mode_sk", "t2"."w_warehouse_name", "t2"."w_warehouse_sq_ft", "t2"."w_city", "t2"."w_county", "t2"."w_state", "t2"."w_country", "t1"."*" AS "*", "t1"."*5" AS "*10"
+FROM (SELECT "cs_sold_date_sk", "cs_sold_time_sk", "cs_ship_mode_sk", "cs_warehouse_sk", "cs_sales_price" * "cs_quantity" AS "*", "cs_net_paid_inc_tax" * "cs_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales) AS "t1"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t2" ON "t1"."cs_warehouse_sk" = "t2"."w_warehouse_sk") AS "t3"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t6" ON "t3"."cs_sold_date_sk" = "t6"."d_date_sk") AS "t7"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t10" ON "t7"."cs_sold_time_sk" = "t10"."t_time_sk") AS "t12"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t15" ON "t12"."cs_ship_mode_sk" = "t15"."sm_ship_mode_sk"
+GROUP BY "t12"."w_warehouse_name", "t12"."w_warehouse_sq_ft", "t12"."w_city", "t12"."w_county", "t12"."w_state", "t12"."w_country", "t12"."d_year") AS "t19"
+GROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_"
+ORDER BY "w_warehouse_name" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+1013.704390568
+finished query
+FINISHED PROFILING FOR TRIAL 1
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 576.815319454 CARDINALITY: 5526097 COST: 0.23713518688664445
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1013.704390568 CARDINALITY: -1 COST: 0.41674513834462223
+2
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 576.815319454 CARDINALITY: 5526097 COST: 0.23713518688664445
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1013.704390568 CARDINALITY: -1 COST: 0.41674513834462223
+BEGUN PROCESSING
+missing column name: d_month_seq
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1013.704390568 CARDINALITY: -1 COST: 0.41674513834462223
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 576.815319454 CARDINALITY: 5526097 COST: 0.23713518688664445
+rowSize: 236
+{"bqSize":197.15778621100003,"compressed":133.6244360438095,"mvmtCost":0.0,"runtime":576.815319454,"runCost":0.23713518688664445,"bqCost":0.9857889310550002,"cutNoHybrid":1590.519710022}
+baseline runtime: 601.2637565135956 baselineBQ read size: 1.20552685568E11
+arachneCost: 1.2229241179416446, baselineCost2: 0.24718621101114485, baseline: 0.60276342784, cutNoHybrid: 0.6538803252312666
+FINISHED PROCESSING FOR TRIAL 1 plan not found. repeating...
+trial 2
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: $f31
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+STARTING QRY: CREATE TABLE duck_table_66_0 AS SELECT "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", "t10"."d_year" AS "year_", "t10"."CASE" AS "$f7", "t10"."CASE9" AS "$f8", "t10"."CASE10" AS "$f9", "t10"."CASE11" AS "$f10", "t10"."CASE12" AS "$f11", "t10"."CASE13" AS "$f12", "t10"."CASE14" AS "$f13", "t10"."CASE15" AS "$f14", "t10"."CASE16" AS "$f15", "t10"."CASE17" AS "$f16", "t10"."CASE18" AS "$f17", "t10"."CASE19" AS "$f18", "t10"."CASE20" AS "$f19", "t10"."CASE21" AS "$f20", "t10"."CASE22" AS "$f21", "t10"."CASE23" AS "$f22", "t10"."CASE24" AS "$f23", "t10"."CASE25" AS "$f24", "t10"."CASE26" AS "$f25", "t10"."CASE27" AS "$f26", "t10"."CASE28" AS "$f27", "t10"."CASE29" AS "$f28", "t10"."CASE30" AS "$f29", "t10"."CASE31" AS "$f30"
+FROM (SELECT "t5"."cs_ship_mode_sk", "t5"."w_warehouse_name", "t5"."w_warehouse_sq_ft", "t5"."w_city", "t5"."w_county", "t5"."w_state", "t5"."w_country", "t5"."d_year", CASE WHEN "t5"."=" THEN "t5"."*" ELSE 0 END AS "CASE", CASE WHEN "t5"."=11" THEN "t5"."*" ELSE 0 END AS "CASE9", CASE WHEN "t5"."=12" THEN "t5"."*" ELSE 0 END AS "CASE10", CASE WHEN "t5"."=13" THEN "t5"."*" ELSE 0 END AS "CASE11", CASE WHEN "t5"."=14" THEN "t5"."*" ELSE 0 END AS "CASE12", CASE WHEN "t5"."=15" THEN "t5"."*" ELSE 0 END AS "CASE13", CASE WHEN "t5"."=16" THEN "t5"."*" ELSE 0 END AS "CASE14", CASE WHEN "t5"."=17" THEN "t5"."*" ELSE 0 END AS "CASE15", CASE WHEN "t5"."=18" THEN "t5"."*" ELSE 0 END AS "CASE16", CASE WHEN "t5"."=19" THEN "t5"."*" ELSE 0 END AS "CASE17", CASE WHEN "t5"."=20" THEN "t5"."*" ELSE 0 END AS "CASE18", CASE WHEN "t5"."=21" THEN "t5"."*" ELSE 0 END AS "CASE19", CASE WHEN "t5"."=" THEN "t5"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t5"."=11" THEN "t5"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t5"."=12" THEN "t5"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t5"."=13" THEN "t5"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t5"."=14" THEN "t5"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t5"."=15" THEN "t5"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t5"."=16" THEN "t5"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t5"."=17" THEN "t5"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t5"."=18" THEN "t5"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t5"."=19" THEN "t5"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t5"."=20" THEN "t5"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t5"."=21" THEN "t5"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t1"."cs_sold_time_sk", "t1"."cs_ship_mode_sk", "t1"."w_warehouse_name", "t1"."w_warehouse_sq_ft", "t1"."w_city", "t1"."w_county", "t1"."w_state", "t1"."w_country", "t4"."d_year", "t4"."=", "t1"."*" AS "*", "t4"."=3" AS "=11", "t4"."=4" AS "=12", "t4"."=5" AS "=13", "t4"."=6" AS "=14", "t4"."=7" AS "=15", "t4"."=8" AS "=16", "t4"."=9" AS "=17", "t4"."=10" AS "=18", "t4"."=11" AS "=19", "t4"."=12" AS "=20", "t4"."=13" AS "=21", "t1"."*10" AS "*22"
+FROM (SELECT "t"."cs_sold_date_sk", "t"."cs_sold_time_sk", "t"."cs_ship_mode_sk", "t0"."w_warehouse_name", "t0"."w_warehouse_sq_ft", "t0"."w_city", "t0"."w_county", "t0"."w_state", "t0"."w_country", "t"."*" AS "*", "t"."*5" AS "*10"
+FROM (SELECT "cs_sold_date_sk", "cs_sold_time_sk", "cs_ship_mode_sk", "cs_warehouse_sk", "cs_sales_price" * "cs_quantity" AS "*", "cs_net_paid_inc_tax" * "cs_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales) AS "t"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t0" ON "t"."cs_warehouse_sk" = "t0"."w_warehouse_sk") AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t4" ON "t1"."cs_sold_date_sk" = "t4"."d_date_sk") AS "t5"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t8" ON "t5"."cs_sold_time_sk" = "t8"."t_time_sk") AS "t10"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t13" ON "t10"."cs_ship_mode_sk" = "t13"."sm_ship_mode_sk"
+
+1071.382221714
+10943222
+10943222
+finished query
+STARTING QRY: SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_", SUM("jan_sales") AS "jan_sales", SUM("feb_sales") AS "feb_sales", SUM("mar_sales") AS "mar_sales", SUM("apr_sales") AS "apr_sales", SUM("may_sales") AS "may_sales", SUM("jun_sales") AS "jun_sales", SUM("jul_sales") AS "jul_sales", SUM("aug_sales") AS "aug_sales", SUM("sep_sales") AS "sep_sales", SUM("oct_sales") AS "oct_sales", SUM("nov_sales") AS "nov_sales", SUM("dec_sales") AS "dec_sales", SUM("jan_sales" / "w_warehouse_sq_ft") AS "jan_sales_per_sq_foot", SUM("feb_sales" / "w_warehouse_sq_ft") AS "feb_sales_per_sq_foot", SUM("mar_sales" / "w_warehouse_sq_ft") AS "mar_sales_per_sq_foot", SUM("apr_sales" / "w_warehouse_sq_ft") AS "apr_sales_per_sq_foot", SUM("may_sales" / "w_warehouse_sq_ft") AS "may_sales_per_sq_foot", SUM("jun_sales" / "w_warehouse_sq_ft") AS "jun_sales_per_sq_foot", SUM("jul_sales" / "w_warehouse_sq_ft") AS "jul_sales_per_sq_foot", SUM("aug_sales" / "w_warehouse_sq_ft") AS "aug_sales_per_sq_foot", SUM("sep_sales" / "w_warehouse_sq_ft") AS "sep_sales_per_sq_foot", SUM("oct_sales" / "w_warehouse_sq_ft") AS "oct_sales_per_sq_foot", SUM("nov_sales" / "w_warehouse_sq_ft") AS "nov_sales_per_sq_foot", SUM("dec_sales" / "w_warehouse_sq_ft") AS "dec_sales_per_sq_foot", SUM("jan_net") AS "jan_net", SUM("feb_net") AS "feb_net", SUM("mar_net") AS "mar_net", SUM("apr_net") AS "apr_net", SUM("may_net") AS "may_net", SUM("jun_net") AS "jun_net", SUM("jul_net") AS "jul_net", SUM("aug_net") AS "aug_net", SUM("sep_net") AS "sep_net", SUM("oct_net") AS "oct_net", SUM("nov_net") AS "nov_net", SUM("dec_net") AS "dec_net"
+FROM (SELECT "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", 'DHL,BARIAN' AS "ship_carriers", "t10"."d_year" AS "year_", SUM("t10"."CASE") AS "jan_sales", SUM("t10"."CASE9") AS "feb_sales", SUM("t10"."CASE10") AS "mar_sales", SUM("t10"."CASE11") AS "apr_sales", SUM("t10"."CASE12") AS "may_sales", SUM("t10"."CASE13") AS "jun_sales", SUM("t10"."CASE14") AS "jul_sales", SUM("t10"."CASE15") AS "aug_sales", SUM("t10"."CASE16") AS "sep_sales", SUM("t10"."CASE17") AS "oct_sales", SUM("t10"."CASE18") AS "nov_sales", SUM("t10"."CASE19") AS "dec_sales", SUM("t10"."CASE20") AS "jan_net", SUM("t10"."CASE21") AS "feb_net", SUM("t10"."CASE22") AS "mar_net", SUM("t10"."CASE23") AS "apr_net", SUM("t10"."CASE24") AS "may_net", SUM("t10"."CASE25") AS "jun_net", SUM("t10"."CASE26") AS "jul_net", SUM("t10"."CASE27") AS "aug_net", SUM("t10"."CASE28") AS "sep_net", SUM("t10"."CASE29") AS "oct_net", SUM("t10"."CASE30") AS "nov_net", SUM("t10"."CASE31") AS "dec_net"
+FROM (SELECT "t5"."ws_ship_mode_sk", "t5"."w_warehouse_name", "t5"."w_warehouse_sq_ft", "t5"."w_city", "t5"."w_county", "t5"."w_state", "t5"."w_country", "t5"."d_year", CASE WHEN "t5"."=" THEN "t5"."*" ELSE 0 END AS "CASE", CASE WHEN "t5"."=11" THEN "t5"."*" ELSE 0 END AS "CASE9", CASE WHEN "t5"."=12" THEN "t5"."*" ELSE 0 END AS "CASE10", CASE WHEN "t5"."=13" THEN "t5"."*" ELSE 0 END AS "CASE11", CASE WHEN "t5"."=14" THEN "t5"."*" ELSE 0 END AS "CASE12", CASE WHEN "t5"."=15" THEN "t5"."*" ELSE 0 END AS "CASE13", CASE WHEN "t5"."=16" THEN "t5"."*" ELSE 0 END AS "CASE14", CASE WHEN "t5"."=17" THEN "t5"."*" ELSE 0 END AS "CASE15", CASE WHEN "t5"."=18" THEN "t5"."*" ELSE 0 END AS "CASE16", CASE WHEN "t5"."=19" THEN "t5"."*" ELSE 0 END AS "CASE17", CASE WHEN "t5"."=20" THEN "t5"."*" ELSE 0 END AS "CASE18", CASE WHEN "t5"."=21" THEN "t5"."*" ELSE 0 END AS "CASE19", CASE WHEN "t5"."=" THEN "t5"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t5"."=11" THEN "t5"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t5"."=12" THEN "t5"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t5"."=13" THEN "t5"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t5"."=14" THEN "t5"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t5"."=15" THEN "t5"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t5"."=16" THEN "t5"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t5"."=17" THEN "t5"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t5"."=18" THEN "t5"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t5"."=19" THEN "t5"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t5"."=20" THEN "t5"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t5"."=21" THEN "t5"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t1"."ws_sold_time_sk", "t1"."ws_ship_mode_sk", "t1"."w_warehouse_name", "t1"."w_warehouse_sq_ft", "t1"."w_city", "t1"."w_county", "t1"."w_state", "t1"."w_country", "t4"."d_year", "t4"."=", "t1"."*" AS "*", "t4"."=3" AS "=11", "t4"."=4" AS "=12", "t4"."=5" AS "=13", "t4"."=6" AS "=14", "t4"."=7" AS "=15", "t4"."=8" AS "=16", "t4"."=9" AS "=17", "t4"."=10" AS "=18", "t4"."=11" AS "=19", "t4"."=12" AS "=20", "t4"."=13" AS "=21", "t1"."*10" AS "*22"
+FROM (SELECT "t"."ws_sold_date_sk", "t"."ws_sold_time_sk", "t"."ws_ship_mode_sk", "t0"."w_warehouse_name", "t0"."w_warehouse_sq_ft", "t0"."w_city", "t0"."w_county", "t0"."w_state", "t0"."w_country", "t"."*" AS "*", "t"."*5" AS "*10"
+FROM (SELECT "ws_sold_date_sk", "ws_sold_time_sk", "ws_ship_mode_sk", "ws_warehouse_sk", "ws_ext_sales_price" * "ws_quantity" AS "*", "ws_net_paid" * "ws_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t0" ON "t"."ws_warehouse_sk" = "t0"."w_warehouse_sk") AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t4" ON "t1"."ws_sold_date_sk" = "t4"."d_date_sk") AS "t5"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t8" ON "t5"."ws_sold_time_sk" = "t8"."t_time_sk") AS "t10"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t13" ON "t10"."ws_ship_mode_sk" = "t13"."sm_ship_mode_sk"
+GROUP BY "t10"."w_warehouse_name", "t10"."w_warehouse_sq_ft", "t10"."w_city", "t10"."w_county", "t10"."w_state", "t10"."w_country", "t10"."d_year"
+UNION ALL
+SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", 'DHL,BARIAN' AS "ship_carriers", "year_", SUM("$f7") AS "jan_sales", SUM("$f8") AS "feb_sales", SUM("$f9") AS "mar_sales", SUM("$f10") AS "apr_sales", SUM("$f11") AS "may_sales", SUM("$f12") AS "jun_sales", SUM("$f13") AS "jul_sales", SUM("$f14") AS "aug_sales", SUM("$f15") AS "sep_sales", SUM("$f16") AS "oct_sales", SUM("$f17") AS "nov_sales", SUM("$f18") AS "dec_sales", SUM("$f19") AS "jan_net", SUM("$f20") AS "feb_net", SUM("$f21") AS "mar_net", SUM("$f22") AS "apr_net", SUM("$f23") AS "may_net", SUM("$f24") AS "jun_net", SUM("$f25") AS "jul_net", SUM("$f26") AS "aug_net", SUM("$f27") AS "sep_net", SUM("$f28") AS "oct_net", SUM("$f29") AS "nov_net", SUM("$f30") AS "dec_net"
+FROM "duck_table_66_0"
+GROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "year_") AS "t19"
+GROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_"
+ORDER BY "w_warehouse_name" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+550.685941528
+finished query
+FINISHED PROFILING FOR TRIAL 2
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1071.382221714 CARDINALITY: 10943222 COST: 0.44045713559353333
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 550.685941528 CARDINALITY: -1 COST: 0.2263931092948444
+2
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1071.382221714 CARDINALITY: 10943222 COST: 0.44045713559353333
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 550.685941528 CARDINALITY: -1 COST: 0.2263931092948444
+BEGUN PROCESSING
+missing column name: d_month_seq
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 550.685941528 CARDINALITY: -1 COST: 0.2263931092948444
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 1071.382221714 CARDINALITY: 10943222 COST: 0.44045713559353333
+rowSize: 236
+{"bqSize":100.51894227099999,"compressed":69.2332177104762,"mvmtCost":0.0,"runtime":1071.382221714,"runCost":0.44045713559353333,"bqCost":0.5025947113549999,"cutNoHybrid":1622.068163242}
+baseline runtime: 601.2637565135956 baselineBQ read size: 1.20552685568E11
+arachneCost: 0.9430518469485332, baselineCost2: 0.24718621101114485, baseline: 0.60276342784, cutNoHybrid: 0.6668502448883779
+FINISHED PROCESSING FOR TRIAL 2 plan not found. repeating...
+trial 3
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_sales_per_sq_foot
+missing column name: feb_sales_per_sq_foot
+missing column name: mar_sales_per_sq_foot
+missing column name: apr_sales_per_sq_foot
+missing column name: may_sales_per_sq_foot
+missing column name: jun_sales_per_sq_foot
+missing column name: jul_sales_per_sq_foot
+missing column name: aug_sales_per_sq_foot
+missing column name: sep_sales_per_sq_foot
+missing column name: oct_sales_per_sq_foot
+missing column name: nov_sales_per_sq_foot
+missing column name: dec_sales_per_sq_foot
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: $f31
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: ship_carriers
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: jan_sales
+missing column name: feb_sales
+missing column name: mar_sales
+missing column name: apr_sales
+missing column name: may_sales
+missing column name: jun_sales
+missing column name: jul_sales
+missing column name: aug_sales
+missing column name: sep_sales
+missing column name: oct_sales
+missing column name: nov_sales
+missing column name: dec_sales
+missing column name: jan_net
+missing column name: feb_net
+missing column name: mar_net
+missing column name: apr_net
+missing column name: may_net
+missing column name: jun_net
+missing column name: jul_net
+missing column name: aug_net
+missing column name: sep_net
+missing column name: oct_net
+missing column name: nov_net
+missing column name: dec_net
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: year_
+missing column name: $f7
+missing column name: $f8
+missing column name: $f9
+missing column name: $f10
+missing column name: $f11
+missing column name: $f12
+missing column name: $f13
+missing column name: $f14
+missing column name: $f15
+missing column name: $f16
+missing column name: $f17
+missing column name: $f18
+missing column name: $f19
+missing column name: $f20
+missing column name: $f21
+missing column name: $f22
+missing column name: $f23
+missing column name: $f24
+missing column name: $f25
+missing column name: $f26
+missing column name: $f27
+missing column name: $f28
+missing column name: $f29
+missing column name: $f30
+missing column name: CASE
+missing column name: CASE9
+missing column name: CASE10
+missing column name: CASE11
+missing column name: CASE12
+missing column name: CASE13
+missing column name: CASE14
+missing column name: CASE15
+missing column name: CASE16
+missing column name: CASE17
+missing column name: CASE18
+missing column name: CASE19
+missing column name: CASE20
+missing column name: CASE21
+missing column name: CASE22
+missing column name: CASE23
+missing column name: CASE24
+missing column name: CASE25
+missing column name: CASE26
+missing column name: CASE27
+missing column name: CASE28
+missing column name: CASE29
+missing column name: CASE30
+missing column name: CASE31
+missing column name: CASE
+missing column name: CASE9
+missing column name: CASE10
+missing column name: CASE11
+missing column name: CASE12
+missing column name: CASE13
+missing column name: CASE14
+missing column name: CASE15
+missing column name: CASE16
+missing column name: CASE17
+missing column name: CASE18
+missing column name: CASE19
+missing column name: CASE20
+missing column name: CASE21
+missing column name: CASE22
+missing column name: CASE23
+missing column name: CASE24
+missing column name: CASE25
+missing column name: CASE26
+missing column name: CASE27
+missing column name: CASE28
+missing column name: CASE29
+missing column name: CASE30
+missing column name: CASE31
+missing column name: CASE
+missing column name: CASE9
+missing column name: CASE10
+missing column name: CASE11
+missing column name: CASE12
+missing column name: CASE13
+missing column name: CASE14
+missing column name: CASE15
+missing column name: CASE16
+missing column name: CASE17
+missing column name: CASE18
+missing column name: CASE19
+missing column name: CASE20
+missing column name: CASE21
+missing column name: CASE22
+missing column name: CASE23
+missing column name: CASE24
+missing column name: CASE25
+missing column name: CASE26
+missing column name: CASE27
+missing column name: CASE28
+missing column name: CASE29
+missing column name: CASE30
+missing column name: CASE31
+STARTING QRY: CREATE TABLE duck_table_66_0 AS SELECT "t5"."ws_ship_mode_sk", "t5"."w_warehouse_name", "t5"."w_warehouse_sq_ft", "t5"."w_city", "t5"."w_county", "t5"."w_state", "t5"."w_country", "t5"."d_year", CASE WHEN "t5"."=" THEN "t5"."*" ELSE 0 END AS "CASE", CASE WHEN "t5"."=11" THEN "t5"."*" ELSE 0 END AS "CASE9", CASE WHEN "t5"."=12" THEN "t5"."*" ELSE 0 END AS "CASE10", CASE WHEN "t5"."=13" THEN "t5"."*" ELSE 0 END AS "CASE11", CASE WHEN "t5"."=14" THEN "t5"."*" ELSE 0 END AS "CASE12", CASE WHEN "t5"."=15" THEN "t5"."*" ELSE 0 END AS "CASE13", CASE WHEN "t5"."=16" THEN "t5"."*" ELSE 0 END AS "CASE14", CASE WHEN "t5"."=17" THEN "t5"."*" ELSE 0 END AS "CASE15", CASE WHEN "t5"."=18" THEN "t5"."*" ELSE 0 END AS "CASE16", CASE WHEN "t5"."=19" THEN "t5"."*" ELSE 0 END AS "CASE17", CASE WHEN "t5"."=20" THEN "t5"."*" ELSE 0 END AS "CASE18", CASE WHEN "t5"."=21" THEN "t5"."*" ELSE 0 END AS "CASE19", CASE WHEN "t5"."=" THEN "t5"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t5"."=11" THEN "t5"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t5"."=12" THEN "t5"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t5"."=13" THEN "t5"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t5"."=14" THEN "t5"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t5"."=15" THEN "t5"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t5"."=16" THEN "t5"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t5"."=17" THEN "t5"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t5"."=18" THEN "t5"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t5"."=19" THEN "t5"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t5"."=20" THEN "t5"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t5"."=21" THEN "t5"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t1"."ws_sold_time_sk", "t1"."ws_ship_mode_sk", "t1"."w_warehouse_name", "t1"."w_warehouse_sq_ft", "t1"."w_city", "t1"."w_county", "t1"."w_state", "t1"."w_country", "t4"."d_year", "t4"."=", "t1"."*" AS "*", "t4"."=3" AS "=11", "t4"."=4" AS "=12", "t4"."=5" AS "=13", "t4"."=6" AS "=14", "t4"."=7" AS "=15", "t4"."=8" AS "=16", "t4"."=9" AS "=17", "t4"."=10" AS "=18", "t4"."=11" AS "=19", "t4"."=12" AS "=20", "t4"."=13" AS "=21", "t1"."*10" AS "*22"
+FROM (SELECT "t"."ws_sold_date_sk", "t"."ws_sold_time_sk", "t"."ws_ship_mode_sk", "t0"."w_warehouse_name", "t0"."w_warehouse_sq_ft", "t0"."w_city", "t0"."w_county", "t0"."w_state", "t0"."w_country", "t"."*" AS "*", "t"."*5" AS "*10"
+FROM (SELECT "ws_sold_date_sk", "ws_sold_time_sk", "ws_ship_mode_sk", "ws_warehouse_sk", "ws_ext_sales_price" * "ws_quantity" AS "*", "ws_net_paid" * "ws_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/web_sales.parquet' AS web_sales) AS "t"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t0" ON "t"."ws_warehouse_sk" = "t0"."w_warehouse_sk") AS "t1"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t4" ON "t1"."ws_sold_date_sk" = "t4"."d_date_sk") AS "t5"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t8" ON "t5"."ws_sold_time_sk" = "t8"."t_time_sk"
+
+792.754354312
+55257320
+55257320
+finished query
+STARTING QRY: SELECT "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_", SUM("jan_sales") AS "jan_sales", SUM("feb_sales") AS "feb_sales", SUM("mar_sales") AS "mar_sales", SUM("apr_sales") AS "apr_sales", SUM("may_sales") AS "may_sales", SUM("jun_sales") AS "jun_sales", SUM("jul_sales") AS "jul_sales", SUM("aug_sales") AS "aug_sales", SUM("sep_sales") AS "sep_sales", SUM("oct_sales") AS "oct_sales", SUM("nov_sales") AS "nov_sales", SUM("dec_sales") AS "dec_sales", SUM("jan_sales" / "w_warehouse_sq_ft") AS "jan_sales_per_sq_foot", SUM("feb_sales" / "w_warehouse_sq_ft") AS "feb_sales_per_sq_foot", SUM("mar_sales" / "w_warehouse_sq_ft") AS "mar_sales_per_sq_foot", SUM("apr_sales" / "w_warehouse_sq_ft") AS "apr_sales_per_sq_foot", SUM("may_sales" / "w_warehouse_sq_ft") AS "may_sales_per_sq_foot", SUM("jun_sales" / "w_warehouse_sq_ft") AS "jun_sales_per_sq_foot", SUM("jul_sales" / "w_warehouse_sq_ft") AS "jul_sales_per_sq_foot", SUM("aug_sales" / "w_warehouse_sq_ft") AS "aug_sales_per_sq_foot", SUM("sep_sales" / "w_warehouse_sq_ft") AS "sep_sales_per_sq_foot", SUM("oct_sales" / "w_warehouse_sq_ft") AS "oct_sales_per_sq_foot", SUM("nov_sales" / "w_warehouse_sq_ft") AS "nov_sales_per_sq_foot", SUM("dec_sales" / "w_warehouse_sq_ft") AS "dec_sales_per_sq_foot", SUM("jan_net") AS "jan_net", SUM("feb_net") AS "feb_net", SUM("mar_net") AS "mar_net", SUM("apr_net") AS "apr_net", SUM("may_net") AS "may_net", SUM("jun_net") AS "jun_net", SUM("jul_net") AS "jul_net", SUM("aug_net") AS "aug_net", SUM("sep_net") AS "sep_net", SUM("oct_net") AS "oct_net", SUM("nov_net") AS "nov_net", SUM("dec_net") AS "dec_net"
+FROM (SELECT "duck_table_66_0"."w_warehouse_name", "duck_table_66_0"."w_warehouse_sq_ft", "duck_table_66_0"."w_city", "duck_table_66_0"."w_county", "duck_table_66_0"."w_state", "duck_table_66_0"."w_country", 'DHL,BARIAN' AS "ship_carriers", "duck_table_66_0"."d_year" AS "year_", SUM("duck_table_66_0"."CASE") AS "jan_sales", SUM("duck_table_66_0"."CASE9") AS "feb_sales", SUM("duck_table_66_0"."CASE10") AS "mar_sales", SUM("duck_table_66_0"."CASE11") AS "apr_sales", SUM("duck_table_66_0"."CASE12") AS "may_sales", SUM("duck_table_66_0"."CASE13") AS "jun_sales", SUM("duck_table_66_0"."CASE14") AS "jul_sales", SUM("duck_table_66_0"."CASE15") AS "aug_sales", SUM("duck_table_66_0"."CASE16") AS "sep_sales", SUM("duck_table_66_0"."CASE17") AS "oct_sales", SUM("duck_table_66_0"."CASE18") AS "nov_sales", SUM("duck_table_66_0"."CASE19") AS "dec_sales", SUM("duck_table_66_0"."CASE20") AS "jan_net", SUM("duck_table_66_0"."CASE21") AS "feb_net", SUM("duck_table_66_0"."CASE22") AS "mar_net", SUM("duck_table_66_0"."CASE23") AS "apr_net", SUM("duck_table_66_0"."CASE24") AS "may_net", SUM("duck_table_66_0"."CASE25") AS "jun_net", SUM("duck_table_66_0"."CASE26") AS "jul_net", SUM("duck_table_66_0"."CASE27") AS "aug_net", SUM("duck_table_66_0"."CASE28") AS "sep_net", SUM("duck_table_66_0"."CASE29") AS "oct_net", SUM("duck_table_66_0"."CASE30") AS "nov_net", SUM("duck_table_66_0"."CASE31") AS "dec_net"
+FROM "duck_table_66_0"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t1" ON "duck_table_66_0"."ws_ship_mode_sk" = "t1"."sm_ship_mode_sk"
+GROUP BY "duck_table_66_0"."w_warehouse_name", "duck_table_66_0"."w_warehouse_sq_ft", "duck_table_66_0"."w_city", "duck_table_66_0"."w_county", "duck_table_66_0"."w_state", "duck_table_66_0"."w_country", "duck_table_66_0"."d_year"
+UNION ALL
+SELECT "t16"."w_warehouse_name", "t16"."w_warehouse_sq_ft", "t16"."w_city", "t16"."w_county", "t16"."w_state", "t16"."w_country", 'DHL,BARIAN' AS "ship_carriers", "t16"."d_year" AS "year_", SUM("t16"."CASE") AS "jan_sales", SUM("t16"."CASE9") AS "feb_sales", SUM("t16"."CASE10") AS "mar_sales", SUM("t16"."CASE11") AS "apr_sales", SUM("t16"."CASE12") AS "may_sales", SUM("t16"."CASE13") AS "jun_sales", SUM("t16"."CASE14") AS "jul_sales", SUM("t16"."CASE15") AS "aug_sales", SUM("t16"."CASE16") AS "sep_sales", SUM("t16"."CASE17") AS "oct_sales", SUM("t16"."CASE18") AS "nov_sales", SUM("t16"."CASE19") AS "dec_sales", SUM("t16"."CASE20") AS "jan_net", SUM("t16"."CASE21") AS "feb_net", SUM("t16"."CASE22") AS "mar_net", SUM("t16"."CASE23") AS "apr_net", SUM("t16"."CASE24") AS "may_net", SUM("t16"."CASE25") AS "jun_net", SUM("t16"."CASE26") AS "jul_net", SUM("t16"."CASE27") AS "aug_net", SUM("t16"."CASE28") AS "sep_net", SUM("t16"."CASE29") AS "oct_net", SUM("t16"."CASE30") AS "nov_net", SUM("t16"."CASE31") AS "dec_net"
+FROM (SELECT "t11"."cs_ship_mode_sk", "t11"."w_warehouse_name", "t11"."w_warehouse_sq_ft", "t11"."w_city", "t11"."w_county", "t11"."w_state", "t11"."w_country", "t11"."d_year", CASE WHEN "t11"."=" THEN "t11"."*" ELSE 0 END AS "CASE", CASE WHEN "t11"."=11" THEN "t11"."*" ELSE 0 END AS "CASE9", CASE WHEN "t11"."=12" THEN "t11"."*" ELSE 0 END AS "CASE10", CASE WHEN "t11"."=13" THEN "t11"."*" ELSE 0 END AS "CASE11", CASE WHEN "t11"."=14" THEN "t11"."*" ELSE 0 END AS "CASE12", CASE WHEN "t11"."=15" THEN "t11"."*" ELSE 0 END AS "CASE13", CASE WHEN "t11"."=16" THEN "t11"."*" ELSE 0 END AS "CASE14", CASE WHEN "t11"."=17" THEN "t11"."*" ELSE 0 END AS "CASE15", CASE WHEN "t11"."=18" THEN "t11"."*" ELSE 0 END AS "CASE16", CASE WHEN "t11"."=19" THEN "t11"."*" ELSE 0 END AS "CASE17", CASE WHEN "t11"."=20" THEN "t11"."*" ELSE 0 END AS "CASE18", CASE WHEN "t11"."=21" THEN "t11"."*" ELSE 0 END AS "CASE19", CASE WHEN "t11"."=" THEN "t11"."*22" ELSE 0 END AS "CASE20", CASE WHEN "t11"."=11" THEN "t11"."*22" ELSE 0 END AS "CASE21", CASE WHEN "t11"."=12" THEN "t11"."*22" ELSE 0 END AS "CASE22", CASE WHEN "t11"."=13" THEN "t11"."*22" ELSE 0 END AS "CASE23", CASE WHEN "t11"."=14" THEN "t11"."*22" ELSE 0 END AS "CASE24", CASE WHEN "t11"."=15" THEN "t11"."*22" ELSE 0 END AS "CASE25", CASE WHEN "t11"."=16" THEN "t11"."*22" ELSE 0 END AS "CASE26", CASE WHEN "t11"."=17" THEN "t11"."*22" ELSE 0 END AS "CASE27", CASE WHEN "t11"."=18" THEN "t11"."*22" ELSE 0 END AS "CASE28", CASE WHEN "t11"."=19" THEN "t11"."*22" ELSE 0 END AS "CASE29", CASE WHEN "t11"."=20" THEN "t11"."*22" ELSE 0 END AS "CASE30", CASE WHEN "t11"."=21" THEN "t11"."*22" ELSE 0 END AS "CASE31"
+FROM (SELECT "t7"."cs_sold_time_sk", "t7"."cs_ship_mode_sk", "t7"."w_warehouse_name", "t7"."w_warehouse_sq_ft", "t7"."w_city", "t7"."w_county", "t7"."w_state", "t7"."w_country", "t10"."d_year", "t10"."=", "t7"."*" AS "*", "t10"."=3" AS "=11", "t10"."=4" AS "=12", "t10"."=5" AS "=13", "t10"."=6" AS "=14", "t10"."=7" AS "=15", "t10"."=8" AS "=16", "t10"."=9" AS "=17", "t10"."=10" AS "=18", "t10"."=11" AS "=19", "t10"."=12" AS "=20", "t10"."=13" AS "=21", "t7"."*10" AS "*22"
+FROM (SELECT "t5"."cs_sold_date_sk", "t5"."cs_sold_time_sk", "t5"."cs_ship_mode_sk", "t6"."w_warehouse_name", "t6"."w_warehouse_sq_ft", "t6"."w_city", "t6"."w_county", "t6"."w_state", "t6"."w_country", "t5"."*" AS "*", "t5"."*5" AS "*10"
+FROM (SELECT "cs_sold_date_sk", "cs_sold_time_sk", "cs_ship_mode_sk", "cs_warehouse_sk", "cs_sales_price" * "cs_quantity" AS "*", "cs_net_paid_inc_tax" * "cs_quantity" AS "*5"
+FROM '/mnt/disks/tpcds/parquet/catalog_sales.parquet' AS catalog_sales) AS "t5"
+INNER JOIN (SELECT "w_warehouse_sk", "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country"
+FROM '/mnt/disks/tpcds/parquet/warehouse.parquet' AS warehouse) AS "t6" ON "t5"."cs_warehouse_sk" = "t6"."w_warehouse_sk") AS "t7"
+INNER JOIN (SELECT "d_date_sk", "d_year", "d_moy" = 1 AS "=", "d_moy" = 2 AS "=3", "d_moy" = 3 AS "=4", "d_moy" = 4 AS "=5", "d_moy" = 5 AS "=6", "d_moy" = 6 AS "=7", "d_moy" = 7 AS "=8", "d_moy" = 8 AS "=9", "d_moy" = 9 AS "=10", "d_moy" = 10 AS "=11", "d_moy" = 11 AS "=12", "d_moy" = 12 AS "=13"
+FROM '/mnt/disks/tpcds/parquet/date_dim.parquet' AS date_dim
+WHERE "d_year" = 2001) AS "t10" ON "t7"."cs_sold_date_sk" = "t10"."d_date_sk") AS "t11"
+INNER JOIN (SELECT "t_time_sk"
+FROM '/mnt/disks/tpcds/parquet/time_dim.parquet' AS time_dim
+WHERE "t_time" >= 30838 AND "t_time" <= 30838 + 28800) AS "t14" ON "t11"."cs_sold_time_sk" = "t14"."t_time_sk") AS "t16"
+INNER JOIN (SELECT "sm_ship_mode_sk"
+FROM '/mnt/disks/tpcds/parquet/ship_mode.parquet' AS ship_mode
+WHERE "sm_carrier" IN ('BARIAN', 'DHL')) AS "t19" ON "t16"."cs_ship_mode_sk" = "t19"."sm_ship_mode_sk"
+GROUP BY "t16"."w_warehouse_name", "t16"."w_warehouse_sq_ft", "t16"."w_city", "t16"."w_county", "t16"."w_state", "t16"."w_country", "t16"."d_year") AS "t23"
+GROUP BY "w_warehouse_name", "w_warehouse_sq_ft", "w_city", "w_county", "w_state", "w_country", "ship_carriers", "year_"
+ORDER BY "w_warehouse_name" NULLS FIRST
+FETCH NEXT 100 ROWS ONLY
+
+1548.867705884
+finished query
+FINISHED PROFILING FOR TRIAL 3
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 792.754354312 CARDINALITY: 55257320 COST: 0.32591012343937775
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1548.867705884 CARDINALITY: -1 COST: 0.6367567235300889
+2
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 792.754354312 CARDINALITY: 55257320 COST: 0.32591012343937775
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1548.867705884 CARDINALITY: -1 COST: 0.6367567235300889
+BEGUN PROCESSING
+missing column name: d_month_seq
+missing column name: CASE
+missing column name: CASE9
+missing column name: CASE10
+missing column name: CASE11
+missing column name: CASE12
+missing column name: CASE13
+missing column name: CASE14
+missing column name: CASE15
+missing column name: CASE16
+missing column name: CASE17
+missing column name: CASE18
+missing column name: CASE19
+missing column name: CASE20
+missing column name: CASE21
+missing column name: CASE22
+missing column name: CASE23
+missing column name: CASE24
+missing column name: CASE25
+missing column name: CASE26
+missing column name: CASE27
+missing column name: CASE28
+missing column name: CASE29
+missing column name: CASE30
+missing column name: CASE31
+CTAS: duck_table_66_1 SRC: GCP DEST: GCP NUM INPUTS: 1 RUNTIME: 1548.867705884 CARDINALITY: -1 COST: 0.6367567235300889
+CTAS: duck_table_66_0 SRC: GCP DEST: GCP NUM INPUTS: 0 RUNTIME: 792.754354312 CARDINALITY: 55257320 COST: 0.32591012343937775
+rowSize: 240
+{"bqSize":209.11538411900003,"compressed":139.31853028571427,"mvmtCost":0.0,"runtime":792.754354312,"runCost":0.32591012343937775,"bqCost":1.045576920595,"cutNoHybrid":2341.6220601960003}
+baseline runtime: 601.2637565135956 baselineBQ read size: 1.20552685568E11
+arachneCost: 1.3714870440343778, baselineCost2: 0.24718621101114485, baseline: 0.60276342784, cutNoHybrid: 0.9626668469694668
+FINISHED PROCESSING FOR TRIAL 3 plan not found. repeating...
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  02:28 h
+[[1;34mINFO[m] Finished at: 2022-03-30T16:28:11Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

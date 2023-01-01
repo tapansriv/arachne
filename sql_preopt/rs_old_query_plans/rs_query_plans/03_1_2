@@ -1,0 +1,9 @@
+XN Limit  (cost=1000000022068.56..1000000022068.81 rows=100 width=36)
+  ->  XN Merge  (cost=1000000022068.56..1000000022263.01 rows=77779 width=36)
+        Merge Key: d_year, sum(ss_ext_sales_price), brand_id
+        ->  XN Network  (cost=1000000022068.56..1000000022263.01 rows=77779 width=36)
+              Send to leader
+              ->  XN Sort  (cost=1000000022068.56..1000000022263.01 rows=77779 width=36)
+                    Sort Key: d_year, sum(ss_ext_sales_price), brand_id
+                    ->  XN HashAggregate  (cost=15555.70..15750.15 rows=77779 width=36)
+                          ->  XN Seq Scan on rs_table_03_0  (cost=0.00..7777.85 rows=777785 width=36)

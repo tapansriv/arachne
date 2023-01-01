@@ -1,0 +1,68 @@
+                                                                                            QUERY PLAN                                                                                            
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=66461606.78..66461607.03 rows=100 width=189)
+   ->  Sort  (cost=66461606.78..66461626.39 rows=7844 width=189)
+         Sort Key: (count(*)) DESC, item.i_item_desc NULLS FIRST, warehouse.w_warehouse_name NULLS FIRST, d1.d_week_seq NULLS FIRST
+         ->  Finalize GroupAggregate  (cost=66460286.22..66461306.99 rows=7844 width=189)
+               Group Key: item.i_item_desc, warehouse.w_warehouse_name, d1.d_week_seq
+               ->  Gather Merge  (cost=66460286.22..66461130.51 rows=6536 width=189)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=66459286.20..66459376.07 rows=3268 width=189)
+                           Group Key: item.i_item_desc, warehouse.w_warehouse_name, d1.d_week_seq
+                           ->  Sort  (cost=66459286.20..66459294.37 rows=3268 width=169)
+                                 Sort Key: item.i_item_desc NULLS FIRST, warehouse.w_warehouse_name NULLS FIRST, d1.d_week_seq NULLS FIRST
+                                 ->  Parallel Hash Left Join  (cost=66221476.71..66459095.44 rows=3268 width=169)
+                                       Hash Cond: ((catalog_sales.cs_item_sk = catalog_returns.cr_item_sk) AND (catalog_sales.cs_order_number = catalog_returns.cr_order_number))
+                                       ->  Hash Left Join  (cost=61474114.39..61476680.56 rows=3268 width=177)
+                                             Hash Cond: (catalog_sales.cs_promo_sk = promotion.p_promo_sk)
+                                             ->  Parallel Hash Join  (cost=61474050.64..61476572.05 rows=3268 width=177)
+                                                   Hash Cond: (catalog_sales.cs_ship_date_sk = d3.d_date_sk)
+                                                   Join Filter: (d3.d_date > (d1.d_date + '5 days'::interval))
+                                                   ->  Merge Join  (cost=61471622.81..61474020.73 rows=9861 width=185)
+                                                         Merge Cond: (catalog_sales.cs_item_sk = item.i_item_sk)
+                                                         ->  Sort  (cost=61411733.41..61411758.06 rows=9861 width=86)
+                                                               Sort Key: catalog_sales.cs_item_sk
+                                                               ->  Hash Join  (cost=47131462.28..61411079.25 rows=9861 width=86)
+                                                                     Hash Cond: (inventory.inv_warehouse_sk = warehouse.w_warehouse_sk)
+                                                                     ->  Parallel Hash Join  (cost=47131450.03..61410931.41 rows=9861 width=32)
+                                                                           Hash Cond: ((inventory.inv_date_sk = d2.d_date_sk) AND (d1.d_week_seq = d2.d_week_seq))
+                                                                           ->  Parallel Hash Join  (cost=47128914.78..60638281.50 rows=102674220 width=36)
+                                                                                 Hash Cond: (inventory.inv_item_sk = catalog_sales.cs_item_sk)
+                                                                                 Join Filter: (inventory.inv_quantity_on_hand < catalog_sales.cs_quantity)
+                                                                                 ->  Parallel Seq Scan on inventory  (cost=0.00..7494933.53 rows=326250053 width=16)
+                                                                                 ->  Parallel Hash  (cost=47127009.67..47127009.67 rows=98489 width=28)
+                                                                                       ->  Parallel Hash Join  (cost=34347.14..47127009.67 rows=98489 width=28)
+                                                                                             Hash Cond: (catalog_sales.cs_bill_cdemo_sk = customer_demographics.cd_demo_sk)
+                                                                                             ->  Hash Join  (cost=2155.80..47085188.73 rows=493127 width=32)
+                                                                                                   Hash Cond: (catalog_sales.cs_bill_hdemo_sk = household_demographics.hd_demo_sk)
+                                                                                                   ->  Parallel Hash Join  (cost=2000.80..47068953.21 rows=2973134 width=36)
+                                                                                                         Hash Cond: (catalog_sales.cs_sold_date_sk = d1.d_date_sk)
+                                                                                                         ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=32)
+                                                                                                         ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=12)
+                                                                                                               ->  Parallel Seq Scan on date_dim d1  (cost=0.00..1998.12 rows=214 width=12)
+                                                                                                                     Filter: (d_year = 1999)
+                                                                                                   ->  Hash  (cost=140.00..140.00 rows=1200 width=4)
+                                                                                                         ->  Seq Scan on household_demographics  (cost=0.00..140.00 rows=1200 width=4)
+                                                                                                               Filter: ((hd_buy_potential)::text = '>10000'::text)
+                                                                                             ->  Parallel Hash  (cost=29555.17..29555.17 rows=160654 width=4)
+                                                                                                   ->  Parallel Seq Scan on customer_demographics  (cost=0.00..29555.17 rows=160654 width=4)
+                                                                                                         Filter: ((cd_marital_status)::text = 'D'::text)
+                                                                           ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=8)
+                                                                                 ->  Parallel Seq Scan on date_dim d2  (cost=0.00..1890.70 rows=42970 width=8)
+                                                                     ->  Hash  (cost=11.00..11.00 rows=100 width=62)
+                                                                           ->  Seq Scan on warehouse  (cost=0.00..11.00 rows=100 width=62)
+                                                         ->  Materialize  (cost=59889.40..61389.40 rows=300000 width=107)
+                                                               ->  Sort  (cost=59889.40..60639.40 rows=300000 width=107)
+                                                                     Sort Key: item.i_item_sk
+                                                                     ->  Seq Scan on item  (cost=0.00..15164.00 rows=300000 width=107)
+                                                   ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=8)
+                                                         ->  Parallel Seq Scan on date_dim d3  (cost=0.00..1890.70 rows=42970 width=8)
+                                             ->  Hash  (cost=45.00..45.00 rows=1500 width=4)
+                                                   ->  Seq Scan on promotion  (cost=0.00..45.00 rows=1500 width=4)
+                                       ->  Parallel Hash  (cost=3612966.53..3612966.53 rows=60001053 width=8)
+                                             ->  Parallel Seq Scan on catalog_returns  (cost=0.00..3612966.53 rows=60001053 width=8)
+ JIT:
+   Functions: 102
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(64 rows)
+

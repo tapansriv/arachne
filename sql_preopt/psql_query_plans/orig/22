@@ -1,0 +1,48 @@
+                                                                                   QUERY PLAN                                                                                   
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=16826477.44..16826477.69 rows=100 width=455)
+   CTE results
+     ->  Gather  (cost=19439.97..9185598.06 rows=3890937 width=58)
+           Workers Planned: 2
+           ->  Parallel Hash Join  (cost=18439.97..8795504.36 rows=1621224 width=58)
+                 Hash Cond: (inventory.inv_item_sk = item.i_item_sk)
+                 ->  Hash Join  (cost=2120.48..8752341.17 rows=1621224 width=8)
+                       Hash Cond: (inventory.inv_warehouse_sk = warehouse.w_warehouse_sk)
+                       ->  Parallel Hash Join  (cost=2108.23..8730037.09 rows=1621224 width=12)
+                             Hash Cond: (inventory.inv_date_sk = date_dim.d_date_sk)
+                             ->  Parallel Seq Scan on inventory  (cost=0.00..7494933.53 rows=326250053 width=16)
+                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=214 width=4)
+                                         Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                       ->  Hash  (cost=11.00..11.00 rows=100 width=4)
+                             ->  Seq Scan on warehouse  (cost=0.00..11.00 rows=100 width=4)
+                 ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=58)
+                       ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=58)
+   ->  Sort  (cost=7640879.38..7642925.35 rows=818389 width=455)
+         Sort Key: (avg(results.qoh)) NULLS FIRST, results.i_product_name NULLS FIRST, results.i_brand NULLS FIRST, results.i_class NULLS FIRST, results.i_category NULLS FIRST
+         ->  Append  (cost=3017246.60..7609601.14 rows=818389 width=455)
+               ->  GroupAggregate  (cost=3017246.60..3080474.33 rows=389094 width=504)
+                     Group Key: results.i_product_name, results.i_brand, results.i_class, results.i_category
+                     ->  Sort  (cost=3017246.60..3026973.94 rows=3890937 width=476)
+                           Sort Key: results.i_product_name, results.i_brand, results.i_class, results.i_category
+                           ->  CTE Scan on results  (cost=0.00..77818.74 rows=3890937 width=476)
+               ->  GroupAggregate  (cost=2418788.60..2472288.99 rows=389094 width=418)
+                     Group Key: results_1.i_product_name, results_1.i_brand, results_1.i_class
+                     ->  Sort  (cost=2418788.60..2428515.94 rows=3890937 width=358)
+                           Sort Key: results_1.i_product_name, results_1.i_brand, results_1.i_class
+                           ->  CTE Scan on results results_1  (cost=0.00..77818.74 rows=3890937 width=358)
+               ->  GroupAggregate  (cost=1820330.60..1859739.97 rows=40000 width=332)
+                     Group Key: results_2.i_product_name, results_2.i_brand
+                     ->  Sort  (cost=1820330.60..1830057.94 rows=3890937 width=240)
+                           Sort Key: results_2.i_product_name, results_2.i_brand
+                           ->  CTE Scan on results results_2  (cost=0.00..77818.74 rows=3890937 width=240)
+               ->  HashAggregate  (cost=97273.43..97275.93 rows=200 width=246)
+                     Group Key: results_3.i_product_name
+                     ->  CTE Scan on results results_3  (cost=0.00..77818.74 rows=3890937 width=122)
+               ->  Aggregate  (cost=87546.09..87546.10 rows=1 width=160)
+                     ->  CTE Scan on results results_4  (cost=0.00..77818.74 rows=3890937 width=4)
+ JIT:
+   Functions: 54
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(44 rows)
+

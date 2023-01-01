@@ -1,0 +1,366 @@
+{
+    "name": "PROJECTION",
+    "timing": 0.004633,
+    "cardinality": 215712,
+    "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\navg_monthly_sales\nsum_sales\npsum\nnsum\n",
+    "timings": [],
+    "children": [
+        {
+            "name": "HASH_JOIN",
+            "timing": 0.30287,
+            "cardinality": 215712,
+            "extra_info": "INNER\nrn=-(rn, 1)\ncc_name=cc_name\ni_category=i_category\ni_brand=i_brand\nrn=+(rn, 1)\ncc_name=cc_name\ni_category=i_category\ni_brand=i_brand\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "PROJECTION",
+                    "timing": 0.003102,
+                    "cardinality": 289608,
+                    "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "WINDOW",
+                            "timing": 1.53138,
+                            "cardinality": 289608,
+                            "extra_info": "RANK() OVER(PARTITION BY i_category, i_brand, cc_name ORDER BY d_year ASC NULLS FIRST, d_moy ASC NULLS FIRST)",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "WINDOW",
+                                    "timing": 2.670087,
+                                    "cardinality": 289608,
+                                    "extra_info": "avg(sum(#[7.0])) OVER(PARTITION BY i_category, i_brand, cc_name, d_year)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "HASH_GROUP_BY",
+                                            "timing": 105.559015,
+                                            "cardinality": 289608,
+                                            "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "PROJECTION",
+                                                    "timing": 1.041506,
+                                                    "cardinality": 346663287,
+                                                    "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\ncs_sales_price\n",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "HASH_JOIN",
+                                                            "timing": 29.394853,
+                                                            "cardinality": 346663287,
+                                                            "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 6.019617,
+                                                                    "cardinality": 346663287,
+                                                                    "extra_info": "INNER\ncs_call_center_sk=cc_call_center_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 13.872255,
+                                                                            "cardinality": 347537141,
+                                                                            "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 132.91724,
+                                                                                    "cardinality": 1439980416,
+                                                                                    "extra_info": "cs_sales_price\ncs_item_sk\ncs_sold_date_sk\ncs_call_center_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                },
+                                                                                {
+                                                                                    "name": "FILTER",
+                                                                                    "timing": 0.004859,
+                                                                                    "cardinality": 854,
+                                                                                    "extra_info": "(d_year=1999 OR (d_year=1998 AND d_moy=12) OR (d_year=2000 AND d_moy=1))",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 0.003686,
+                                                                                            "cardinality": 146098,
+                                                                                            "extra_info": "d_year\nd_moy\nd_date_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.00159,
+                                                                            "cardinality": 84,
+                                                                            "extra_info": "cc_name\ncc_call_center_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "PARQUET_SCAN",
+                                                                    "timing": 0.092351,
+                                                                    "cardinality": 600000,
+                                                                    "extra_info": "i_category\ni_brand\ni_item_sk",
+                                                                    "timings": [],
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 0.178309,
+                    "cardinality": 431424,
+                    "extra_info": "INNER\n+(rn, 1)=-(rn, 1)\ncc_name=cc_name\ni_category=i_category\ni_brand=i_brand\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.003102,
+                            "cardinality": 289608,
+                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "WINDOW",
+                                    "timing": 1.53138,
+                                    "cardinality": 289608,
+                                    "extra_info": "RANK() OVER(PARTITION BY i_category, i_brand, cc_name ORDER BY d_year ASC NULLS FIRST, d_moy ASC NULLS FIRST)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "WINDOW",
+                                            "timing": 2.670087,
+                                            "cardinality": 289608,
+                                            "extra_info": "avg(sum(#[7.0])) OVER(PARTITION BY i_category, i_brand, cc_name, d_year)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 105.559015,
+                                                    "cardinality": 289608,
+                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 1.041506,
+                                                            "cardinality": 346663287,
+                                                            "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\ncs_sales_price\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 29.394853,
+                                                                    "cardinality": 346663287,
+                                                                    "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 6.019617,
+                                                                            "cardinality": 346663287,
+                                                                            "extra_info": "INNER\ncs_call_center_sk=cc_call_center_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 13.872255,
+                                                                                    "cardinality": 347537141,
+                                                                                    "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 132.91724,
+                                                                                            "cardinality": 1439980416,
+                                                                                            "extra_info": "cs_sales_price\ncs_item_sk\ncs_sold_date_sk\ncs_call_center_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "FILTER",
+                                                                                            "timing": 0.004859,
+                                                                                            "cardinality": 854,
+                                                                                            "extra_info": "(d_year=1999 OR (d_year=1998 AND d_moy=12) OR (d_year=2000 AND d_moy=1))",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.003686,
+                                                                                                    "cardinality": 146098,
+                                                                                                    "extra_info": "d_year\nd_moy\nd_date_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.00159,
+                                                                                    "cardinality": 84,
+                                                                                    "extra_info": "cc_name\ncc_call_center_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.092351,
+                                                                            "cardinality": 600000,
+                                                                            "extra_info": "i_category\ni_brand\ni_item_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PROJECTION",
+                            "timing": 0.003102,
+                            "cardinality": 289608,
+                            "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "WINDOW",
+                                    "timing": 1.53138,
+                                    "cardinality": 289608,
+                                    "extra_info": "RANK() OVER(PARTITION BY i_category, i_brand, cc_name ORDER BY d_year ASC NULLS FIRST, d_moy ASC NULLS FIRST)",
+                                    "timings": [],
+                                    "children": [
+                                        {
+                                            "name": "WINDOW",
+                                            "timing": 2.670087,
+                                            "cardinality": 289608,
+                                            "extra_info": "avg(sum(#[7.0])) OVER(PARTITION BY i_category, i_brand, cc_name, d_year)",
+                                            "timings": [],
+                                            "children": [
+                                                {
+                                                    "name": "HASH_GROUP_BY",
+                                                    "timing": 105.559015,
+                                                    "cardinality": 289608,
+                                                    "extra_info": "#0\n#1\n#2\n#3\n#4\nsum(#5)",
+                                                    "timings": [],
+                                                    "children": [
+                                                        {
+                                                            "name": "PROJECTION",
+                                                            "timing": 1.041506,
+                                                            "cardinality": 346663287,
+                                                            "extra_info": "i_category\ni_brand\ncc_name\nd_year\nd_moy\ncs_sales_price\n",
+                                                            "timings": [],
+                                                            "children": [
+                                                                {
+                                                                    "name": "HASH_JOIN",
+                                                                    "timing": 29.394853,
+                                                                    "cardinality": 346663287,
+                                                                    "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                                                                    "timings": [],
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "HASH_JOIN",
+                                                                            "timing": 6.019617,
+                                                                            "cardinality": 346663287,
+                                                                            "extra_info": "INNER\ncs_call_center_sk=cc_call_center_sk\n",
+                                                                            "timings": [],
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "HASH_JOIN",
+                                                                                    "timing": 13.872255,
+                                                                                    "cardinality": 347537141,
+                                                                                    "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                                                                    "timings": [],
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "name": "PARQUET_SCAN",
+                                                                                            "timing": 132.91724,
+                                                                                            "cardinality": 1439980416,
+                                                                                            "extra_info": "cs_sales_price\ncs_item_sk\ncs_sold_date_sk\ncs_call_center_sk",
+                                                                                            "timings": [],
+                                                                                            "children": []
+                                                                                        },
+                                                                                        {
+                                                                                            "name": "FILTER",
+                                                                                            "timing": 0.004859,
+                                                                                            "cardinality": 854,
+                                                                                            "extra_info": "(d_year=1999 OR (d_year=1998 AND d_moy=12) OR (d_year=2000 AND d_moy=1))",
+                                                                                            "timings": [],
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "name": "PARQUET_SCAN",
+                                                                                                    "timing": 0.003686,
+                                                                                                    "cardinality": 146098,
+                                                                                                    "extra_info": "d_year\nd_moy\nd_date_sk",
+                                                                                                    "timings": [],
+                                                                                                    "children": []
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "name": "PARQUET_SCAN",
+                                                                                    "timing": 0.00159,
+                                                                                    "cardinality": 84,
+                                                                                    "extra_info": "cc_name\ncc_call_center_sk",
+                                                                                    "timings": [],
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "PARQUET_SCAN",
+                                                                            "timing": 0.092351,
+                                                                            "cardinality": 600000,
+                                                                            "extra_info": "i_category\ni_brand\ni_item_sk",
+                                                                            "timings": [],
+                                                                            "children": []
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

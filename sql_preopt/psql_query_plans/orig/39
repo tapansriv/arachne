@@ -1,0 +1,44 @@
+                                                                                                          QUERY PLAN                                                                                                          
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=9832726.78..9832729.42 rows=1057 width=152)
+   Sort Key: inv1.w_warehouse_sk NULLS FIRST, inv1.i_item_sk NULLS FIRST, inv1.mean NULLS FIRST, inv1.cov NULLS FIRST, inv2.mean NULLS FIRST, inv2.cov NULLS FIRST
+   CTE inv
+     ->  Subquery Scan on foo  (cost=9110179.95..9773217.00 rows=1300552 width=166)
+           ->  Finalize GroupAggregate  (cost=9110179.95..9753708.72 rows=1300552 width=134)
+                 Group Key: warehouse.w_warehouse_name, warehouse.w_warehouse_sk, item.i_item_sk, date_dim.d_moy
+                 Filter: (CASE avg(inventory.inv_quantity_on_hand) WHEN '0'::numeric THEN '0'::numeric ELSE ((stddev_samp(inventory.inv_quantity_on_hand) * 1.000) / avg(inventory.inv_quantity_on_hand)) END > '1'::numeric)
+                 ->  Gather Merge  (cost=9110179.95..9534240.57 rows=3251380 width=134)
+                       Workers Planned: 2
+                       ->  Partial GroupAggregate  (cost=9109179.92..9157950.62 rows=1625690 width=134)
+                             Group Key: warehouse.w_warehouse_name, warehouse.w_warehouse_sk, item.i_item_sk, date_dim.d_moy
+                             ->  Sort  (cost=9109179.92..9113244.15 rows=1625690 width=74)
+                                   Sort Key: warehouse.w_warehouse_name, warehouse.w_warehouse_sk, item.i_item_sk, date_dim.d_moy
+                                   ->  Hash Join  (cost=17478.55..8796995.70 rows=1625690 width=74)
+                                         Hash Cond: (inventory.inv_warehouse_sk = warehouse.w_warehouse_sk)
+                                         ->  Parallel Hash Join  (cost=17466.30..8774630.21 rows=1625690 width=16)
+                                               Hash Cond: (inventory.inv_item_sk = item.i_item_sk)
+                                               ->  Parallel Hash Join  (cost=2000.80..8729929.66 rows=1625690 width=16)
+                                                     Hash Cond: (inventory.inv_date_sk = date_dim.d_date_sk)
+                                                     ->  Parallel Seq Scan on inventory  (cost=0.00..7494933.53 rows=326250053 width=16)
+                                                     ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=8)
+                                                           ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=8)
+                                                                 Filter: (d_year = 2001)
+                                               ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=4)
+                                                     ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=4)
+                                         ->  Hash  (cost=11.00..11.00 rows=100 width=62)
+                                               ->  Seq Scan on warehouse  (cost=0.00..11.00 rows=100 width=62)
+   ->  Merge Join  (cost=59348.57..59456.68 rows=1057 width=152)
+         Merge Cond: ((inv1.i_item_sk = inv2.i_item_sk) AND (inv1.w_warehouse_sk = inv2.w_warehouse_sk))
+         ->  Sort  (cost=29674.28..29690.54 rows=6503 width=76)
+               Sort Key: inv1.i_item_sk, inv1.w_warehouse_sk
+               ->  CTE Scan on inv inv1  (cost=0.00..29262.42 rows=6503 width=76)
+                     Filter: (d_moy = 1)
+         ->  Sort  (cost=29674.28..29690.54 rows=6503 width=76)
+               Sort Key: inv2.i_item_sk, inv2.w_warehouse_sk
+               ->  CTE Scan on inv inv2  (cost=0.00..29262.42 rows=6503 width=76)
+                     Filter: (d_moy = 2)
+ JIT:
+   Functions: 58
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(40 rows)
+

@@ -1,0 +1,115 @@
+{
+   "name":  "Query", 
+   "result": 58.434217,
+   "timing": 58.434217,
+   "cardinality": 0,
+   "extra-info": "\nSELECT t_s_secyear.customer_id,\n       t_s_secyear.customer_first_name,\n       t_s_secyear.customer_last_name,\n       t_s_secyear.customer_preferred_cust_flag\nFROM year_total t_s_firstyear,\n     year_total t_s_secyear,\n     year_total t_w_firstyear,\n     year_total t_w_secyear\nWHERE t_s_secyear.customer_id = t_s_firstyear.customer_id\n  AND t_s_firstyear.customer_id = t_w_secyear.customer_id\n  AND t_s_firstyear.customer_id = t_w_firstyear.customer_id\n  AND t_s_firstyear.sale_type = 's'\n  AND t_w_firstyear.sale_type = 'w'\n  AND t_s_secyear.sale_type = 's'\n  AND t_w_secyear.sale_type = 'w'\n  AND t_s_firstyear.dyear = 2001\n  AND t_s_secyear.dyear = 2001+1\n  AND t_w_firstyear.dyear = 2001\n  AND t_w_secyear.dyear = 2001+1\n  AND t_s_firstyear.year_total > 0\n  AND t_w_firstyear.year_total > 0\n  AND CASE\n          WHEN t_w_firstyear.year_total > 0 THEN (t_w_secyear.year_total*1.0000) / t_w_firstyear.year_total\n          ELSE 0.0\n      END > CASE\n                WHEN t_s_firstyear.year_total > 0 THEN (t_s_secyear.year_total*1.0000) / t_s_firstyear.year_total\n                ELSE 0.0\n            END\nORDER BY t_s_secyear.customer_id NULLS FIRST,\n         t_s_secyear.customer_first_name NULLS FIRST,\n         t_s_secyear.customer_last_name NULLS FIRST,\n         t_s_secyear.customer_preferred_cust_flag NULLS FIRST\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":3.496652,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.177681,
+         "cardinality":2304688,
+         "extra_info": "#0\n#4\n#5\n#6\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "FILTER",
+            "timing":0.592211,
+            "cardinality":2304688,
+            "extra_info": "CASE WHEN (True) THEN (/(*(year_total, 1.000000), year_total)) ELSE (0.000000)>CASE WHEN (True) THEN (/(*(year_total, 1.000000), year_total)) ELSE (0.000000)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":8.774815,
+               "cardinality":4616168,
+               "extra_info": "INNER\ncustomer_id=customer_id\ncustomer_id=customer_id\ncustomer_id=customer_id\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":2.709699,----
+                  "cardinality":11784563,
+                  "extra_info": "year_total\n[INFOSEPARATOR]\ncustomer_id\nsale_type\ndyear\nyear_total\n[INFOSEPARATOR]\nFilters: sale_type=s AND sale_type IS NOT NULL\ndyear=2001 AND dyear IS NOT NULL\n",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "HASH_JOIN",
+                  "timing":49.726649,
+                  "cardinality":9405902,
+                  "extra_info": "INNER\ncustomer_id=customer_id\ncustomer_id=customer_id\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN", ---
+                     "timing":19.069615,
+                     "cardinality":23579122,
+                     "extra_info": "year_total\n[INFOSEPARATOR]\ncustomer_id\ncustomer_first_name\ncustomer_last_name\ncustomer_preferred_cust_flag\nsale_type\ndyear\nyear_total\n[INFOSEPARATOR]\nFilters: sale_type=s AND sale_type IS NOT NULL\ndyear=2002 AND dyear IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":6.846790,
+                     "cardinality":9578832,
+                     "extra_info": "INNER\ncustomer_id=customer_id\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":3.401794,
+                        "cardinality":15152454,
+                        "extra_info": "year_total\n[INFOSEPARATOR]\ncustomer_id\nsale_type\ndyear\nyear_total\n[INFOSEPARATOR]\nFilters: sale_type=w AND sale_type IS NOT NULL\ndyear=2001 AND dyear IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "SEQ_SCAN",
+                        "timing":5.536056,
+                        "cardinality":15200068,
+                        "extra_info": "year_total\n[INFOSEPARATOR]\ncustomer_id\nsale_type\ndyear\nyear_total\n[INFOSEPARATOR]\nFilters: sale_type=w AND sale_type IS NOT NULL\ndyear=2002 AND dyear IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

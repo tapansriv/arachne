@@ -1,0 +1,94 @@
+{
+   "name":  "Query", 
+   "result": 0.016640,
+   "timing": 0.016640,
+   "cardinality": 0,
+   "extra-info": "\nSELECT i_item_id,\n       sum(total_sales) total_sales\nFROM\n  (SELECT *\n   FROM ss\n   UNION ALL SELECT *\n   FROM cs\n   UNION ALL SELECT *\n   FROM ws) tmp1\nGROUP BY i_item_id\nORDER BY i_item_id,\n         total_sales\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.003645,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.008087,
+         "cardinality":28059,
+         "extra_info": "#0\nsum(#1)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000144,
+            "cardinality":84177,
+            "extra_info": "i_item_id\ntotal_sales\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "UNION",
+               "timing":0.000118,
+               "cardinality":84177,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "UNION",
+                  "timing":0.000085,
+                  "cardinality":56118,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.000556,
+                     "cardinality":28059,
+                     "extra_info": "ss\n[INFOSEPARATOR]\ni_item_id\ntotal_sales",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "SEQ_SCAN",
+                     "timing":0.000541,
+                     "cardinality":28059,
+                     "extra_info": "cs\n[INFOSEPARATOR]\ni_item_id\ntotal_sales",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":0.000520,
+                  "cardinality":28059,
+                  "extra_info": "ws\n[INFOSEPARATOR]\ni_item_id\ntotal_sales",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

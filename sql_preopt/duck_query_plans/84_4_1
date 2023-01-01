@@ -1,0 +1,21 @@
+┌───────────────────────────┐
+│      CREATE_TABLE_AS      │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│     ib_income_band_sk     │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│     ib_income_band_sk     │
+│       ib_lower_bound      │
+│       ib_upper_bound      │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│  Filters: ib_lower_bound> │
+│=38128 AND ib_lower_bo...  │
+│          NOT NULL         │
+│ ib_upper_bound<=88128 AND │
+│ ib_upper_bound IS NOT NULL│
+└───────────────────────────┘                             

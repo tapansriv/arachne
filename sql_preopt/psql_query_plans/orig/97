@@ -1,0 +1,40 @@
+                                                                     QUERY PLAN                                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=140036772.66..140036772.67 rows=1 width=24)
+   ->  Aggregate  (cost=140036772.66..140036772.67 rows=1 width=24)
+         ->  Hash Full Join  (cost=120054257.80..121810660.71 rows=2430148261 width=8)
+               Hash Cond: ((store_sales.ss_customer_sk = catalog_sales.cs_bill_customer_sk) AND (store_sales.ss_item_sk = catalog_sales.cs_item_sk))
+               ->  Group  (cost=71642352.32..73055911.70 rows=13660350 width=8)
+                     Group Key: store_sales.ss_customer_sk, store_sales.ss_item_sk
+                     ->  Gather Merge  (cost=71642352.32..72998993.58 rows=11383624 width=8)
+                           Workers Planned: 2
+                           ->  Group  (cost=71641352.30..71684040.89 rows=5691812 width=8)
+                                 Group Key: store_sales.ss_customer_sk, store_sales.ss_item_sk
+                                 ->  Sort  (cost=71641352.30..71655581.83 rows=5691812 width=8)
+                                       Sort Key: store_sales.ss_customer_sk, store_sales.ss_item_sk
+                                       ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=8)
+                                             Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=12)
+                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=214 width=4)
+                                                         Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+               ->  Hash  (cost=48277369.71..48277369.71 rows=7115918 width=8)
+                     ->  Group  (cost=47469862.34..48206210.53 rows=7115918 width=8)
+                           Group Key: catalog_sales.cs_bill_customer_sk, catalog_sales.cs_item_sk
+                           ->  Gather Merge  (cost=47469862.34..48176560.87 rows=5929932 width=8)
+                                 Workers Planned: 2
+                                 ->  Group  (cost=47468862.31..47491099.56 rows=2964966 width=8)
+                                       Group Key: catalog_sales.cs_bill_customer_sk, catalog_sales.cs_item_sk
+                                       ->  Sort  (cost=47468862.31..47476274.73 rows=2964966 width=8)
+                                             Sort Key: catalog_sales.cs_bill_customer_sk, catalog_sales.cs_item_sk
+                                             ->  Parallel Hash Join  (cost=2108.23..47069060.63 rows=2964966 width=8)
+                                                   Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                   ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=12)
+                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                         ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=214 width=4)
+                                                               Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+ JIT:
+   Functions: 45
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(36 rows)
+

@@ -1,0 +1,248 @@
+{
+   "name":  "Query", 
+   "result": 245.078760,
+   "timing": 245.078760,
+   "cardinality": 0,
+   "extra-info": "\nSELECT *\nFROM\n  (SELECT i_manager_id,\n          sum(ss_sales_price) sum_sales,\n          avg(sum(ss_sales_price)) OVER (PARTITION BY i_manager_id) avg_monthly_sales\n   FROM 'item.parquet' AS item,\n        'store_sales.parquet' AS store_sales,\n        'date_dim.parquet' AS date_dim,\n        'store.parquet' AS store\n   WHERE ss_item_sk = i_item_sk\n     AND ss_sold_date_sk = d_date_sk\n     AND ss_store_sk = s_store_sk\n     AND d_month_seq IN (1200,\n                         1200+1,\n                         1200+2,\n                         1200+3,\n                         1200+4,\n                         1200+5,\n                         1200+6,\n                         1200+7,\n                         1200+8,\n                         1200+9,\n                         1200+10,\n                         1200+11)\n     AND ((i_category IN ('Books',\n                          'Children',\n                          'Electronics')\n           AND i_class IN ('personal',\n                           'portable',\n                           'reference',\n                           'self-help')\n           AND i_brand IN ('scholaramalgamalg #14',\n                           'scholaramalgamalg #7',\n                           'exportiunivamalg #9',\n                           'scholaramalgamalg #9')) or(i_category IN ('Women','Music','Men')\n                                                       AND i_class IN ('accessories','classical','fragrances','pants')\n                                                       AND i_brand IN ('amalgimporto #1','edu packscholar #1','exportiimporto #1', 'importoamalg #1')))\n   GROUP BY i_manager_id,\n            d_moy) tmp1\nWHERE CASE\n          WHEN avg_monthly_sales > 0 THEN ABS (sum_sales - avg_monthly_sales) / avg_monthly_sales\n          ELSE NULL\n      END > 0.1\nORDER BY i_manager_id,\n         avg_monthly_sales,\n         sum_sales\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001812
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000807
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000155
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000102
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000034
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000627
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000013
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000061
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000015
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000027
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "planner", 
+   "timing": 17.953909
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 17.953900
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.003027,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#2 ASC\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000187,
+         "cardinality":1212,
+         "extra_info": "#0\n#2\n#3\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "FILTER",
+            "timing":0.000632,
+            "cardinality":1212,
+            "extra_info": "CASE WHEN (avg_monthly_sales>0.000000) THEN (/(abs(-(sum_sales, avg_monthly_sales)), avg_monthly_sales)) ELSE (NULL)>0.100000",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "WINDOW",
+               "timing":0.005554,
+               "cardinality":1212,
+               "extra_info": "avg(sum(#[13.0])) OVER(PARTITION BY i_manager_id)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":0.872246,
+                  "cardinality":1212,
+                  "extra_info": "#0\n#1\nsum(#2)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.083228,
+                     "cardinality":19364615,
+                     "extra_info": "i_manager_id\nd_moy\nss_sales_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":28.116818,
+                        "cardinality":19364615,
+                        "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":18.075082,
+                           "cardinality":539988812,
+                           "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":32.995884,
+                              "cardinality":553018161,
+                              "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":134.459053,
+                                 "cardinality":2879987999,
+                                 "extra_info": "ss_sales_price\nss_item_sk\nss_sold_date_sk\nss_store_sk",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.004371,
+                                 "cardinality":732,
+                                 "extra_info": "d_date_sk\nd_month_seq\nd_moy\n[INFOSEPARATOR]\nFilters: d_month_seq>=1200 AND d_month_seq<=1211 AND d_month_seq IS NOT NULL\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.000210,
+                              "cardinality":2004,
+                              "extra_info": "s_store_sk",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.001413,
+                           "cardinality":30812,
+                           "extra_info": "#0\n#1\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":0.050174,
+                              "cardinality":30812,
+                              "extra_info": "(((i_category=Books OR i_category=Children OR i_category=Electronics) AND (i_class=personal OR i_class=portable OR i_class=reference OR i_class=self-help) AND (i_brand=scholaramalgamalg #14 OR i_brand=scholaramalgamalg #7 OR i_brand=exportiunivamalg #9 OR i_brand=scholaramalgamalg #9)) OR ((i_category=Women OR i_category=Music OR i_category=Men) AND (i_class=accessories OR i_class=classical OR i_class=fragrances OR i_class=pants) AND (i_brand=amalgimporto #1 OR i_brand=edu packscholar #1 OR i_brand=exportiimporto #1 OR i_brand=importoamalg #1)))",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.141784,
+                                 "cardinality":600000,
+                                 "extra_info": "i_manager_id\ni_item_sk\ni_category\ni_class\ni_brand",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

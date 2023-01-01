@@ -1,0 +1,23 @@
+XN Limit  (cost=1001241315066.11..1001241315066.13 rows=10 width=15)
+  ->  XN Merge  (cost=1001241315066.11..1001241315066.13 rows=10 width=15)
+        Merge Key: store.s_store_name
+        ->  XN Network  (cost=1001241315066.11..1001241315066.13 rows=10 width=15)
+              Send to leader
+              ->  XN Sort  (cost=1001241315066.11..1001241315066.13 rows=10 width=15)
+                    Sort Key: store.s_store_name
+                    ->  XN HashAggregate  (cost=1241315065.91..1241315065.94 rows=10 width=15)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=1177.38..1240915878.83 rows=79837417 width=15)
+                                Hash Cond: ("substring"(("outer".s_zip)::text, 1, 2) = ("inner"."substring")::text)
+                                ->  XN Hash Join DS_BCAST_INNER  (cost=1108.48..352859003.63 rows=2897385 width=24)
+                                      Hash Cond: ("outer".ss_store_sk = "inner".s_store_sk)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=1095.95..72202095.40 rows=3018749 width=12)
+                                            Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                            ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2624874582 width=16)
+                                                  Filter: ((ss_store_sk IS NOT NULL) AND (ss_sold_date_sk IS NOT NULL))
+                                            ->  XN Hash  (cost=1095.73..1095.73 rows=88 width=4)
+                                                  ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=88 width=4)
+                                                        Filter: ((d_year = 1998) AND (d_qoy = 2))
+                                      ->  XN Hash  (cost=10.02..10.02 rows=1002 width=20)
+                                            ->  XN Seq Scan on store  (cost=0.00..10.02 rows=1002 width=20)
+                                ->  XN Hash  (cost=55.12..55.12 rows=5512 width=6)
+                                      ->  XN Seq Scan on rs_table_08_0  (cost=0.00..55.12 rows=5512 width=6)

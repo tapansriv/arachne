@@ -1,0 +1,62 @@
+                                                                                  QUERY PLAN                                                                                  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=789260371.23..789260371.48 rows=100 width=249)
+   ->  Sort  (cost=789260371.23..789261149.22 rows=311195 width=249)
+         Sort Key: store.s_store_name NULLS FIRST, store.s_store_id NULLS FIRST, date_dim_3.d_week_seq NULLS FIRST
+         ->  Merge Join  (cost=738576594.75..789248477.58 rows=311195 width=249)
+               Merge Cond: ((date_dim.d_week_seq = date_dim_3.d_week_seq) AND (store.s_store_sk = store_sales_1.ss_store_sk))
+               ->  Sort  (cost=394721034.08..394721063.97 rows=11956 width=257)
+                     Sort Key: date_dim.d_week_seq, store.s_store_sk
+                     ->  Nested Loop  (cost=394549610.92..394720224.34 rows=11956 width=257)
+                           Join Filter: ((store_1.s_store_id)::text = (store.s_store_id)::text)
+                           ->  Nested Loop  (cost=394549610.92..394635600.00 rows=5627 width=249)
+                                 Join Filter: (store_sales.ss_store_sk = store_1.s_store_sk)
+                                 ->  Merge Join  (cost=394549610.92..394550975.67 rows=5627 width=236)
+                                       Merge Cond: (((date_dim_2.d_week_seq - 52)) = date_dim.d_week_seq)
+                                       ->  Sort  (cost=394547039.54..394547461.63 rows=168837 width=232)
+                                             Sort Key: ((date_dim_2.d_week_seq - 52))
+                                             ->  Merge Join  (cost=343858131.55..394513910.54 rows=168837 width=232)
+                                                   Merge Cond: (date_dim_2.d_week_seq = date_dim_1.d_week_seq)
+                                                   ->  Finalize GroupAggregate  (cost=343855560.66..394443601.95 rows=5216412 width=232)
+                                                         Group Key: date_dim_2.d_week_seq, store_sales.ss_store_sk
+                                                         ->  Gather Merge  (cost=343855560.66..393882837.66 rows=10432824 width=232)
+                                                               Workers Planned: 2
+                                                               ->  Partial GroupAggregate  (cost=343854560.64..392677630.88 rows=5216412 width=232)
+                                                                     Group Key: date_dim_2.d_week_seq, store_sales.ss_store_sk
+                                                                     ->  Sort  (cost=343854560.64..346718067.63 rows=1145402798 width=22)
+                                                                           Sort Key: date_dim_2.d_week_seq, store_sales.ss_store_sk
+                                                                           ->  Parallel Hash Join  (cost=2427.82..77551508.07 rows=1145402798 width=22)
+                                                                                 Hash Cond: (store_sales.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                                                                 ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                 ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=16)
+                                                                                       ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..1890.70 rows=42970 width=16)
+                                                   ->  Sort  (cost=2570.88..2571.73 rows=337 width=4)
+                                                         Sort Key: date_dim_1.d_week_seq
+                                                         ->  Seq Scan on date_dim date_dim_1  (cost=0.00..2556.73 rows=337 width=4)
+                                                               Filter: ((d_month_seq >= 1224) AND (d_month_seq <= 1235))
+                                       ->  Sort  (cost=2571.38..2572.24 rows=347 width=4)
+                                             Sort Key: date_dim.d_week_seq
+                                             ->  Seq Scan on date_dim  (cost=0.00..2556.73 rows=347 width=4)
+                                                   Filter: ((d_month_seq >= 1212) AND (d_month_seq <= 1223))
+                                 ->  Materialize  (cost=0.00..53.03 rows=1002 width=21)
+                                       ->  Seq Scan on store store_1  (cost=0.00..48.02 rows=1002 width=21)
+                           ->  Materialize  (cost=0.00..53.03 rows=1002 width=25)
+                                 ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=25)
+               ->  Finalize GroupAggregate  (cost=343855560.66..394443601.95 rows=5216412 width=232)
+                     Group Key: date_dim_3.d_week_seq, store_sales_1.ss_store_sk
+                     ->  Gather Merge  (cost=343855560.66..393882837.66 rows=10432824 width=232)
+                           Workers Planned: 2
+                           ->  Partial GroupAggregate  (cost=343854560.64..392677630.88 rows=5216412 width=232)
+                                 Group Key: date_dim_3.d_week_seq, store_sales_1.ss_store_sk
+                                 ->  Sort  (cost=343854560.64..346718067.63 rows=1145402798 width=22)
+                                       Sort Key: date_dim_3.d_week_seq, store_sales_1.ss_store_sk
+                                       ->  Parallel Hash Join  (cost=2427.82..77551508.07 rows=1145402798 width=22)
+                                             Hash Cond: (store_sales_1.ss_sold_date_sk = date_dim_3.d_date_sk)
+                                             ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                             ->  Parallel Hash  (cost=1890.70..1890.70 rows=42970 width=16)
+                                                   ->  Parallel Seq Scan on date_dim date_dim_3  (cost=0.00..1890.70 rows=42970 width=16)
+ JIT:
+   Functions: 78
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(58 rows)
+

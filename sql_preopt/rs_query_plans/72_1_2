@@ -1,0 +1,9 @@
+XN Limit  (cost=1000000322952.05..1000000322952.30 rows=100 width=135)
+  ->  XN Merge  (cost=1000000322952.05..1000000325217.13 rows=906034 width=135)
+        Merge Key: count(*), i_item_desc, w_warehouse_name, d_week_seq
+        ->  XN Network  (cost=1000000322952.05..1000000325217.13 rows=906034 width=135)
+              Send to leader
+              ->  XN Sort  (cost=1000000322952.05..1000000325217.13 rows=906034 width=135)
+                    Sort Key: count(*), i_item_desc, w_warehouse_name, d_week_seq
+                    ->  XN HashAggregate  (cost=226508.33..233303.58 rows=906034 width=135)
+                          ->  XN Seq Scan on rs_table_72_0  (cost=0.00..90603.33 rows=9060333 width=135)

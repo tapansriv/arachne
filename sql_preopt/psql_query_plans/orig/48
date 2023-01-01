@@ -1,0 +1,34 @@
+                                                                                                                                                                                                                                                                                                                                                                            QUERY PLAN                                                                                                                                                                                                                                                                                                                                                                             
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=103127590.13..103127590.14 rows=1 width=8)
+   ->  Gather  (cost=103127589.92..103127590.13 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=103126589.92..103126589.93 rows=1 width=8)
+               ->  Hash Join  (cost=102954830.60..103126584.31 rows=2245 width=4)
+                     Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                     ->  Parallel Hash Join  (cost=102954770.05..103126492.51 rows=2350 width=8)
+                           Hash Cond: (customer_address.ca_address_sk = store_sales.ss_addr_sk)
+                           Join Filter: ((((customer_address.ca_state)::text = ANY ('{CO,OH,TX}'::text[])) AND (store_sales.ss_net_profit >= '0'::numeric) AND (store_sales.ss_net_profit <= '2000'::numeric)) OR (((customer_address.ca_state)::text = ANY ('{OR,MN,KY}'::text[])) AND (store_sales.ss_net_profit >= '150'::numeric) AND (store_sales.ss_net_profit <= '3000'::numeric)) OR (((customer_address.ca_state)::text = ANY ('{VA,CA,MS}'::text[])) AND (store_sales.ss_net_profit >= '50'::numeric) AND (store_sales.ss_net_profit <= '25000'::numeric)))
+                           ->  Parallel Seq Scan on customer_address  (cost=0.00..169293.85 rows=626671 width=7)
+                                 Filter: (((ca_country)::text = 'United States'::text) AND (((ca_state)::text = ANY ('{CO,OH,TX}'::text[])) OR ((ca_state)::text = ANY ('{OR,MN,KY}'::text[])) OR ((ca_state)::text = ANY ('{VA,CA,MS}'::text[]))))
+                           ->  Parallel Hash  (cost=102954498.34..102954498.34 rows=21737 width=18)
+                                 ->  Parallel Hash Join  (cost=42394.61..102954498.34 rows=21737 width=18)
+                                       Hash Cond: (store_sales.ss_cdemo_sk = customer_demographics.cd_demo_sk)
+                                       Join Filter: ((((customer_demographics.cd_marital_status)::text = 'M'::text) AND ((customer_demographics.cd_education_status)::text = '4 yr Degree'::text) AND (store_sales.ss_sales_price >= 100.00) AND (store_sales.ss_sales_price <= 150.00)) OR (((customer_demographics.cd_marital_status)::text = 'D'::text) AND ((customer_demographics.cd_education_status)::text = '2 yr Degree'::text) AND (store_sales.ss_sales_price >= 50.00) AND (store_sales.ss_sales_price <= 100.00)) OR (((customer_demographics.cd_marital_status)::text = 'S'::text) AND ((customer_demographics.cd_education_status)::text = 'College'::text) AND (store_sales.ss_sales_price >= 150.00) AND (store_sales.ss_sales_price <= 200.00)))
+                                       ->  Parallel Hash Join  (cost=2000.80..102910239.40 rows=761143 width=28)
+                                             Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on store_sales  (cost=0.00..102303795.13 rows=159991632 width=32)
+                                                   Filter: ((((ss_sales_price >= 100.00) AND (ss_sales_price <= 150.00)) OR ((ss_sales_price >= 50.00) AND (ss_sales_price <= 100.00)) OR ((ss_sales_price >= 150.00) AND (ss_sales_price <= 200.00))) AND (((ss_net_profit >= '0'::numeric) AND (ss_net_profit <= '2000'::numeric)) OR ((ss_net_profit >= '150'::numeric) AND (ss_net_profit <= '3000'::numeric)) OR ((ss_net_profit >= '50'::numeric) AND (ss_net_profit <= '25000'::numeric))))
+                                             ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..1998.12 rows=214 width=4)
+                                                         Filter: (d_year = 2000)
+                                       ->  Parallel Hash  (cost=39559.33..39559.33 rows=66758 width=16)
+                                             ->  Parallel Seq Scan on customer_demographics  (cost=0.00..39559.33 rows=66758 width=16)
+                                                   Filter: ((((cd_marital_status)::text = 'M'::text) AND ((cd_education_status)::text = '4 yr Degree'::text)) OR (((cd_marital_status)::text = 'D'::text) AND ((cd_education_status)::text = '2 yr Degree'::text)) OR (((cd_marital_status)::text = 'S'::text) AND ((cd_education_status)::text = 'College'::text)))
+                     ->  Hash  (cost=48.02..48.02 rows=1002 width=4)
+                           ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=4)
+ JIT:
+   Functions: 49
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(30 rows)
+

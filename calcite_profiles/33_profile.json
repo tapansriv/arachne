@@ -1,0 +1,698 @@
+{
+   "name":  "Query", 
+   "result": 1150.630275,
+   "timing": 1150.630275,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.002546
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000023
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000402
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000014
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000605
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000109
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.001313
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000026
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000110
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000022
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000055
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "planner", 
+   "timing": 32.267708
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 32.267665
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000153,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#1 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.000148,
+         "cardinality":1000,
+         "extra_info": "#0\nsum(#1)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000020,
+            "cardinality":3000,
+            "extra_info": "i_manufact_id\ntotal_sales\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "UNION",
+               "timing":0.000008,
+               "cardinality":3000,
+               "extra_info": "",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "UNION",
+                  "timing":0.000006,
+                  "cardinality":2000,
+                  "extra_info": "",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":0.409562,
+                     "cardinality":1000,
+                     "extra_info": "#0\nsum(#1)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.067302,
+                        "cardinality":9601928,
+                        "extra_info": "i_manufact_id\nss_ext_sales_price\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":0.805707,
+                           "cardinality":9601928,
+                           "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.072741,
+                              "cardinality":9624711,
+                              "extra_info": "ss_item_sk\nss_ext_sales_price\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":1.158580,
+                                 "cardinality":9624711,
+                                 "extra_info": "INNER\nss_addr_sk=ca_address_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.089977,
+                                    "cardinality":27002013,
+                                    "extra_info": "ss_item_sk\nss_addr_sk\nss_ext_sales_price\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":34.408211,
+                                       "cardinality":27002013,
+                                       "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":337.803138,
+                                          "cardinality":2879987999,
+                                          "extra_info": "ss_sold_date_sk\nss_item_sk\nss_addr_sk\nss_ext_sales_price",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":0.000031,
+                                          "cardinality":62,
+                                          "extra_info": "d_date_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.051221,
+                                             "cardinality":62,
+                                             "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=1998 AND d_year IS NOT NULL\nd_moy=5 AND d_moy IS NOT NULL\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.029738,
+                                    "cardinality":4378338,
+                                    "extra_info": "ca_address_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":2.961304,
+                                       "cardinality":4378338,
+                                       "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-5.000000 AND ca_gmt_offset IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.001583,
+                              "cardinality":598478,
+                              "extra_info": "i_item_sk\ni_manufact_id\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.016910,
+                                 "cardinality":598478,
+                                 "extra_info": "INNER\ni_manufact_id=i_manufact_id\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.130173,
+                                    "cardinality":600000,
+                                    "extra_info": "i_manufact_id\ni_item_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing":0.001452,
+                                    "cardinality":2002,
+                                    "extra_info": "#0",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000633,
+                                       "cardinality":29887,
+                                       "extra_info": "i_manufact_id\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.056956,
+                                          "cardinality":29887,
+                                          "extra_info": "i_manufact_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Electronics AND i_category IS NOT NULL\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":0.174502,
+                     "cardinality":1000,
+                     "extra_info": "#0\nsum(#1)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.033689,
+                        "cardinality":5109440,
+                        "extra_info": "i_manufact_id\ncs_ext_sales_price\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":0.346950,
+                           "cardinality":5109440,
+                           "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.033179,
+                              "cardinality":5121725,
+                              "extra_info": "cs_item_sk\ncs_ext_sales_price\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.531508,
+                                 "cardinality":5121725,
+                                 "extra_info": "INNER\ncs_bill_addr_sk=ca_address_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.039631,
+                                    "cardinality":14061335,
+                                    "extra_info": "cs_bill_addr_sk\ncs_item_sk\ncs_ext_sales_price\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":19.360121,
+                                       "cardinality":14061335,
+                                       "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":584.539735,
+                                          "cardinality":1439980416,
+                                          "extra_info": "cs_sold_date_sk\ncs_bill_addr_sk\ncs_item_sk\ncs_ext_sales_price",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":0.000021,
+                                          "cardinality":62,
+                                          "extra_info": "d_date_sk\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PARQUET_SCAN",
+                                             "timing":0.004361,
+                                             "cardinality":62,
+                                             "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=1998 AND d_year IS NOT NULL\nd_moy=5 AND d_moy IS NOT NULL\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.019777,
+                                    "cardinality":4378338,
+                                    "extra_info": "ca_address_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.624618,
+                                       "cardinality":4378338,
+                                       "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-5.000000 AND ca_gmt_offset IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.000784,
+                              "cardinality":598478,
+                              "extra_info": "i_item_sk\ni_manufact_id\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.008604,
+                                 "cardinality":598478,
+                                 "extra_info": "INNER\ni_manufact_id=i_manufact_id\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.012643,
+                                    "cardinality":600000,
+                                    "extra_info": "i_manufact_id\ni_item_sk",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "HASH_GROUP_BY",
+                                    "timing":0.001252,
+                                    "cardinality":2002,
+                                    "extra_info": "#0",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000538,
+                                       "cardinality":29887,
+                                       "extra_info": "i_manufact_id\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.030598,
+                                          "cardinality":29887,
+                                          "extra_info": "i_manufact_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Electronics AND i_category IS NOT NULL\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "HASH_GROUP_BY",
+                  "timing":0.129856,
+                  "cardinality":1000,
+                  "extra_info": "#0\nsum(#1)",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.020924,
+                     "cardinality":2572810,
+                     "extra_info": "i_manufact_id\nws_ext_sales_price\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":0.256843,
+                        "cardinality":2572810,
+                        "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.022716,
+                           "cardinality":2579024,
+                           "extra_info": "ws_item_sk\nws_ext_sales_price\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.424345,
+                              "cardinality":2579024,
+                              "extra_info": "INNER\nws_bill_addr_sk=ca_address_sk\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.027012,
+                                 "cardinality":7065594,
+                                 "extra_info": "ws_item_sk\nws_bill_addr_sk\nws_ext_sales_price\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "HASH_JOIN",
+                                    "timing":7.756774,
+                                    "cardinality":7065594,
+                                    "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":117.107093,
+                                       "cardinality":720000376,
+                                       "extra_info": "ws_sold_date_sk\nws_item_sk\nws_bill_addr_sk\nws_ext_sales_price",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+,
+                                     {
+                                       "name": "PROJECTION",
+                                       "timing":0.000021,
+                                       "cardinality":62,
+                                       "extra_info": "d_date_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.004374,
+                                          "cardinality":62,
+                                          "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_year=1998 AND d_year IS NOT NULL\nd_moy=5 AND d_moy IS NOT NULL\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.016802,
+                                 "cardinality":4378338,
+                                 "extra_info": "ca_address_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":0.525679,
+                                    "cardinality":4378338,
+                                    "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-5.000000 AND ca_gmt_offset IS NOT NULL\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+,
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.000793,
+                           "cardinality":598478,
+                           "extra_info": "i_item_sk\ni_manufact_id\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.008557,
+                              "cardinality":598478,
+                              "extra_info": "INNER\ni_manufact_id=i_manufact_id\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.012636,
+                                 "cardinality":600000,
+                                 "extra_info": "i_manufact_id\ni_item_sk",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "HASH_GROUP_BY",
+                                 "timing":0.000958,
+                                 "cardinality":2002,
+                                 "extra_info": "#0",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.000411,
+                                    "cardinality":29887,
+                                    "extra_info": "i_manufact_id\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":0.023464,
+                                       "cardinality":29887,
+                                       "extra_info": "i_manufact_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Electronics AND i_category IS NOT NULL\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

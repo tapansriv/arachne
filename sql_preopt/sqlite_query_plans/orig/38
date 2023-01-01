@@ -1,0 +1,176 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     168   0                    00  Start at 168 
+1     InitCoroutine  1     157   2                    00  hot_cust     
+2     OpenEphemeral  10    3     0     k(3,B,B,B)     00  nColumn=3    
+3     OpenEphemeral  12    3     0     k(3,B,B,B)     00  nColumn=3    
+4     OpenRead       8     11    0     4              00  root=11 iDb=0; date_dim
+5     OpenRead       7     22    0     4              00  root=22 iDb=0; store_sales
+6     OpenRead       9     3     0     10             00  root=3 iDb=0; customer
+7     Rewind         8     47    0                    00               
+8       Column         8     3     2                    00  r[2]=date_dim.d_month_seq
+9       Lt             4     46    2     (BINARY)       54  if r[2]<r[4] goto 46
+10      Gt             5     46    2     (BINARY)       54  if r[2]>r[5] goto 46
+11      Once           0     20    0                    00               
+12      OpenAutoindex  14    3     0     k(3,B,,)       00  nColumn=3; for store_sales
+13      Rewind         7     20    0                    00               
+14        Column         7     0     6                    00  r[6]=store_sales.ss_sold_date_sk
+15        Column         7     3     7                    00  r[7]=store_sales.ss_customer_sk
+16        Rowid          7     8     0                    00  r[8]=rowid   
+17        MakeRecord     6     3     2                    00  r[2]=mkrec(r[6..8])
+18        IdxInsert      14    2     0                    10  key=r[2]     
+19      Next           7     14    0                    03               
+20      Column         8     0     9                    00  r[9]=date_dim.d_date_sk
+21      Affinity       9     1     0     C              00  affinity(r[9])
+22      SeekGE         14    46    9     1              00  key=r[9]     
+23        IdxGT          14    46    9     1              00  key=r[9]     
+24        Once           0     34    0                    00               
+25        OpenAutoindex  15    4     0     k(4,B,,,)      00  nColumn=4; for customer
+26        Rewind         9     34    0                    00               
+27          Column         9     0     10                   00  r[10]=customer.c_customer_sk
+28          Column         9     8     11                   00  r[11]=customer.c_first_name
+29          Column         9     9     12                   00  r[12]=customer.c_last_name
+30          Rowid          9     13    0                    00  r[13]=rowid  
+31          MakeRecord     10    4     2                    00  r[2]=mkrec(r[10..13])
+32          IdxInsert      15    2     0                    10  key=r[2]     
+33        Next           9     27    0                    03               
+34        Column         14    1     14                   00  r[14]=store_sales.ss_customer_sk
+35        IsNull         14    45    0                    00  if r[14]==NULL goto 45
+36        Affinity       14    1     0     C              00  affinity(r[14])
+37        SeekGE         15    45    14    1              00  key=r[14]    
+38          IdxGT          15    45    14    1              00  key=r[14]    
+39          Column         15    2     15                   00  r[15]=customer.c_last_name
+40          Column         15    1     16                   00  r[16]=customer.c_first_name
+41          Column         8     2     17                   00  r[17]=date_dim.d_date
+42          MakeRecord     15    3     2                    00  r[2]=mkrec(r[15..17])
+43          IdxInsert      12    2     15    3              00  key=r[2]     
+44        Next           15    38    0                    00               
+45      Next           14    23    0                    00               
+46    Next           8     8     0                    01               
+47    OpenEphemeral  13    3     0     k(3,B,B,B)     00  nColumn=3    
+48    OpenRead       5     11    0     4              00  root=11 iDb=0; date_dim
+49    OpenRead       4     6     0     4              00  root=6 iDb=0; catalog_sales
+50    OpenRead       6     3     0     10             00  root=3 iDb=0; customer
+51    Rewind         5     91    0                    00               
+52      Column         5     3     2                    00  r[2]=date_dim.d_month_seq
+53      Lt             4     90    2     (BINARY)       54  if r[2]<r[4] goto 90
+54      Gt             5     90    2     (BINARY)       54  if r[2]>r[5] goto 90
+55      Once           0     64    0                    00               
+56      OpenAutoindex  16    3     0     k(3,B,,)       00  nColumn=3; for catalog_sales
+57      Rewind         4     64    0                    00               
+58        Column         4     0     10                   00  r[10]=catalog_sales.cs_sold_date_sk
+59        Column         4     3     11                   00  r[11]=catalog_sales.cs_bill_customer_sk
+60        Rowid          4     12    0                    00  r[12]=rowid  
+61        MakeRecord     10    3     2                    00  r[2]=mkrec(r[10..12])
+62        IdxInsert      16    2     0                    10  key=r[2]     
+63      Next           4     58    0                    03               
+64      Column         5     0     18                   00  r[18]=date_dim.d_date_sk
+65      Affinity       18    1     0     C              00  affinity(r[18])
+66      SeekGE         16    90    18    1              00  key=r[18]    
+67        IdxGT          16    90    18    1              00  key=r[18]    
+68        Once           0     78    0                    00               
+69        OpenAutoindex  17    4     0     k(4,B,,,)      00  nColumn=4; for customer
+70        Rewind         6     78    0                    00               
+71          Column         6     0     19                   00  r[19]=customer.c_customer_sk
+72          Column         6     8     20                   00  r[20]=customer.c_first_name
+73          Column         6     9     21                   00  r[21]=customer.c_last_name
+74          Rowid          6     22    0                    00  r[22]=rowid  
+75          MakeRecord     19    4     2                    00  r[2]=mkrec(r[19..22])
+76          IdxInsert      17    2     0                    10  key=r[2]     
+77        Next           6     71    0                    03               
+78        Column         16    1     23                   00  r[23]=catalog_sales.cs_bill_customer_sk
+79        IsNull         23    89    0                    00  if r[23]==NULL goto 89
+80        Affinity       23    1     0     C              00  affinity(r[23])
+81        SeekGE         17    89    23    1              00  key=r[23]    
+82          IdxGT          17    89    23    1              00  key=r[23]    
+83          Column         17    2     15                   00  r[15]=customer.c_last_name
+84          Column         17    1     16                   00  r[16]=customer.c_first_name
+85          Column         5     2     17                   00  r[17]=date_dim.d_date
+86          MakeRecord     15    3     2                    00  r[2]=mkrec(r[15..17])
+87          IdxInsert      13    2     15    3              00  key=r[2]     
+88        Next           17    82    0                    00               
+89      Next           16    67    0                    00               
+90    Next           5     52    0                    01               
+91    Rewind         12    100   0                    00               
+92      RowData        12    2     0                    00  r[2]=data    
+93      NotFound       13    99    2     0              00  key=r[2]     
+94      Column         12    0     24                   00  r[24]=c_last_name
+95      Column         12    1     25                   00  r[25]=c_first_name
+96      Column         12    2     26                   00  r[26]=d_date 
+97      MakeRecord     24    3     2                    00  r[2]=mkrec(r[24..26])
+98      IdxInsert      10    2     24    3              00  key=r[2]     
+99    Next           12    92    0                    00               
+100   Close          13    0     0                    00               
+101   Close          12    0     0                    00               
+102   OpenEphemeral  11    3     0     k(3,B,B,B)     00  nColumn=3    
+103   OpenRead       2     11    0     4              00  root=11 iDb=0; date_dim
+104   OpenRead       1     28    0     5              00  root=28 iDb=0; web_sales
+105   OpenRead       3     3     0     10             00  root=3 iDb=0; customer
+106   Rewind         2     146   0                    00               
+107     Column         2     3     2                    00  r[2]=date_dim.d_month_seq
+108     Lt             4     145   2     (BINARY)       54  if r[2]<r[4] goto 145
+109     Gt             5     145   2     (BINARY)       54  if r[2]>r[5] goto 145
+110     Once           0     119   0                    00               
+111     OpenAutoindex  18    3     0     k(3,B,,)       00  nColumn=3; for web_sales
+112     Rewind         1     119   0                    00               
+113       Column         1     0     19                   00  r[19]=web_sales.ws_sold_date_sk
+114       Column         1     4     20                   00  r[20]=web_sales.ws_bill_customer_sk
+115       Rowid          1     21    0                    00  r[21]=rowid  
+116       MakeRecord     19    3     2                    00  r[2]=mkrec(r[19..21])
+117       IdxInsert      18    2     0                    10  key=r[2]     
+118     Next           1     113   0                    03               
+119     Column         2     0     27                   00  r[27]=date_dim.d_date_sk
+120     Affinity       27    1     0     C              00  affinity(r[27])
+121     SeekGE         18    145   27    1              00  key=r[27]    
+122       IdxGT          18    145   27    1              00  key=r[27]    
+123       Once           0     133   0                    00               
+124       OpenAutoindex  19    4     0     k(4,B,,,)      00  nColumn=4; for customer
+125       Rewind         3     133   0                    00               
+126         Column         3     0     28                   00  r[28]=customer.c_customer_sk
+127         Column         3     8     29                   00  r[29]=customer.c_first_name
+128         Column         3     9     30                   00  r[30]=customer.c_last_name
+129         Rowid          3     31    0                    00  r[31]=rowid  
+130         MakeRecord     28    4     2                    00  r[2]=mkrec(r[28..31])
+131         IdxInsert      19    2     0                    10  key=r[2]     
+132       Next           3     126   0                    03               
+133       Column         18    1     32                   00  r[32]=web_sales.ws_bill_customer_sk
+134       IsNull         32    144   0                    00  if r[32]==NULL goto 144
+135       Affinity       32    1     0     C              00  affinity(r[32])
+136       SeekGE         19    144   32    1              00  key=r[32]    
+137         IdxGT          19    144   32    1              00  key=r[32]    
+138         Column         19    2     24                   00  r[24]=customer.c_last_name
+139         Column         19    1     25                   00  r[25]=customer.c_first_name
+140         Column         2     2     26                   00  r[26]=date_dim.d_date
+141         MakeRecord     24    3     2                    00  r[2]=mkrec(r[24..26])
+142         IdxInsert      11    2     24    3              00  key=r[2]     
+143       Next           19    137   0                    00               
+144     Next           18    122   0                    00               
+145   Next           2     107   0                    01               
+146   Rewind         10    154   0                    00               
+147     RowData        10    2     0                    00  r[2]=data    
+148     NotFound       11    153   2     0              00  key=r[2]     
+149     Column         10    0     33                   00  r[33]=c_last_name
+150     Column         10    1     34                   00  r[34]=c_first_name
+151     Column         10    2     35                   00  r[35]=d_date 
+152     Yield          1     0     0                    00               
+153   Next           10    147   0                    00               
+154   Close          11    0     0                    00               
+155   Close          10    0     0                    00               
+156   EndCoroutine   1     0     0                    00               
+157   Integer        100   36    0                    00  r[36]=100; LIMIT counter
+158   Null           0     37    37                   00  r[37..37]=NULL
+159   InitCoroutine  1     0     2                    00               
+160     Yield          1     163   0                    00  next row of hot_cust
+161     AggStep        0     0     37    count(0)       00  accum=r[37] step(r[0])
+162   Goto           0     160   0                    00               
+163   AggFinal       37    0     0     count(0)       00  accum=r[37] N=0
+164   Copy           37    38    0                    00  r[38]=r[37]  
+165   ResultRow      38    1     0                    00  output=r[38] 
+166   DecrJumpZero   36    167   0                    00  if (--r[36])==0 goto 167
+167   Halt           0     0     0                    00               
+168   Transaction    0     0     28    0              01  usesStmtJournal=0
+169   Integer        1200  4     0                    00  r[4]=1200    
+170   Integer        1200  39    0                    00  r[39]=1200   
+171   Integer        11    40    0                    00  r[40]=11     
+172   Add            40    39    5                    00  r[5]=r[40]+r[39]
+173   Goto           0     1     0                    00               

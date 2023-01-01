@@ -1,0 +1,93 @@
+{
+   "name":  "Query", 
+   "result": 1.801143,
+   "timing": 1.801143,
+   "cardinality": 100,
+   "extra-info": "SELECT "duck_table_07_0"."i_item_id", AVG("duck_table_07_0"."ss_quantity") AS "agg1", AVG("duck_table_07_0"."ss_list_price") AS "agg2", AVG("duck_table_07_0"."ss_coupon_amt") AS "agg3", AVG("duck_table_07_0"."ss_sales_price") AS "agg4"\nFROM "duck_table_07_0"\nINNER JOIN (SELECT "p_promo_sk"\nFROM '/mnt/disks/tpcds/parquet/promotion.parquet' AS promotion\nWHERE "p_channel_email" = 'N' OR "p_channel_event" = 'N') AS "t1" ON "duck_table_07_0"."ss_promo_sk" = "t1"."p_promo_sk"\nGROUP BY "duck_table_07_0"."i_item_id"\nORDER BY "duck_table_07_0"."i_item_id"\nFETCH NEXT 100 ROWS ONLY\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.020443,
+      "cardinality":100,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":1.028527,
+         "cardinality":150000,
+         "extra_info": "#0\navg(#1)\navg(#2)\navg(#3)\navg(#4)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.010238,
+            "cardinality":7578599,
+            "extra_info": "i_item_id\nss_quantity\nss_list_price\nss_coupon_amt\nss_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.163541,
+               "cardinality":7578599,
+               "extra_info": "INNER\nss_promo_sk=p_promo_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":0.550175,
+                  "cardinality":7707266,
+                  "extra_info": "duck_table_07_0\n[INFOSEPARATOR]\nss_promo_sk\ni_item_id\nss_quantity\nss_list_price\nss_coupon_amt\nss_sales_price",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000018,
+                  "cardinality":2986,
+                  "extra_info": "#0\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "FILTER",
+                     "timing":0.000151,
+                     "cardinality":2986,
+                     "extra_info": "(p_channel_email=N OR p_channel_event=N)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.034647,
+                        "cardinality":3000,
+                        "extra_info": "p_promo_sk\np_channel_email\np_channel_event",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

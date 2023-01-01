@@ -1,0 +1,100 @@
+                                                                                               QUERY PLAN                                                                                                
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=163774883.12..163774883.13 rows=3 width=84)
+   ->  Sort  (cost=163774883.12..163774883.13 rows=3 width=84)
+         Sort Key: ('web'::text) NULLS FIRST, web.return_rank NULLS FIRST, web.currency_rank NULLS FIRST, web.item NULLS FIRST
+         ->  HashAggregate  (cost=163774883.04..163774883.07 rows=3 width=84)
+               Group Key: ('web'::text), web.item, web.return_ratio, web.return_rank, web.currency_rank
+               ->  Append  (cost=26915509.80..163774883.00 rows=3 width=84)
+                     ->  Subquery Scan on web  (cost=26915509.80..26915509.83 rows=1 width=84)
+                           Filter: ((web.return_rank <= 10) OR (web.currency_rank <= 10))
+                           ->  WindowAgg  (cost=26915509.80..26915509.82 rows=1 width=84)
+                                 ->  Sort  (cost=26915509.80..26915509.80 rows=1 width=76)
+                                       Sort Key: in_web.return_ratio
+                                       ->  WindowAgg  (cost=26915509.77..26915509.79 rows=1 width=76)
+                                             ->  Sort  (cost=26915509.77..26915509.77 rows=1 width=68)
+                                                   Sort Key: in_web.currency_ratio
+                                                   ->  Subquery Scan on in_web  (cost=26915509.41..26915509.76 rows=1 width=68)
+                                                         ->  Finalize GroupAggregate  (cost=26915509.41..26915509.75 rows=1 width=68)
+                                                               Group Key: ws.ws_item_sk
+                                                               ->  Gather Merge  (cost=26915509.41..26915509.68 rows=2 width=84)
+                                                                     Workers Planned: 2
+                                                                     ->  Partial GroupAggregate  (cost=26914509.39..26914509.42 rows=1 width=84)
+                                                                           Group Key: ws.ws_item_sk
+                                                                           ->  Sort  (cost=26914509.39..26914509.40 rows=1 width=24)
+                                                                                 Sort Key: ws.ws_item_sk
+                                                                                 ->  Parallel Hash Join  (cost=25141966.55..26914509.38 rows=1 width=24)
+                                                                                       Hash Cond: ((wr.wr_order_number = ws.ws_order_number) AND (wr.wr_item_sk = ws.ws_item_sk))
+                                                                                       ->  Parallel Seq Scan on web_returns wr  (cost=0.00..1770482.17 rows=274754 width=18)
+                                                                                             Filter: (wr_return_amt > '10000'::numeric)
+                                                                                       ->  Parallel Hash  (cost=25141226.51..25141226.51 rows=49336 width=18)
+                                                                                             ->  Parallel Hash Join  (cost=2105.78..25141226.51 rows=49336 width=18)
+                                                                                                   Hash Cond: (ws.ws_sold_date_sk = date_dim.d_date_sk)
+                                                                                                   ->  Parallel Seq Scan on web_sales ws  (cost=0.00..24702801.60 rows=116275377 width=22)
+                                                                                                         Filter: ((ws_net_profit > '1'::numeric) AND (ws_net_paid > '0'::numeric) AND (ws_quantity > 0))
+                                                                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=18 width=4)
+                                                                                                               Filter: ((d_year = 2001) AND (d_moy = 12))
+                     ->  Subquery Scan on catalog  (cost=53943076.26..53943076.29 rows=1 width=84)
+                           Filter: ((catalog.return_rank <= 10) OR (catalog.currency_rank <= 10))
+                           ->  WindowAgg  (cost=53943076.26..53943076.28 rows=1 width=84)
+                                 ->  Sort  (cost=53943076.26..53943076.26 rows=1 width=76)
+                                       Sort Key: in_cat.return_ratio
+                                       ->  WindowAgg  (cost=53943076.23..53943076.25 rows=1 width=76)
+                                             ->  Sort  (cost=53943076.23..53943076.23 rows=1 width=68)
+                                                   Sort Key: in_cat.currency_ratio
+                                                   ->  Subquery Scan on in_cat  (cost=53943075.87..53943076.22 rows=1 width=68)
+                                                         ->  Finalize GroupAggregate  (cost=53943075.87..53943076.21 rows=1 width=68)
+                                                               Group Key: cs.cs_item_sk
+                                                               ->  Gather Merge  (cost=53943075.87..53943076.14 rows=2 width=84)
+                                                                     Workers Planned: 2
+                                                                     ->  Partial GroupAggregate  (cost=53942075.85..53942075.88 rows=1 width=84)
+                                                                           Group Key: cs.cs_item_sk
+                                                                           ->  Sort  (cost=53942075.85..53942075.85 rows=1 width=24)
+                                                                                 Sort Key: cs.cs_item_sk
+                                                                                 ->  Parallel Hash Join  (cost=50167650.45..53942075.84 rows=1 width=24)
+                                                                                       Hash Cond: ((cr.cr_order_number = cs.cs_order_number) AND (cr.cr_item_sk = cs.cs_item_sk))
+                                                                                       ->  Parallel Seq Scan on catalog_returns cr  (cost=0.00..3762969.17 rows=566428 width=18)
+                                                                                             Filter: (cr_return_amount > '10000'::numeric)
+                                                                                       ->  Parallel Hash  (cost=50165623.22..50165623.22 rows=97149 width=18)
+                                                                                             ->  Parallel Hash Join  (cost=2105.78..50165623.22 rows=97149 width=18)
+                                                                                                   Hash Cond: (cs.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                                                                   ->  Parallel Seq Scan on catalog_sales cs  (cost=0.00..49299626.00 rows=230220627 width=22)
+                                                                                                         Filter: ((cs_net_profit > '1'::numeric) AND (cs_net_paid > '0'::numeric) AND (cs_quantity > 0))
+                                                                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                                                         ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=18 width=4)
+                                                                                                               Filter: ((d_year = 2001) AND (d_moy = 12))
+                     ->  Subquery Scan on store  (cost=82916296.80..82916296.83 rows=1 width=84)
+                           Filter: ((store.return_rank <= 10) OR (store.currency_rank <= 10))
+                           ->  WindowAgg  (cost=82916296.80..82916296.82 rows=1 width=84)
+                                 ->  Sort  (cost=82916296.80..82916296.80 rows=1 width=76)
+                                       Sort Key: in_store.return_ratio
+                                       ->  WindowAgg  (cost=82916296.77..82916296.79 rows=1 width=76)
+                                             ->  Sort  (cost=82916296.77..82916296.77 rows=1 width=68)
+                                                   Sort Key: in_store.currency_ratio
+                                                   ->  Subquery Scan on in_store  (cost=82916296.41..82916296.76 rows=1 width=68)
+                                                         ->  Finalize GroupAggregate  (cost=82916296.41..82916296.75 rows=1 width=68)
+                                                               Group Key: sts.ss_item_sk
+                                                               ->  Gather Merge  (cost=82916296.41..82916296.68 rows=2 width=84)
+                                                                     Workers Planned: 2
+                                                                     ->  Partial GroupAggregate  (cost=82915296.39..82915296.42 rows=1 width=84)
+                                                                           Group Key: sts.ss_item_sk
+                                                                           ->  Sort  (cost=82915296.39..82915296.39 rows=1 width=24)
+                                                                                 Sort Key: sts.ss_item_sk
+                                                                                 ->  Parallel Hash Join  (cost=76331863.39..82915296.38 rows=1 width=24)
+                                                                                       Hash Cond: ((sr.sr_ticket_number = sts.ss_ticket_number) AND (sr.sr_item_sk = sts.ss_item_sk))
+                                                                                       ->  Parallel Seq Scan on store_returns sr  (cost=0.00..6566176.17 rows=764881 width=18)
+                                                                                             Filter: (sr_return_amt > '10000'::numeric)
+                                                                                       ->  Parallel Hash  (cost=76329572.00..76329572.00 rows=109826 width=18)
+                                                                                             ->  Parallel Hash Join  (cost=2105.78..76329572.00 rows=109826 width=18)
+                                                                                                   Hash Cond: (sts.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                                                                                   ->  Parallel Seq Scan on store_sales sts  (cost=0.00..75310327.93 rows=271066825 width=22)
+                                                                                                         Filter: ((ss_net_profit > '1'::numeric) AND (ss_net_paid > '0'::numeric) AND (ss_quantity > 0))
+                                                                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                                                         ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=18 width=4)
+                                                                                                               Filter: ((d_year = 2001) AND (d_moy = 12))
+ JIT:
+   Functions: 134
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(96 rows)
+

@@ -1,0 +1,59 @@
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=141500379.69..141500404.88 rows=10077 width=61)
+   Sort Key: (sum("*SELECT* 2".ext_price)) DESC, "*SELECT* 2".i_brand_id NULLS FIRST
+   ->  Finalize GroupAggregate  (cost=141498372.89..141499709.63 rows=10077 width=61)
+         Group Key: "*SELECT* 2".i_brand, "*SELECT* 2".i_brand_id, time_dim.t_hour, time_dim.t_minute
+         ->  Gather Merge  (cost=141498372.89..141499457.70 rows=8398 width=61)
+               Workers Planned: 2
+               ->  Partial GroupAggregate  (cost=141497372.86..141497488.34 rows=4199 width=61)
+                     Group Key: "*SELECT* 2".i_brand, "*SELECT* 2".i_brand_id, time_dim.t_hour, time_dim.t_minute
+                     ->  Sort  (cost=141497372.86..141497383.36 rows=4199 width=35)
+                           Sort Key: "*SELECT* 2".i_brand, "*SELECT* 2".i_brand_id NULLS FIRST, time_dim.t_hour, time_dim.t_minute
+                           ->  Parallel Hash Join  (cost=17760.69..141497120.17 rows=4199 width=35)
+                                 Hash Cond: ("*SELECT* 2".time_sk = time_dim.t_time_sk)
+                                 ->  Parallel Append  (cost=15859.10..141495029.73 rows=34551 width=31)
+                                       ->  Subquery Scan on "*SELECT* 2"  (cost=15859.10..70832089.66 rows=19380 width=31)
+                                             ->  Parallel Hash Join  (cost=15859.10..70831895.86 rows=8075 width=1289)
+                                                   Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                                   ->  Parallel Hash Join  (cost=2105.78..70816344.90 rows=470398 width=14)
+                                                         Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                         ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=18)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                               ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=18 width=4)
+                                                                     Filter: ((d_moy = 11) AND (d_year = 1999))
+                                                   ->  Parallel Hash  (cost=13726.50..13726.50 rows=2146 width=25)
+                                                         ->  Parallel Seq Scan on item  (cost=0.00..13726.50 rows=2146 width=25)
+                                                               Filter: (i_manager_id = 1)
+                                       ->  Subquery Scan on "*SELECT* 2_1"  (cost=15859.10..47067839.71 rows=10096 width=31)
+                                             ->  Parallel Hash Join  (cost=15859.10..47067738.75 rows=4207 width=1289)
+                                                   Hash Cond: (catalog_sales.cs_item_sk = item_1.i_item_sk)
+                                                   ->  Parallel Hash Join  (cost=2105.78..47053049.00 rows=245038 width=14)
+                                                         Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                         ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=18)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                               ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=18 width=4)
+                                                                     Filter: ((d_moy = 11) AND (d_year = 1999))
+                                                   ->  Parallel Hash  (cost=13726.50..13726.50 rows=2146 width=25)
+                                                         ->  Parallel Seq Scan on item item_1  (cost=0.00..13726.50 rows=2146 width=25)
+                                                               Filter: (i_manager_id = 1)
+                                       ->  Subquery Scan on "*SELECT* 1"  (cost=15859.10..23594927.60 rows=5075 width=31)
+                                             ->  Parallel Hash Join  (cost=15859.10..23594876.85 rows=2115 width=1289)
+                                                   Hash Cond: (web_sales.ws_item_sk = item_2.i_item_sk)
+                                                   ->  Parallel Hash Join  (cost=2105.78..23580652.77 rows=123184 width=14)
+                                                         Hash Cond: (web_sales.ws_sold_date_sk = date_dim_2.d_date_sk)
+                                                         ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=18)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                               ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=18 width=4)
+                                                                     Filter: ((d_moy = 11) AND (d_year = 1999))
+                                                   ->  Parallel Hash  (cost=13726.50..13726.50 rows=2146 width=25)
+                                                         ->  Parallel Seq Scan on item item_2  (cost=0.00..13726.50 rows=2146 width=25)
+                                                               Filter: (i_manager_id = 1)
+                                 ->  Parallel Hash  (cost=1716.29..1716.29 rows=14824 width=12)
+                                       ->  Parallel Seq Scan on time_dim  (cost=0.00..1716.29 rows=14824 width=12)
+                                             Filter: ((t_meal_time)::text = ANY ('{breakfast,dinner}'::text[]))
+ JIT:
+   Functions: 87
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(55 rows)
+

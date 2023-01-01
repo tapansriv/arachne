@@ -1,0 +1,146 @@
+{
+   "name":  "Query", 
+   "result": 83.196840,
+   "timing": 83.196840,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE cs AS\n  (SELECT i_item_id,\n          sum(cs_ext_sales_price) total_sales\n   FROM 'catalog_sales.parquet' AS catalog_sales,\n        'date_dim.parquet' AS date_dim,\n        'customer_address.parquet' AS customer_address,\n        'item.parquet' AS item\n   WHERE i_item_id IN\n       (SELECT i_item_id\n        FROM 'item.parquet' AS item\n        WHERE i_category ='Music')\n     AND cs_item_sk = i_item_sk\n     AND cs_sold_date_sk = d_date_sk\n     AND d_year = 1998\n     AND d_moy = 9\n     AND cs_bill_addr_sk = ca_address_sk\n     AND ca_gmt_offset = -5\n   GROUP BY i_item_id)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000860,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.465201,
+         "cardinality":28059,
+         "extra_info": "#0\nsum(#1)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.060425,
+            "cardinality":2107533,
+            "extra_info": "i_item_id\ncs_ext_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":2.503762,
+               "cardinality":2107533,
+               "extra_info": "SEMI\ni_item_id=#0\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":1.253964,
+                  "cardinality":11268424,
+                  "extra_info": "INNER\ncs_bill_addr_sk=ca_address_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":1.782209,
+                     "cardinality":30965631,
+                     "extra_info": "INNER\ncs_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":10.203866,
+                        "cardinality":30965631,
+                        "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":64.105439,
+                           "cardinality":1439980416,
+                           "extra_info": "cs_ext_sales_price\ncs_item_sk\ncs_sold_date_sk\ncs_bill_addr_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.004602,
+                           "cardinality":60,
+                           "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_moy=9 AND d_moy IS NOT NULL\nd_year=1998 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.040949,
+                        "cardinality":600000,
+                        "extra_info": "i_item_id\ni_item_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.578541,
+                     "cardinality":4378338,
+                     "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-5.000000 AND ca_gmt_offset IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.001059,
+                  "cardinality":60008,
+                  "extra_info": "i_item_id\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.060552,
+                     "cardinality":60008,
+                     "extra_info": "i_item_id\ni_category\n[INFOSEPARATOR]\nFilters: i_category=Music AND i_category IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

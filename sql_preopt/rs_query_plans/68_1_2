@@ -1,0 +1,13 @@
+XN Limit  (cost=1068110764660.73..1068110764660.98 rows=100 width=71)
+  ->  XN Merge  (cost=1068110764660.73..1068110764884.41 rows=89472 width=71)
+        Merge Key: rs_table_68_0.c_last_name, rs_table_68_0.ss_ticket_number
+        ->  XN Network  (cost=1068110764660.73..1068110764884.41 rows=89472 width=71)
+              Send to leader
+              ->  XN Sort  (cost=1068110764660.73..1068110764884.41 rows=89472 width=71)
+                    Sort Key: rs_table_68_0.c_last_name, rs_table_68_0.ss_ticket_number
+                    ->  XN Hash Join DS_BCAST_INNER  (cost=1182.47..68110757302.04 rows=89472 width=71)
+                          Hash Cond: ("outer".ca_address_sk = "inner".c_current_addr_sk)
+                          Join Filter: (("outer".ca_city)::text <> ("inner".bought_city)::text)
+                          ->  XN Seq Scan on customer_address  (cost=0.00..60000.00 rows=6000000 width=16)
+                          ->  XN Hash  (cost=945.98..945.98 rows=94598 width=63)
+                                ->  XN Seq Scan on rs_table_68_0  (cost=0.00..945.98 rows=94598 width=63)

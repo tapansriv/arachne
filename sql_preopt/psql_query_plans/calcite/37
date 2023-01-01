@@ -1,0 +1,32 @@
+                                                                                            QUERY PLAN                                                                                            
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=56670923.67..56671512.56 rows=36 width=126)
+   ->  Group  (cost=56670923.67..56671512.56 rows=36 width=126)
+         Group Key: item.i_item_id, item.i_item_desc, item.i_current_price
+         ->  Gather Merge  (cost=56670923.67..56671512.02 rows=72 width=126)
+               Workers Planned: 2
+               ->  Group  (cost=56669923.65..56670503.69 rows=36 width=126)
+                     Group Key: item.i_item_id, item.i_item_desc, item.i_current_price
+                     ->  Sort  (cost=56669923.65..56670068.66 rows=58004 width=126)
+                           Sort Key: item.i_item_id, item.i_item_desc, item.i_current_price
+                           ->  Parallel Hash Join  (cost=9611276.65..56661564.91 rows=58004 width=126)
+                                 Hash Cond: (item.i_item_sk = inventory.inv_item_sk)
+                                 ->  Parallel Hash Join  (cost=14664.19..47064437.21 rows=72005 width=134)
+                                       Hash Cond: (catalog_sales.cs_item_sk = item.i_item_sk)
+                                       ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=4)
+                                       ->  Parallel Hash  (cost=14664.00..14664.00 rows=15 width=130)
+                                             ->  Parallel Seq Scan on item  (cost=0.00..14664.00 rows=15 width=130)
+                                                   Filter: ((i_current_price >= '68'::numeric) AND (i_current_price <= '98'::numeric) AND (i_manufact_id = ANY ('{677,694,808,940}'::integer[])))
+                                 ->  Parallel Hash  (cost=9595335.38..9595335.38 rows=102167 width=4)
+                                       ->  Parallel Hash Join  (cost=2105.99..9595335.38 rows=102167 width=4)
+                                             Hash Cond: (inventory.inv_date_sk = date_dim.d_date_sk)
+                                             ->  Parallel Seq Scan on inventory  (cost=0.00..9126183.80 rows=124386565 width=8)
+                                                   Filter: ((inv_quantity_on_hand >= 100) AND (inv_quantity_on_hand <= 500))
+                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=35 width=4)
+                                                   ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=35 width=4)
+                                                         Filter: ((d_date >= '2000-02-01'::date) AND (d_date <= '2000-04-01'::date))
+ JIT:
+   Functions: 38
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(28 rows)
+

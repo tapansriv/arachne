@@ -1,0 +1,2 @@
+XN Seq Scan on income_band  (cost=0.00..0.30 rows=7 width=4)
+  Filter: ((ib_upper_bound <= 88128) AND (ib_lower_bound >= 38128))

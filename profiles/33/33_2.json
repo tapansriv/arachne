@@ -1,0 +1,156 @@
+{
+   "name":  "Query", 
+   "result": 66.186165,
+   "timing": 66.186165,
+   "cardinality": 1,
+   "extra-info": "\nCREATE TABLE ws AS\n  ( SELECT i_manufact_id,\n           sum(ws_ext_sales_price) total_sales\n   FROM 'web_sales.parquet' AS web_sales,\n        'date_dim.parquet' AS date_dim,\n        'customer_address.parquet' AS customer_address,\n        'item.parquet' AS item\n   WHERE i_manufact_id IN\n       (SELECT i_manufact_id\n        FROM 'item.parquet' AS item\n        WHERE i_category IN ('Electronics'))\n     AND ws_item_sk = i_item_sk\n     AND ws_sold_date_sk = d_date_sk\n     AND d_year = 1998\n     AND d_moy = 5\n     AND ws_bill_addr_sk = ca_address_sk\n     AND ca_gmt_offset = -5\n   GROUP BY i_manufact_id)", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000015,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.220391,
+         "cardinality":1000,
+         "extra_info": "#0\nsum(#1)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.028577,
+            "cardinality":2572810,
+            "extra_info": "i_manufact_id\nws_ext_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.197630,
+               "cardinality":2572810,
+               "extra_info": "SEMI\ni_manufact_id=#0\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.353589,
+                  "cardinality":2579024,
+                  "extra_info": "INNER\nws_bill_addr_sk=ca_address_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":0.531609,
+                     "cardinality":7065594,
+                     "extra_info": "INNER\nws_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":6.079946,
+                        "cardinality":7065594,
+                        "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":57.230007,
+                           "cardinality":720000376,
+                           "extra_info": "ws_ext_sales_price\nws_item_sk\nws_sold_date_sk\nws_bill_addr_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.004621,
+                           "cardinality":62,
+                           "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_moy=5 AND d_moy IS NOT NULL\nd_year=1998 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.014683,
+                        "cardinality":600000,
+                        "extra_info": "i_manufact_id\ni_item_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.577386,
+                     "cardinality":4378338,
+                     "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-5.000000 AND ca_gmt_offset IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.001005,
+                  "cardinality":59774,
+                  "extra_info": "#0\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "FILTER",
+                     "timing":0.003105,
+                     "cardinality":59774,
+                     "extra_info": "i_category=Electronics",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.046629,
+                        "cardinality":600000,
+                        "extra_info": "i_manufact_id\ni_category",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

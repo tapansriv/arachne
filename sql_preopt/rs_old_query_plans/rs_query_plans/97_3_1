@@ -1,0 +1,8 @@
+XN HashAggregate  (cost=70910058.32..70910058.32 rows=6250288 width=8)
+  ->  XN Hash Join DS_BCAST_INNER  (cost=1096.54..70878806.88 rows=6250288 width=8)
+        Hash Cond: ("outer".cs_sold_date_sk = "inner".d_date_sk)
+        ->  XN Seq Scan on catalog_sales  (cost=0.00..14399804.16 rows=1431632264 width=12)
+              Filter: (cs_sold_date_sk IS NOT NULL)
+        ->  XN Hash  (cost=1095.73..1095.73 rows=321 width=4)
+              ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=321 width=4)
+                    Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))

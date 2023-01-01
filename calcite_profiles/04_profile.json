@@ -1,0 +1,911 @@
+{
+   "name":  "Query", 
+   "result": 7996.817521,
+   "timing": 7996.817521,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 1.456433
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000105
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000019
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000046
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.002018
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000035
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 1.450859
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000039
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000184
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000016
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.002919
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000149
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000345
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000091
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000128
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000044
+   },
+   {
+   "annotation": "planner", 
+   "timing": 193.897962
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 193.897561
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":1.261657,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC\n#1 ASC\n#2 ASC\n#3 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.045765,
+         "cardinality":1492601,
+         "extra_info": "#1\n#2\n#3\n#4\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "FILTER",
+            "timing":0.221042,
+            "cardinality":1492601,
+            "extra_info": "CASE>CAST(CASE WHEN (>) THEN (CAST(/(year_total, year_total3) AS DECIMAL(19,0))) ELSE (NULL) AS DOUBLE)",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":2.557255,
+               "cardinality":1922246,
+               "extra_info": "INNER\ncustomer_id=customer_id\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.055207,
+                  "cardinality":3046460,
+                  "extra_info": "customer_id\ncustomer_id0\ncustomer_first_name0\ncustomer_last_name0\ncustomer_preferred_cust_flag0\nyear_total3\nCASE\n>\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":2.822014,
+                     "cardinality":3046460,
+                     "extra_info": "INNER\ncustomer_id=customer_id\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.113024,
+                        "cardinality":4889227,
+                        "extra_info": "customer_id\ncustomer_id0\ncustomer_first_name0\ncustomer_last_name0\ncustomer_preferred_cust_flag0\nCASE\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.060647,
+                           "cardinality":4889227,
+                           "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#8\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":0.277275,
+                              "cardinality":4889227,
+                              "extra_info": "CASE WHEN (>) THEN (/(year_total, year_total1)) ELSE (NULL)>CASE",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":5.082588,
+                                 "cardinality":9919130,
+                                 "extra_info": "INNER\ncustomer_id=customer_id\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.095795,
+                                    "cardinality":10659307,
+                                    "extra_info": "customer_id\ncustomer_id0\ncustomer_first_name0\ncustomer_last_name0\ncustomer_preferred_cust_flag0\nyear_total1\n>\nCASE\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":5.300305,
+                                       "cardinality":10659307,
+                                       "extra_info": "INNER\ncustomer_id=customer_id\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":0.221780,
+                                          "cardinality":11577723,
+                                          "extra_info": "customer_id\ncustomer_id0\ncustomer_first_name0\ncustomer_last_name0\ncustomer_preferred_cust_flag0\nCASE\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "HASH_JOIN",
+                                             "timing":7.949670,
+                                             "cardinality":11577723,
+                                             "extra_info": "INNER\ncustomer_id=customer_id\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PROJECTION",
+                                                "timing":0.037875,
+                                                "cardinality":11784563,
+                                                "extra_info": "customer_id\nyear_total\n>\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PROJECTION",
+                                                   "timing":0.025627,
+                                                   "cardinality":11784563,
+                                                   "extra_info": "#0\n#8\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "FILTER",
+                                                      "timing":0.064573,
+                                                      "cardinality":11784563,
+                                                      "extra_info": "year_total>0.000000",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "HASH_GROUP_BY",
+                                                         "timing":300.899735,
+                                                         "cardinality":11784563,
+                                                         "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "PROJECTION",
+                                                            "timing":9.437749,
+                                                            "cardinality":534235692,
+                                                            "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nd_year\n/\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                             {
+                                                               "name": "HASH_JOIN",
+                                                               "timing":51.297123,
+                                                               "cardinality":534235692,
+                                                               "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PROJECTION",
+                                                                  "timing":9.166254,
+                                                                  "cardinality":2750397233,
+                                                                  "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nss_sold_date_sk\n/\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                   {
+                                                                     "name": "HASH_JOIN",
+                                                                     "timing":240.822484,
+                                                                     "cardinality":2750397233,
+                                                                     "extra_info": "INNER\nss_customer_sk=c_customer_sk\n",
+                                                                     "timings": [
+                                                                     ],
+                                                                     "children": [
+                                                                      {
+                                                                        "name": "PROJECTION",
+                                                                        "timing":112.091585,
+                                                                        "cardinality":2879987999,
+                                                                        "extra_info": "ss_sold_date_sk\nss_customer_sk\n/\n",
+                                                                        "timings": [
+                                                                        ],
+                                                                        "children": [
+                                                                         {
+                                                                           "name": "PARQUET_SCAN",
+                                                                           "timing":1476.928238,
+                                                                           "cardinality":2879987999,
+                                                                           "extra_info": "ss_sold_date_sk\nss_customer_sk\nss_ext_list_price\nss_ext_wholesale_cost\nss_ext_discount_amt\nss_ext_sales_price",
+                                                                           "timings": [
+                                                                           ],
+                                                                           "children": [
+                                                                           ]
+                                                                         }
+                                                                        ]
+                                                                      }
+,
+                                                                      {
+                                                                        "name": "PARQUET_SCAN",
+                                                                        "timing":19.567858,
+                                                                        "cardinality":24000000,
+                                                                        "extra_info": "c_customer_sk\nc_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address",
+                                                                        "timings": [
+                                                                        ],
+                                                                        "children": [
+                                                                        ]
+                                                                      }
+                                                                     ]
+                                                                   }
+                                                                  ]
+                                                                }
+,
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":0.002786,
+                                                                  "cardinality":730,
+                                                                  "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+,
+                                              {
+                                                "name": "PROJECTION",
+                                                "timing":0.047363,
+                                                "cardinality":23579122,
+                                                "extra_info": "customer_id\ncustomer_first_name\ncustomer_last_name\ncustomer_preferred_cust_flag\nyear_total\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "HASH_GROUP_BY",
+                                                   "timing":305.824446,
+                                                   "cardinality":23579122,
+                                                   "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PROJECTION",
+                                                      "timing":10.017472,
+                                                      "cardinality":537136447,
+                                                      "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nd_year\n/\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "HASH_JOIN",
+                                                         "timing":51.948322,
+                                                         "cardinality":537136447,
+                                                         "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "PROJECTION",
+                                                            "timing":9.708903,
+                                                            "cardinality":2750397233,
+                                                            "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nss_sold_date_sk\n/\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                             {
+                                                               "name": "HASH_JOIN",
+                                                               "timing":243.963058,
+                                                               "cardinality":2750397233,
+                                                               "extra_info": "INNER\nss_customer_sk=c_customer_sk\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PROJECTION",
+                                                                  "timing":113.326663,
+                                                                  "cardinality":2879987999,
+                                                                  "extra_info": "ss_sold_date_sk\nss_customer_sk\n/\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                   {
+                                                                     "name": "PARQUET_SCAN",
+                                                                     "timing":1473.586637,
+                                                                     "cardinality":2879987999,
+                                                                     "extra_info": "ss_sold_date_sk\nss_customer_sk\nss_ext_list_price\nss_ext_wholesale_cost\nss_ext_discount_amt\nss_ext_sales_price",
+                                                                     "timings": [
+                                                                     ],
+                                                                     "children": [
+                                                                     ]
+                                                                   }
+                                                                  ]
+                                                                }
+,
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":10.456257,
+                                                                  "cardinality":24000000,
+                                                                  "extra_info": "c_customer_sk\nc_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+                                                            ]
+                                                          }
+,
+                                                          {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing":0.002772,
+                                                            "cardinality":730,
+                                                            "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":0.101217,
+                                          "cardinality":22097566,
+                                          "extra_info": "customer_id\nyear_total\n>\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":0.052783,
+                                             "cardinality":22097566,
+                                             "extra_info": "#0\n#8\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "FILTER",
+                                                "timing":0.150151,
+                                                "cardinality":22097566,
+                                                "extra_info": "year_total>0.000000",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "HASH_GROUP_BY",
+                                                   "timing":130.568490,
+                                                   "cardinality":22338480,
+                                                   "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PROJECTION",
+                                                      "timing":1.019844,
+                                                      "cardinality":284269909,
+                                                      "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nd_year\n/\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "HASH_JOIN",
+                                                         "timing":18.753258,
+                                                         "cardinality":284269909,
+                                                         "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                          {
+                                                            "name": "PROJECTION",
+                                                            "timing":5.168919,
+                                                            "cardinality":1432778497,
+                                                            "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\ncs_sold_date_sk\n/\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                             {
+                                                               "name": "HASH_JOIN",
+                                                               "timing":134.332630,
+                                                               "cardinality":1432778497,
+                                                               "extra_info": "INNER\ncs_bill_customer_sk=c_customer_sk\n",
+                                                               "timings": [
+                                                               ],
+                                                               "children": [
+                                                                {
+                                                                  "name": "PROJECTION",
+                                                                  "timing":52.806006,
+                                                                  "cardinality":1439980416,
+                                                                  "extra_info": "cs_sold_date_sk\ncs_bill_customer_sk\n/\n",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                   {
+                                                                     "name": "PARQUET_SCAN",
+                                                                     "timing":735.791923,
+                                                                     "cardinality":1439980416,
+                                                                     "extra_info": "cs_sold_date_sk\ncs_bill_customer_sk\ncs_ext_list_price\ncs_ext_wholesale_cost\ncs_ext_discount_amt\ncs_ext_sales_price",
+                                                                     "timings": [
+                                                                     ],
+                                                                     "children": [
+                                                                     ]
+                                                                   }
+                                                                  ]
+                                                                }
+,
+                                                                {
+                                                                  "name": "PARQUET_SCAN",
+                                                                  "timing":10.749700,
+                                                                  "cardinality":24000000,
+                                                                  "extra_info": "c_customer_sk\nc_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address",
+                                                                  "timings": [
+                                                                  ],
+                                                                  "children": [
+                                                                  ]
+                                                                }
+                                                               ]
+                                                             }
+                                                            ]
+                                                          }
+,
+                                                          {
+                                                            "name": "PARQUET_SCAN",
+                                                            "timing":0.002876,
+                                                            "cardinality":730,
+                                                            "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\n",
+                                                            "timings": [
+                                                            ],
+                                                            "children": [
+                                                            ]
+                                                          }
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.036188,
+                                    "cardinality":22343282,
+                                    "extra_info": "customer_id\nyear_total\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_GROUP_BY",
+                                       "timing":132.324123,
+                                       "cardinality":22343282,
+                                       "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":1.055750,
+                                          "cardinality":284262374,
+                                          "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nd_year\n/\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "HASH_JOIN",
+                                             "timing":19.020474,
+                                             "cardinality":284262374,
+                                             "extra_info": "INNER\ncs_sold_date_sk=d_date_sk\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PROJECTION",
+                                                "timing":5.266506,
+                                                "cardinality":1432778497,
+                                                "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\ncs_sold_date_sk\n/\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "HASH_JOIN",
+                                                   "timing":135.830875,
+                                                   "cardinality":1432778497,
+                                                   "extra_info": "INNER\ncs_bill_customer_sk=c_customer_sk\n",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                    {
+                                                      "name": "PROJECTION",
+                                                      "timing":53.279032,
+                                                      "cardinality":1439980416,
+                                                      "extra_info": "cs_sold_date_sk\ncs_bill_customer_sk\n/\n",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                       {
+                                                         "name": "PARQUET_SCAN",
+                                                         "timing":736.464998,
+                                                         "cardinality":1439980416,
+                                                         "extra_info": "cs_sold_date_sk\ncs_bill_customer_sk\ncs_ext_list_price\ncs_ext_wholesale_cost\ncs_ext_discount_amt\ncs_ext_sales_price",
+                                                         "timings": [
+                                                         ],
+                                                         "children": [
+                                                         ]
+                                                       }
+                                                      ]
+                                                    }
+,
+                                                    {
+                                                      "name": "PARQUET_SCAN",
+                                                      "timing":10.761462,
+                                                      "cardinality":24000000,
+                                                      "extra_info": "c_customer_sk\nc_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address",
+                                                      "timings": [
+                                                      ],
+                                                      "children": [
+                                                      ]
+                                                    }
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+,
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":0.002765,
+                                                "cardinality":730,
+                                                "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.067114,
+                        "cardinality":14982918,
+                        "extra_info": "customer_id\nyear_total\n>\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.035335,
+                           "cardinality":14982918,
+                           "extra_info": "#0\n#8\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "FILTER",
+                              "timing":0.103987,
+                              "cardinality":14982918,
+                              "extra_info": "year_total>0.000000",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_GROUP_BY",
+                                 "timing":83.129870,
+                                 "cardinality":15152454,
+                                 "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":2.368566,
+                                    "cardinality":143206125,
+                                    "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nd_year\n/\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":11.322501,
+                                       "cardinality":143206125,
+                                       "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":2.370519,
+                                          "cardinality":719820559,
+                                          "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nws_sold_date_sk\n/\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "HASH_JOIN",
+                                             "timing":62.543966,
+                                             "cardinality":719820559,
+                                             "extra_info": "INNER\nws_bill_customer_sk=c_customer_sk\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "PROJECTION",
+                                                "timing":24.974741,
+                                                "cardinality":720000376,
+                                                "extra_info": "ws_sold_date_sk\nws_bill_customer_sk\n/\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "PARQUET_SCAN",
+                                                   "timing":351.063284,
+                                                   "cardinality":720000376,
+                                                   "extra_info": "ws_sold_date_sk\nws_bill_customer_sk\nws_ext_list_price\nws_ext_wholesale_cost\nws_ext_discount_amt\nws_ext_sales_price",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+,
+                                              {
+                                                "name": "PARQUET_SCAN",
+                                                "timing":10.927878,
+                                                "cardinality":24000000,
+                                                "extra_info": "c_customer_sk\nc_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "PARQUET_SCAN",
+                                          "timing":0.002837,
+                                          "cardinality":730,
+                                          "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.024572,
+                  "cardinality":15200068,
+                  "extra_info": "customer_id\nyear_total\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":85.261945,
+                     "cardinality":15200068,
+                     "extra_info": "#0\n#1\n#2\n#3\n#4\n#5\n#6\n#7\nsum(#8)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":2.359892,
+                        "cardinality":143979885,
+                        "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nd_year\n/\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":11.420165,
+                           "cardinality":143979885,
+                           "extra_info": "INNER\nws_sold_date_sk=d_date_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "PROJECTION",
+                              "timing":2.378535,
+                              "cardinality":719820559,
+                              "extra_info": "c_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address\nws_sold_date_sk\n/\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":63.299420,
+                                 "cardinality":719820559,
+                                 "extra_info": "INNER\nws_bill_customer_sk=c_customer_sk\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":24.978128,
+                                    "cardinality":720000376,
+                                    "extra_info": "ws_sold_date_sk\nws_bill_customer_sk\n/\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "PARQUET_SCAN",
+                                       "timing":360.865472,
+                                       "cardinality":720000376,
+                                       "extra_info": "ws_sold_date_sk\nws_bill_customer_sk\nws_ext_list_price\nws_ext_wholesale_cost\nws_ext_discount_amt\nws_ext_sales_price",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "PARQUET_SCAN",
+                                    "timing":10.820673,
+                                    "cardinality":24000000,
+                                    "extra_info": "c_customer_sk\nc_customer_id\nc_first_name\nc_last_name\nc_preferred_cust_flag\nc_birth_country\nc_login\nc_email_address",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PARQUET_SCAN",
+                              "timing":0.003291,
+                              "cardinality":730,
+                              "extra_info": "d_date_sk\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

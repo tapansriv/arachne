@@ -1,0 +1,218 @@
+{
+   "name":  "Query", 
+   "result": 10058.560066,
+   "timing": 10058.560066,
+   "cardinality": 0,
+   "extra-info": "\nSELECT i_item_id ,\n       i_item_desc ,\n       i_current_price\nFROM 'item.parquet' AS item,\n     'inventory.parquet' AS inventory,\n     'date_dim.parquet' AS date_dim,\n     'store_sales.parquet' AS store_sales\nWHERE i_current_price BETWEEN 62 AND 62+30\n  AND inv_item_sk = i_item_sk\n  AND d_date_sk=inv_date_sk\n  AND d_date BETWEEN cast('2000-05-25' AS date) AND cast('2000-07-24' AS date)\n  AND i_manufact_id IN (129,\n                        270,\n                        821,\n                        423)\n  AND inv_quantity_on_hand BETWEEN 100 AND 500\n  AND ss_item_sk = i_item_sk\nGROUP BY i_item_id,\n         i_item_desc,\n         i_current_price\nORDER BY i_item_id\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001862
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000014
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000005
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000574
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000411
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000126
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000671
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000087
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000062
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.943708
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.943700
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000070,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":6.508300,
+         "cardinality":24,
+         "extra_info": "#0\n#1\n#2",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.124885,
+            "cardinality":24317937,
+            "extra_info": "i_item_id\ni_item_desc\ni_current_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":1186.136626,
+               "cardinality":24317937,
+               "extra_info": "INNER\nss_item_sk=i_item_sk\ninv_item_sk=i_item_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":8404.229274,
+                  "cardinality":131312549434,
+                  "extra_info": "INNER\nss_item_sk=inv_item_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":40.040651,
+                     "cardinality":2879987999,
+                     "extra_info": "ss_item_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":4.907736,
+                     "cardinality":20538142,
+                     "extra_info": "INNER\ninv_date_sk=d_date_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":115.067702,
+                        "cardinality":595982974,
+                        "extra_info": "inv_item_sk\ninv_date_sk\ninv_quantity_on_hand\n[INFOSEPARATOR]\nFilters: inv_quantity_on_hand>=100 AND inv_quantity_on_hand<=500 AND inv_quantity_on_hand IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.006397,
+                        "cardinality":122,
+                        "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-05-25 00:00:00 AND d_date<=2000-07-24 00:00:00 AND d_date IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000278,
+                  "cardinality":106,
+                  "extra_info": "#0\n#1\n#2\n#3\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "FILTER",
+                     "timing":0.003902,
+                     "cardinality":106,
+                     "extra_info": "(i_manufact_id=129 OR i_manufact_id=270 OR i_manufact_id=821 OR i_manufact_id=423)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.246420,
+                        "cardinality":20118,
+                        "extra_info": "i_item_id\ni_item_desc\ni_current_price\ni_item_sk\ni_manufact_id\n[INFOSEPARATOR]\nFilters: i_current_price>=62.000000 AND i_current_price<=92.000000 AND i_current_price IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

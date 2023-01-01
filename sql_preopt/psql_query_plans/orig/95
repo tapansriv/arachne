@@ -1,0 +1,51 @@
+                                                                 QUERY PLAN                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=3143123604850.77..3143123604850.77 rows=1 width=72)
+   CTE ws_wh
+     ->  Hash Join  (cost=38465225.28..65590773417.80 rows=4526565848073 width=12)
+           Hash Cond: (ws1_1.ws_order_number = ws2.ws_order_number)
+           Join Filter: (ws1_1.ws_warehouse_sk <> ws2.ws_warehouse_sk)
+           ->  Seq Scan on web_sales ws1_1  (cost=0.00..26652790.68 rows=719995968 width=8)
+           ->  Hash  (cost=26652790.68..26652790.68 rows=719995968 width=8)
+                 ->  Seq Scan on web_sales ws2  (cost=0.00..26652790.68 rows=719995968 width=8)
+   ->  Sort  (cost=3077532831432.97..3077532831432.97 rows=1 width=72)
+         Sort Key: (count(DISTINCT ws1.ws_order_number))
+         ->  Aggregate  (cost=3077532831432.95..3077532831432.96 rows=1 width=72)
+               ->  Hash Join  (cost=101851032442.15..3077532831421.89 rows=1474 width=16)
+                     Hash Cond: (ws1.ws_order_number = ws_wh.ws_order_number)
+                     ->  Nested Loop Semi Join  (cost=3300856.01..2975685099811.61 rows=2947 width=24)
+                           Join Filter: (ws1.ws_order_number = web_returns.wr_order_number)
+                           ->  Nested Loop  (cost=4106.01..358320347.53 rows=2947 width=16)
+                                 Join Filter: (ws1.ws_ship_addr_sk = customer_address.ca_address_sk)
+                                 ->  Nested Loop  (cost=3106.01..23718995.41 rows=91931 width=20)
+                                       Join Filter: (ws1.ws_web_site_sk = web_site.web_site_sk)
+                                       ->  Gather  (cost=3106.01..23644505.07 rows=620722 width=24)
+                                             Workers Planned: 2
+                                             ->  Parallel Hash Join  (cost=2106.01..23581432.87 rows=258634 width=24)
+                                                   Hash Cond: (ws1.ws_ship_date_sk = date_dim.d_date_sk)
+                                                   ->  Parallel Seq Scan on web_sales ws1  (cost=0.00..22452814.20 rows=299998320 width=28)
+                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=37 width=4)
+                                                         ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=37 width=4)
+                                                               Filter: ((d_date >= '1999-02-01'::date) AND (d_date <= '1999-04-02'::date))
+                                       ->  Materialize  (cost=0.00..3.71 rows=8 width=4)
+                                             ->  Seq Scan on web_site  (cost=0.00..3.67 rows=8 width=4)
+                                                   Filter: ((web_company_name)::text = 'pri'::text)
+                                 ->  Materialize  (cost=1000.00..163122.98 rows=192396 width=4)
+                                       ->  Gather  (cost=1000.00..161409.00 rows=192396 width=4)
+                                             Workers Planned: 2
+                                             ->  Parallel Seq Scan on customer_address  (cost=0.00..141169.40 rows=80165 width=4)
+                                                   Filter: ((ca_state)::text = 'IL'::text)
+                           ->  Hash Join  (cost=3296750.00..2965418194580.53 rows=242081216297832 width=8)
+                                 Hash Cond: (ws_wh_1.ws_order_number = web_returns.wr_order_number)
+                                 ->  CTE Scan on ws_wh ws_wh_1  (cost=0.00..90531316961.46 rows=4526565848073 width=4)
+                                 ->  Hash  (cost=2115486.00..2115486.00 rows=72000800 width=4)
+                                       ->  Seq Scan on web_returns  (cost=0.00..2115486.00 rows=72000800 width=4)
+                     ->  Hash  (cost=101847731583.64..101847731583.64 rows=200 width=4)
+                           ->  HashAggregate  (cost=101847731581.64..101847731583.64 rows=200 width=4)
+                                 Group Key: ws_wh.ws_order_number
+                                 ->  CTE Scan on ws_wh  (cost=0.00..90531316961.46 rows=4526565848073 width=4)
+ JIT:
+   Functions: 62
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(47 rows)
+

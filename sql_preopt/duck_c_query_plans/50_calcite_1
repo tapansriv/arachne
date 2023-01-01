@@ -1,0 +1,163 @@
+┌───────────────────────────┐                                                                                                                    
+│           TOP_N           │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│          Top 100          │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│           #0 ASC          │                                                                                                                    
+│           #1 ASC          │                                                                                                                    
+│           #2 ASC          │                                                                                                                    
+│           #3 ASC          │                                                                                                                    
+│           #4 ASC          │                                                                                                                    
+│           #5 ASC          │                                                                                                                    
+│           #6 ASC          │                                                                                                                    
+│           #7 ASC          │                                                                                                                    
+│           #8 ASC          │                                                                                                                    
+│           #9 ASC          │                                                                                                                    
+└─────────────┬─────────────┘                                                                                                                                                 
+┌─────────────┴─────────────┐                                                                                                                    
+│       HASH_GROUP_BY       │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│             #0            │                                                                                                                    
+│             #1            │                                                                                                                    
+│             #2            │                                                                                                                    
+│             #3            │                                                                                                                    
+│             #4            │                                                                                                                    
+│             #5            │                                                                                                                    
+│             #6            │                                                                                                                    
+│             #7            │                                                                                                                    
+│             #8            │                                                                                                                    
+│             #9            │                                                                                                                    
+│          sum(#10)         │                                                                                                                    
+│          sum(#11)         │                                                                                                                    
+│          sum(#12)         │                                                                                                                    
+│          sum(#13)         │                                                                                                                    
+│          sum(#14)         │                                                                                                                    
+└─────────────┬─────────────┘                                                                                                                                                 
+┌─────────────┴─────────────┐                                                                                                                    
+│         PROJECTION        │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│        s_store_name       │                                                                                                                    
+│        s_company_id       │                                                                                                                    
+│      s_street_number      │                                                                                                                    
+│       s_street_name       │                                                                                                                    
+│       s_street_type       │                                                                                                                    
+│       s_suite_number      │                                                                                                                    
+│           s_city          │                                                                                                                    
+│          s_county         │                                                                                                                    
+│          s_state          │                                                                                                                    
+│           s_zip           │                                                                                                                    
+│            CASE           │                                                                                                                    
+│           CASE12          │                                                                                                                    
+│           CASE13          │                                                                                                                    
+│           CASE14          │                                                                                                                    
+│           CASE15          │                                                                                                                    
+└─────────────┬─────────────┘                                                                                                                                                 
+┌─────────────┴─────────────┐                                                                                                                    
+│         HASH_JOIN         │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│           INNER           ├─────────────────────────────────────────────────────────────────────────────────────────────────────┐              
+│    sr_returned_date_sk    │                                                                                                     │              
+│         =d_date_sk        │                                                                                                     │              
+└─────────────┬─────────────┘                                                                                                     │                                           
+┌─────────────┴─────────────┐                                                                                       ┌─────────────┴─────────────┐
+│         PROJECTION        │                                                                                       │         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│    sr_returned_date_sk    │                                                                                       │         d_date_sk         │
+│        s_store_name       │                                                                                       │                           │
+│        s_company_id       │                                                                                       │                           │
+│      s_street_number      │                                                                                       │                           │
+│       s_street_name       │                                                                                       │                           │
+│       s_street_type       │                                                                                       │                           │
+│       s_suite_number      │                                                                                       │                           │
+│           s_city          │                                                                                       │                           │
+│          s_county         │                                                                                       │                           │
+│          s_state          │                                                                                       │                           │
+│           s_zip           │                                                                                       │                           │
+│            CASE           │                                                                                       │                           │
+│           CASE12          │                                                                                       │                           │
+│           CASE13          │                                                                                       │                           │
+│           CASE14          │                                                                                       │                           │
+│           CASE15          │                                                                                       │                           │
+└─────────────┬─────────────┘                                                                                       └─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐                                                                                       ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                                                                                       │        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│           INNER           │                                                                                       │         d_date_sk         │
+│ ss_sold_date_sk=d_date_sk │                                                                                       │           d_year          │
+│                           │                                                                                       │           d_moy           │
+│                           ├────────────────────────────────────────────────────────────────────────┐              │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│                           │                                                                        │              │  Filters: d_year=2001 AND │
+│                           │                                                                        │              │     d_year IS NOT NULL    │
+│                           │                                                                        │              │  d_moy=8 AND d_moy IS NOT │
+│                           │                                                                        │              │            NULL           │
+└─────────────┬─────────────┘                                                                        │              └───────────────────────────┘                             
+┌─────────────┴─────────────┐                                                          ┌─────────────┴─────────────┐                             
+│         PROJECTION        │                                                          │        PARQUET_SCAN       │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│      ss_sold_date_sk      │                                                          │         d_date_sk         │                             
+│    sr_returned_date_sk    │                                                          │                           │                             
+│        s_store_name       │                                                          │                           │                             
+│        s_company_id       │                                                          │                           │                             
+│      s_street_number      │                                                          │                           │                             
+│       s_street_name       │                                                          │                           │                             
+│       s_street_type       │                                                          │                           │                             
+│       s_suite_number      │                                                          │                           │                             
+│           s_city          │                                                          │                           │                             
+│          s_county         │                                                          │                           │                             
+│          s_state          │                                                          │                           │                             
+│           s_zip           │                                                          │                           │                             
+│             <=            │                                                          │                           │                             
+│            AND            │                                                          │                           │                             
+│           AND14           │                                                          │                           │                             
+│           AND15           │                                                          │                           │                             
+│             >             │                                                          │                           │                             
+└─────────────┬─────────────┘                                                          └───────────────────────────┘                                                          
+┌─────────────┴─────────────┐                                                                                                                    
+│         HASH_JOIN         │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│           INNER           ├───────────────────────────────────────────┐                                                                        
+│   ss_store_sk=s_store_sk  │                                           │                                                                        
+└─────────────┬─────────────┘                                           │                                                                                                     
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐                                                          
+│         PROJECTION        │                             │        PARQUET_SCAN       │                                                          
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+│      ss_sold_date_sk      │                             │         s_store_sk        │                                                          
+│        ss_store_sk        │                             │        s_store_name       │                                                          
+│    sr_returned_date_sk    │                             │        s_company_id       │                                                          
+│             <=            │                             │      s_street_number      │                                                          
+│            AND            │                             │       s_street_name       │                                                          
+│            AND5           │                             │       s_street_type       │                                                          
+│            AND6           │                             │       s_suite_number      │                                                          
+│             >             │                             │           s_city          │                                                          
+│                           │                             │          s_county         │                                                          
+│                           │                             │          s_state          │                                                          
+│                           │                             │           s_zip           │                                                          
+└─────────────┬─────────────┘                             └───────────────────────────┘                                                                                       
+┌─────────────┴─────────────┐                                                                                                                    
+│         PROJECTION        │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│      ss_sold_date_sk      │                                                                                                                    
+│        ss_store_sk        │                                                                                                                    
+│    sr_returned_date_sk    │                                                                                                                    
+│   -(sr_returned_date_sk,  │                                                                                                                    
+│      ss_sold_date_sk)     │                                                                                                                    
+└─────────────┬─────────────┘                                                                                                                                                 
+┌─────────────┴─────────────┐                                                                                                                    
+│         HASH_JOIN         │                                                                                                                    
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                                                    
+│           INNER           │                                                                                                                    
+│      ss_ticket_number     │                                                                                                                    
+│     =sr_ticket_number     ├──────────────┐                                                                                                     
+│   ss_item_sk=sr_item_sk   │              │                                                                                                     
+│       ss_customer_sk      │              │                                                                                                     
+│      =sr_customer_sk      │              │                                                                                                     
+└─────────────┬─────────────┘              │                                                                                                                                  
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐                                                                                       
+│        PARQUET_SCAN       ││        PARQUET_SCAN       │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│      ss_sold_date_sk      ││    sr_returned_date_sk    │                                                                                       
+│         ss_item_sk        ││         sr_item_sk        │                                                                                       
+│       ss_customer_sk      ││       sr_customer_sk      │                                                                                       
+│        ss_store_sk        ││      sr_ticket_number     │                                                                                       
+│      ss_ticket_number     ││                           │                                                                                       
+└───────────────────────────┘└───────────────────────────┘                                                                                                                    

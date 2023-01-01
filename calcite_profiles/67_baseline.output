@@ -1,0 +1,9 @@
+/home/cc/arachneDB/baseline/duck_c_chameleon_baseline.json
+run_c
+profiling
+Traceback (most recent call last):
+  File "run_baseline.py", line 46, in <module>
+    runtime = run_c_q(key)
+  File "run_baseline.py", line 19, in run_c_q
+    con.execute(orig_qry)
+RuntimeError: Out of Range Error: Not enough memory to complete operation: could not allocate block of 8589934592 bytes

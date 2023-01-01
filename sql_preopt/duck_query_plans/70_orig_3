@@ -1,0 +1,49 @@
+┌───────────────────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│             #0            │
+│             #1            │
+│             #2            │
+│             #3            │
+│             #4            │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│           TOP_N           │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          Top 100          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│          #3 DESC          │
+│           #5 ASC          │
+│           #4 ASC          │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         total_sum         │
+│          s_state          │
+│          s_county         │
+│        lochierarchy       │
+│     rank_within_parent    │
+│ CASE WHEN (lochierarchy=0)│
+│ THEN (s_state) ELSE (NULL)│
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│           WINDOW          │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│  RANK() OVER(PARTITION BY │
+│  lochierarchy, CASE WHEN  │
+│(g_county=0) THEN (s_s...  │
+│  (NULL) ORDER BY total_sum│
+│      DESC NULLS FIRST)    │
+└─────────────┬─────────────┘                             
+┌─────────────┴─────────────┐
+│          SEQ_SCAN         │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│       results_rollup      │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│         total_sum         │
+│          s_state          │
+│          s_county         │
+│        lochierarchy       │
+│          g_county         │
+└───────────────────────────┘                             

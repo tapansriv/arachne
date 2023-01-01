@@ -1,0 +1,47 @@
+                                                                                                  QUERY PLAN                                                                                                  
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=70920572.58..70920572.83 rows=100 width=172)
+   CTE results
+     ->  Finalize GroupAggregate  (cost=70917190.00..70920295.14 rows=990 width=118)
+           Group Key: item.i_category, item.i_class
+           ->  Gather Merge  (cost=70917190.00..70920220.89 rows=1980 width=78)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=70916189.98..70918992.33 rows=990 width=78)
+                       Group Key: item.i_category, item.i_class
+                       ->  Sort  (cost=70916189.98..70916747.48 rows=223000 width=26)
+                             Sort Key: item.i_category, item.i_class
+                             ->  Parallel Hash Join  (cost=17761.34..70891042.62 rows=223000 width=26)
+                                   Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                   ->  Hash Join  (cost=2051.84..70870656.70 rows=223000 width=16)
+                                         Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                         ->  Parallel Hash Join  (cost=2000.80..70846972.57 rows=5707492 width=20)
+                                               Hash Cond: (store_sales.ss_sold_date_sk = d1.d_date_sk)
+                                               ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=24)
+                                               ->  Parallel Hash  (cost=1998.12..1998.12 rows=214 width=4)
+                                                     ->  Parallel Seq Scan on date_dim d1  (cost=0.00..1998.12 rows=214 width=4)
+                                                           Filter: (d_year = 2001)
+                                         ->  Hash  (cost=50.52..50.52 rows=41 width=4)
+                                               ->  Seq Scan on store  (cost=0.00..50.52 rows=41 width=4)
+                                                     Filter: ((s_state)::text = 'TN'::text)
+                                   ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=18)
+                                         ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=18)
+   ->  Sort  (cost=277.44..280.42 rows=1191 width=172)
+         Sort Key: results_rollup.lochierarchy DESC, (CASE WHEN (results_rollup.lochierarchy = 0) THEN results_rollup.i_category ELSE NULL::character varying END) NULLS FIRST, (rank() OVER (?)) NULLS FIRST
+         ->  WindowAgg  (cost=199.17..231.92 rows=1191 width=172)
+               ->  Sort  (cost=199.17..202.15 rows=1191 width=132)
+                     Sort Key: results_rollup.lochierarchy, (CASE WHEN (results_rollup.t_class = 0) THEN results_rollup.i_category ELSE NULL::character varying END), results_rollup.gross_margin
+                     ->  Subquery Scan on results_rollup  (cost=111.53..138.32 rows=1191 width=132)
+                           ->  HashAggregate  (cost=111.53..123.44 rows=1191 width=108)
+                                 Group Key: results.gross_margin, results.i_category, results.i_class, (0), (0), (0)
+                                 ->  Append  (cost=0.00..93.66 rows=1191 width=108)
+                                       ->  CTE Scan on results  (cost=0.00..19.80 rows=990 width=280)
+                                       ->  HashAggregate  (cost=27.23..31.23 rows=200 width=194)
+                                             Group Key: results_1.i_category
+                                             ->  CTE Scan on results results_1  (cost=0.00..19.80 rows=990 width=182)
+                                       ->  Aggregate  (cost=24.75..24.77 rows=1 width=108)
+                                             ->  CTE Scan on results results_2  (cost=0.00..19.80 rows=990 width=64)
+ JIT:
+   Functions: 54
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(43 rows)
+

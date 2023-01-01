@@ -1,0 +1,171 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     162   0                    00  Start at 162 
+1     OpenEphemeral  11    5     0     k(1,B)         00  nColumn=5    
+2     Integer        100   1     0                    00  r[1]=100; LIMIT counter
+3     Null           0     2     7                    00  r[2..7]=NULL 
+4     OpenEphemeral  12    0     0     k(1,B)         00  nColumn=0    
+5     OpenRead       2     7     0     9              00  root=7 iDb=0; customer_address
+6     OpenRead       0     28    0     34             00  root=28 iDb=0; web_sales
+7     OpenRead       1     11    0     3              00  root=11 iDb=0; date_dim
+8     OpenRead       3     29    0     15             00  root=29 iDb=0; web_site
+9     Rewind         2     155   0                    00               
+10      Column         2     8     8                    00  r[8]=customer_address.ca_state
+11      Ne             9     154   8     (BINARY)       52  if r[8]!=r[9] goto 154
+12      Once           0     25    0                    00               
+13      OpenAutoindex  13    7     0     k(7,B,,,,,,)   00  nColumn=7; for web_sales
+14      Rewind         0     25    0                    00               
+15        Column         0     11    10                   00  r[10]=web_sales.ws_ship_addr_sk
+16        Column         0     2     11                   00  r[11]=web_sales.ws_ship_date_sk
+17        Column         0     13    12                   00  r[12]=web_sales.ws_web_site_sk
+18        Column         0     17    13                   00  r[13]=web_sales.ws_order_number
+19        Column         0     28    14                   00  r[14]=web_sales.ws_ext_ship_cost
+20        Column         0     33    15                   00  r[15]=web_sales.ws_net_profit
+21        Rowid          0     16    0                    00  r[16]=rowid  
+22        MakeRecord     10    7     8                    00  r[8]=mkrec(r[10..16])
+23        IdxInsert      13    8     0                    10  key=r[8]     
+24      Next           0     15    0                    03               
+25      Column         2     0     17                   00  r[17]=customer_address.ca_address_sk
+26      Affinity       17    1     0     C              00  affinity(r[17])
+27      SeekGE         13    154   17    1              00  key=r[17]    
+28        IdxGT          13    154   17    1              00  key=r[17]    
+29        Noop           0     0     0                    00  begin IN expr
+30        Integer        57    18    0                    00  r[18]=57; return address
+31        Once           0     57    0                    00               
+32        OpenEphemeral  14    1     0     k(1,B)         00  nColumn=1; Result of SELECT 2
+33        OpenRead       5     28    0     18             00  root=28 iDb=0; web_sales
+34        OpenRead       6     28    0     18             00  root=28 iDb=0; web_sales
+35        Rewind         5     57    0                    00               
+36          Once           0     45    0                    00               
+37          OpenAutoindex  15    3     0     k(3,B,,)       00  nColumn=3; for web_sales
+38          Rewind         6     45    0                    00               
+39            Column         6     17    10                   00  r[10]=web_sales.ws_order_number
+40            Column         6     15    11                   00  r[11]=web_sales.ws_warehouse_sk
+41            Rowid          6     12    0                    00  r[12]=rowid  
+42            MakeRecord     10    3     8                    00  r[8]=mkrec(r[10..12])
+43            IdxInsert      15    8     0                    10  key=r[8]     
+44          Next           6     39    0                    03               
+45          Column         5     17    19                   00  r[19]=web_sales.ws_order_number
+46          Affinity       19    1     0     C              00  affinity(r[19])
+47          SeekGE         15    56    19    1              00  key=r[19]    
+48            IdxGT          15    56    19    1              00  key=r[19]    
+49            Column         5     15    8                    00  r[8]=web_sales.ws_warehouse_sk
+50            Column         15    1     20                   00  r[20]=web_sales.ws_warehouse_sk
+51            Eq             20    55    8     (BINARY)       53  if r[8]==r[20] goto 55
+52            Column         5     17    21                   00  r[21]=web_sales.ws_order_number
+53            MakeRecord     21    1     20    C              00  r[20]=mkrec(r[21])
+54            IdxInsert      14    20    21    1              00  key=r[20]    
+55          Next           15    48    0                    00               
+56        Next           5     36    0                    01               
+57        Return         18    0     0                    00               
+58        Column         13    3     22                   00  r[22]=web_sales.ws_order_number
+59        Affinity       22    1     0     C              00  affinity(r[22])
+60        NotFound       14    153   22    1              00  key=r[22]; end IN expr
+61        Noop           0     0     0                    00  begin IN expr
+62        Integer        104   23    0                    00  r[23]=104; return address
+63        Once           0     104   0                    00               
+64        OpenEphemeral  16    1     0     k(1,B)         00  nColumn=1; Result of SELECT 3
+65        OpenRead       7     26    0     14             00  root=26 iDb=0; web_returns
+66        OpenRead       9     28    0     18             00  root=28 iDb=0; web_sales
+67        OpenRead       10    28    0     18             00  root=28 iDb=0; web_sales
+68        Rewind         7     104   0                    00               
+69          Once           0     78    0                    00               
+70          OpenAutoindex  17    3     0     k(3,B,,)       00  nColumn=3; for web_sales
+71          Rewind         9     78    0                    00               
+72            Column         9     17    25                   00  r[25]=web_sales.ws_order_number
+73            Column         9     15    26                   00  r[26]=web_sales.ws_warehouse_sk
+74            Rowid          9     27    0                    00  r[27]=rowid  
+75            MakeRecord     25    3     24                   00  r[24]=mkrec(r[25..27])
+76            IdxInsert      17    24    0                    10  key=r[24]    
+77          Next           9     72    0                    03               
+78          Column         7     13    28                   00  r[28]=web_returns.wr_order_number
+79          Affinity       28    1     0     C              00  affinity(r[28])
+80          SeekGE         17    103   28    1              00  key=r[28]    
+81            IdxGT          17    103   28    1              00  key=r[28]    
+82            Once           0     91    0                    00               
+83            OpenAutoindex  18    3     0     k(3,B,,)       00  nColumn=3; for web_sales
+84            Rewind         10    91    0                    00               
+85              Column         10    17    25                   00  r[25]=web_sales.ws_order_number
+86              Column         10    15    26                   00  r[26]=web_sales.ws_warehouse_sk
+87              Rowid          10    27    0                    00  r[27]=rowid  
+88              MakeRecord     25    3     24                   00  r[24]=mkrec(r[25..27])
+89              IdxInsert      18    24    0                    10  key=r[24]    
+90            Next           10    85    0                    03               
+91            Column         17    0     29                   00  r[29]=web_sales.ws_order_number
+92            Affinity       29    1     0     C              00  affinity(r[29])
+93            SeekGE         18    102   29    1              00  key=r[29]    
+94              IdxGT          18    102   29    1              00  key=r[29]    
+95              Column         17    1     24                   00  r[24]=web_sales.ws_warehouse_sk
+96              Column         18    1     30                   00  r[30]=web_sales.ws_warehouse_sk
+97              Eq             30    101   24    (BINARY)       53  if r[24]==r[30] goto 101
+98              Column         7     13    31                   00  r[31]=web_returns.wr_order_number
+99              MakeRecord     31    1     30    C              00  r[30]=mkrec(r[31])
+100             IdxInsert      16    30    31    1              00  key=r[30]    
+101           Next           18    94    0                    00               
+102         Next           17    81    0                    00               
+103       Next           7     69    0                    01               
+104       Return         23    0     0                    00               
+105       Column         13    3     32                   00  r[32]=web_sales.ws_order_number
+106       Affinity       32    1     0     C              00  affinity(r[32])
+107       NotFound       16    153   32    1              00  key=r[32]; end IN expr
+108       Once           0     117   0                    00               
+109       OpenAutoindex  19    3     0     k(3,B,,)       00  nColumn=3; for date_dim
+110       Rewind         1     117   0                    00               
+111         Column         1     0     34                   00  r[34]=date_dim.d_date_sk
+112         Column         1     2     35                   00  r[35]=date_dim.d_date
+113         Rowid          1     36    0                    00  r[36]=rowid  
+114         MakeRecord     34    3     33                   00  r[33]=mkrec(r[34..36])
+115         IdxInsert      19    33    0                    10  key=r[33]    
+116       Next           1     111   0                    03               
+117       Column         13    1     37                   00  r[37]=web_sales.ws_ship_date_sk
+118       IsNull         37    153   0                    00  if r[37]==NULL goto 153
+119       Affinity       37    1     0     C              00  affinity(r[37])
+120       SeekGE         19    153   37    1              00  key=r[37]    
+121         IdxGT          19    153   37    1              00  key=r[37]    
+122         Column         19    1     33                   00  r[33]=date_dim.d_date
+123         Lt             39    152   33    (BINARY)       53  if r[33]<r[39] goto 152
+124         Gt             40    152   33    (BINARY)       53  if r[33]>r[40] goto 152
+125         Once           0     136   0                    00               
+126         OpenAutoindex  20    3     0     k(3,B,B,)      00  nColumn=3; for web_site
+127         Rewind         3     136   0                    00               
+128           Column         3     14    33                   00  r[33]=web_site.web_company_name
+129           Ne             41    135   33    (BINARY)       52  if r[33]!=r[41] goto 135
+130           Column         3     14    34                   00  r[34]=web_site.web_company_name
+131           Column         3     0     35                   00  r[35]=web_site.web_site_sk
+132           Rowid          3     36    0                    00  r[36]=rowid  
+133           MakeRecord     34    3     33                   00  r[33]=mkrec(r[34..36])
+134           IdxInsert      20    33    0                    10  key=r[33]    
+135         Next           3     128   0                    03               
+136         String8        0     42    0     pri            00  r[42]='pri'  
+137         Column         13    2     43                   00  r[43]=web_sales.ws_web_site_sk
+138         IsNull         43    152   0                    00  if r[43]==NULL goto 152
+139         Affinity       43    1     0     C              00  affinity(r[43])
+140         SeekGE         20    152   42    2              00  key=r[42..43]
+141           IdxGT          20    152   42    2              00  key=r[42..43]
+142           Column         13    3     33                   00  r[33]=web_sales.ws_order_number
+143           Found          12    147   33    1              00  key=r[33]    
+144           MakeRecord     33    1     38                   00  r[38]=mkrec(r[33])
+145           IdxInsert      12    38    33    1              10  key=r[38]    
+146           AggStep        0     33    2     count(1)       01  accum=r[2] step(r[33])
+147           Column         13    4     33                   00  r[33]=web_sales.ws_ext_ship_cost
+148           AggStep        0     33    3     sum(1)         01  accum=r[3] step(r[33])
+149           Column         13    5     33                   00  r[33]=web_sales.ws_net_profit
+150           AggStep        0     33    4     sum(1)         01  accum=r[4] step(r[33])
+151         Next           20    141   0                    00               
+152       Next           19    121   0                    00               
+153     Next           13    28    0                    00               
+154   Next           2     10    0                    01               
+155   AggFinal       2     1     0     count(1)       00  accum=r[2] N=1
+156   AggFinal       3     1     0     sum(1)         00  accum=r[3] N=1
+157   AggFinal       4     1     0     sum(1)         00  accum=r[4] N=1
+158   Copy           2     44    2                    00  r[44..46]=r[2..4]
+159   ResultRow      44    3     0                    00  output=r[44..46]
+160   DecrJumpZero   1     161   0                    00  if (--r[1])==0 goto 161
+161   Halt           0     0     0                    00               
+162   Transaction    0     0     28    0              01  usesStmtJournal=0
+163   String8        0     9     0     IL             00  r[9]='IL'    
+164   String8        0     39    0     1999-02-01     00  r[39]='1999-02-01'
+165   String8        0     40    0     1999-04-02     00  r[40]='1999-04-02'
+166   Cast           40    67    0                    00  affinity(r[40])
+167   String8        0     41    0     pri            00  r[41]='pri'  
+168   Goto           0     1     0                    00               

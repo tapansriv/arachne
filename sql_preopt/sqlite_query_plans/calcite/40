@@ -1,0 +1,159 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     147   0                    00  Start at 147 
+1     Noop           5     7     0                    00               
+2     Integer        100   1     0                    00  r[1]=100; LIMIT counter
+3     SorterOpen     6     5     0     k(2,B,B)       00               
+4     Integer        0     10    0                    00  r[10]=0; clear abort flag
+5     Null           0     13    14                   00  r[13..14]=NULL
+6     Gosub          12    143   0                    00               
+7     OpenRead       0     6     0     22             00  root=6 iDb=0; catalog_sales
+8     OpenRead       1     5     0     24             00  root=5 iDb=0; catalog_returns
+9     OpenRead       2     24    0     11             00  root=24 iDb=0; warehouse
+10    OpenRead       3     15    0     6              00  root=15 iDb=0; item
+11    OpenRead       4     11    0     3              00  root=11 iDb=0; date_dim
+12    Rewind         0     93    0                    00               
+13      Once           0     23    0                    00               
+14      OpenAutoindex  7     4     0     k(4,B,B,,)     00  nColumn=4; for catalog_returns
+15      Rewind         1     23    0                    00               
+16        Column         1     2     18                   00  r[18]=catalog_returns.cr_item_sk
+17        Column         1     16    19                   00  r[19]=catalog_returns.cr_order_number
+18        Column         1     23    20                   00  r[20]=catalog_returns.cr_refunded_cash
+19        Rowid          1     21    0                    00  r[21]=rowid  
+20        MakeRecord     18    4     17                   00  r[17]=mkrec(r[18..21])
+21        IdxInsert      7     17    0                    10  key=r[17]    
+22      Next           1     16    0                    03               
+23      Integer        0     22    0                    00  r[22]=0; init LEFT JOIN no-match flag
+24      Column         0     15    23                   00  r[23]=catalog_sales.cs_item_sk
+25      Column         0     17    24                   00  r[24]=catalog_sales.cs_order_number
+26      Affinity       23    2     0     CC             00  affinity(r[23..24])
+27      SeekGE         7     89    23    2              00  key=r[23..24]
+28        IdxGT          7     89    23    2              00  key=r[23..24]
+29        Integer        1     22    0                    00  r[22]=1; record LEFT JOIN hit
+30        Once           0     39    0                    00               
+31        OpenAutoindex  8     3     0     k(3,B,,)       00  nColumn=3; for warehouse
+32        Rewind         2     39    0                    00               
+33          Column         2     0     18                   00  r[18]=warehouse.w_warehouse_sk
+34          Column         2     10    19                   00  r[19]=warehouse.w_state
+35          Rowid          2     20    0                    00  r[20]=rowid  
+36          MakeRecord     18    3     17                   00  r[17]=mkrec(r[18..20])
+37          IdxInsert      8     17    0                    10  key=r[17]    
+38        Next           2     33    0                    03               
+39        Column         0     14    25                   00  r[25]=catalog_sales.cs_warehouse_sk
+40        IsNull         25    88    0                    00  if r[25]==NULL goto 88
+41        Affinity       25    1     0     C              00  affinity(r[25])
+42        SeekGE         8     88    25    1              00  key=r[25]    
+43          IdxGT          8     88    25    1              00  key=r[25]    
+44          Once           0     54    0                    00               
+45          OpenAutoindex  9     4     0     k(4,B,,,)      00  nColumn=4; for item
+46          Rewind         3     54    0                    00               
+47            Column         3     0     26                   00  r[26]=item.i_item_sk
+48            Column         3     1     27                   00  r[27]=item.i_item_id
+49            Column         3     5     28                   00  r[28]=item.i_current_price
+50            Rowid          3     29    0                    00  r[29]=rowid  
+51            MakeRecord     26    4     17                   00  r[17]=mkrec(r[26..29])
+52            IdxInsert      9     17    0                    10  key=r[17]    
+53          Next           3     47    0                    03               
+54          Column         0     15    30                   00  r[30]=catalog_sales.cs_item_sk
+55          Affinity       30    1     0     C              00  affinity(r[30])
+56          SeekGE         9     87    30    1              00  key=r[30]    
+57            IdxGT          9     87    30    1              00  key=r[30]    
+58            Column         9     2     17                   00  r[17]=item.i_current_price
+59            Lt             32    86    17    (BINARY)       53  if r[17]<r[32] goto 86
+60            Gt             33    86    17    (BINARY)       53  if r[17]>r[33] goto 86
+61            Once           0     70    0                    00               
+62            OpenAutoindex  10    3     0     k(3,B,,)       00  nColumn=3; for date_dim
+63            Rewind         4     70    0                    00               
+64              Column         4     0     26                   00  r[26]=date_dim.d_date_sk
+65              Column         4     2     27                   00  r[27]=date_dim.d_date
+66              Rowid          4     28    0                    00  r[28]=rowid  
+67              MakeRecord     26    3     17                   00  r[17]=mkrec(r[26..28])
+68              IdxInsert      10    17    0                    10  key=r[17]    
+69            Next           4     64    0                    03               
+70            Column         0     0     34                   00  r[34]=catalog_sales.cs_sold_date_sk
+71            IsNull         34    86    0                    00  if r[34]==NULL goto 86
+72            Affinity       34    1     0     C              00  affinity(r[34])
+73            SeekGE         10    86    34    1              00  key=r[34]    
+74              IdxGT          10    86    34    1              00  key=r[34]    
+75              Column         10    1     17                   00  r[17]=date_dim.d_date
+76              Lt             35    85    17    (BINARY)       53  if r[17]<r[35] goto 85
+77              Gt             36    85    17    (BINARY)       53  if r[17]>r[36] goto 85
+78              Column         8     1     37                   00  r[37]=warehouse.w_state
+79              Column         9     1     38                   00  r[38]=item.i_item_id
+80              Column         10    1     39                   00  r[39]=date_dim.d_date
+81              Column         0     21    40                   00  r[40]=catalog_sales.cs_sales_price
+82              Column         7     2     41                   00  r[41]=catalog_returns.cr_refunded_cash
+83              MakeRecord     37    5     17                   00  r[17]=mkrec(r[37..41])
+84              SorterInsert   6     17    0                    00  key=r[17]    
+85            Next           10    74    0                    00               
+86          Next           9     57    0                    00               
+87        Next           8     43    0                    00               
+88      Next           7     28    0                    00               
+89      IfPos          22    92    0                    00  if r[22]>0 then r[22]-=0, goto 92
+90      NullRow        7     0     0                    00               
+91      Goto           0     29    0                    00               
+92    Next           0     13    0                    01               
+93    OpenPseudo     11    17    5                    00  5 columns in r[17]
+94    SorterSort     6     146   0                    00  GROUP BY sort
+95      SorterData     6     17    11                   00  r[17]=data   
+96      Column         11    0     15                   00  r[15]=       
+97      Column         11    1     16                   00  r[16]=       
+98      Compare        13    15    2     k(2,B,B)       00  r[13..14] <-> r[15..16]
+99      Jump           100   104   100                  00               
+100     Move           15    13    2                    00  r[13..14]=r[15..16]
+101     Gosub          11    135   0                    00  output one row
+102     IfPos          10    146   0                    00  if r[10]>0 then r[10]-=0, goto 146; check abort flag
+103     Gosub          12    143   0                    00  reset accumulator
+104     Column         11    2     42                   00  r[42]=       
+105     Cast           42    67    0                    00  affinity(r[42])
+106     Ge             43    113   42    (BINARY)       53  if r[42]>=r[43] goto 113
+107     Column         11    3     42                   00  r[42]=       
+108     Column         11    4     44                   00  r[44]=       
+109     NotNull        44    111   0                    00  if r[44]!=NULL goto 111
+110     Integer        0     44    0                    00  r[44]=0      
+111     Subtract       44    42    31                   00  r[31]=r[42]-r[44]
+112     Goto           0     114   0                    00               
+113     Integer        0     31    0                    00  r[31]=0      
+114     AggStep        0     31    4     sum(1)         01  accum=r[4] step(r[31])
+115     Column         11    2     44                   00  r[44]=       
+116     Cast           44    67    0                    00  affinity(r[44])
+117     Lt             43    124   44    (BINARY)       53  if r[44]<r[43] goto 124
+118     Column         11    3     44                   00  r[44]=       
+119     Column         11    4     42                   00  r[42]=       
+120     NotNull        42    122   0                    00  if r[42]!=NULL goto 122
+121     Integer        0     42    0                    00  r[42]=0      
+122     Subtract       42    44    31                   00  r[31]=r[44]-r[42]
+123     Goto           0     125   0                    00               
+124     Integer        0     31    0                    00  r[31]=0      
+125     AggStep        0     31    5     sum(1)         01  accum=r[5] step(r[31])
+126     If             9     129   0                    00               
+127     Column         11    0     2                    00  r[2]=        
+128     Column         11    1     3                    00  r[3]=        
+129     Integer        1     9     0                    00  r[9]=1; indicate data in accumulator
+130   SorterNext     6     95    0                    00               
+131   Gosub          11    135   0                    00  output final row
+132   Goto           0     146   0                    00               
+133   Integer        1     10    0                    00  r[10]=1; set abort flag
+134   Return         11    0     0                    00               
+135   IfPos          9     137   0                    00  if r[9]>0 then r[9]-=0, goto 137; Groupby result generator entry point
+136   Return         11    0     0                    00               
+137   AggFinal       4     1     0     sum(1)         00  accum=r[4] N=1
+138   AggFinal       5     1     0     sum(1)         00  accum=r[5] N=1
+139   Copy           2     45    3                    00  r[45..48]=r[2..5]
+140   ResultRow      45    4     0                    00  output=r[45..48]
+141   DecrJumpZero   1     133   0                    00  if (--r[1])==0 goto 133
+142   Return         11    0     0                    00  end groupby result generator
+143   Null           0     2     8                    00  r[2..8]=NULL 
+144   Integer        0     9     0                    00  r[9]=0; indicate accumulator empty
+145   Return         12    0     0                    00               
+146   Halt           0     0     0                    00               
+147   Transaction    0     0     28    0              01  usesStmtJournal=0
+148   Real           0     32    0     0.99           00  r[32]=0.99   
+149   Real           0     33    0     1.49           00  r[33]=1.49   
+150   String8        0     35    0     2000-02-10     00  r[35]='2000-02-10'
+151   Cast           35    67    0                    00  affinity(r[35])
+152   String8        0     36    0     2000-04-10     00  r[36]='2000-04-10'
+153   Cast           36    67    0                    00  affinity(r[36])
+154   String8        0     43    0     2000-03-11     00  r[43]='2000-03-11'
+155   Cast           43    67    0                    00  affinity(r[43])
+156   Goto           0     1     0                    00               

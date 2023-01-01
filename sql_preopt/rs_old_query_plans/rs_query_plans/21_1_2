@@ -1,0 +1,10 @@
+XN Limit  (cost=1000000083022.02..1000000083064.22 rows=100 width=49)
+  ->  XN Merge  (cost=1000000083022.02..1000000083444.03 rows=1000 width=49)
+        Merge Key: w_warehouse_name, i_item_id
+        ->  XN Network  (cost=1000000083022.02..1000000083444.03 rows=168804 width=49)
+              Send to leader
+              ->  XN Sort  (cost=1000000083022.02..1000000083444.03 rows=168804 width=49)
+                    Sort Key: w_warehouse_name, i_item_id
+                    ->  XN HashAggregate  (cost=59081.40..68365.62 rows=168804 width=49)
+                          Filter: ((CASE WHEN (sum(CASE WHEN "<" THEN inv_quantity_on_hand ELSE NULL::integer END) > 0) THEN ((((sum(CASE WHEN ">=" THEN inv_quantity_on_hand0 ELSE NULL::integer END))::numeric * 1.000) / (sum(CASE WHEN "<" THEN inv_quantity_on_hand ELSE NULL::integer END))::numeric))::numeric(19,8) ELSE NULL::numeric END <= 1.50000000) AND (CASE WHEN (sum(CASE WHEN "<" THEN inv_quantity_on_hand ELSE NULL::integer END) > 0) THEN ((((sum(CASE WHEN ">=" THEN inv_quantity_on_hand0 ELSE NULL::integer END))::numeric * 1.000) / (sum(CASE WHEN "<" THEN inv_quantity_on_hand ELSE NULL::integer END))::numeric))::numeric(19,8) ELSE NULL::numeric END >= 0.66666667))
+                          ->  XN Seq Scan on rs_table_21_0  (cost=0.00..16880.40 rows=1688040 width=49)

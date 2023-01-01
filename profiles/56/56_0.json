@@ -1,0 +1,239 @@
+{
+   "name":  "Query", 
+   "result": 186.403546,
+   "timing": 186.403546,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE ss AS\n  (SELECT i_item_id,\n          sum(ss_ext_sales_price) total_sales\n   FROM 'store_sales.parquet' AS store_sales,\n        'date_dim.parquet' AS date_dim,\n        'customer_address.parquet' AS customer_address,\n        'item.parquet' AS item\n   WHERE i_item_id IN\n       (SELECT i_item_id\n        FROM 'item.parquet' AS item\n        WHERE i_color IN ('slate',\n                          'blanched',\n                          'burnished'))\n     AND ss_item_sk = i_item_sk\n     AND ss_sold_date_sk = d_date_sk\n     AND d_year = 2001\n     AND d_moy = 2\n     AND ss_addr_sk = ca_address_sk\n     AND ca_gmt_offset = -5\n   GROUP BY i_item_id)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001196
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000192
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000255
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000130
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000545
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000052
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000026
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.089025
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.089020
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000272,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":0.073978,
+         "cardinality":7914,
+         "extra_info": "#0\nsum(#1)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.002637,
+            "cardinality":458762,
+            "extra_info": "i_item_id\nss_ext_sales_price\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":1.994618,
+               "cardinality":458762,
+               "extra_info": "SEMI\ni_item_id=#0\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":1.075644,
+                  "cardinality":8685792,
+                  "extra_info": "INNER\nss_addr_sk=ca_address_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":1.613604,
+                     "cardinality":24386324,
+                     "extra_info": "INNER\nss_item_sk=i_item_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":26.586556,
+                        "cardinality":24386324,
+                        "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":131.916399,
+                           "cardinality":2879987999,
+                           "extra_info": "ss_ext_sales_price\nss_item_sk\nss_sold_date_sk\nss_addr_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.004595,
+                           "cardinality":56,
+                           "extra_info": "d_date_sk\nd_year\nd_moy\n[INFOSEPARATOR]\nFilters: d_moy=2 AND d_moy IS NOT NULL\nd_year=2001 AND d_year IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.050782,
+                        "cardinality":600000,
+                        "extra_info": "i_item_id\ni_item_sk",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.783732,
+                     "cardinality":4378338,
+                     "extra_info": "ca_address_sk\nca_gmt_offset\n[INFOSEPARATOR]\nFilters: ca_gmt_offset=-5.000000 AND ca_gmt_offset IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PROJECTION",
+                  "timing":0.001040,
+                  "cardinality":16058,
+                  "extra_info": "#0\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "FILTER",
+                     "timing":0.010955,
+                     "cardinality":16058,
+                     "extra_info": "(i_color=slate OR i_color=blanched OR i_color=burnished)",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.094097,
+                        "cardinality":600000,
+                        "extra_info": "i_item_id\ni_color",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

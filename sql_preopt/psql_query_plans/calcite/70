@@ -1,0 +1,149 @@
+                                                                                                                       QUERY PLAN                                                                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=431871653.32..431871653.57 rows=100 width=172)
+   ->  Sort  (cost=431871653.32..431871653.82 rows=201 width=172)
+         Sort Key: t55.lochierarchy DESC NULLS LAST, (CASE WHEN (t55.lochierarchy = 0) THEN t55.s_state ELSE NULL::character varying END), (rank() OVER (?))
+         ->  WindowAgg  (cost=431871640.11..431871645.64 rows=201 width=172)
+               ->  Sort  (cost=431871640.11..431871640.61 rows=201 width=132)
+                     Sort Key: t55.lochierarchy, (CASE WHEN (t55.g_county = 0) THEN t55.s_state ELSE NULL::character varying END), t55.total_sum DESC
+                     ->  Subquery Scan on t55  (cost=431871627.90..431871632.42 rows=201 width=132)
+                           ->  HashAggregate  (cost=431871627.90..431871629.91 rows=201 width=108)
+                                 Group Key: (sum(store_sales.ss_net_profit)), store.s_state, store.s_county, (0), (0), (0)
+                                 ->  Append  (cost=287914413.99..431871624.89 rows=201 width=108)
+                                       ->  HashAggregate  (cost=287914413.99..287914415.99 rows=200 width=88)
+                                             Group Key: (sum(store_sales.ss_net_profit)), store.s_state, store.s_county, (0), (0), (0)
+                                             ->  Append  (cost=143913938.96..287914410.99 rows=200 width=88)
+                                                   ->  GroupAggregate  (cost=143913938.96..143957202.62 rows=100 width=62)
+                                                         Group Key: store.s_state, store.s_county
+                                                         ->  Sort  (cost=143913938.96..143924754.56 rows=4326241 width=24)
+                                                               Sort Key: store.s_state, store.s_county
+                                                               ->  Hash Join  (cost=70954183.81..143259635.91 rows=4326241 width=24)
+                                                                     Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                                                     ->  Gather  (cost=3108.23..72214115.00 rows=13660350 width=10)
+                                                                           Workers Planned: 2
+                                                                           ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                                 Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                                 ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                 ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                       ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                             Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                     ->  Hash  (cost=70951071.43..70951071.43 rows=332 width=22)
+                                                                           ->  Hash Join  (cost=70951016.33..70951071.43 rows=332 width=22)
+                                                                                 Hash Cond: ((store.s_state)::text = (t8.s_state)::text)
+                                                                                 ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=22)
+                                                                                 ->  Hash  (cost=70951016.25..70951016.25 rows=7 width=3)
+                                                                                       ->  Subquery Scan on t8  (cost=70951015.56..70951016.25 rows=7 width=3)
+                                                                                             Filter: (t8.ranking <= 5)
+                                                                                             ->  WindowAgg  (cost=70951015.56..70951015.98 rows=21 width=43)
+                                                                                                   ->  Sort  (cost=70951015.56..70951015.62 rows=21 width=35)
+                                                                                                         Sort Key: store0.s_state, (sum(store_sales0.ss_net_profit)) DESC
+                                                                                                         ->  Finalize GroupAggregate  (cost=70951009.41..70951014.89 rows=21 width=35)
+                                                                                                               Group Key: store0.s_state
+                                                                                                               ->  Gather Merge  (cost=70951009.41..70951014.31 rows=42 width=35)
+                                                                                                                     Workers Planned: 2
+                                                                                                                     ->  Sort  (cost=70950009.39..70950009.44 rows=21 width=35)
+                                                                                                                           Sort Key: store0.s_state
+                                                                                                                           ->  Partial HashAggregate  (cost=70950008.67..70950008.93 rows=21 width=35)
+                                                                                                                                 Group Key: store0.s_state
+                                                                                                                                 ->  Hash Join  (cost=2168.77..70922834.06 rows=5434922 width=9)
+                                                                                                                                       Hash Cond: (store_sales0.ss_store_sk = store0.s_store_sk)
+                                                                                                                                       ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                                                                                             Hash Cond: (store_sales0.ss_sold_date_sk = date_dim0.d_date_sk)
+                                                                                                                                             ->  Parallel Seq Scan on store_sales store_sales0  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                                                                             ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                                                                                   ->  Parallel Seq Scan on date_dim date_dim0  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                                                                                         Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                                                                       ->  Hash  (cost=48.02..48.02 rows=1002 width=7)
+                                                                                                                                             ->  Seq Scan on store store0  (cost=0.00..48.02 rows=1002 width=7)
+                                                   ->  GroupAggregate  (cost=143913938.96..143957205.37 rows=100 width=79)
+                                                         Group Key: store1.s_state
+                                                         ->  GroupAggregate  (cost=143913938.96..143957202.62 rows=100 width=50)
+                                                               Group Key: store1.s_state, store1.s_county
+                                                               ->  Sort  (cost=143913938.96..143924754.56 rows=4326241 width=24)
+                                                                     Sort Key: store1.s_state, store1.s_county
+                                                                     ->  Hash Join  (cost=70954183.81..143259635.91 rows=4326241 width=24)
+                                                                           Hash Cond: (store_sales_1.ss_store_sk = store1.s_store_sk)
+                                                                           ->  Gather  (cost=3108.23..72214115.00 rows=13660350 width=10)
+                                                                                 Workers Planned: 2
+                                                                                 ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                                       Hash Cond: (store_sales_1.ss_sold_date_sk = date_dim_1.d_date_sk)
+                                                                                       ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                       ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                             ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                                   Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                           ->  Hash  (cost=70951071.43..70951071.43 rows=332 width=22)
+                                                                                 ->  Hash Join  (cost=70951016.33..70951071.43 rows=332 width=22)
+                                                                                       Hash Cond: ((store1.s_state)::text = (t25.s_state)::text)
+                                                                                       ->  Seq Scan on store store1  (cost=0.00..48.02 rows=1002 width=22)
+                                                                                       ->  Hash  (cost=70951016.25..70951016.25 rows=7 width=3)
+                                                                                             ->  Subquery Scan on t25  (cost=70951015.56..70951016.25 rows=7 width=3)
+                                                                                                   Filter: (t25.ranking <= 5)
+                                                                                                   ->  WindowAgg  (cost=70951015.56..70951015.98 rows=21 width=43)
+                                                                                                         ->  Sort  (cost=70951015.56..70951015.62 rows=21 width=35)
+                                                                                                               Sort Key: store2.s_state, (sum(store_sales2.ss_net_profit)) DESC
+                                                                                                               ->  Finalize GroupAggregate  (cost=70951009.41..70951014.89 rows=21 width=35)
+                                                                                                                     Group Key: store2.s_state
+                                                                                                                     ->  Gather Merge  (cost=70951009.41..70951014.31 rows=42 width=35)
+                                                                                                                           Workers Planned: 2
+                                                                                                                           ->  Sort  (cost=70950009.39..70950009.44 rows=21 width=35)
+                                                                                                                                 Sort Key: store2.s_state
+                                                                                                                                 ->  Partial HashAggregate  (cost=70950008.67..70950008.93 rows=21 width=35)
+                                                                                                                                       Group Key: store2.s_state
+                                                                                                                                       ->  Hash Join  (cost=2168.77..70922834.06 rows=5434922 width=9)
+                                                                                                                                             Hash Cond: (store_sales2.ss_store_sk = store2.s_store_sk)
+                                                                                                                                             ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                                                                                                   Hash Cond: (store_sales2.ss_sold_date_sk = date_dim2.d_date_sk)
+                                                                                                                                                   ->  Parallel Seq Scan on store_sales store_sales2  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                                                                                   ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                                                                                         ->  Parallel Seq Scan on date_dim date_dim2  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                                                                                               Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                                                                             ->  Hash  (cost=48.02..48.02 rows=1002 width=7)
+                                                                                                                                                   ->  Seq Scan on store store2  (cost=0.00..48.02 rows=1002 width=7)
+                                       ->  Aggregate  (cost=143957203.87..143957203.88 rows=1 width=108)
+                                             ->  GroupAggregate  (cost=143913938.96..143957202.62 rows=100 width=50)
+                                                   Group Key: store3.s_state, store3.s_county
+                                                   ->  Sort  (cost=143913938.96..143924754.56 rows=4326241 width=24)
+                                                         Sort Key: store3.s_state, store3.s_county
+                                                         ->  Hash Join  (cost=70954183.81..143259635.91 rows=4326241 width=24)
+                                                               Hash Cond: (store_sales_2.ss_store_sk = store3.s_store_sk)
+                                                               ->  Gather  (cost=3108.23..72214115.00 rows=13660350 width=10)
+                                                                     Workers Planned: 2
+                                                                     ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                           Hash Cond: (store_sales_2.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                                                           ->  Parallel Seq Scan on store_sales store_sales_2  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                           ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                 ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                       Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                               ->  Hash  (cost=70951071.43..70951071.43 rows=332 width=22)
+                                                                     ->  Hash Join  (cost=70951016.33..70951071.43 rows=332 width=22)
+                                                                           Hash Cond: ((store3.s_state)::text = (t45.s_state)::text)
+                                                                           ->  Seq Scan on store store3  (cost=0.00..48.02 rows=1002 width=22)
+                                                                           ->  Hash  (cost=70951016.25..70951016.25 rows=7 width=3)
+                                                                                 ->  Subquery Scan on t45  (cost=70951015.56..70951016.25 rows=7 width=3)
+                                                                                       Filter: (t45.ranking <= 5)
+                                                                                       ->  WindowAgg  (cost=70951015.56..70951015.98 rows=21 width=43)
+                                                                                             ->  Sort  (cost=70951015.56..70951015.62 rows=21 width=35)
+                                                                                                   Sort Key: store4.s_state, (sum(store_sales4.ss_net_profit)) DESC
+                                                                                                   ->  Finalize GroupAggregate  (cost=70951009.41..70951014.89 rows=21 width=35)
+                                                                                                         Group Key: store4.s_state
+                                                                                                         ->  Gather Merge  (cost=70951009.41..70951014.31 rows=42 width=35)
+                                                                                                               Workers Planned: 2
+                                                                                                               ->  Sort  (cost=70950009.39..70950009.44 rows=21 width=35)
+                                                                                                                     Sort Key: store4.s_state
+                                                                                                                     ->  Partial HashAggregate  (cost=70950008.67..70950008.93 rows=21 width=35)
+                                                                                                                           Group Key: store4.s_state
+                                                                                                                           ->  Hash Join  (cost=2168.77..70922834.06 rows=5434922 width=9)
+                                                                                                                                 Hash Cond: (store_sales4.ss_store_sk = store4.s_store_sk)
+                                                                                                                                 ->  Parallel Hash Join  (cost=2108.23..70847080.00 rows=5691812 width=10)
+                                                                                                                                       Hash Cond: (store_sales4.ss_sold_date_sk = date_dim4.d_date_sk)
+                                                                                                                                       ->  Parallel Seq Scan on store_sales store_sales4  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                                                                                                                       ->  Parallel Hash  (cost=2105.55..2105.55 rows=214 width=4)
+                                                                                                                                             ->  Parallel Seq Scan on date_dim date_dim4  (cost=0.00..2105.55 rows=214 width=4)
+                                                                                                                                                   Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))
+                                                                                                                                 ->  Hash  (cost=48.02..48.02 rows=1002 width=7)
+                                                                                                                                       ->  Seq Scan on store store4  (cost=0.00..48.02 rows=1002 width=7)
+ JIT:
+   Functions: 201
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(145 rows)
+

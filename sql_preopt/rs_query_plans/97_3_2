@@ -1,0 +1,17 @@
+XN Limit  (cost=54207155464353.18..54207155464353.19 rows=1 width=8)
+  ->  XN Aggregate  (cost=54207155464353.18..54207155464353.19 rows=1 width=8)
+        ->  XN Hash Full Join DS_DIST_BOTH  (cost=102058474.34..54207153319420.85 rows=285990976 width=8)
+              Outer Dist Key: rs_table_97_0.customer_sk
+              Inner Dist Key: t4.customer_sk
+              Hash Cond: (("outer".customer_sk = "inner".customer_sk) AND ("outer".item_sk = "inner".item_sk))
+              ->  XN Seq Scan on rs_table_97_0  (cost=0.00..2859909.76 rows=285990976 width=8)
+              ->  XN Hash  (cost=102000764.67..102000764.67 rows=11541934 width=8)
+                    ->  XN Subquery Scan t4  (cost=101885345.33..102000764.67 rows=11541934 width=8)
+                          ->  XN HashAggregate  (cost=101885345.33..101885345.33 rows=11541934 width=8)
+                                ->  XN Hash Join DS_BCAST_INNER  (cost=1096.54..101827635.66 rows=11541934 width=8)
+                                      Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                      ->  XN Seq Scan on store_sales  (cost=0.00..28799879.68 rows=2751299208 width=12)
+                                            Filter: (ss_sold_date_sk IS NOT NULL)
+                                      ->  XN Hash  (cost=1095.73..1095.73 rows=321 width=4)
+                                            ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=321 width=4)
+                                                  Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))

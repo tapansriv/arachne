@@ -1,0 +1,42 @@
+                                                                                       QUERY PLAN                                                                                        
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=71178243.48..71178243.73 rows=100 width=198)
+   CTE results
+     ->  Hash Join  (cost=52840.47..71177455.08 rows=7381 width=43)
+           Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+           ->  Gather  (cost=50461.81..71169184.25 rows=1551563 width=43)
+                 Workers Planned: 2
+                 ->  Parallel Hash Join  (cost=49461.81..71013027.95 rows=646485 width=43)
+                       Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                       ->  Hash Join  (cost=33752.31..70982627.44 rows=646485 width=30)
+                             Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                             ->  Parallel Hash Join  (cost=33701.27..70914063.15 rows=16546240 width=31)
+                                   Hash Cond: (store_sales.ss_cdemo_sk = customer_demographics.cd_demo_sk)
+                                   ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=35)
+                                   ->  Parallel Hash  (cost=33556.83..33556.83 rows=11555 width=4)
+                                         ->  Parallel Seq Scan on customer_demographics  (cost=0.00..33556.83 rows=11555 width=4)
+                                               Filter: (((cd_gender)::text = 'M'::text) AND ((cd_marital_status)::text = 'S'::text) AND ((cd_education_status)::text = 'College'::text))
+                             ->  Hash  (cost=50.52..50.52 rows=41 width=7)
+                                   ->  Seq Scan on store  (cost=0.00..50.52 rows=41 width=7)
+                                         Filter: ((s_state)::text = 'TN'::text)
+                       ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=21)
+                             ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=21)
+           ->  Hash  (cost=2374.11..2374.11 rows=364 width=4)
+                 ->  Seq Scan on date_dim  (cost=0.00..2374.11 rows=364 width=4)
+                       Filter: (d_year = 2002)
+   ->  Sort  (cost=788.40..790.75 rows=939 width=198)
+         Sort Key: results.i_item_id NULLS FIRST, results.s_state NULLS FIRST
+         ->  Append  (cost=258.34..752.51 rows=939 width=198)
+               ->  HashAggregate  (cost=258.34..273.10 rows=738 width=194)
+                     Group Key: results.i_item_id, results.s_state
+                     ->  CTE Scan on results  (cost=0.00..147.62 rows=7381 width=108)
+               ->  HashAggregate  (cost=239.88..243.88 rows=200 width=214)
+                     Group Key: results_1.i_item_id
+                     ->  CTE Scan on results results_1  (cost=0.00..147.62 rows=7381 width=96)
+               ->  Aggregate  (cost=221.44..221.45 rows=1 width=196)
+                     ->  CTE Scan on results results_2  (cost=0.00..147.62 rows=7381 width=46)
+ JIT:
+   Functions: 51
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(38 rows)
+

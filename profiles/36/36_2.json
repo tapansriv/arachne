@@ -1,0 +1,62 @@
+{
+   "name":  "Query", 
+   "result": 0.005278,
+   "timing": 0.005278,
+   "cardinality": 0,
+   "extra-info": "\nSELECT gross_margin,\n       i_category,\n       i_class,\n       lochierarchy,\n       rank() OVER ( PARTITION BY lochierarchy,\n                                  CASE\n                                      WHEN t_class = 0 THEN i_category\n                                  END\n                    ORDER BY gross_margin ASC) AS rank_within_parent\nFROM results_rollup\nORDER BY lochierarchy DESC NULLS FIRST,\n         CASE\n             WHEN lochierarchy = 0 THEN i_category\n         END NULLS FIRST,\n         rank_within_parent NULLS FIRST\nLIMIT 100", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "PROJECTION",
+      "timing":0.000000,
+      "cardinality":0,
+      "extra_info": "#0\n#1\n#2\n#3\n#4\n",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "TOP_N",
+         "timing":0.000536,
+         "cardinality":0,
+         "extra_info": "Top 100\n[INFOSEPARATOR]\n#3 DESC\n#5 ASC\n#4 ASC",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000089,
+            "cardinality":196,
+            "extra_info": "gross_margin\ni_category\ni_class\nlochierarchy\nrank_within_parent\nCASE WHEN (lochierarchy=0) THEN (i_category) ELSE (NULL)\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "WINDOW",
+               "timing":0.001706,
+               "cardinality":196,
+               "extra_info": "RANK() OVER(PARTITION BY lochierarchy, CASE WHEN (t_class=0) THEN (i_category) ELSE (NULL) ORDER BY gross_margin ASC NULLS FIRST)",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "SEQ_SCAN",
+                  "timing":0.000029,
+                  "cardinality":196,
+                  "extra_info": "results_rollup\n[INFOSEPARATOR]\ngross_margin\ni_category\ni_class\nlochierarchy\nt_class",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

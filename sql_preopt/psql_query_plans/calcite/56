@@ -1,0 +1,111 @@
+                                                                              QUERY PLAN                                                                              
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=142459311.23..142459311.48 rows=100 width=49)
+   ->  Sort  (cost=142459311.23..142459311.73 rows=200 width=49)
+         Sort Key: (sum((sum(store_sales.ss_ext_sales_price)))) NULLS FIRST, item.i_item_id NULLS FIRST
+         ->  GroupAggregate  (cost=142458981.65..142459303.58 rows=200 width=49)
+               Group Key: item.i_item_id
+               ->  Sort  (cost=142458981.65..142459088.13 rows=42591 width=49)
+                     Sort Key: item.i_item_id NULLS FIRST
+                     ->  Append  (cost=71201648.46..142455706.77 rows=42591 width=49)
+                           ->  GroupAggregate  (cost=71201648.46..71202117.40 rows=23447 width=49)
+                                 Group Key: item.i_item_id
+                                 ->  Sort  (cost=71201648.46..71201707.08 rows=23447 width=23)
+                                       Sort Key: item.i_item_id
+                                       ->  Hash Join  (cost=255132.40..71199946.55 rows=23447 width=23)
+                                             Hash Cond: (store_sales.ss_addr_sk = customer_address.ca_address_sk)
+                                             ->  Hash Join  (cost=34713.87..70969568.16 rows=68079 width=27)
+                                                   Hash Cond: ((item.i_item_id)::text = (item_1.i_item_id)::text)
+                                                   ->  Gather  (cost=18815.26..70950804.74 rows=1091323 width=27)
+                                                         Workers Planned: 2
+                                                         ->  Parallel Hash Join  (cost=17815.26..70840672.44 rows=454718 width=27)
+                                                               Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                                               ->  Parallel Hash Join  (cost=2105.76..70816188.08 rows=454718 width=14)
+                                                                     Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                                     ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=18)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=17 width=4)
+                                                                           ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=17 width=4)
+                                                                                 Filter: ((d_year = 2001) AND (d_moy = 2))
+                                                               ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=21)
+                                                                     ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=21)
+                                                   ->  Hash  (cost=15796.84..15796.84 rows=8142 width=17)
+                                                         ->  Finalize HashAggregate  (cost=15634.00..15715.42 rows=8142 width=17)
+                                                               Group Key: item_1.i_item_id
+                                                               ->  Gather  (cost=14891.39..15616.73 rows=6908 width=17)
+                                                                     Workers Planned: 2
+                                                                     ->  Partial HashAggregate  (cost=13891.39..13925.93 rows=3454 width=17)
+                                                                           Group Key: item_1.i_item_id
+                                                                           ->  Parallel Seq Scan on item item_1  (cost=0.00..13882.75 rows=3454 width=17)
+                                                                                 Filter: ((i_color)::text = ANY ('{blanched,burnished,slate}'::text[]))
+                                             ->  Hash  (cost=184918.55..184918.55 rows=2163758 width=4)
+                                                   ->  Seq Scan on customer_address  (cost=0.00..184918.55 rows=2163758 width=4)
+                                                         Filter: (ca_gmt_offset = '-5'::numeric)
+                           ->  GroupAggregate  (cost=47379367.84..47379622.18 rows=12717 width=49)
+                                 Group Key: item1.i_item_id
+                                 ->  Sort  (cost=47379367.84..47379399.63 rows=12717 width=23)
+                                       Sort Key: item1.i_item_id
+                                       ->  Hash Join  (cost=255132.40..47378500.89 rows=12717 width=23)
+                                             Hash Cond: (catalog_sales.cs_bill_addr_sk = customer_address_1.ca_address_sk)
+                                             ->  Hash Join  (cost=34713.87..47148838.87 rows=35464 width=27)
+                                                   Hash Cond: ((item1.i_item_id)::text = (item_2.i_item_id)::text)
+                                                   ->  Gather  (cost=18815.26..47131447.93 rows=568489 width=27)
+                                                         Workers Planned: 2
+                                                         ->  Parallel Hash Join  (cost=17815.26..47073599.03 rows=236870 width=27)
+                                                               Hash Cond: (catalog_sales.cs_item_sk = item1.i_item_sk)
+                                                               ->  Parallel Hash Join  (cost=2105.76..47052967.31 rows=236870 width=14)
+                                                                     Hash Cond: (catalog_sales.cs_sold_date_sk = date_dim_1.d_date_sk)
+                                                                     ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=18)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=17 width=4)
+                                                                           ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=17 width=4)
+                                                                                 Filter: ((d_year = 2001) AND (d_moy = 2))
+                                                               ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=21)
+                                                                     ->  Parallel Seq Scan on item item1  (cost=0.00..13414.00 rows=125000 width=21)
+                                                   ->  Hash  (cost=15796.84..15796.84 rows=8142 width=17)
+                                                         ->  Finalize HashAggregate  (cost=15634.00..15715.42 rows=8142 width=17)
+                                                               Group Key: item_2.i_item_id
+                                                               ->  Gather  (cost=14891.39..15616.73 rows=6908 width=17)
+                                                                     Workers Planned: 2
+                                                                     ->  Partial HashAggregate  (cost=13891.39..13925.93 rows=3454 width=17)
+                                                                           Group Key: item_2.i_item_id
+                                                                           ->  Parallel Seq Scan on item item_2  (cost=0.00..13882.75 rows=3454 width=17)
+                                                                                 Filter: ((i_color)::text = ANY ('{blanched,burnished,slate}'::text[]))
+                                             ->  Hash  (cost=184918.55..184918.55 rows=2163758 width=4)
+                                                   ->  Seq Scan on customer_address customer_address_1  (cost=0.00..184918.55 rows=2163758 width=4)
+                                                         Filter: (ca_gmt_offset = '-5'::numeric)
+                           ->  GroupAggregate  (cost=23873199.79..23873328.33 rows=6427 width=49)
+                                 Group Key: item3.i_item_id
+                                 ->  Sort  (cost=23873199.79..23873215.86 rows=6427 width=23)
+                                       Sort Key: item3.i_item_id
+                                       ->  Hash Join  (cost=255608.36..23872793.28 rows=6427 width=23)
+                                             Hash Cond: (web_sales.ws_bill_addr_sk = customer_address_2.ca_address_sk)
+                                             ->  Hash Join  (cost=35189.83..23643524.35 rows=17828 width=27)
+                                                   Hash Cond: (web_sales.ws_item_sk = item3.i_item_sk)
+                                                   ->  Gather  (cost=3105.76..23610190.30 rows=285786 width=14)
+                                                         Workers Planned: 2
+                                                         ->  Parallel Hash Join  (cost=2105.76..23580611.70 rows=119078 width=14)
+                                                               Hash Cond: (web_sales.ws_sold_date_sk = date_dim_2.d_date_sk)
+                                                               ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=18)
+                                                               ->  Parallel Hash  (cost=2105.55..2105.55 rows=17 width=4)
+                                                                     ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=17 width=4)
+                                                                           Filter: ((d_year = 2001) AND (d_moy = 2))
+                                                   ->  Hash  (cost=31850.13..31850.13 rows=18715 width=21)
+                                                         ->  Hash Join  (cost=15898.61..31850.13 rows=18715 width=21)
+                                                               Hash Cond: ((item3.i_item_id)::text = (item_3.i_item_id)::text)
+                                                               ->  Seq Scan on item item3  (cost=0.00..15164.00 rows=300000 width=21)
+                                                               ->  Hash  (cost=15796.84..15796.84 rows=8142 width=17)
+                                                                     ->  Finalize HashAggregate  (cost=15634.00..15715.42 rows=8142 width=17)
+                                                                           Group Key: item_3.i_item_id
+                                                                           ->  Gather  (cost=14891.39..15616.73 rows=6908 width=17)
+                                                                                 Workers Planned: 2
+                                                                                 ->  Partial HashAggregate  (cost=13891.39..13925.93 rows=3454 width=17)
+                                                                                       Group Key: item_3.i_item_id
+                                                                                       ->  Parallel Seq Scan on item item_3  (cost=0.00..13882.75 rows=3454 width=17)
+                                                                                             Filter: ((i_color)::text = ANY ('{blanched,burnished,slate}'::text[]))
+                                             ->  Hash  (cost=184918.55..184918.55 rows=2163758 width=4)
+                                                   ->  Seq Scan on customer_address customer_address_2  (cost=0.00..184918.55 rows=2163758 width=4)
+                                                         Filter: (ca_gmt_offset = '-5'::numeric)
+ JIT:
+   Functions: 145
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(107 rows)
+

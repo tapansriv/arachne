@@ -1,0 +1,292 @@
+{
+   "name":  "Query", 
+   "result": 95.776064,
+   "timing": 95.776064,
+   "cardinality": 0,
+   "extra-info": "SELECT case when pmc=0 then null else cast(amc AS decimal(15,4))/cast(pmc AS decimal(15,4)) end am_pm_ratio\nFROM\n  (SELECT count(*) amc\n   FROM 'web_sales.parquet' AS web_sales,\n        'household_demographics.parquet' AS household_demographics,\n        'time_dim.parquet' AS time_dim,\n        'web_page.parquet' AS web_page\n   WHERE ws_sold_time_sk = time_dim.t_time_sk\n     AND ws_ship_hdemo_sk = household_demographics.hd_demo_sk\n     AND ws_web_page_sk = web_page.wp_web_page_sk\n     AND time_dim.t_hour BETWEEN 8 AND 8+1\n     AND household_demographics.hd_dep_count = 6\n     AND web_page.wp_char_count BETWEEN 5000 AND 5200) AT,\n  (SELECT count(*) pmc\n   FROM 'web_sales.parquet' AS web_sales,\n        'household_demographics.parquet' AS household_demographics,\n        'time_dim.parquet' AS time_dim,\n        'web_page.parquet' AS web_page\n   WHERE ws_sold_time_sk = time_dim.t_time_sk\n     AND ws_ship_hdemo_sk = household_demographics.hd_demo_sk\n     AND ws_web_page_sk = web_page.wp_web_page_sk\n     AND time_dim.t_hour BETWEEN 19 AND 19+1\n     AND household_demographics.hd_dep_count = 6\n     AND web_page.wp_char_count BETWEEN 5000 AND 5200) pt\nORDER BY am_pm_ratio\nLIMIT 100", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.002115
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000012
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000608
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000628
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000252
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000547
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000010
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000056
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000027
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "planner", 
+   "timing": 13.150810
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 13.150799
+   }
+   ],
+   "children": [
+    {
+      "name": "TOP_N",
+      "timing":0.000018,
+      "cardinality":0,
+      "extra_info": "Top 100\n[INFOSEPARATOR]\n#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000217,
+         "cardinality":1,
+         "extra_info": "am_pm_ratio\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "CROSS_PRODUCT",
+            "timing":0.000009,
+            "cardinality":1,
+            "extra_info": "",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "SIMPLE_AGGREGATE",
+               "timing":0.010128,
+               "cardinality":1,
+               "extra_info": "count_star()",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.117895,
+                  "cardinality":275844,
+                  "extra_info": "INNER\nws_sold_time_sk=t_time_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":6.662390,
+                     "cardinality":3064358,
+                     "extra_info": "INNER\nws_web_page_sk=wp_web_page_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":13.071264,
+                        "cardinality":143996018,
+                        "extra_info": "INNER\nws_ship_hdemo_sk=hd_demo_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":77.128932,
+                           "cardinality":1440000752,
+                           "extra_info": "ws_sold_time_sk\nws_ship_hdemo_sk\nws_web_page_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.000507,
+                           "cardinality":1440,
+                           "extra_info": "hd_demo_sk\nhd_dep_count\n[INFOSEPARATOR]\nFilters: hd_dep_count=6 AND hd_dep_count IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.003326,
+                        "cardinality":134,
+                        "extra_info": "wp_web_page_sk\nwp_char_count\n[INFOSEPARATOR]\nFilters: wp_char_count>=5000 AND wp_char_count<=5200 AND wp_char_count IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.003771,
+                     "cardinality":14400,
+                     "extra_info": "t_time_sk\nt_hour\n[INFOSEPARATOR]\nFilters: t_hour>=8 AND t_hour<=9 AND t_hour IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "SIMPLE_AGGREGATE",
+               "timing":0.008899,
+               "cardinality":1,
+               "extra_info": "count_star()",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.126202,
+                  "cardinality":459084,
+                  "extra_info": "INNER\nws_sold_time_sk=t_time_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_JOIN",
+                     "timing":6.394730,
+                     "cardinality":3064358,
+                     "extra_info": "INNER\nws_web_page_sk=wp_web_page_sk\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "HASH_JOIN",
+                        "timing":12.160872,
+                        "cardinality":143996018,
+                        "extra_info": "INNER\nws_ship_hdemo_sk=hd_demo_sk\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":41.590786,
+                           "cardinality":1440000752,
+                           "extra_info": "ws_sold_time_sk\nws_ship_hdemo_sk\nws_web_page_sk",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+,
+                         {
+                           "name": "PARQUET_SCAN",
+                           "timing":0.000414,
+                           "cardinality":1440,
+                           "extra_info": "hd_demo_sk\nhd_dep_count\n[INFOSEPARATOR]\nFilters: hd_dep_count=6 AND hd_dep_count IS NOT NULL\n",
+                           "timings": [
+                           ],
+                           "children": [
+                           ]
+                         }
+                        ]
+                      }
+,
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.000361,
+                        "cardinality":134,
+                        "extra_info": "wp_web_page_sk\nwp_char_count\n[INFOSEPARATOR]\nFilters: wp_char_count>=5000 AND wp_char_count<=5200 AND wp_char_count IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.003417,
+                     "cardinality":14400,
+                     "extra_info": "t_time_sk\nt_hour\n[INFOSEPARATOR]\nFilters: t_hour>=19 AND t_hour<=20 AND t_hour IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

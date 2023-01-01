@@ -1,0 +1,177 @@
+{
+   "name":  "Query", 
+   "result": 236.831308,
+   "timing": 236.831308,
+   "cardinality": 1,
+   "extra-info": "CREATE TABLE ss AS\n  (SELECT s_store_sk,\n          sum(ss_ext_sales_price) AS sales,\n          sum(ss_net_profit) AS profit\n   FROM 'store_sales.parquet' AS store_sales,\n        'date_dim.parquet' AS date_dim,\n        'store.parquet' AS store\n   WHERE ss_sold_date_sk = d_date_sk\n     AND d_date BETWEEN cast('2000-08-23' AS date) AND cast('2000-09-22' AS date)\n     AND ss_store_sk = s_store_sk\n   GROUP BY s_store_sk)", 
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.000886
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000253
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000158
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000003
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000041
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000372
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000007
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000039
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000020
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000004
+   },
+   {
+   "annotation": "planner", 
+   "timing": 18.082954
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 18.082950
+   }
+   ],
+   "children": [
+    {
+      "name": "CREATE_TABLE_AS",
+      "timing":0.000020,
+      "cardinality":1,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "HASH_GROUP_BY",
+         "timing":1.732256,
+         "cardinality":501,
+         "extra_info": "#0\nsum(#1)\nsum(#2)",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.242578,
+            "cardinality":59875607,
+            "extra_info": "s_store_sk\nss_ext_sales_price\nss_net_profit\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":1.702391,
+               "cardinality":59875607,
+               "extra_info": "INNER\nss_store_sk=s_store_sk\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":30.909415,
+                  "cardinality":61320413,
+                  "extra_info": "INNER\nss_sold_date_sk=d_date_sk\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":179.276799,
+                     "cardinality":2879987999,
+                     "extra_info": "ss_ext_sales_price\nss_net_profit\nss_sold_date_sk\nss_store_sk",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "PARQUET_SCAN",
+                     "timing":0.012733,
+                     "cardinality":62,
+                     "extra_info": "d_date_sk\nd_date\n[INFOSEPARATOR]\nFilters: d_date>=2000-08-23 00:00:00 AND d_date<=2000-09-22 00:00:00 AND d_date IS NOT NULL\n",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "PARQUET_SCAN",
+                  "timing":0.000270,
+                  "cardinality":2004,
+                  "extra_info": "s_store_sk",
+                  "timings": [
+                  ],
+                  "children": [
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

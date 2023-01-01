@@ -1,0 +1,114 @@
+                                                                                                      QUERY PLAN                                                                                                      
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=297542654.65..297542654.73 rows=31 width=168)
+   CTE frequent_ss_items
+     ->  Finalize GroupAggregate  (cost=76050914.10..83198167.13 rows=18276520 width=48)
+           Group Key: ("substring"((item.i_item_desc)::text, 1, 30)), item.i_item_sk, date_dim_2.d_date
+           Filter: (count(*) > 4)
+           ->  Gather Merge  (cost=76050914.10..81895965.08 rows=45691300 width=48)
+                 Workers Planned: 2
+                 ->  Partial GroupAggregate  (cost=76049914.07..76621055.32 rows=22845650 width=48)
+                       Group Key: ("substring"((item.i_item_desc)::text, 1, 30)), item.i_item_sk, date_dim_2.d_date
+                       ->  Sort  (cost=76049914.07..76107028.20 rows=22845650 width=40)
+                             Sort Key: ("substring"((item.i_item_desc)::text, 1, 30)), item.i_item_sk, date_dim_2.d_date
+                             ->  Parallel Hash Join  (cost=19168.76..71383495.97 rows=22845650 width=40)
+                                   Hash Cond: (store_sales.ss_item_sk = item.i_item_sk)
+                                   ->  Parallel Hash Join  (cost=2116.26..70947909.94 rows=22845650 width=8)
+                                         Hash Cond: (store_sales.ss_sold_date_sk = date_dim_2.d_date_sk)
+                                         ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=8)
+                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=857 width=8)
+                                               ->  Parallel Seq Scan on date_dim date_dim_2  (cost=0.00..2105.55 rows=857 width=8)
+                                                     Filter: (d_year = ANY ('{2000,2001,2002,2003}'::integer[]))
+                                   ->  Parallel Hash  (cost=13414.00..13414.00 rows=125000 width=107)
+                                         ->  Parallel Seq Scan on item  (cost=0.00..13414.00 rows=125000 width=107)
+   CTE best_ss_customer
+     ->  GroupAggregate  (cost=142432150.47..142494796.83 rows=50 width=36)
+           Group Key: customer_2.c_customer_sk
+           Filter: (sum(((store_sales_1.ss_quantity)::numeric * store_sales_1.ss_sales_price)) > (0.50000000000000000000 * max((max((sum(((store_sales_2.ss_quantity)::numeric * store_sales_2.ss_sales_price))))))))
+           ->  Sort  (cost=142432150.47..142439110.85 rows=2784149 width=46)
+                 Sort Key: customer_2.c_customer_sk
+                 ->  Nested Loop  (cost=70833553.20..141962826.96 rows=2784149 width=46)
+                       ->  Aggregate  (cost=70832539.82..70832539.83 rows=1 width=32)
+                             ->  Finalize GroupAggregate  (cost=70832221.18..70832537.95 rows=150 width=36)
+                                   Group Key: customer_3.c_customer_sk
+                                   ->  Gather Merge  (cost=70832221.18..70832533.82 rows=300 width=36)
+                                         Workers Planned: 2
+                                         ->  Partial GroupAggregate  (cost=70831221.16..70831499.17 rows=150 width=36)
+                                               Group Key: customer_3.c_customer_sk
+                                               ->  Sort  (cost=70831221.16..70831276.38 rows=22091 width=14)
+                                                     Sort Key: customer_3.c_customer_sk
+                                                     ->  Parallel Hash Join  (cost=2129.64..70829627.16 rows=22091 width=14)
+                                                           Hash Cond: (store_sales_2.ss_sold_date_sk = date_dim_3.d_date_sk)
+                                                           ->  Hash Join  (cost=13.38..70823030.73 rows=1160062 width=18)
+                                                                 Hash Cond: (store_sales_2.ss_customer_sk = customer_3.c_customer_sk)
+                                                                 ->  Parallel Seq Scan on store_sales store_sales_2  (cost=0.00..66312505.53 rows=1199709653 width=18)
+                                                                 ->  Hash  (cost=11.50..11.50 rows=150 width=4)
+                                                                       ->  Seq Scan on customer customer_3  (cost=0.00..11.50 rows=150 width=4)
+                                                           ->  Parallel Hash  (cost=2105.55..2105.55 rows=857 width=4)
+                                                                 ->  Parallel Seq Scan on date_dim date_dim_3  (cost=0.00..2105.55 rows=857 width=4)
+                                                                       Filter: (d_year = ANY ('{2000,2001,2002,2003}'::integer[]))
+                       ->  Gather  (cost=1013.38..71102445.63 rows=2784149 width=14)
+                             Workers Planned: 2
+                             ->  Hash Join  (cost=13.38..70823030.73 rows=1160062 width=14)
+                                   Hash Cond: (store_sales_1.ss_customer_sk = customer_2.c_customer_sk)
+                                   ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..66312505.53 rows=1199709653 width=14)
+                                   ->  Hash  (cost=11.50..11.50 rows=150 width=4)
+                                         ->  Seq Scan on customer customer_2  (cost=0.00..11.50 rows=150 width=4)
+   ->  Sort  (cost=71849690.69..71849690.77 rows=31 width=168)
+         Sort Key: customer.c_last_name NULLS FIRST, customer.c_first_name NULLS FIRST, (sum(((catalog_sales.cs_quantity)::numeric * catalog_sales.cs_list_price))) NULLS FIRST
+         ->  Append  (cost=47820442.44..71849689.92 rows=31 width=168)
+               ->  GroupAggregate  (cost=47820442.44..47820442.91 rows=17 width=168)
+                     Group Key: customer.c_last_name, customer.c_first_name
+                     ->  Sort  (cost=47820442.44..47820442.48 rows=17 width=146)
+                           Sort Key: customer.c_last_name, customer.c_first_name
+                           ->  Nested Loop  (cost=1015.00..47820442.09 rows=17 width=146)
+                                 Join Filter: (catalog_sales.cs_item_sk = frequent_ss_items.item_sk)
+                                 ->  Nested Loop  (cost=1015.00..47226455.20 rows=1 width=150)
+                                       Join Filter: (catalog_sales.cs_sold_date_sk = date_dim.d_date_sk)
+                                       ->  Hash Join  (cost=1015.00..47223639.13 rows=596 width=154)
+                                             Hash Cond: (catalog_sales.cs_bill_customer_sk = best_ss_customer.c_customer_sk)
+                                             ->  Gather  (cost=1013.38..47217614.91 rows=1604434 width=162)
+                                                   Workers Planned: 2
+                                                   ->  Hash Join  (cost=13.38..47056171.52 rows=668514 width=162)
+                                                         Hash Cond: (catalog_sales.cs_bill_customer_sk = customer.c_customer_sk)
+                                                         ->  Parallel Seq Scan on catalog_sales  (cost=0.00..44799320.00 rows=600040800 width=22)
+                                                         ->  Hash  (cost=11.50..11.50 rows=150 width=140)
+                                                               ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=140)
+                                             ->  Hash  (cost=1.00..1.00 rows=50 width=4)
+                                                   ->  CTE Scan on best_ss_customer  (cost=0.00..1.00 rows=50 width=4)
+                                       ->  Materialize  (cost=0.00..2556.88 rows=29 width=4)
+                                             ->  Seq Scan on date_dim  (cost=0.00..2556.73 rows=29 width=4)
+                                                   Filter: ((d_year = 2000) AND (d_moy = 2))
+                                 ->  CTE Scan on frequent_ss_items  (cost=0.00..365530.40 rows=18276520 width=4)
+               ->  GroupAggregate  (cost=24029246.16..24029246.55 rows=14 width=168)
+                     Group Key: customer_1.c_last_name, customer_1.c_first_name
+                     ->  Sort  (cost=24029246.16..24029246.20 rows=14 width=146)
+                           Sort Key: customer_1.c_last_name, customer_1.c_first_name
+                           ->  Hash Join  (cost=23594761.14..24029245.90 rows=14 width=146)
+                                 Hash Cond: (web_sales.ws_bill_customer_sk = best_ss_customer_1.c_customer_sk)
+                                 ->  Hash Join  (cost=23594759.51..24029130.33 rows=30347 width=154)
+                                       Hash Cond: (frequent_ss_items_1.item_sk = web_sales.ws_item_sk)
+                                       ->  CTE Scan on frequent_ss_items frequent_ss_items_1  (cost=0.00..365530.40 rows=18276520 width=4)
+                                       ->  Hash  (cost=23594754.55..23594754.55 rows=397 width=158)
+                                             ->  Gather Merge  (cost=23594110.84..23594754.55 rows=397 width=158)
+                                                   Workers Planned: 2
+                                                   ->  Merge Join  (cost=23593110.82..23593708.70 rows=165 width=158)
+                                                         Merge Cond: (web_sales.ws_bill_customer_sk = customer_1.c_customer_sk)
+                                                         ->  Sort  (cost=23593093.90..23593391.59 rows=119078 width=18)
+                                                               Sort Key: web_sales.ws_bill_customer_sk
+                                                               ->  Parallel Hash Join  (cost=2105.76..23580611.70 rows=119078 width=18)
+                                                                     Hash Cond: (web_sales.ws_sold_date_sk = date_dim_1.d_date_sk)
+                                                                     ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=22)
+                                                                     ->  Parallel Hash  (cost=2105.55..2105.55 rows=17 width=4)
+                                                                           ->  Parallel Seq Scan on date_dim date_dim_1  (cost=0.00..2105.55 rows=17 width=4)
+                                                                                 Filter: ((d_year = 2000) AND (d_moy = 2))
+                                                         ->  Sort  (cost=16.92..17.30 rows=150 width=140)
+                                                               Sort Key: customer_1.c_customer_sk
+                                                               ->  Seq Scan on customer customer_1  (cost=0.00..11.50 rows=150 width=140)
+                                 ->  Hash  (cost=1.00..1.00 rows=50 width=4)
+                                       ->  CTE Scan on best_ss_customer best_ss_customer_1  (cost=0.00..1.00 rows=50 width=4)
+ JIT:
+   Functions: 152
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(110 rows)
+

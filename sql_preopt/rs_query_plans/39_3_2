@@ -1,0 +1,19 @@
+XN Merge  (cost=1000364716525.54..1000364716529.87 rows=1733 width=56)
+  Merge Key: t4.w_warehouse_sk, t4.i_item_sk, t4.d_moy, t4.mean, t4.cov, t10.d_moy, t10.mean, t10.cov
+  ->  XN Network  (cost=1000364716525.54..1000364716529.87 rows=1733 width=56)
+        Send to leader
+        ->  XN Sort  (cost=1000364716525.54..1000364716529.87 rows=1733 width=56)
+              Sort Key: t4.w_warehouse_sk, t4.i_item_sk, t4.d_moy, t4.mean, t4.cov, t10.d_moy, t10.mean, t10.cov
+              ->  XN Hash Join DS_BCAST_INNER  (cost=4657154.38..364716432.31 rows=1733 width=56)
+                    Hash Cond: (("outer".i_item_sk = "inner".i_item_sk) AND ("outer".w_warehouse_sk = "inner".w_warehouse_sk))
+                    ->  XN Subquery Scan t10  (cost=2299938.35..2357211.03 rows=1000 width=28)
+                          ->  XN HashAggregate  (cost=2299938.35..2357201.03 rows=1000 width=35)
+                                Filter: (CASE WHEN (avg(inv_quantity_on_hand) = 0) THEN 0::double precision ELSE ((stddev((inv_quantity_on_hand)::double precision) * 1::double precision) / (avg(inv_quantity_on_hand))::double precision) END > 1::double precision)
+                                ->  XN Seq Scan on rs_table_39_0  (cost=0.00..1950000.00 rows=12725031 width=35)
+                                      Filter: (d_moy = 2)
+                    ->  XN Hash  (cost=2357211.03..2357211.03 rows=1000 width=28)
+                          ->  XN Subquery Scan t4  (cost=2299938.35..2357211.03 rows=1000 width=28)
+                                ->  XN HashAggregate  (cost=2299938.35..2357201.03 rows=1000 width=35)
+                                      Filter: (CASE WHEN (avg(inv_quantity_on_hand) = 0) THEN 0::double precision ELSE ((stddev((inv_quantity_on_hand)::double precision) * 1::double precision) / (avg(inv_quantity_on_hand))::double precision) END > 1::double precision)
+                                      ->  XN Seq Scan on rs_table_39_0  (cost=0.00..1950000.00 rows=12725031 width=35)
+                                            Filter: (d_moy = 1)

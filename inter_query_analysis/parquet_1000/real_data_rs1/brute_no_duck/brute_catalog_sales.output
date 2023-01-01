@@ -1,0 +1,18 @@
+Egress: $0.12/GB
+Benchmark: tpcds
+Data Path: parquet_1000/real_data_rs1
+BigQuery Cost: $5/TB; DuckDB Cost: $1.48/hr; Redshift Cost: $1.086/hr
+Use Duck: False
+
+Optimal Subset: 0b11101011110111110000
+Cost of new plan by subset (966128, 0b11101011110111110000): $33.55663702985727
+Checking subset without DuckDB
+Total Keys: 60, Keys Considered: 59
+[4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 18, 19]
+13
+Redshift Total: $2.869223801921209, Redshift-Calcite Total: $2.7213369148763022, BigQuery Total: $41.535258293151855
+Real: 33.55663702985727, 1.9295199633042017, 7.416081428527832, 21.891129887344352, 2.282025942227443, 0.022113071652062725, 0.01576673680137694
+{"arachne": 33.55663702985727, "arachne_runtime": 17638.5245287359, "bq": 41.535258293151855, "bq_baseline_runtime": 12311.433, "percent_diff": 19.209273256427693, "profiling_runtime": 37778.68003044119, "profiling_cost": 83.94089974236847}
+Num Redshift Qs: 37; Num GCP Qs: 23
+Redshift Qs: $1.9295199633042017; GCP Qs: $7.416081428527832; Movement Cost: $21.891129887344352
+Final cost: $33.55663702985727, BQ Baseline: $41.535258293151855, Diff: $7.978621263294585, %: 19.209273256427693%

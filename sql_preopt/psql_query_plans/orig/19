@@ -1,0 +1,42 @@
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=70977224.70..70977224.75 rows=19 width=69)
+   ->  Sort  (cost=70977224.70..70977224.75 rows=19 width=69)
+         Sort Key: (sum(store_sales.ss_ext_sales_price)) DESC, item.i_brand, item.i_brand_id, item.i_manufact_id, item.i_manufact
+         ->  Finalize GroupAggregate  (cost=70977221.76..70977224.30 rows=19 width=69)
+               Group Key: item.i_brand, item.i_brand_id, item.i_manufact_id, item.i_manufact
+               ->  Gather Merge  (cost=70977221.76..70977223.82 rows=16 width=69)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=70976221.73..70976221.95 rows=8 width=69)
+                           Group Key: item.i_brand, item.i_brand_id, item.i_manufact_id, item.i_manufact
+                           ->  Sort  (cost=70976221.73..70976221.75 rows=8 width=43)
+                                 Sort Key: item.i_brand, item.i_brand_id, item.i_manufact_id, item.i_manufact
+                                 ->  Hash Join  (cost=70962486.12..70976221.61 rows=8 width=43)
+                                       Hash Cond: (store_sales.ss_store_sk = store.s_store_sk)
+                                       Join Filter: ("substring"((customer_address.ca_zip)::text, 1, 5) <> "substring"((store.s_zip)::text, 1, 5))
+                                       ->  Parallel Hash Join  (cost=70962425.57..70976160.90 rows=8 width=53)
+                                             Hash Cond: (item.i_item_sk = store_sales.ss_item_sk)
+                                             ->  Parallel Seq Scan on item  (cost=0.00..13726.50 rows=2342 width=41)
+                                                   Filter: (i_manager_id = 8)
+                                             ->  Parallel Hash  (cost=70962419.89..70962419.89 rows=455 width=20)
+                                                   ->  Parallel Hash Join  (cost=146414.89..70962419.89 rows=455 width=20)
+                                                         Hash Cond: (store_sales.ss_customer_sk = customer.c_customer_sk)
+                                                         ->  Parallel Hash Join  (cost=2105.78..70816344.90 rows=470398 width=18)
+                                                               Hash Cond: (store_sales.ss_sold_date_sk = date_dim.d_date_sk)
+                                                               ->  Parallel Seq Scan on store_sales  (cost=0.00..66312505.53 rows=1199709653 width=22)
+                                                               ->  Parallel Hash  (cost=2105.55..2105.55 rows=18 width=4)
+                                                                     ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=18 width=4)
+                                                                           Filter: ((d_moy = 11) AND (d_year = 1998))
+                                                         ->  Parallel Hash  (cost=144308.34..144308.34 rows=62 width=10)
+                                                               ->  Hash Join  (cost=13.38..144308.34 rows=62 width=10)
+                                                                     Hash Cond: (customer_address.ca_address_sk = customer.c_current_addr_sk)
+                                                                     ->  Parallel Seq Scan on customer_address  (cost=0.00..134919.52 rows=2499952 width=10)
+                                                                     ->  Hash  (cost=11.50..11.50 rows=150 width=8)
+                                                                           ->  Seq Scan on customer  (cost=0.00..11.50 rows=150 width=8)
+                                       ->  Hash  (cost=48.02..48.02 rows=1002 width=10)
+                                             ->  Seq Scan on store  (cost=0.00..48.02 rows=1002 width=10)
+ JIT:
+   Functions: 58
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(38 rows)
+

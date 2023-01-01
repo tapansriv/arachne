@@ -1,0 +1,72 @@
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1844633733224.67..1844633733224.67 rows=1 width=72)
+   ->  Sort  (cost=1844633733224.67..1844633733224.67 rows=1 width=72)
+         Sort Key: (count(DISTINCT web_sales.ws_order_number))
+         ->  Aggregate  (cost=1844633733224.65..1844633733224.66 rows=1 width=72)
+               ->  Merge Join  (cost=512510673.06..1844633732951.13 rows=36468 width=16)
+                     Merge Cond: (web_sales.ws_order_number = web_returns.wr_order_number)
+                     ->  Nested Loop  (cost=249095324.83..39738885546.66 rows=2947 width=20)
+                           Join Filter: (web_sales.ws_order_number = web_sales0.ws_order_number)
+                           ->  Group  (cost=248950047.36..39710345045.71 rows=108798 width=4)
+                                 Group Key: web_sales0.ws_order_number
+                                 ->  Gather Merge  (cost=248950047.36..39710344501.72 rows=217596 width=4)
+                                       Workers Planned: 2
+                                       ->  Group  (cost=248949047.34..39710318385.71 rows=108798 width=4)
+                                             Group Key: web_sales0.ws_order_number
+                                             ->  Merge Join  (cost=248949047.34..34995145627.30 rows=1886069103364 width=4)
+                                                   Merge Cond: (web_sales0.ws_order_number = web_sales1.ws_order_number)
+                                                   Join Filter: (web_sales0.ws_warehouse_sk <> web_sales1.ws_warehouse_sk)
+                                                   ->  Sort  (cost=76997770.92..77747766.72 rows=299998320 width=8)
+                                                         Sort Key: web_sales0.ws_order_number
+                                                         ->  Parallel Seq Scan on web_sales web_sales0  (cost=0.00..22452814.20 rows=299998320 width=8)
+                                                   ->  Materialize  (cost=171951276.42..175551256.26 rows=719995968 width=8)
+                                                         ->  Sort  (cost=171951276.42..173751266.34 rows=719995968 width=8)
+                                                               Sort Key: web_sales1.ws_order_number
+                                                               ->  Seq Scan on web_sales web_sales1  (cost=0.00..26652790.68 rows=719995968 width=8)
+                           ->  Materialize  (cost=145277.47..23730004.75 rows=2947 width=16)
+                                 ->  Nested Loop  (cost=145277.47..23729990.01 rows=2947 width=16)
+                                       Join Filter: (web_sales.ws_web_site_sk = web_site.web_site_sk)
+                                       ->  Gather  (cost=145277.47..23727598.56 rows=19898 width=20)
+                                             Workers Planned: 2
+                                             ->  Parallel Hash Join  (cost=144277.47..23724608.76 rows=8291 width=20)
+                                                   Hash Cond: (web_sales.ws_ship_addr_sk = customer_address.ca_address_sk)
+                                                   ->  Parallel Hash Join  (cost=2106.01..23581432.87 rows=258634 width=24)
+                                                         Hash Cond: (web_sales.ws_ship_date_sk = date_dim.d_date_sk)
+                                                         ->  Parallel Seq Scan on web_sales  (cost=0.00..22452814.20 rows=299998320 width=28)
+                                                         ->  Parallel Hash  (cost=2105.55..2105.55 rows=37 width=4)
+                                                               ->  Parallel Seq Scan on date_dim  (cost=0.00..2105.55 rows=37 width=4)
+                                                                     Filter: ((d_date >= '1999-02-01'::date) AND (d_date <= '1999-04-02'::date))
+                                                   ->  Parallel Hash  (cost=141169.40..141169.40 rows=80165 width=4)
+                                                         ->  Parallel Seq Scan on customer_address  (cost=0.00..141169.40 rows=80165 width=4)
+                                                               Filter: ((ca_state)::text = 'IL'::text)
+                                       ->  Materialize  (cost=0.00..3.71 rows=8 width=4)
+                                             ->  Seq Scan on web_site  (cost=0.00..3.67 rows=8 width=4)
+                                                   Filter: ((web_company_name)::text = 'pri'::text)
+                     ->  Group  (cost=263415348.23..1804894830203.57 rows=1346310 width=4)
+                           Group Key: web_returns.wr_order_number
+                           ->  Gather Merge  (cost=263415348.23..1804894823472.02 rows=2692620 width=4)
+                                 Workers Planned: 2
+                                 ->  Group  (cost=263414348.20..1804894511676.83 rows=1346310 width=4)
+                                       Group Key: web_returns.wr_order_number
+                                       ->  Merge Join  (cost=263414348.20..1552726578035.14 rows=100867173456676 width=4)
+                                             Merge Cond: (web_sales2.ws_order_number = web_returns.wr_order_number)
+                                             ->  Merge Join  (cost=248949047.34..34995145627.30 rows=1886069103364 width=8)
+                                                   Merge Cond: (web_sales2.ws_order_number = web_sales3.ws_order_number)
+                                                   Join Filter: (web_sales2.ws_warehouse_sk <> web_sales3.ws_warehouse_sk)
+                                                   ->  Sort  (cost=76997770.92..77747766.72 rows=299998320 width=8)
+                                                         Sort Key: web_sales2.ws_order_number
+                                                         ->  Parallel Seq Scan on web_sales web_sales2  (cost=0.00..22452814.20 rows=299998320 width=8)
+                                                   ->  Materialize  (cost=171951276.42..175551256.26 rows=719995968 width=8)
+                                                         ->  Sort  (cost=171951276.42..173751266.34 rows=719995968 width=8)
+                                                               Sort Key: web_sales3.ws_order_number
+                                                               ->  Seq Scan on web_sales web_sales3  (cost=0.00..26652790.68 rows=719995968 width=8)
+                                             ->  Materialize  (cost=14465300.86..14825304.86 rows=72000800 width=4)
+                                                   ->  Sort  (cost=14465300.86..14645302.86 rows=72000800 width=4)
+                                                         Sort Key: web_returns.wr_order_number
+                                                         ->  Seq Scan on web_returns  (cost=0.00..2115486.00 rows=72000800 width=4)
+ JIT:
+   Functions: 80
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(68 rows)
+

@@ -1,0 +1,74 @@
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=278132242.72..278132244.23 rows=100 width=54)
+   ->  Merge Join  (cost=278132242.72..278186284.99 rows=3593880 width=54)
+         Merge Cond: (v11.rnk = v21.rnk)
+         ->  Sort  (cost=139066121.36..139066188.39 rows=26810 width=31)
+               Sort Key: v11.rnk
+               ->  Hash Join  (cost=139059054.88..139064149.42 rows=26810 width=31)
+                     Hash Cond: (v11.item_sk = i1.i_item_sk)
+                     ->  Subquery Scan on v11  (cost=139038089.88..139040502.78 rows=26810 width=12)
+                           Filter: (v11.rnk < 11)
+                           ->  WindowAgg  (cost=139038089.88..139039497.41 rows=80430 width=44)
+                                 ->  Sort  (cost=139038089.88..139038290.96 rows=80430 width=36)
+                                       Sort Key: v1.rank_col
+                                       ->  Subquery Scan on v1  (cost=138942002.31..139029335.17 rows=80430 width=36)
+                                             ->  Finalize GroupAggregate  (cost=138942002.31..139028530.87 rows=80430 width=36)
+                                                   Group Key: ss1.ss_item_sk
+                                                   Filter: (avg(ss1.ss_net_profit) > (0.9 * $1))
+                                                   InitPlan 1 (returns $1)
+                                                     ->  Finalize GroupAggregate  (cost=1000.00..69313408.48 rows=501 width=36)
+                                                           Group Key: store_sales.ss_store_sk
+                                                           ->  Gather  (cost=1000.00..69313394.70 rows=1002 width=36)
+                                                                 Workers Planned: 2
+                                                                 ->  Partial GroupAggregate  (cost=0.00..69312294.50 rows=501 width=36)
+                                                                       Group Key: store_sales.ss_store_sk
+                                                                       ->  Parallel Seq Scan on store_sales  (cost=0.00..69311779.67 rows=101714 width=10)
+                                                                             Filter: ((ss_addr_sk IS NULL) AND (ss_store_sk = 4))
+                                                   ->  Gather Merge  (cost=69628593.83..69704264.30 rows=482582 width=36)
+                                                         Workers Planned: 2
+                                                         ->  Partial GroupAggregate  (cost=69627593.81..69647562.34 rows=241291 width=36)
+                                                               Group Key: ss1.ss_item_sk
+                                                               ->  Sort  (cost=69627593.81..69633244.60 rows=2260319 width=10)
+                                                                     Sort Key: ss1.ss_item_sk
+                                                                     ->  Parallel Seq Scan on store_sales ss1  (cost=0.00..69311779.67 rows=2260319 width=10)
+                                                                           Filter: (ss_store_sk = 4)
+                     ->  Hash  (cost=15164.00..15164.00 rows=300000 width=27)
+                           ->  Seq Scan on item i1  (cost=0.00..15164.00 rows=300000 width=27)
+         ->  Sort  (cost=139066121.36..139066188.39 rows=26810 width=31)
+               Sort Key: v21.rnk
+               ->  Hash Join  (cost=139059054.88..139064149.42 rows=26810 width=31)
+                     Hash Cond: (v21.item_sk = i2.i_item_sk)
+                     ->  Subquery Scan on v21  (cost=139038089.88..139040502.78 rows=26810 width=12)
+                           Filter: (v21.rnk < 11)
+                           ->  WindowAgg  (cost=139038089.88..139039497.41 rows=80430 width=44)
+                                 ->  Sort  (cost=139038089.88..139038290.96 rows=80430 width=36)
+                                       Sort Key: v2.rank_col DESC
+                                       ->  Subquery Scan on v2  (cost=138942002.31..139029335.17 rows=80430 width=36)
+                                             ->  Finalize GroupAggregate  (cost=138942002.31..139028530.87 rows=80430 width=36)
+                                                   Group Key: ss1_1.ss_item_sk
+                                                   Filter: (avg(ss1_1.ss_net_profit) > (0.9 * $3))
+                                                   InitPlan 2 (returns $3)
+                                                     ->  Finalize GroupAggregate  (cost=1000.00..69313408.48 rows=501 width=36)
+                                                           Group Key: store_sales_1.ss_store_sk
+                                                           ->  Gather  (cost=1000.00..69313394.70 rows=1002 width=36)
+                                                                 Workers Planned: 2
+                                                                 ->  Partial GroupAggregate  (cost=0.00..69312294.50 rows=501 width=36)
+                                                                       Group Key: store_sales_1.ss_store_sk
+                                                                       ->  Parallel Seq Scan on store_sales store_sales_1  (cost=0.00..69311779.67 rows=101714 width=10)
+                                                                             Filter: ((ss_addr_sk IS NULL) AND (ss_store_sk = 4))
+                                                   ->  Gather Merge  (cost=69628593.83..69704264.30 rows=482582 width=36)
+                                                         Workers Planned: 2
+                                                         ->  Partial GroupAggregate  (cost=69627593.81..69647562.34 rows=241291 width=36)
+                                                               Group Key: ss1_1.ss_item_sk
+                                                               ->  Sort  (cost=69627593.81..69633244.60 rows=2260319 width=10)
+                                                                     Sort Key: ss1_1.ss_item_sk
+                                                                     ->  Parallel Seq Scan on store_sales ss1_1  (cost=0.00..69311779.67 rows=2260319 width=10)
+                                                                           Filter: (ss_store_sk = 4)
+                     ->  Hash  (cost=15164.00..15164.00 rows=300000 width=27)
+                           ->  Seq Scan on item i2  (cost=0.00..15164.00 rows=300000 width=27)
+ JIT:
+   Functions: 82
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(70 rows)
+

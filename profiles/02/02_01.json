@@ -1,0 +1,60 @@
+{
+    "name": "HASH_GROUP_BY",
+    "timing": 47.468542,
+    "cardinality": 264,
+    "extra_info": "#0\nsum(#1)\nsum(#2)\nsum(#3)\nsum(#4)\nsum(#5)\nsum(#6)\nsum(#7)",
+    "timings": [],
+    "children": [
+        {
+            "name": "PROJECTION",
+            "timing": 111.726713,
+            "cardinality": 2152597545,
+            "extra_info": "d_week_seq\nCASE WHEN (d_day_name=Sunday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Monday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Tuesday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Wednesday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Thursday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Friday) THEN (sales_price) ELSE (NULL)\nCASE WHEN (d_day_name=Saturday) THEN (sales_price) ELSE (NULL)\n",
+            "timings": [],
+            "children": [
+                {
+                    "name": "HASH_JOIN",
+                    "timing": 35.065205,
+                    "cardinality": 2152597545,
+                    "extra_info": "INNER\nsold_date_sk=d_date_sk\n",
+                    "timings": [],
+                    "children": [
+                        {
+                            "name": "UNION",
+                            "timing": 2.979307,
+                            "cardinality": 2159980792,
+                            "extra_info": "",
+                            "timings": [],
+                            "children": [
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 51.870603,
+                                    "cardinality": 720000376,
+                                    "extra_info": "ws_sold_date_sk\nws_ext_sales_price",
+                                    "timings": [],
+                                    "children": []
+                                },
+                                {
+                                    "name": "PARQUET_SCAN",
+                                    "timing": 104.986219,
+                                    "cardinality": 1439980416,
+                                    "extra_info": "cs_sold_date_sk\ncs_ext_sales_price",
+                                    "timings": [],
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PARQUET_SCAN",
+                            "timing": 0.015882,
+                            "cardinality": 146098,
+                            "extra_info": "d_week_seq\nd_day_name\nd_date_sk",
+                            "timings": [],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

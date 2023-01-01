@@ -1,0 +1,184 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     168   0                    00  Start at 168 
+1     Integer        70    1     0                    00  r[1]=70      
+2     Once           0     70    0                    00  materialize "at1"
+3     OpenEphemeral  0     1     0                    00  nColumn=1    
+4     Null           0     2     2                    00  r[2..2]=NULL 
+5     OpenRead       2     12    0     4              00  root=12 iDb=0; household_demographics
+6     OpenRead       1     28    0     13             00  root=28 iDb=0; web_sales
+7     OpenRead       3     23    0     4              00  root=23 iDb=0; time_dim
+8     OpenRead       4     25    0     11             00  root=25 iDb=0; web_page
+9     Rewind         2     65    0                    00               
+10      Column         2     3     3                    00  r[3]=household_demographics.hd_dep_count
+11      Ne             4     64    3     (BINARY)       54  if r[3]!=r[4] goto 64
+12      Once           0     22    0                    00               
+13      OpenAutoindex  10    4     0     k(4,B,,,)      00  nColumn=4; for web_sales
+14      Rewind         1     22    0                    00               
+15        Column         1     10    5                    00  r[5]=web_sales.ws_ship_hdemo_sk
+16        Column         1     1     6                    00  r[6]=web_sales.ws_sold_time_sk
+17        Column         1     12    7                    00  r[7]=web_sales.ws_web_page_sk
+18        Rowid          1     8     0                    00  r[8]=rowid   
+19        MakeRecord     5     4     3                    00  r[3]=mkrec(r[5..8])
+20        IdxInsert      10    3     0                    10  key=r[3]     
+21      Next           1     15    0                    03               
+22      Column         2     0     9                    00  r[9]=household_demographics.hd_demo_sk
+23      Affinity       9     1     0     C              00  affinity(r[9])
+24      SeekGE         10    64    9     1              00  key=r[9]     
+25        IdxGT          10    64    9     1              00  key=r[9]     
+26        Once           0     35    0                    00               
+27        OpenAutoindex  11    3     0     k(3,B,,)       00  nColumn=3; for time_dim
+28        Rewind         3     35    0                    00               
+29          Column         3     0     5                    00  r[5]=time_dim.t_time_sk
+30          Column         3     3     6                    00  r[6]=time_dim.t_hour
+31          Rowid          3     7     0                    00  r[7]=rowid   
+32          MakeRecord     5     3     3                    00  r[3]=mkrec(r[5..7])
+33          IdxInsert      11    3     0                    10  key=r[3]     
+34        Next           3     29    0                    03               
+35        Column         10    1     10                   00  r[10]=web_sales.ws_sold_time_sk
+36        IsNull         10    63    0                    00  if r[10]==NULL goto 63
+37        Affinity       10    1     0     C              00  affinity(r[10])
+38        SeekGE         11    63    10    1              00  key=r[10]    
+39          IdxGT          11    63    10    1              00  key=r[10]    
+40          Column         11    1     3                    00  r[3]=time_dim.t_hour
+41          Lt             12    62    3     (BINARY)       54  if r[3]<r[12] goto 62
+42          Gt             13    62    3     (BINARY)       54  if r[3]>r[13] goto 62
+43          Once           0     52    0                    00               
+44          OpenAutoindex  12    3     0     k(3,B,,)       00  nColumn=3; for web_page
+45          Rewind         4     52    0                    00               
+46            Column         4     0     5                    00  r[5]=web_page.wp_web_page_sk
+47            Column         4     10    6                    00  r[6]=web_page.wp_char_count
+48            Rowid          4     7     0                    00  r[7]=rowid   
+49            MakeRecord     5     3     3                    00  r[3]=mkrec(r[5..7])
+50            IdxInsert      12    3     0                    10  key=r[3]     
+51          Next           4     46    0                    03               
+52          Column         10    2     14                   00  r[14]=web_sales.ws_web_page_sk
+53          IsNull         14    62    0                    00  if r[14]==NULL goto 62
+54          Affinity       14    1     0     C              00  affinity(r[14])
+55          SeekGE         12    62    14    1              00  key=r[14]    
+56            IdxGT          12    62    14    1              00  key=r[14]    
+57            Column         12    1     3                    00  r[3]=web_page.wp_char_count
+58            Lt             15    61    3     (BINARY)       54  if r[3]<r[15] goto 61
+59            Gt             16    61    3     (BINARY)       54  if r[3]>r[16] goto 61
+60            AggStep        0     0     2     count(0)       00  accum=r[2] step(r[0])
+61          Next           12    56    0                    00               
+62        Next           11    39    0                    00               
+63      Next           10    25    0                    00               
+64    Next           2     10    0                    01               
+65    AggFinal       2     0     0     count(0)       00  accum=r[2] N=0
+66    SCopy          2     17    0                    00  r[17]=r[2]   
+67    MakeRecord     17    1     3                    00  r[3]=mkrec(r[17])
+68    NewRowid       0     11    0                    00  r[11]=rowid  
+69    Insert         0     3     11                   08  intkey=r[11] data=r[3]
+70    Return         1     0     0                    00  end at1      
+71    Integer        140   18    0                    00  r[18]=140    
+72    Once           0     140   0                    00  materialize "pt"
+73    OpenEphemeral  5     1     0                    00  nColumn=1    
+74    Null           0     19    19                   00  r[19..19]=NULL
+75    OpenRead       7     12    0     4              00  root=12 iDb=0; household_demographics
+76    OpenRead       6     28    0     13             00  root=28 iDb=0; web_sales
+77    OpenRead       8     23    0     4              00  root=23 iDb=0; time_dim
+78    OpenRead       9     25    0     11             00  root=25 iDb=0; web_page
+79    Rewind         7     135   0                    00               
+80      Column         7     3     20                   00  r[20]=household_demographics.hd_dep_count
+81      Ne             4     134   20    (BINARY)       54  if r[20]!=r[4] goto 134
+82      Once           0     92    0                    00               
+83      OpenAutoindex  13    4     0     k(4,B,,,)      00  nColumn=4; for web_sales
+84      Rewind         6     92    0                    00               
+85        Column         6     10    21                   00  r[21]=web_sales.ws_ship_hdemo_sk
+86        Column         6     1     22                   00  r[22]=web_sales.ws_sold_time_sk
+87        Column         6     12    23                   00  r[23]=web_sales.ws_web_page_sk
+88        Rowid          6     24    0                    00  r[24]=rowid  
+89        MakeRecord     21    4     20                   00  r[20]=mkrec(r[21..24])
+90        IdxInsert      13    20    0                    10  key=r[20]    
+91      Next           6     85    0                    03               
+92      Column         7     0     25                   00  r[25]=household_demographics.hd_demo_sk
+93      Affinity       25    1     0     C              00  affinity(r[25])
+94      SeekGE         13    134   25    1              00  key=r[25]    
+95        IdxGT          13    134   25    1              00  key=r[25]    
+96        Once           0     105   0                    00               
+97        OpenAutoindex  14    3     0     k(3,B,,)       00  nColumn=3; for time_dim
+98        Rewind         8     105   0                    00               
+99          Column         8     0     21                   00  r[21]=time_dim.t_time_sk
+100         Column         8     3     22                   00  r[22]=time_dim.t_hour
+101         Rowid          8     23    0                    00  r[23]=rowid  
+102         MakeRecord     21    3     20                   00  r[20]=mkrec(r[21..23])
+103         IdxInsert      14    20    0                    10  key=r[20]    
+104       Next           8     99    0                    03               
+105       Column         13    1     26                   00  r[26]=web_sales.ws_sold_time_sk
+106       IsNull         26    133   0                    00  if r[26]==NULL goto 133
+107       Affinity       26    1     0     C              00  affinity(r[26])
+108       SeekGE         14    133   26    1              00  key=r[26]    
+109         IdxGT          14    133   26    1              00  key=r[26]    
+110         Column         14    1     20                   00  r[20]=time_dim.t_hour
+111         Lt             28    132   20    (BINARY)       54  if r[20]<r[28] goto 132
+112         Gt             29    132   20    (BINARY)       54  if r[20]>r[29] goto 132
+113         Once           0     122   0                    00               
+114         OpenAutoindex  15    3     0     k(3,B,,)       00  nColumn=3; for web_page
+115         Rewind         9     122   0                    00               
+116           Column         9     0     21                   00  r[21]=web_page.wp_web_page_sk
+117           Column         9     10    22                   00  r[22]=web_page.wp_char_count
+118           Rowid          9     23    0                    00  r[23]=rowid  
+119           MakeRecord     21    3     20                   00  r[20]=mkrec(r[21..23])
+120           IdxInsert      15    20    0                    10  key=r[20]    
+121         Next           9     116   0                    03               
+122         Column         13    2     30                   00  r[30]=web_sales.ws_web_page_sk
+123         IsNull         30    132   0                    00  if r[30]==NULL goto 132
+124         Affinity       30    1     0     C              00  affinity(r[30])
+125         SeekGE         15    132   30    1              00  key=r[30]    
+126           IdxGT          15    132   30    1              00  key=r[30]    
+127           Column         15    1     20                   00  r[20]=web_page.wp_char_count
+128           Lt             15    131   20    (BINARY)       54  if r[20]<r[15] goto 131
+129           Gt             16    131   20    (BINARY)       54  if r[20]>r[16] goto 131
+130           AggStep        0     0     19    count(0)       00  accum=r[19] step(r[0])
+131         Next           15    126   0                    00               
+132       Next           14    109   0                    00               
+133     Next           13    95    0                    00               
+134   Next           7     80    0                    01               
+135   AggFinal       19    0     0     count(0)       00  accum=r[19] N=0
+136   SCopy          19    31    0                    00  r[31]=r[19]  
+137   MakeRecord     31    1     20                   00  r[20]=mkrec(r[31])
+138   NewRowid       5     27    0                    00  r[27]=rowid  
+139   Insert         5     20    27                   08  intkey=r[27] data=r[20]
+140   Return         18    0     0                    00  end pt       
+141   OpenEphemeral  16    3     0     k(1,B)         00  nColumn=3    
+142   Integer        100   32    0                    00  r[32]=100; LIMIT counter
+143   Rewind         0     163   0                    00               
+144     Rewind         5     163   0                    00               
+145       Column         5     0     36                   00  r[36]=pt.pmc 
+146       Ne             37    149   36    (BINARY)       50  if r[36]!=r[37] goto 149
+147       Null           0     33    0                    00  r[33]=NULL   
+148       Goto           0     154   0                    00               
+149       Column         0     0     36                   00  r[36]=at1.amc
+150       Cast           36    67    0                    00  affinity(r[36])
+151       Column         5     0     38                   00  r[38]=pt.pmc 
+152       Cast           38    67    0                    00  affinity(r[38])
+153       Divide         38    36    33                   00  r[33]=r[36]/r[38]
+154       Sequence       16    34    0                    00  r[34]=cursor[16].ctr++
+155       IfNotZero      32    159   0                    00  if r[32]!=0 then r[32]--, goto 159
+156       Last           16    0     0                    00               
+157       IdxLE          16    161   33    1              00  key=r[33]    
+158       Delete         16    0     0                    00               
+159       MakeRecord     33    2     39                   00  r[39]=mkrec(r[33..34])
+160       IdxInsert      16    39    33    2              00  key=r[39]    
+161     Next           5     145   0                    01               
+162   Next           0     144   0                    01               
+163   Sort           16    167   0                    00               
+164     Column         16    0     35                   00  r[35]=am_pm_ratio
+165     ResultRow      35    1     0                    00  output=r[35] 
+166   Next           16    164   0                    00               
+167   Halt           0     0     0                    00               
+168   Transaction    0     0     28    0              01  usesStmtJournal=0
+169   Integer        6     4     0                    00  r[4]=6       
+170   Integer        8     12    0                    00  r[12]=8      
+171   Integer        8     38    0                    00  r[38]=8      
+172   Integer        1     36    0                    00  r[36]=1      
+173   Add            36    38    13                   00  r[13]=r[36]+r[38]
+174   Integer        5000  15    0                    00  r[15]=5000   
+175   Integer        5200  16    0                    00  r[16]=5200   
+176   Integer        19    28    0                    00  r[28]=19     
+177   Integer        19    36    0                    00  r[36]=19     
+178   Integer        1     38    0                    00  r[38]=1      
+179   Add            38    36    29                   00  r[29]=r[38]+r[36]
+180   Integer        0     37    0                    00  r[37]=0      
+181   Goto           0     1     0                    00               

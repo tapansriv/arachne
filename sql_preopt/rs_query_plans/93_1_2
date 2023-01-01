@@ -1,0 +1,9 @@
+XN Limit  (cost=1000000441519.32..1000000441519.57 rows=100 width=12)
+  ->  XN Merge  (cost=1000000441519.32..1000000450020.13 rows=3400321 width=12)
+        Merge Key: sum(act_sales), ss_customer_sk
+        ->  XN Network  (cost=1000000441519.32..1000000450020.13 rows=3400321 width=12)
+              Send to leader
+              ->  XN Sort  (cost=1000000441519.32..1000000450020.13 rows=3400321 width=12)
+                    Sort Key: sum(act_sales), ss_customer_sk
+                    ->  XN HashAggregate  (cost=64130.62..72631.43 rows=3400321 width=12)
+                          ->  XN Seq Scan on rs_table_93_0  (cost=0.00..42753.75 rows=4275375 width=12)

@@ -1,0 +1,402 @@
+addr  opcode         p1    p2    p3    p4             p5  comment      
+----  -------------  ----  ----  ----  -------------  --  -------------
+0     Init           0     378   0                    00  Start at 378 
+1     Integer        134   1     0                    00  r[1]=134     
+2     Once           0     134   0                    00  materialize "wswscs"
+3     Integer        22    2     0                    00  r[2]=22      
+4     Once           0     22    0                    00  materialize "sq1"
+5     OpenEphemeral  8     2     0                    00  nColumn=2    
+6     OpenRead       10    28    0     24             00  root=28 iDb=0; web_sales
+7     Rewind         10    14    0                    00               
+8       Column         10    0     3                    00  r[3]=web_sales.ws_sold_date_sk
+9       Column         10    23    4                    00  r[4]=web_sales.ws_ext_sales_price
+10      MakeRecord     3     2     5                    00  r[5]=mkrec(r[3..4])
+11      NewRowid       8     6     0                    00  r[6]=rowid   
+12      Insert         8     5     6                    08  intkey=r[6] data=r[5]
+13    Next           10    8     0                    01               
+14    OpenRead       9     6     0     24             00  root=6 iDb=0; catalog_sales
+15    Rewind         9     22    0                    00               
+16      Column         9     0     3                    00  r[3]=catalog_sales.cs_sold_date_sk
+17      Column         9     23    4                    00  r[4]=catalog_sales.cs_ext_sales_price
+18      MakeRecord     3     2     5                    00  r[5]=mkrec(r[3..4])
+19      NewRowid       8     6     0                    00  r[6]=rowid   
+20      Insert         8     5     6                    08  intkey=r[6] data=r[5]
+21    Next           9     16    0                    01               
+22    Return         2     0     0                    00  end sq1      
+23    OpenEphemeral  1     8     0                    00  nColumn=8    
+24    SorterOpen     16    3     0     k(1,B)         00               
+25    Integer        0     18    0                    00  r[18]=0; clear abort flag
+26    Null           0     21    21                   00  r[21..21]=NULL
+27    Gosub          20    131   0                    00               
+28    OpenRead       7     11    0     15             00  root=11 iDb=0; date_dim
+29    Rewind         7     50    0                    00               
+30      Once           0     39    0                    00               
+31      OpenAutoindex  17    3     0     k(3,B,,)       00  nColumn=3; for sq1
+32      Rewind         8     39    0                    00               
+33        Column         8     0     24                   00  r[24]=sq1.sold_date_sk
+34        Column         8     1     25                   00  r[25]=sq1.sales_price
+35        Rowid          8     26    0                    00  r[26]=rowid  
+36        MakeRecord     24    3     23                   00  r[23]=mkrec(r[24..26])
+37        IdxInsert      17    23    0                    10  key=r[23]    
+38      Next           8     33    0                    03               
+39      Column         7     0     27                   00  r[27]=date_dim.d_date_sk
+40      Affinity       27    1     0     C              00  affinity(r[27])
+41      SeekGE         17    49    27    1              00  key=r[27]    
+42        IdxGT          17    49    27    1              00  key=r[27]    
+43        Column         7     4     24                   00  r[24]=date_dim.d_week_seq
+44        Column         7     14    25                   00  r[25]=date_dim.d_day_name
+45        Column         17    1     26                   00  r[26]=sq1.sales_price
+46        MakeRecord     24    3     23                   00  r[23]=mkrec(r[24..26])
+47        SorterInsert   16    23    0                    00  key=r[23]    
+48      Next           17    42    0                    00               
+49    Next           7     30    0                    01               
+50    OpenPseudo     18    23    3                    00  3 columns in r[23]
+51    SorterSort     16    134   0                    00  GROUP BY sort
+52      SorterData     16    23    18                   00  r[23]=data   
+53      Column         18    0     22                   00  r[22]=       
+54      Compare        21    22    1     k(1,B)         00  r[21] <-> r[22]
+55      Jump           56    60    56                   00               
+56      Move           22    21    1                    00  r[21]=r[22]  
+57      Gosub          19    110   0                    00  output one row
+58      IfPos          18    134   0                    00  if r[18]>0 then r[18]-=0, goto 134; check abort flag
+59      Gosub          20    131   0                    00  reset accumulator
+60      Column         18    1     29                   00  r[29]=       
+61      Ne             30    64    29    (BINARY)       52  if r[29]!=r[30] goto 64
+62      Column         18    2     28                   00  r[28]=       
+63      Goto           0     65    0                    00               
+64      Null           0     28    0                    00  r[28]=NULL   
+65      AggStep        0     28    8     sum(1)         01  accum=r[8] step(r[28])
+66      Column         18    1     29                   00  r[29]=       
+67      Ne             31    70    29    (BINARY)       52  if r[29]!=r[31] goto 70
+68      Column         18    2     28                   00  r[28]=       
+69      Goto           0     71    0                    00               
+70      Null           0     28    0                    00  r[28]=NULL   
+71      AggStep        0     28    9     sum(1)         01  accum=r[9] step(r[28])
+72      Column         18    1     29                   00  r[29]=       
+73      Ne             32    76    29    (BINARY)       52  if r[29]!=r[32] goto 76
+74      Column         18    2     28                   00  r[28]=       
+75      Goto           0     77    0                    00               
+76      Null           0     28    0                    00  r[28]=NULL   
+77      AggStep        0     28    10    sum(1)         01  accum=r[10] step(r[28])
+78      Column         18    1     29                   00  r[29]=       
+79      Ne             33    82    29    (BINARY)       52  if r[29]!=r[33] goto 82
+80      Column         18    2     28                   00  r[28]=       
+81      Goto           0     83    0                    00               
+82      Null           0     28    0                    00  r[28]=NULL   
+83      AggStep        0     28    11    sum(1)         01  accum=r[11] step(r[28])
+84      Column         18    1     29                   00  r[29]=       
+85      Ne             34    88    29    (BINARY)       52  if r[29]!=r[34] goto 88
+86      Column         18    2     28                   00  r[28]=       
+87      Goto           0     89    0                    00               
+88      Null           0     28    0                    00  r[28]=NULL   
+89      AggStep        0     28    12    sum(1)         01  accum=r[12] step(r[28])
+90      Column         18    1     29                   00  r[29]=       
+91      Ne             35    94    29    (BINARY)       52  if r[29]!=r[35] goto 94
+92      Column         18    2     28                   00  r[28]=       
+93      Goto           0     95    0                    00               
+94      Null           0     28    0                    00  r[28]=NULL   
+95      AggStep        0     28    13    sum(1)         01  accum=r[13] step(r[28])
+96      Column         18    1     29                   00  r[29]=       
+97      Ne             36    100   29    (BINARY)       52  if r[29]!=r[36] goto 100
+98      Column         18    2     28                   00  r[28]=       
+99      Goto           0     101   0                    00               
+100     Null           0     28    0                    00  r[28]=NULL   
+101     AggStep        0     28    14    sum(1)         01  accum=r[14] step(r[28])
+102     If             17    104   0                    00               
+103     Column         18    0     7                    00  r[7]=        
+104     Integer        1     17    0                    00  r[17]=1; indicate data in accumulator
+105   SorterNext     16    52    0                    00               
+106   Gosub          19    110   0                    00  output final row
+107   Goto           0     134   0                    00               
+108   Integer        1     18    0                    00  r[18]=1; set abort flag
+109   Return         19    0     0                    00               
+110   IfPos          17    112   0                    00  if r[17]>0 then r[17]-=0, goto 112; Groupby result generator entry point
+111   Return         19    0     0                    00               
+112   AggFinal       8     1     0     sum(1)         00  accum=r[8] N=1
+113   AggFinal       9     1     0     sum(1)         00  accum=r[9] N=1
+114   AggFinal       10    1     0     sum(1)         00  accum=r[10] N=1
+115   AggFinal       11    1     0     sum(1)         00  accum=r[11] N=1
+116   AggFinal       12    1     0     sum(1)         00  accum=r[12] N=1
+117   AggFinal       13    1     0     sum(1)         00  accum=r[13] N=1
+118   AggFinal       14    1     0     sum(1)         00  accum=r[14] N=1
+119   SCopy          7     37    0                    00  r[37]=r[7]   
+120   SCopy          8     38    0                    00  r[38]=r[8]   
+121   SCopy          9     39    0                    00  r[39]=r[9]   
+122   SCopy          10    40    0                    00  r[40]=r[10]  
+123   SCopy          11    41    0                    00  r[41]=r[11]  
+124   SCopy          12    42    0                    00  r[42]=r[12]  
+125   SCopy          13    43    0                    00  r[43]=r[13]  
+126   SCopy          14    44    0                    00  r[44]=r[14]  
+127   MakeRecord     37    8     28                   00  r[28]=mkrec(r[37..44])
+128   NewRowid       1     29    0                    00  r[29]=rowid  
+129   Insert         1     28    29                   08  intkey=r[29] data=r[28]
+130   Return         19    0     0                    00  end groupby result generator
+131   Null           0     7     16                   00  r[7..16]=NULL
+132   Integer        0     17    0                    00  r[17]=0; indicate accumulator empty
+133   Return         20    0     0                    00               
+134   Return         1     0     0                    00  end wswscs   
+135   Integer        268   45    0                    00  r[45]=268    
+136   Once           0     268   0                    00  materialize "wswscs"
+137   Integer        156   46    0                    00  r[46]=156    
+138   Once           0     156   0                    00  materialize "sq1"
+139   OpenEphemeral  13    2     0                    00  nColumn=2    
+140   OpenRead       15    28    0     24             00  root=28 iDb=0; web_sales
+141   Rewind         15    148   0                    00               
+142     Column         15    0     47                   00  r[47]=web_sales.ws_sold_date_sk
+143     Column         15    23    48                   00  r[48]=web_sales.ws_ext_sales_price
+144     MakeRecord     47    2     49                   00  r[49]=mkrec(r[47..48])
+145     NewRowid       13    50    0                    00  r[50]=rowid  
+146     Insert         13    49    50                   08  intkey=r[50] data=r[49]
+147   Next           15    142   0                    01               
+148   OpenRead       14    6     0     24             00  root=6 iDb=0; catalog_sales
+149   Rewind         14    156   0                    00               
+150     Column         14    0     47                   00  r[47]=catalog_sales.cs_sold_date_sk
+151     Column         14    23    48                   00  r[48]=catalog_sales.cs_ext_sales_price
+152     MakeRecord     47    2     49                   00  r[49]=mkrec(r[47..48])
+153     NewRowid       13    50    0                    00  r[50]=rowid  
+154     Insert         13    49    50                   08  intkey=r[50] data=r[49]
+155   Next           14    150   0                    01               
+156   Return         46    0     0                    00  end sq1      
+157   OpenEphemeral  4     8     0                    00  nColumn=8    
+158   SorterOpen     19    3     0     k(1,B)         00               
+159   Integer        0     62    0                    00  r[62]=0; clear abort flag
+160   Null           0     65    65                   00  r[65..65]=NULL
+161   Gosub          64    265   0                    00               
+162   OpenRead       12    11    0     15             00  root=11 iDb=0; date_dim
+163   Rewind         12    184   0                    00               
+164     Once           0     173   0                    00               
+165     OpenAutoindex  20    3     0     k(3,B,,)       00  nColumn=3; for sq1
+166     Rewind         13    173   0                    00               
+167       Column         13    0     68                   00  r[68]=sq1.sold_date_sk
+168       Column         13    1     69                   00  r[69]=sq1.sales_price
+169       Rowid          13    70    0                    00  r[70]=rowid  
+170       MakeRecord     68    3     67                   00  r[67]=mkrec(r[68..70])
+171       IdxInsert      20    67    0                    10  key=r[67]    
+172     Next           13    167   0                    03               
+173     Column         12    0     71                   00  r[71]=date_dim.d_date_sk
+174     Affinity       71    1     0     C              00  affinity(r[71])
+175     SeekGE         20    183   71    1              00  key=r[71]    
+176       IdxGT          20    183   71    1              00  key=r[71]    
+177       Column         12    4     68                   00  r[68]=date_dim.d_week_seq
+178       Column         12    14    69                   00  r[69]=date_dim.d_day_name
+179       Column         20    1     70                   00  r[70]=sq1.sales_price
+180       MakeRecord     68    3     67                   00  r[67]=mkrec(r[68..70])
+181       SorterInsert   19    67    0                    00  key=r[67]    
+182     Next           20    176   0                    00               
+183   Next           12    164   0                    01               
+184   OpenPseudo     21    67    3                    00  3 columns in r[67]
+185   SorterSort     19    268   0                    00  GROUP BY sort
+186     SorterData     19    67    21                   00  r[67]=data   
+187     Column         21    0     66                   00  r[66]=       
+188     Compare        65    66    1     k(1,B)         00  r[65] <-> r[66]
+189     Jump           190   194   190                  00               
+190     Move           66    65    1                    00  r[65]=r[66]  
+191     Gosub          63    244   0                    00  output one row
+192     IfPos          62    268   0                    00  if r[62]>0 then r[62]-=0, goto 268; check abort flag
+193     Gosub          64    265   0                    00  reset accumulator
+194     Column         21    1     73                   00  r[73]=       
+195     Ne             30    198   73    (BINARY)       52  if r[73]!=r[30] goto 198
+196     Column         21    2     72                   00  r[72]=       
+197     Goto           0     199   0                    00               
+198     Null           0     72    0                    00  r[72]=NULL   
+199     AggStep        0     72    52    sum(1)         01  accum=r[52] step(r[72])
+200     Column         21    1     73                   00  r[73]=       
+201     Ne             31    204   73    (BINARY)       52  if r[73]!=r[31] goto 204
+202     Column         21    2     72                   00  r[72]=       
+203     Goto           0     205   0                    00               
+204     Null           0     72    0                    00  r[72]=NULL   
+205     AggStep        0     72    53    sum(1)         01  accum=r[53] step(r[72])
+206     Column         21    1     73                   00  r[73]=       
+207     Ne             32    210   73    (BINARY)       52  if r[73]!=r[32] goto 210
+208     Column         21    2     72                   00  r[72]=       
+209     Goto           0     211   0                    00               
+210     Null           0     72    0                    00  r[72]=NULL   
+211     AggStep        0     72    54    sum(1)         01  accum=r[54] step(r[72])
+212     Column         21    1     73                   00  r[73]=       
+213     Ne             33    216   73    (BINARY)       52  if r[73]!=r[33] goto 216
+214     Column         21    2     72                   00  r[72]=       
+215     Goto           0     217   0                    00               
+216     Null           0     72    0                    00  r[72]=NULL   
+217     AggStep        0     72    55    sum(1)         01  accum=r[55] step(r[72])
+218     Column         21    1     73                   00  r[73]=       
+219     Ne             34    222   73    (BINARY)       52  if r[73]!=r[34] goto 222
+220     Column         21    2     72                   00  r[72]=       
+221     Goto           0     223   0                    00               
+222     Null           0     72    0                    00  r[72]=NULL   
+223     AggStep        0     72    56    sum(1)         01  accum=r[56] step(r[72])
+224     Column         21    1     73                   00  r[73]=       
+225     Ne             35    228   73    (BINARY)       52  if r[73]!=r[35] goto 228
+226     Column         21    2     72                   00  r[72]=       
+227     Goto           0     229   0                    00               
+228     Null           0     72    0                    00  r[72]=NULL   
+229     AggStep        0     72    57    sum(1)         01  accum=r[57] step(r[72])
+230     Column         21    1     73                   00  r[73]=       
+231     Ne             36    234   73    (BINARY)       52  if r[73]!=r[36] goto 234
+232     Column         21    2     72                   00  r[72]=       
+233     Goto           0     235   0                    00               
+234     Null           0     72    0                    00  r[72]=NULL   
+235     AggStep        0     72    58    sum(1)         01  accum=r[58] step(r[72])
+236     If             61    238   0                    00               
+237     Column         21    0     51                   00  r[51]=       
+238     Integer        1     61    0                    00  r[61]=1; indicate data in accumulator
+239   SorterNext     19    186   0                    00               
+240   Gosub          63    244   0                    00  output final row
+241   Goto           0     268   0                    00               
+242   Integer        1     62    0                    00  r[62]=1; set abort flag
+243   Return         63    0     0                    00               
+244   IfPos          61    246   0                    00  if r[61]>0 then r[61]-=0, goto 246; Groupby result generator entry point
+245   Return         63    0     0                    00               
+246   AggFinal       52    1     0     sum(1)         00  accum=r[52] N=1
+247   AggFinal       53    1     0     sum(1)         00  accum=r[53] N=1
+248   AggFinal       54    1     0     sum(1)         00  accum=r[54] N=1
+249   AggFinal       55    1     0     sum(1)         00  accum=r[55] N=1
+250   AggFinal       56    1     0     sum(1)         00  accum=r[56] N=1
+251   AggFinal       57    1     0     sum(1)         00  accum=r[57] N=1
+252   AggFinal       58    1     0     sum(1)         00  accum=r[58] N=1
+253   SCopy          51    74    0                    00  r[74]=r[51]  
+254   SCopy          52    75    0                    00  r[75]=r[52]  
+255   SCopy          53    76    0                    00  r[76]=r[53]  
+256   SCopy          54    77    0                    00  r[77]=r[54]  
+257   SCopy          55    78    0                    00  r[78]=r[55]  
+258   SCopy          56    79    0                    00  r[79]=r[56]  
+259   SCopy          57    80    0                    00  r[80]=r[57]  
+260   SCopy          58    81    0                    00  r[81]=r[58]  
+261   MakeRecord     74    8     72                   00  r[72]=mkrec(r[74..81])
+262   NewRowid       4     73    0                    00  r[73]=rowid  
+263   Insert         4     72    73                   08  intkey=r[73] data=r[72]
+264   Return         63    0     0                    00  end groupby result generator
+265   Null           0     51    60                   00  r[51..60]=NULL
+266   Integer        0     61    0                    00  r[61]=0; indicate accumulator empty
+267   Return         64    0     0                    00               
+268   Return         45    0     0                    00  end wswscs   
+269   SorterOpen     22    10    0     k(1,B)         00               
+270   OpenRead       2     11    0     7              00  root=11 iDb=0; date_dim
+271   OpenRead       5     11    0     7              00  root=11 iDb=0; date_dim
+272   Rewind         4     364   0                    00               
+273     Once           0     288   0                    00               
+274     OpenAutoindex  23    9     0     k(9,B,,,,,,,,)  00  nColumn=9; for wswscs
+275     Rewind         1     288   0                    00               
+276       Column         1     0     83                   00  r[83]=wswscs.d_week_seq
+277       Column         1     1     84                   00  r[84]=wswscs.sun_sales
+278       Column         1     2     85                   00  r[85]=wswscs.mon_sales
+279       Column         1     3     86                   00  r[86]=wswscs.tue_sales
+280       Column         1     4     87                   00  r[87]=wswscs.wed_sales
+281       Column         1     5     88                   00  r[88]=wswscs.thu_sales
+282       Column         1     6     89                   00  r[89]=wswscs.fri_sales
+283       Column         1     7     90                   00  r[90]=wswscs.sat_sales
+284       Rowid          1     91    0                    00  r[91]=rowid  
+285       MakeRecord     83    9     82                   00  r[82]=mkrec(r[83..91])
+286       IdxInsert      23    82    0                    10  key=r[82]    
+287     Next           1     276   0                    03               
+288     Column         4     0     82                   00  r[82]=wswscs.d_week_seq
+289     Subtract       93    82    92                   00  r[92]=r[82]-r[93]
+290     IsNull         92    363   0                    00  if r[92]==NULL goto 363
+291     Affinity       92    1     0     C              00  affinity(r[92])
+292     SeekGE         23    363   92    1              00  key=r[92]    
+293       IdxGT          23    363   92    1              00  key=r[92]    
+294       Once           0     305   0                    00               
+295       OpenAutoindex  24    3     0     k(3,B,B,)      00  nColumn=3; for date_dim
+296       Rewind         2     305   0                    00               
+297         Column         2     6     82                   00  r[82]=date_dim.d_year
+298         Ne             94    304   82    (BINARY)       54  if r[82]!=r[94] goto 304
+299         Column         2     4     83                   00  r[83]=date_dim.d_week_seq
+300         Column         2     6     84                   00  r[84]=date_dim.d_year
+301         Rowid          2     85    0                    00  r[85]=rowid  
+302         MakeRecord     83    3     82                   00  r[82]=mkrec(r[83..85])
+303         IdxInsert      24    82    0                    10  key=r[82]    
+304       Next           2     297   0                    03               
+305       Column         23    0     95                   00  r[95]=wswscs.d_week_seq
+306       IsNull         95    362   0                    00  if r[95]==NULL goto 362
+307       Integer        2001  96    0                    00  r[96]=2001   
+308       Affinity       95    1     0     C              00  affinity(r[95])
+309       SeekGE         24    362   95    2              00  key=r[95..96]
+310         IdxGT          24    362   95    2              00  key=r[95..96]
+311         Once           0     322   0                    00               
+312         OpenAutoindex  25    3     0     k(3,B,B,)      00  nColumn=3; for date_dim
+313         Rewind         5     322   0                    00               
+314           Column         5     6     82                   00  r[82]=date_dim.d_year
+315           Ne             97    321   82    (BINARY)       54  if r[82]!=r[97] goto 321
+316           Column         5     4     86                   00  r[86]=date_dim.d_week_seq
+317           Column         5     6     87                   00  r[87]=date_dim.d_year
+318           Rowid          5     88    0                    00  r[88]=rowid  
+319           MakeRecord     86    3     82                   00  r[82]=mkrec(r[86..88])
+320           IdxInsert      25    82    0                    10  key=r[82]    
+321         Next           5     314   0                    03               
+322         Column         4     0     98                   00  r[98]=wswscs.d_week_seq
+323         IsNull         98    361   0                    00  if r[98]==NULL goto 361
+324         Add            100   94    99                   00  r[99]=r[100]+r[94]
+325         IsNull         99    361   0                    00  if r[99]==NULL goto 361
+326         Affinity       98    2     0     CC             00  affinity(r[98..99])
+327         SeekGE         25    361   98    2              00  key=r[98..99]
+328           IdxGT          25    361   98    2              00  key=r[98..99]
+329           Column         23    1     82                   00  r[82]=wswscs.sun_sales
+330           Column         4     1     112                  00  r[112]=wswscs.sun_sales
+331           Divide         112   82    110                  00  r[110]=r[82]/r[112]
+332           Function       2     110   102   round(2)       00  r[102]=func(r[110])
+333           Column         23    2     112                  00  r[112]=wswscs.mon_sales
+334           Column         4     2     82                   00  r[82]=wswscs.mon_sales
+335           Divide         82    112   113                  00  r[113]=r[112]/r[82]
+336           Function       2     113   103   round(2)       00  r[103]=func(r[113])
+337           Column         23    3     82                   00  r[82]=wswscs.tue_sales
+338           Column         4     3     112                  00  r[112]=wswscs.tue_sales
+339           Divide         112   82    115                  00  r[115]=r[82]/r[112]
+340           Function       2     115   104   round(2)       00  r[104]=func(r[115])
+341           Column         23    4     112                  00  r[112]=wswscs.wed_sales
+342           Column         4     4     82                   00  r[82]=wswscs.wed_sales
+343           Divide         82    112   117                  00  r[117]=r[112]/r[82]
+344           Function       2     117   105   round(2)       00  r[105]=func(r[117])
+345           Column         23    5     82                   00  r[82]=wswscs.thu_sales
+346           Column         4     5     112                  00  r[112]=wswscs.thu_sales
+347           Divide         112   82    119                  00  r[119]=r[82]/r[112]
+348           Function       2     119   106   round(2)       00  r[106]=func(r[119])
+349           Column         23    6     112                  00  r[112]=wswscs.fri_sales
+350           Column         4     6     82                   00  r[82]=wswscs.fri_sales
+351           Divide         82    112   121                  00  r[121]=r[112]/r[82]
+352           Function       2     121   107   round(2)       00  r[107]=func(r[121])
+353           Column         23    7     82                   00  r[82]=wswscs.sat_sales
+354           Column         4     7     112                  00  r[112]=wswscs.sat_sales
+355           Divide         112   82    123                  00  r[123]=r[82]/r[112]
+356           Function       2     123   108   round(2)       00  r[108]=func(r[123])
+357           Column         23    0     101                  00  r[101]=wswscs.d_week_seq
+358           MakeRecord     101   8     125                  00  r[125]=mkrec(r[101..108])
+359           SorterInsert   22    125   101   8              00  key=r[125]   
+360         Next           25    328   0                    00               
+361       Next           24    310   0                    00               
+362     Next           23    293   0                    00               
+363   Next           4     273   0                    01               
+364   OpenPseudo     26    126   10                   00  10 columns in r[126]
+365   SorterSort     22    377   0                    00               
+366     SorterData     22    126   26                   00  r[126]=data  
+367     Column         26    7     109                  00  r[109]=round(sat_sales1/sat_sales2, 2)
+368     Column         26    6     108                  00  r[108]=r6    
+369     Column         26    5     107                  00  r[107]=r5    
+370     Column         26    4     106                  00  r[106]=r4    
+371     Column         26    3     105                  00  r[105]=r3    
+372     Column         26    2     104                  00  r[104]=r2    
+373     Column         26    1     103                  00  r[103]=r1    
+374     Column         26    0     102                  00  r[102]=d_week_seq1
+375     ResultRow      102   8     0                    00  output=r[102..109]
+376   SorterNext     22    366   0                    00               
+377   Halt           0     0     0                    00               
+378   Transaction    0     0     28    0              01  usesStmtJournal=0
+379   String8        0     30    0     Sunday         00  r[30]='Sunday'
+380   String8        0     31    0     Monday         00  r[31]='Monday'
+381   String8        0     32    0     Tuesday        00  r[32]='Tuesday'
+382   String8        0     33    0     Wednesday      00  r[33]='Wednesday'
+383   String8        0     34    0     Thursday       00  r[34]='Thursday'
+384   String8        0     35    0     Friday         00  r[35]='Friday'
+385   String8        0     36    0     Saturday       00  r[36]='Saturday'
+386   Integer        53    93    0                    00  r[93]=53     
+387   Integer        2001  94    0                    00  r[94]=2001   
+388   Integer        2001  112   0                    00  r[112]=2001  
+389   Integer        1     82    0                    00  r[82]=1      
+390   Add            82    112   97                   00  r[97]=r[82]+r[112]
+391   Integer        1     100   0                    00  r[100]=1     
+392   Integer        2     111   0                    00  r[111]=2     
+393   Integer        2     114   0                    00  r[114]=2     
+394   Integer        2     116   0                    00  r[116]=2     
+395   Integer        2     118   0                    00  r[118]=2     
+396   Integer        2     120   0                    00  r[120]=2     
+397   Integer        2     122   0                    00  r[122]=2     
+398   Integer        2     124   0                    00  r[124]=2     
+399   Goto           0     1     0                    00               

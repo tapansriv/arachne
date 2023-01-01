@@ -1,0 +1,139 @@
+┌───────────────────────────┐                                                                                       
+│           TOP_N           │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│          Top 100          │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│           #2 ASC          │                                                                                       
+│           #1 ASC          │                                                                                       
+│           #0 ASC          │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│       i_manufact_id       │                                                                                       
+│         sum_sales         │                                                                                       
+│    avg_quarterly_sales    │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│           FILTER          │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│         CASE WHEN         │                                                                                       
+│(avg_quarterly_sales>0...  │                                                                                       
+│     (abs(-(sum_sales,     │                                                                                       
+│   avg_quarterly_sales)),  │                                                                                       
+│ avg_quarterly_sales) ...  │                                                                                       
+│        ELSE (NULL)>0      │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│           WINDOW          │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│    sum(sum_sales) OVER    │                                                                                       
+│(PARTITION BY i_manufa...  │                                                                                       
+│    UNBOUNDED PRECEDING)   │                                                                                       
+│   count(sum_sales) OVER   │                                                                                       
+│(PARTITION BY i_manufa...  │                                                                                       
+│    UNBOUNDED PRECEDING)   │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│       i_manufact_id       │                                                                                       
+│         sum_sales         │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│       HASH_GROUP_BY       │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│             #0            │                                                                                       
+│             #1            │                                                                                       
+│          sum(#2)          │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         PROJECTION        │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│       i_manufact_id       │                                                                                       
+│           d_qoy           │                                                                                       
+│       ss_sales_price      │                                                                                       
+└─────────────┬─────────────┘                                                                                                                    
+┌─────────────┴─────────────┐                                                                                       
+│         HASH_JOIN         │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│           INNER           ├────────────────────────────────────────────────────────────────────────┐              
+│   ss_store_sk=s_store_sk  │                                                                        │              
+└─────────────┬─────────────┘                                                                        │                                           
+┌─────────────┴─────────────┐                                                          ┌─────────────┴─────────────┐
+│         PROJECTION        │                                                          │        PARQUET_SCAN       │
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│       i_manufact_id       │                                                          │         s_store_sk        │
+│        ss_store_sk        │                                                          │                           │
+│       ss_sales_price      │                                                          │                           │
+│           d_qoy           │                                                          │                           │
+└─────────────┬─────────────┘                                                          └───────────────────────────┘                             
+┌─────────────┴─────────────┐                                                                                       
+│         HASH_JOIN         │                                                                                       
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                                                       
+│           INNER           ├───────────────────────────────────────────┐                                           
+│ ss_sold_date_sk=d_date_sk │                                           │                                           
+└─────────────┬─────────────┘                                           │                                                                        
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐                             
+│         PROJECTION        │                             │         PROJECTION        │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│       i_manufact_id       │                             │             #0            │                             
+│      ss_sold_date_sk      │                             │             #1            │                             
+│        ss_store_sk        │                             │                           │                             
+│       ss_sales_price      │                             │                           │                             
+└─────────────┬─────────────┘                             └─────────────┬─────────────┘                                                          
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐                             
+│         HASH_JOIN         │                             │           FILTER          │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│           INNER           │                             │    (d_month_seq=1200 OR   │                             
+│    ss_item_sk=i_item_sk   │                             │ d_month_seq=1201 OR d...  │                             
+│                           │                             │=1202 OR d_month_seq=1...  │                             
+│                           ├──────────────┐              │     d_month_seq=1204 OR   │                             
+│                           │              │              │ d_month_seq=1205 OR d...  │                             
+│                           │              │              │=1206 OR d_month_seq=1...  │                             
+│                           │              │              │     d_month_seq=1208 OR   │                             
+│                           │              │              │ d_month_seq=1209 OR d...  │                             
+│                           │              │              │ =1210 OR d_month_seq=1211)│                             
+└─────────────┬─────────────┘              │              └─────────────┬─────────────┘                                                          
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐┌─────────────┴─────────────┐                             
+│        PARQUET_SCAN       ││         PROJECTION        ││        PARQUET_SCAN       │                             
+│   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   ││   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                             
+│      ss_sold_date_sk      ││             #0            ││         d_date_sk         │                             
+│         ss_item_sk        ││             #1            ││           d_qoy           │                             
+│        ss_store_sk        ││                           ││        d_month_seq        │                             
+│       ss_sales_price      ││                           ││                           │                             
+└───────────────────────────┘└─────────────┬─────────────┘└───────────────────────────┘                                                          
+                             ┌─────────────┴─────────────┐                                                          
+                             │           FILTER          │                                                          
+                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+                             │   (((i_category=Books OR  │                                                          
+                             │   i_category=Children OR  │                                                          
+                             │ i_category=Electronic...  │                                                          
+                             │(i_class=personal OR i...  │                                                          
+                             │=portable OR i_class=r...  │                                                          
+                             │   i_class=self-help) AND  │                                                          
+                             │(i_brand=exportiunivam...  │                                                          
+                             │ OR i_brand=scholarama...  │                                                          
+                             │       #14 OR i_brand      │                                                          
+                             │=scholaramalgamalg #7 ...  │                                                          
+                             │=scholaramalgamalg #9)...  │                                                          
+                             │(i_category=Men OR i_c...  │                                                          
+                             │=Music OR i_category=W...  │                                                          
+                             │   (i_class=accessories OR │                                                          
+                             │ i_class=classical OR ...  │                                                          
+                             │=fragrances OR i_class...  │                                                          
+                             │) AND (i_brand=amalgimporto│                                                          
+                             │      #1 OR i_brand=edu    │                                                          
+                             │  packscholar #1 OR i_brand│                                                          
+                             │=exportiimporto #1 OR ...  │                                                          
+                             │    =importoamalg #1)))    │                                                          
+                             └─────────────┬─────────────┘                                                                                       
+                             ┌─────────────┴─────────────┐                                                          
+                             │        PARQUET_SCAN       │                                                          
+                             │   ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │                                                          
+                             │         i_item_sk         │                                                          
+                             │       i_manufact_id       │                                                          
+                             │         i_category        │                                                          
+                             │          i_class          │                                                          
+                             │          i_brand          │                                                          
+                             └───────────────────────────┘                                                                                       

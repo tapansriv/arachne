@@ -1,0 +1,371 @@
+{
+   "name":  "Query", 
+   "result": 6522.526648,
+   "timing": 6522.526648,
+   "cardinality": 0,
+   "timings": [
+   {
+   "annotation": "optimizer", 
+   "timing": 0.001523
+   },
+   {
+   "annotation": "optimizer > column_lifetime", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "optimizer > common_aggregate", 
+   "timing": 0.000011
+   },
+   {
+   "annotation": "optimizer > common_subexpressions", 
+   "timing": 0.000026
+   },
+   {
+   "annotation": "optimizer > deliminator", 
+   "timing": 0.000002
+   },
+   {
+   "annotation": "optimizer > expression_rewriter", 
+   "timing": 0.000377
+   },
+   {
+   "annotation": "optimizer > filter_pullup", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "optimizer > filter_pushdown", 
+   "timing": 0.000123
+   },
+   {
+   "annotation": "optimizer > in_clause", 
+   "timing": 0.000006
+   },
+   {
+   "annotation": "optimizer > join_order", 
+   "timing": 0.000059
+   },
+   {
+   "annotation": "optimizer > regex_range", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > reorder_filter", 
+   "timing": 0.000009
+   },
+   {
+   "annotation": "optimizer > statistics_propagation", 
+   "timing": 0.000824
+   },
+   {
+   "annotation": "optimizer > top_n", 
+   "timing": 0.000001
+   },
+   {
+   "annotation": "optimizer > unused_columns", 
+   "timing": 0.000027
+   },
+   {
+   "annotation": "physical_planner", 
+   "timing": 0.000089
+   },
+   {
+   "annotation": "physical_planner > column_binding", 
+   "timing": 0.000024
+   },
+   {
+   "annotation": "physical_planner > create_plan", 
+   "timing": 0.000040
+   },
+   {
+   "annotation": "physical_planner > resolve_types", 
+   "timing": 0.000008
+   },
+   {
+   "annotation": "planner", 
+   "timing": 103.673239
+   },
+   {
+   "annotation": "planner > binder", 
+   "timing": 103.673202
+   }
+   ],
+   "children": [
+    {
+      "name": "ORDER_BY",
+      "timing":0.000252,
+      "cardinality":0,
+      "extra_info": "#0 ASC",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.001226,
+         "cardinality":2513,
+         "extra_info": "d_week_seq1\nr1\nr2\nr3\nr4\nr5\nr6\nround(/(sat_sales1, sat_sales2), 2)\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "HASH_JOIN",
+            "timing":0.000218,
+            "cardinality":2513,
+            "extra_info": "INNER\nd_week_seq1=-\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000052,
+               "cardinality":365,
+               "extra_info": "d_week_seq1\nsun_sales1\nmon_sales1\ntue_sales1\nwed_sales1\nthu_sales1\nfri_sales1\nsat_sales1\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.000307,
+                  "cardinality":365,
+                  "extra_info": "INNER\nd_week_seq=d_week_seq\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":1593.139386,
+                     "cardinality":264,
+                     "extra_info": "#0\nsum(#1) Filter: #7\nsum(#3) Filter: #8\nsum(#5) Filter: #9\nsum(#7) Filter: #10\nsum(#9) Filter: #11\nsum(#11) Filter: #12\nsum(#13) Filter: #13",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":20.311775,
+                        "cardinality":6457902873,
+                        "extra_info": "d_week_seq\nsales_price\n=\nsales_price\n=3\nsales_price\n=4\nsales_price\n=5\nsales_price\n=6\nsales_price\n=7\nsales_price\n=8\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":230.933916,
+                           "cardinality":6457902873,
+                           "extra_info": "INNER\nsold_date_sk=d_date_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "UNION",
+                              "timing":10.543526,
+                              "cardinality":6480047761,
+                              "extra_info": "",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":418.985267,
+                                 "cardinality":2159968881,
+                                 "extra_info": "ws_sold_date_sk\nws_ext_sales_price",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":890.640428,
+                                 "cardinality":4320078880,
+                                 "extra_info": "cs_sold_date_sk\ncs_ext_sales_price",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.002339,
+                              "cardinality":146098,
+                              "extra_info": "d_date_sk\nd_week_seq\n=\n=3\n=4\n=5\n=6\n=7\n=8\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.008958,
+                                 "cardinality":146098,
+                                 "extra_info": "d_date_sk\nd_week_seq\nd_day_name",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000016,
+                     "cardinality":730,
+                     "extra_info": "d_week_seq\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.002736,
+                        "cardinality":730,
+                        "extra_info": "d_week_seq\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2001 AND d_year IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+,
+             {
+               "name": "PROJECTION",
+               "timing":0.000132,
+               "cardinality":730,
+               "extra_info": "sun_sales2\nmon_sales2\ntue_sales2\nwed_sales2\nthu_sales2\nfri_sales2\nsat_sales2\n-\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.000592,
+                  "cardinality":730,
+                  "extra_info": "INNER\nd_week_seq=d_week_seq\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":1589.056437,
+                     "cardinality":528,
+                     "extra_info": "#0\nsum(#1) Filter: #7\nsum(#3) Filter: #8\nsum(#5) Filter: #9\nsum(#7) Filter: #10\nsum(#9) Filter: #11\nsum(#11) Filter: #12\nsum(#13) Filter: #13",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":20.364616,
+                        "cardinality":6457902873,
+                        "extra_info": "d_week_seq\nsales_price\n=\nsales_price\n=3\nsales_price\n=4\nsales_price\n=5\nsales_price\n=6\nsales_price\n=7\nsales_price\n=8\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "HASH_JOIN",
+                           "timing":230.128606,
+                           "cardinality":6457902873,
+                           "extra_info": "INNER\nsold_date_sk=d_date_sk\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "UNION",
+                              "timing":10.413637,
+                              "cardinality":6480047761,
+                              "extra_info": "",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":420.738153,
+                                 "cardinality":2159968881,
+                                 "extra_info": "ws_sold_date_sk\nws_ext_sales_price",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":891.856637,
+                                 "cardinality":4320078880,
+                                 "extra_info": "cs_sold_date_sk\ncs_ext_sales_price",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "PROJECTION",
+                              "timing":0.002298,
+                              "cardinality":146098,
+                              "extra_info": "d_date_sk\nd_week_seq\n=\n=3\n=4\n=5\n=6\n=7\n=8\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PARQUET_SCAN",
+                                 "timing":0.008584,
+                                 "cardinality":146098,
+                                 "extra_info": "d_date_sk\nd_week_seq\nd_day_name",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+,
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000016,
+                     "cardinality":730,
+                     "extra_info": "d_week_seq\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PARQUET_SCAN",
+                        "timing":0.002688,
+                        "cardinality":730,
+                        "extra_info": "d_week_seq\nd_year\n[INFOSEPARATOR]\nFilters: d_year=2002 AND d_year IS NOT NULL\n",
+                        "timings": [
+                        ],
+                        "children": [
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}
