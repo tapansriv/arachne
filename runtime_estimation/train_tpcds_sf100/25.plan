@@ -1,0 +1,48 @@
+XN Limit  (cost=1000169157260.92..1000169157261.17 rows=100 width=175)
+  ->  XN Merge  (cost=1000169157260.92..1000169160275.41 rows=1205795 width=175)
+        Merge Key: item.i_item_id, item.i_item_desc, store.s_store_id, store.s_store_name
+        ->  XN Network  (cost=1000169157260.92..1000169160275.41 rows=1205795 width=175)
+              Send to leader
+              ->  XN Sort  (cost=1000169157260.92..1000169160275.41 rows=1205795 width=175)
+                    Sort Key: item.i_item_id, item.i_item_desc, store.s_store_id, store.s_store_name
+                    ->  XN HashAggregate  (cost=169026422.80..169035466.26 rows=1205795 width=175)
+                          ->  XN Hash Join DS_DIST_BOTH  (cost=157124038.04..169005321.38 rows=1205795 width=175)
+                                Outer Dist Key: d3.d_date_sk
+                                Inner Dist Key: catalog_sales.cs_sold_date_sk
+                                Hash Cond: (("outer".d_date_sk = "inner".cs_sold_date_sk) AND ("outer".d_year = "inner".d_year))
+                                ->  XN Seq Scan on date_dim d3  (cost=0.00..1278.36 rows=199 width=8)
+                                      Filter: ((d_year = 2001) AND (d_moy >= 4) AND (d_moy <= 10))
+                                ->  XN Hash  (cost=157124038.00..157124038.00 rows=8 width=187)
+                                      ->  XN Hash Join DS_DIST_INNER  (cost=146879409.36..157124038.00 rows=8 width=187)
+                                            Inner Dist Key: store_returns.sr_item_sk
+                                            Hash Cond: (("outer".cs_bill_customer_sk = "inner".sr_customer_sk) AND ("outer".cs_item_sk = "inner".sr_item_sk))
+                                            ->  XN Hash Join DS_DIST_NONE  (cost=2550.00..6137667.76 rows=149180435 width=148)
+                                                  Hash Cond: ("outer".cs_item_sk = "inner".i_item_sk)
+                                                  ->  XN Seq Scan on catalog_sales  (cost=0.00..1439970.72 rows=142370786 width=20)
+                                                        Filter: ((cs_sold_date_sk IS NOT NULL) AND (cs_bill_customer_sk IS NOT NULL))
+                                                  ->  XN Hash  (cost=2040.00..2040.00 rows=204000 width=128)
+                                                        ->  XN Seq Scan on item  (cost=0.00..2040.00 rows=204000 width=128)
+                                            ->  XN Hash  (cost=146876859.35..146876859.35 rows=2 width=67)
+                                                  ->  XN Hash Join DS_BCAST_INNER  (cost=10493026.63..146876859.35 rows=2 width=67)
+                                                        Hash Cond: (("outer".sr_returned_date_sk = "inner".d_date_sk) AND ("outer".d_year = "inner".d_year))
+                                                        ->  XN Hash Join DS_DIST_BOTH  (cost=10491747.28..115035568.78 rows=448 width=67)
+                                                              Outer Dist Key: "inner".ss_store_sk
+                                                              Inner Dist Key: store.s_store_sk
+                                                              Hash Cond: ("outer".ss_store_sk = "inner".s_store_sk)
+                                                              ->  XN Hash Join DS_DIST_NONE  (cost=10491742.25..11785553.20 rows=485 width=44)
+                                                                    Hash Cond: (("outer".sr_ticket_number = "inner".ss_ticket_number) AND ("outer".sr_customer_sk = "inner".ss_customer_sk) AND ("outer".sr_item_sk = "inner".ss_item_sk))
+                                                                    ->  XN Seq Scan on store_returns  (cost=0.00..287950.80 rows=26822937 width=24)
+                                                                          Filter: ((sr_returned_date_sk IS NOT NULL) AND (sr_customer_sk IS NOT NULL))
+                                                                    ->  XN Hash  (cost=10491057.04..10491057.04 rows=91362 width=28)
+                                                                          ->  XN Hash Join DS_BCAST_INNER  (cost=1095.80..10491057.04 rows=91362 width=28)
+                                                                                Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                                                                ->  XN Seq Scan on store_sales  (cost=0.00..2879970.24 rows=250326190 width=28)
+                                                                                      Filter: ((ss_sold_date_sk IS NOT NULL) AND (ss_store_sk IS NOT NULL) AND (ss_customer_sk IS NOT NULL))
+                                                                                ->  XN Hash  (cost=1095.73..1095.73 rows=28 width=8)
+                                                                                      ->  XN Seq Scan on date_dim d1  (cost=0.00..1095.73 rows=28 width=8)
+                                                                                            Filter: ((d_year = 2001) AND (d_moy = 4))
+                                                              ->  XN Hash  (cost=4.02..4.02 rows=402 width=31)
+                                                                    ->  XN Seq Scan on store  (cost=0.00..4.02 rows=402 width=31)
+                                                        ->  XN Hash  (cost=1278.36..1278.36 rows=199 width=8)
+                                                              ->  XN Seq Scan on date_dim d2  (cost=0.00..1278.36 rows=199 width=8)
+                                                                    Filter: ((d_year = 2001) AND (d_moy >= 4) AND (d_moy <= 10))

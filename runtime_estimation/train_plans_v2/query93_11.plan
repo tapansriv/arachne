@@ -1,0 +1,32 @@
+XN Limit  (cost=2000059103674.50..2000059103674.53 rows=9 width=485)
+  ->  XN Merge  (cost=2000059103674.50..2000059103674.53 rows=9 width=485)
+        Merge Key: (sum_sales - avg_monthly_sales), s_store_name
+        ->  XN Network  (cost=2000059103674.50..2000059103674.53 rows=9 width=485)
+              Send to leader
+              ->  XN Sort  (cost=2000059103674.50..2000059103674.53 rows=9 width=485)
+                    Sort Key: (sum_sales - avg_monthly_sales), s_store_name
+                    ->  XN Subquery Scan tmp1  (cost=1000059103673.10..1000059103674.36 rows=9 width=485)
+                          Filter: (CASE WHEN (avg_monthly_sales <> 0::double precision) THEN (abs((sum_sales - avg_monthly_sales)) / avg_monthly_sales) ELSE NULL::double precision END > 0.10000000000000001::double precision)
+                          ->  XN Window  (cost=1000059103673.10..1000059103673.75 rows=26 width=71)
+                                Partition: item.i_category, item.i_brand, store.s_store_name, store.s_company_name
+                                ->  XN Sort  (cost=1000059103673.10..1000059103673.17 rows=26 width=71)
+                                      Sort Key: item.i_category, item.i_brand, store.s_store_name, store.s_company_name
+                                      ->  XN Network  (cost=59103672.36..59103672.49 rows=26 width=71)
+                                            Distribute
+                                            ->  XN HashAggregate  (cost=59103672.36..59103672.49 rows=26 width=71)
+                                                  ->  XN Hash Join DS_BCAST_INNER  (cost=1635.51..59103665.22 rows=357 width=71)
+                                                        Hash Cond: ("outer".ss_store_sk = "inner".s_store_sk)
+                                                        ->  XN Hash Join DS_DIST_NONE  (cost=1635.36..55263656.84 rows=373 width=56)
+                                                              Hash Cond: ("outer".ss_item_sk = "inner".i_item_sk)
+                                                              ->  XN Hash Join DS_BCAST_INNER  (cost=913.98..55262665.66 rows=11825 width=20)
+                                                                    Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                                                    ->  XN Seq Scan on store_sales  (cost=0.00..28804.04 rows=2626352 width=20)
+                                                                          Filter: ((ss_sold_date_sk IS NOT NULL) AND (ss_store_sk IS NOT NULL))
+                                                                    ->  XN Hash  (cost=913.11..913.11 rows=345 width=8)
+                                                                          ->  XN Seq Scan on date_dim  (cost=0.00..913.11 rows=345 width=8)
+                                                                                Filter: (d_year = 1999)
+                                                              ->  XN Hash  (cost=720.00..720.00 rows=553 width=44)
+                                                                    ->  XN Seq Scan on item  (cost=0.00..720.00 rows=553 width=44)
+                                                                          Filter: (((((i_class)::text = 'shirts'::text) OR ((i_class)::text = 'dresses'::text) OR ((i_class)::text = 'mystery'::text)) AND (((i_category)::text = 'Men'::text) OR ((i_category)::text = 'Women'::text) OR ((i_category)::text = 'Books'::text))) OR ((((i_class)::text = 'newborn'::text) OR ((i_class)::text = 'rock'::text) OR ((i_class)::text = 'karoke'::text)) AND (((i_category)::text = 'Music'::text) OR ((i_category)::text = 'Electronics'::text) OR ((i_category)::text = 'Children'::text))))
+                                                        ->  XN Hash  (cost=0.12..0.12 rows=12 width=23)
+                                                              ->  XN Seq Scan on store  (cost=0.00..0.12 rows=12 width=23)

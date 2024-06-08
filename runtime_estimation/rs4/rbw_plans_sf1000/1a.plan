@@ -1,0 +1,36 @@
+XN CTE Scan on friend_shortest  (cost=8427161061380.98..8427161061412.14 rows=12463 width=12)
+  InitPlan
+    ->  XN Recursive Union  (cost=0.00..8427161061380.98 rows=12463 width=20)
+          ->  XN Subquery Scan "*SELECT* 1"  (cost=0.00..150000.01 rows=1 width=4)
+                ->  XN Seq Scan on customer  (cost=0.00..150000.00 rows=1 width=4)
+                      Filter: (c_customer_sk = 1)
+          ->  XN Subquery Scan "*SELECT* 2"  (cost=1227148101182.50..8427160911380.97 rows=12462 width=20)
+                ->  XN Nested Loop DS_BCAST_INNER  (cost=1227148101182.50..8427160911256.35 rows=12462 width=20)
+                      Join Filter: (("inner".c_customer_sk = "outer".friend) OR ("inner".c_customer_sk = "outer".friend))
+                      ->  XN CTE Scan on friend_shortest f  (cost=0.00..25.00 rows=1667 width=12)
+                            Filter: (hopcount < 3)
+                      ->  XN Materialize  (cost=1227148101182.50..1227148551066.12 rows=44988362 width=8)
+                            ->  XN Hash Join DS_DIST_BOTH  (cost=468140874560.61..1226428242402.14 rows=44988362 width=8)
+                                  Outer Dist Key: "outer".cs_item_sk
+                                  Inner Dist Key: public.catalog_sales.cs_item_sk
+                                  Hash Cond: ("outer".cs_item_sk = "inner".cs_item_sk)
+                                  ->  XN Hash Join DS_DIST_BOTH  (cost=165644.89..468140699851.53 rows=3625674 width=8)
+                                        Outer Dist Key: public.catalog_sales.cs_bill_customer_sk
+                                        Inner Dist Key: public.customer.c_customer_sk
+                                        Hash Cond: ("outer".cs_bill_customer_sk = "inner".c_customer_sk)
+                                        ->  XN Seq Scan on catalog_sales  (cost=0.00..17999755.20 rows=7009582 width=8)
+                                              Filter: (cs_item_sk < 1500)
+                                        ->  XN Hash  (cost=150000.00..150000.00 rows=6257957 width=4)
+                                              ->  XN Seq Scan on customer  (cost=0.00..150000.00 rows=6257957 width=4)
+                                                    Filter: ((c_salutation)::text ~~ 'M%s%'::text)
+                                  ->  XN Hash  (cost=468140699851.53..468140699851.53 rows=3625674 width=8)
+                                        ->  XN Hash Join DS_DIST_BOTH  (cost=165644.89..468140699851.53 rows=3625674 width=8)
+                                              Outer Dist Key: public.catalog_sales.cs_bill_customer_sk
+                                              Inner Dist Key: public.customer.c_customer_sk
+                                              Hash Cond: ("outer".cs_bill_customer_sk = "inner".c_customer_sk)
+                                              ->  XN Seq Scan on catalog_sales  (cost=0.00..17999755.20 rows=7009582 width=8)
+                                                    Filter: (cs_item_sk < 1500)
+                                              ->  XN Hash  (cost=150000.00..150000.00 rows=6257957 width=4)
+                                                    ->  XN Seq Scan on customer  (cost=0.00..150000.00 rows=6257957 width=4)
+                                                          Filter: ((c_salutation)::text ~~ 'M%s%'::text)
+----- Nested Loop Join in the query plan - review the join predicates to avoid Cartesian products -----

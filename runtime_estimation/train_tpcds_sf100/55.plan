@@ -1,0 +1,20 @@
+XN Limit  (cost=1000009677036.65..1000009677036.90 rows=100 width=32)
+  ->  XN Merge  (cost=1000009677036.65..1000009677037.65 rows=401 width=32)
+        Merge Key: sum(store_sales.ss_ext_sales_price), item.i_brand_id
+        ->  XN Network  (cost=1000009677036.65..1000009677037.65 rows=401 width=32)
+              Send to leader
+              ->  XN Sort  (cost=1000009677036.65..1000009677037.65 rows=401 width=32)
+                    Sort Key: sum(store_sales.ss_ext_sales_price), item.i_brand_id
+                    ->  XN HashAggregate  (cost=9677018.30..9677019.31 rows=401 width=32)
+                          ->  XN Hash Join DS_DIST_NONE  (cost=3655.83..9677002.83 rows=2063 width=32)
+                                Hash Cond: ("outer".ss_item_sk = "inner".i_item_sk)
+                                ->  XN Hash Join DS_BCAST_INNER  (cost=1095.80..9672168.78 rows=100151 width=12)
+                                      Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                      ->  XN Seq Scan on store_sales  (cost=0.00..2879970.24 rows=274408098 width=16)
+                                            Filter: (ss_sold_date_sk IS NOT NULL)
+                                      ->  XN Hash  (cost=1095.73..1095.73 rows=28 width=4)
+                                            ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=28 width=4)
+                                                  Filter: ((d_year = 1999) AND (d_moy = 11))
+                                ->  XN Hash  (cost=2550.00..2550.00 rows=4010 width=28)
+                                      ->  XN Seq Scan on item  (cost=0.00..2550.00 rows=4010 width=28)
+                                            Filter: (i_manager_id = 28)

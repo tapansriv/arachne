@@ -1,0 +1,18 @@
+XN Limit  (cost=1000000228647.42..1000000228647.67 rows=100 width=20)
+  ->  XN Merge  (cost=1000000228647.42..1000000228682.43 rows=14005 width=20)
+        Merge Key: sum(CASE WHEN (store_returns.sr_return_quantity IS NOT NULL) THEN (store_sales.ss_sales_price * ((store_sales.ss_quantity - store_returns.sr_return_quantity))::double precision) ELSE ((store_sales.ss_quantity)::double precision * store_sales.ss_sales_price) END), store_sales.ss_customer_sk
+        ->  XN Network  (cost=1000000228647.42..1000000228682.43 rows=14005 width=20)
+              Send to leader
+              ->  XN Sort  (cost=1000000228647.42..1000000228682.43 rows=14005 width=20)
+                    Sort Key: sum(CASE WHEN (store_returns.sr_return_quantity IS NOT NULL) THEN (store_sales.ss_sales_price * ((store_sales.ss_quantity - store_returns.sr_return_quantity))::double precision) ELSE ((store_sales.ss_quantity)::double precision * store_sales.ss_sales_price) END), store_sales.ss_customer_sk
+                    ->  XN HashAggregate  (cost=227472.85..227682.92 rows=14005 width=20)
+                          ->  XN Hash Join DS_DIST_NONE  (cost=126588.62..227402.82 rows=14005 width=20)
+                                Hash Cond: (("outer".ss_ticket_number = "inner".sr_ticket_number) AND ("outer".ss_item_sk = "inner".sr_item_sk))
+                                ->  XN Seq Scan on store_sales  (cost=0.00..28804.04 rows=2880404 width=24)
+                                ->  XN Hash  (cost=126548.91..126548.91 rows=7941 width=12)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=0.44..126548.91 rows=7941 width=12)
+                                            Hash Cond: ("outer".sr_reason_sk = "inner".r_reason_sk)
+                                            ->  XN Seq Scan on store_returns  (cost=0.00..2875.14 rows=287514 width=16)
+                                            ->  XN Hash  (cost=0.44..0.44 rows=1 width=4)
+                                                  ->  XN Seq Scan on reason  (cost=0.00..0.44 rows=1 width=4)
+                                                        Filter: ((r_reason_desc)::text = 'reason 38'::text)

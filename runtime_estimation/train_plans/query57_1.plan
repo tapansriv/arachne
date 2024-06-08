@@ -1,0 +1,32 @@
+XN Limit  (cost=2000058305757.41..2000058305757.41 rows=1 width=20)
+  ->  XN Merge  (cost=2000058305757.41..2000058305757.41 rows=1 width=20)
+        Merge Key: avg_quarterly_sales, sum_sales, i_manufact_id
+        ->  XN Network  (cost=2000058305757.41..2000058305757.41 rows=1 width=20)
+              Send to leader
+              ->  XN Sort  (cost=2000058305757.41..2000058305757.41 rows=1 width=20)
+                    Sort Key: avg_quarterly_sales, sum_sales, i_manufact_id
+                    ->  XN Subquery Scan tmp1  (cost=1000058305757.36..1000058305757.40 rows=1 width=20)
+                          Filter: (CASE WHEN (avg_quarterly_sales > 0::double precision) THEN (abs((sum_sales - avg_quarterly_sales)) / avg_quarterly_sales) ELSE NULL::double precision END > 0.10000000000000001::double precision)
+                          ->  XN Window  (cost=1000058305757.36..1000058305757.38 rows=1 width=16)
+                                Partition: item.i_manufact_id
+                                ->  XN Sort  (cost=1000058305757.36..1000058305757.36 rows=1 width=16)
+                                      Sort Key: item.i_manufact_id
+                                      ->  XN Network  (cost=58305757.34..58305757.35 rows=1 width=16)
+                                            Distribute
+                                            ->  XN HashAggregate  (cost=58305757.34..58305757.35 rows=1 width=16)
+                                                  ->  XN Hash Join DS_BCAST_INNER  (cost=3727.80..58305757.19 rows=15 width=16)
+                                                        Hash Cond: ("outer".ss_store_sk = "inner".s_store_sk)
+                                                        ->  XN Hash Join DS_DIST_NONE  (cost=3727.65..56865756.70 rows=15 width=20)
+                                                              Hash Cond: ("outer".ss_item_sk = "inner".i_item_sk)
+                                                              ->  XN Hash Join DS_BCAST_INNER  (cost=2557.60..56864312.72 rows=12168 width=20)
+                                                                    Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                                                    ->  XN Seq Scan on store_sales  (cost=0.00..28804.04 rows=2626352 width=20)
+                                                                          Filter: ((ss_sold_date_sk IS NOT NULL) AND (ss_store_sk IS NOT NULL))
+                                                                    ->  XN Hash  (cost=2556.72..2556.72 rows=355 width=8)
+                                                                          ->  XN Seq Scan on date_dim  (cost=0.00..2556.72 rows=355 width=8)
+                                                                                Filter: (d_month_seq = ANY ('{1210,1211,1212,1213,1214,1215,1216,1217,1218,1219,1220,1221}'::integer[]))
+                                                              ->  XN Hash  (cost=1170.00..1170.00 rows=21 width=8)
+                                                                    ->  XN Seq Scan on item  (cost=0.00..1170.00 rows=21 width=8)
+                                                                          Filter: (((((i_brand)::text = 'edu packscholar #1'::text) OR ((i_brand)::text = 'amalgimporto #1'::text) OR ((i_brand)::text = 'exportiimporto #1'::text) OR ((i_brand)::text = 'importoamalg #1'::text)) AND (((i_class)::text = 'classical'::text) OR ((i_class)::text = 'fragrances'::text) OR ((i_class)::text = 'accessories'::text) OR ((i_class)::text = 'pants'::text)) AND (((i_category)::text = 'Men'::text) OR ((i_category)::text = 'Music'::text) OR ((i_category)::text = 'Women'::text))) OR ((((i_brand)::text = 'exportiunivamalg #9'::text) OR ((i_brand)::text = 'scholaramalgamalg #14'::text) OR ((i_brand)::text = 'scholaramalgamalg #7'::text) OR ((i_brand)::text = 'scholaramalgamalg #9'::text)) AND (((i_class)::text = 'personal'::text) OR ((i_class)::text = 'portable'::text) OR ((i_class)::text = 'reference'::text) OR ((i_class)::text = 'self-help'::text)) AND (((i_category)::text = 'Electronics'::text) OR ((i_category)::text = 'Children'::text) OR ((i_category)::text = 'Books'::text))))
+                                                        ->  XN Hash  (cost=0.12..0.12 rows=12 width=4)
+                                                              ->  XN Seq Scan on store  (cost=0.00..0.12 rows=12 width=4)

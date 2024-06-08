@@ -1,4 +1,4 @@
-/* Q11. Friend triangles
+/* Tapan modified Q11. Friend squares (was triangles)
 \set country  '\'China\''
 2012-11-29
 2013-03-05

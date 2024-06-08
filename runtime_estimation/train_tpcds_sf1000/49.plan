@@ -1,0 +1,109 @@
+XN Subquery Scan sq1  (cost=10031184713166.50..10031184713167.75 rows=100 width=84)
+  ->  XN Limit  (cost=10031184713166.50..10031184713166.75 rows=100 width=52)
+        ->  XN Merge  (cost=10031184713166.50..10031184713167.25 rows=300 width=52)
+              Merge Key: channel, return_rank, currency_rank, item
+              ->  XN Network  (cost=10031184713166.50..10031184713167.25 rows=300 width=52)
+                    Send to leader
+                    ->  XN Sort  (cost=10031184713166.50..10031184713167.25 rows=300 width=52)
+                          Sort Key: channel, return_rank, currency_rank, item
+                          ->  XN Unique  (cost=3031073853656.51..9031184713154.16 rows=300 width=52)
+                                ->  XN Append  (cost=3031073853656.51..9031184713150.41 rows=300 width=52)
+                                      ->  XN Subquery Scan "*SELECT* 1"  (cost=3031073853656.51..3031073853657.76 rows=100 width=52)
+                                            ->  XN Limit  (cost=3031073853656.51..3031073853656.76 rows=100 width=52)
+                                                  ->  XN Sort  (cost=3031073853656.51..3031073853657.65 rows=458 width=52)
+                                                        Sort Key: 'web'::character varying, return_rank, currency_rank, item
+                                                        ->  XN Unique  (cost=2031073853290.80..2031073853636.26 rows=458 width=52)
+                                                              ->  XN Subquery Scan web  (cost=2031073853290.80..2031073853579.06 rows=4576 width=52)
+                                                                    Filter: ((currency_rank <= 10) OR (return_rank <= 10))
+                                                                    ->  XN Window  (cost=2031073853290.80..2031073853455.52 rows=8236 width=68)
+                                                                          Order: currency_ratio
+                                                                          ->  XN Sort  (cost=2031073853290.80..2031073853311.39 rows=8236 width=68)
+                                                                                Sort Key: currency_ratio
+                                                                                ->  XN Network  (cost=1031073852611.02..1031073852755.15 rows=8236 width=68)
+                                                                                      Send to slice 0
+                                                                                      ->  XN Window  (cost=1031073852611.02..1031073852755.15 rows=8236 width=68)
+                                                                                            Order: return_ratio
+                                                                                            ->  XN Sort  (cost=1031073852611.02..1031073852631.61 rows=8236 width=68)
+                                                                                                  Sort Key: return_ratio
+                                                                                                  ->  XN Network  (cost=31073851704.74..31073852075.36 rows=8236 width=68)
+                                                                                                        Send to slice 0
+                                                                                                        ->  XN Subquery Scan in_web  (cost=31073851704.74..31073852075.36 rows=8236 width=68)
+                                                                                                              ->  XN HashAggregate  (cost=31073851704.74..31073851993.00 rows=8236 width=28)
+                                                                                                                    ->  XN Hash Join DS_BCAST_INNER  (cost=19578043.65..31073851601.79 rows=8236 width=28)
+                                                                                                                          Hash Cond: (("outer".wr_order_number = "inner".ws_order_number) AND ("outer".wr_item_sk = "inner".ws_item_sk))
+                                                                                                                          ->  XN Seq Scan on web_returns wr  (cost=0.00..899969.00 rows=54943565 width=20)
+                                                                                                                                Filter: (wr_return_amt > 10000::double precision)
+                                                                                                                          ->  XN Hash  (cost=19577489.15..19577489.15 rows=110900 width=20)
+                                                                                                                                ->  XN Hash Join DS_BCAST_INNER  (cost=1095.81..19577489.15 rows=110900 width=20)
+                                                                                                                                      Hash Cond: ("outer".ws_sold_date_sk = "inner".d_date_sk)
+                                                                                                                                      ->  XN Seq Scan on web_sales ws  (cost=0.00..12600006.72 rows=279622210 width=24)
+                                                                                                                                            Filter: ((ws_net_profit > 1::double precision) AND (ws_net_paid > 0::double precision) AND (ws_quantity > 0))
+                                                                                                                                      ->  XN Hash  (cost=1095.73..1095.73 rows=29 width=4)
+                                                                                                                                            ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=29 width=4)
+                                                                                                                                                  Filter: ((d_year = 2001) AND (d_moy = 12))
+                                      ->  XN Subquery Scan "*SELECT* 2"  (cost=3000040173031.86..3000040173033.11 rows=100 width=52)
+                                            ->  XN Limit  (cost=3000040173031.86..3000040173032.11 rows=100 width=52)
+                                                  ->  XN Sort  (cost=3000040173031.86..3000040173033.60 rows=698 width=52)
+                                                        Sort Key: 'catalog'::character varying, return_rank, currency_rank, item
+                                                        ->  XN Unique  (cost=2000040172472.06..2000040172998.89 rows=698 width=52)
+                                                              ->  XN Subquery Scan "catalog"  (cost=2000040172472.06..2000040172911.66 rows=6978 width=52)
+                                                                    Filter: ((currency_rank <= 10) OR (return_rank <= 10))
+                                                                    ->  XN Window  (cost=2000040172472.06..2000040172723.26 rows=12560 width=68)
+                                                                          Order: currency_ratio
+                                                                          ->  XN Sort  (cost=2000040172472.06..2000040172503.46 rows=12560 width=68)
+                                                                                Sort Key: currency_ratio
+                                                                                ->  XN Network  (cost=1000040171397.14..1000040171616.94 rows=12560 width=68)
+                                                                                      Send to slice 0
+                                                                                      ->  XN Window  (cost=1000040171397.14..1000040171616.94 rows=12560 width=68)
+                                                                                            Order: return_ratio
+                                                                                            ->  XN Sort  (cost=1000040171397.14..1000040171428.54 rows=12560 width=68)
+                                                                                                  Sort Key: return_ratio
+                                                                                                  ->  XN Network  (cost=40169976.82..40170542.02 rows=12560 width=68)
+                                                                                                        Send to slice 0
+                                                                                                        ->  XN Subquery Scan in_cat  (cost=40169976.82..40170542.02 rows=12560 width=68)
+                                                                                                              ->  XN HashAggregate  (cost=40169976.82..40170416.42 rows=12560 width=28)
+                                                                                                                    ->  XN Hash Join DS_DIST_NONE  (cost=35573894.14..40169819.82 rows=12560 width=28)
+                                                                                                                          Hash Cond: (("outer".cr_order_number = "inner".cs_order_number) AND ("outer".cr_item_sk = "inner".cs_item_sk))
+                                                                                                                          ->  XN Seq Scan on catalog_returns cr  (cost=0.00..1799959.40 rows=111838651 width=20)
+                                                                                                                                Filter: (cr_return_amount > 10000::double precision)
+                                                                                                                          ->  XN Hash  (cost=35572807.04..35572807.04 rows=217420 width=20)
+                                                                                                                                ->  XN Hash Join DS_BCAST_INNER  (cost=1095.81..35572807.04 rows=217420 width=20)
+                                                                                                                                      Hash Cond: ("outer".cs_sold_date_sk = "inner".d_date_sk)
+                                                                                                                                      ->  XN Seq Scan on catalog_sales cs  (cost=0.00..25199657.28 rows=551190380 width=24)
+                                                                                                                                            Filter: ((cs_net_profit > 1::double precision) AND (cs_net_paid > 0::double precision) AND (cs_quantity > 0))
+                                                                                                                                      ->  XN Hash  (cost=1095.73..1095.73 rows=29 width=4)
+                                                                                                                                            ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=29 width=4)
+                                                                                                                                                  Filter: ((d_year = 2001) AND (d_moy = 12))
+                                      ->  XN Subquery Scan "*SELECT* 3"  (cost=3000070686458.30..3000070686459.55 rows=100 width=52)
+                                            ->  XN Limit  (cost=3000070686458.30..3000070686458.55 rows=100 width=52)
+                                                  ->  XN Sort  (cost=3000070686458.30..3000070686460.64 rows=936 width=52)
+                                                        Sort Key: 'store'::character varying, return_rank, currency_rank, item
+                                                        ->  XN Unique  (cost=2000070685705.97..2000070686412.11 rows=936 width=52)
+                                                              ->  XN Subquery Scan store  (cost=2000070685705.97..2000070686295.19 rows=9353 width=52)
+                                                                    Filter: ((currency_rank <= 10) OR (return_rank <= 10))
+                                                                    ->  XN Window  (cost=2000070685705.97..2000070686042.67 rows=16835 width=68)
+                                                                          Order: currency_ratio
+                                                                          ->  XN Sort  (cost=2000070685705.97..2000070685748.06 rows=16835 width=68)
+                                                                                Sort Key: currency_ratio
+                                                                                ->  XN Network  (cost=1000070684229.61..1000070684524.22 rows=16835 width=68)
+                                                                                      Send to slice 0
+                                                                                      ->  XN Window  (cost=1000070684229.61..1000070684524.22 rows=16835 width=68)
+                                                                                            Order: return_ratio
+                                                                                            ->  XN Sort  (cost=1000070684229.61..1000070684271.70 rows=16835 width=68)
+                                                                                                  Sort Key: return_ratio
+                                                                                                  ->  XN Network  (cost=70682290.29..70683047.86 rows=16835 width=68)
+                                                                                                        Send to slice 0
+                                                                                                        ->  XN Subquery Scan in_store  (cost=70682290.29..70683047.86 rows=16835 width=68)
+                                                                                                              ->  XN HashAggregate  (cost=70682290.29..70682879.51 rows=16835 width=28)
+                                                                                                                    ->  XN Hash Join DS_DIST_NONE  (cost=61802757.59..70682079.85 rows=16835 width=28)
+                                                                                                                          Hash Cond: (("outer".sr_ticket_number = "inner".ss_ticket_number) AND ("outer".sr_item_sk = "inner".ss_item_sk))
+                                                                                                                          ->  XN Seq Scan on store_returns sr  (cost=0.00..3599997.20 rows=211173002 width=20)
+                                                                                                                                Filter: (sr_return_amt > 10000::double precision)
+                                                                                                                          ->  XN Hash  (cost=61801558.41..61801558.41 rows=239836 width=20)
+                                                                                                                                ->  XN Hash Join DS_BCAST_INNER  (cost=1095.81..61801558.41 rows=239836 width=20)
+                                                                                                                                      Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                                                                                                                      ->  XN Seq Scan on store_sales sts  (cost=0.00..50399789.44 rows=633461984 width=24)
+                                                                                                                                            Filter: ((ss_net_profit > 1::double precision) AND (ss_net_paid > 0::double precision) AND (ss_quantity > 0))
+                                                                                                                                      ->  XN Hash  (cost=1095.73..1095.73 rows=29 width=4)
+                                                                                                                                            ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=29 width=4)
+                                                                                                                                                  Filter: ((d_year = 2001) AND (d_moy = 12))

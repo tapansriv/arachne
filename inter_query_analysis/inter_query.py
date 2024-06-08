@@ -383,7 +383,7 @@ class BaselineManager:
     def get_size_of_table_set(self, tables):
         size = 0
         for i in tables:
-            tbl_name = table_indices[i]
+            tbl_name = self.table_indices[i]
             size_gb = self.table_size_gb[tbl_name]
             size += size_gb
         return size
@@ -391,13 +391,13 @@ class BaselineManager:
     def movement_cost(self, tables):
         size = 0
         for i in tables:
-            tbl_name = table_indices[i]
+            tbl_name = self.table_indices[i]
             size_gb = self.table_size_gb[tbl_name]
             size += size_gb
         return size * self.egress_cost
 
     def compute_savings_for_query(self, q):
-        return bm.get_baseline_cost(q) - bm.get_alt_cost(q)
+        return self.get_baseline_cost(q) - self.get_alt_cost(q)
     
     def compute_savings_for_all_queries(self, queries):
         vals = {}
@@ -1018,6 +1018,8 @@ def create_bit_string_from_list(curr_table_set):
         res = res | v
     return res
 
+
+
 if __name__ == '__main__':
     parser = ArgumentParser(description="Run inter-query analysis")
 
@@ -1033,7 +1035,9 @@ if __name__ == '__main__':
     parser.add_argument("--workload_outfile", type=str, default='', help="File to write workload stats to")
     parser.add_argument("--SLA", type=float, help="Runtime upper bound in seconds")
 
-    parser.add_argument("benchmark_name", choices=['tpcds', 'tpch', 'ldbc'], help="Name of benchark")
+    parser.add_argument("benchmark_name", 
+                        choices=['tpcds', 'tpch', 'ldbc', 'opt_test'], 
+                        help="Name of benchark")
     parser.add_argument("start_loc", choices=['aws', 'gcp'], help="Where data begins")
     parser.add_argument("path", help="Path with data for analysis")
     args = parser.parse_args()
@@ -1089,6 +1093,8 @@ if __name__ == '__main__':
         table_indices = tpcds_names
     elif args.benchmark_name == "tpch":
         table_indices = tpch_names
+    elif args.benchmark_name == 'opt_test':
+        table_indices = opt_test_tables
     else: 
         if "postgres" in args.path:
             table_indices = ldbc_psql_names

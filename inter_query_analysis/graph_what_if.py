@@ -29,7 +29,7 @@ rs_cost = int(CS) * args.rs_cost
 fontsize = 19
 markersize = 8
 x = 6.5
-y = 3.5
+y = 2.75
 
 src_label = "BQ"
 dest_label = f"RS-{CS}"

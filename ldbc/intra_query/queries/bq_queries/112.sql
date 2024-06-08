@@ -20,8 +20,10 @@ WITH persons_of_country_w_friends AS (
        AND p.p_personid = k.k_person1id
         -- filter
        AND co.pl_name = 'China'
-       AND 1354147200000 <= k.k_creationdate
-       AND k.k_creationdate <= 1362441600000
+       AND TIMESTAMP("2012-11-29") <= k.k_creationdate
+       AND k.k_creationdate <= TIMESTAMP("2013-03-05")
+       -- AND 1354147200000 <= k.k_creationdate
+       -- AND k.k_creationdate <= 1362441600000
        -- AND to_timestamp(k.k_creationdate/1000) between '2012-11-29' and '2013-03-05'
 )
 SELECT count(*)

@@ -1,5 +1,4 @@
-# impl steps:
-# 1. build graph with edge capacities
+# impl steps: # 1. build graph with edge capacities
 # 2. implement min-cut
 # 3. print results etc.
 import json
@@ -567,7 +566,7 @@ if __name__ == '__main__':
     parser.add_argument("--exclude_table", type=str, default=None, help="Table to exclude (must be in list of tables based on benchmark_name)")
     parser.add_argument("--exclude_qry", type=str, default=None, help="Query num to exclude")
     parser.add_argument("--cluster_size", type=int, default=1, help="Number of Redshift nodes in cluster")
-    parser.add_argument("benchmark_name", choices=['tpcds', 'tpch', 'ldbc'], help="Name of benchark")
+    parser.add_argument("benchmark_name", choices=['tpcds', 'opt_test', 'tpch', 'ldbc'], help="Name of benchark")
     parser.add_argument("path", help="Path with data for analysis")
     args = parser.parse_args()
 
@@ -599,6 +598,8 @@ if __name__ == '__main__':
         table_indices = tpcds_names
     elif args.benchmark_name == "tpch":
         table_indices = tpch_names
+    elif args.benchmark_name == "opt_test":
+        table_indices = opt_test_tables
     else: 
         if "postgres" in args.path:
             table_indices = ldbc_psql_names

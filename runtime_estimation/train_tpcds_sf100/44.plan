@@ -1,0 +1,56 @@
+XN Limit  (cost=3000114172358.06..3000114172358.31 rows=100 width=60)
+  ->  XN Merge  (cost=3000114172358.06..3000114172359.30 rows=499 width=60)
+        Merge Key: v11.rnk
+        ->  XN Network  (cost=3000114172358.06..3000114172359.30 rows=499 width=60)
+              Send to leader
+              ->  XN Sort  (cost=3000114172358.06..3000114172359.30 rows=499 width=60)
+                    Sort Key: v11.rnk
+                    ->  XN Hash Join DS_DIST_BOTH  (cost=2000029536435.62..2000114172335.69 rows=499 width=60)
+                          Outer Dist Key: "inner".rnk
+                          Inner Dist Key: v11.rnk
+                          Hash Cond: ("outer".rnk = "inner".rnk)
+                          ->  XN Hash Join DS_DIST_INNER  (cost=1000007210320.84..1000022326114.00 rows=316 width=34)
+                                Inner Dist Key: v21.item_sk
+                                Hash Cond: ("outer".i_item_sk = "inner".item_sk)
+                                ->  XN Seq Scan on item i2  (cost=0.00..2040.00 rows=204000 width=30)
+                                ->  XN Hash  (cost=1000007210320.08..1000007210320.08 rows=301 width=12)
+                                      ->  XN Subquery Scan v21  (cost=1000007210297.53..1000007210320.08 rows=301 width=12)
+                                            Filter: (rnk < 11)
+                                            ->  XN Window  (cost=1000007210297.53..1000007210308.81 rows=902 width=12)
+                                                  Order: rank_col
+                                                  ->  XN Sort  (cost=1000007210297.53..1000007210299.79 rows=902 width=12)
+                                                        Sort Key: rank_col
+                                                        ->  XN Network  (cost=7210235.22..7210253.26 rows=902 width=12)
+                                                              Send to slice 0
+                                                              ->  XN Subquery Scan v2  (cost=7210235.22..7210253.26 rows=902 width=12)
+                                                                    ->  XN HashAggregate  (cost=7210235.22..7210244.24 rows=902 width=12)
+                                                                          Filter: (avg(ss_net_profit) > (0.90000000000000002::double precision * $0))
+                                                                          InitPlan
+                                                                            ->  XN HashAggregate  (cost=3600265.40..3600265.40 rows=1 width=12)
+                                                                                  ->  XN Seq Scan on store_sales  (cost=0.00..3599962.80 rows=60520 width=12)
+                                                                                        Filter: ((ss_store_sk = 4) AND (ss_addr_sk IS NULL))
+                                                                          ->  XN Seq Scan on store_sales ss1  (cost=0.00..3599962.80 rows=1334269 width=12)
+                                                                                Filter: (ss_store_sk = 4)
+                          ->  XN Hash  (cost=1000022326114.00..1000022326114.00 rows=316 width=34)
+                                ->  XN Hash Join DS_DIST_INNER  (cost=1000007210320.84..1000022326114.00 rows=316 width=34)
+                                      Inner Dist Key: v11.item_sk
+                                      Hash Cond: ("outer".i_item_sk = "inner".item_sk)
+                                      ->  XN Seq Scan on item i1  (cost=0.00..2040.00 rows=204000 width=30)
+                                      ->  XN Hash  (cost=1000007210320.08..1000007210320.08 rows=301 width=12)
+                                            ->  XN Subquery Scan v11  (cost=1000007210297.53..1000007210320.08 rows=301 width=12)
+                                                  Filter: (rnk < 11)
+                                                  ->  XN Window  (cost=1000007210297.53..1000007210308.81 rows=902 width=12)
+                                                        Order: rank_col
+                                                        ->  XN Sort  (cost=1000007210297.53..1000007210299.79 rows=902 width=12)
+                                                              Sort Key: rank_col
+                                                              ->  XN Network  (cost=7210235.22..7210253.26 rows=902 width=12)
+                                                                    Send to slice 0
+                                                                    ->  XN Subquery Scan v1  (cost=7210235.22..7210253.26 rows=902 width=12)
+                                                                          ->  XN HashAggregate  (cost=7210235.22..7210244.24 rows=902 width=12)
+                                                                                Filter: (avg(ss_net_profit) > (0.90000000000000002::double precision * $1))
+                                                                                InitPlan
+                                                                                  ->  XN HashAggregate  (cost=3600265.40..3600265.40 rows=1 width=12)
+                                                                                        ->  XN Seq Scan on store_sales  (cost=0.00..3599962.80 rows=60520 width=12)
+                                                                                              Filter: ((ss_store_sk = 4) AND (ss_addr_sk IS NULL))
+                                                                                ->  XN Seq Scan on store_sales ss1  (cost=0.00..3599962.80 rows=1334269 width=12)
+                                                                                      Filter: (ss_store_sk = 4)

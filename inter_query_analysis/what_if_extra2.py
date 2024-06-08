@@ -12,7 +12,7 @@ def plot(data: pd.DataFrame, price_type: str, outfile: str, legend: bool):
     fontsize = 22
     markersize = 8
     x = 6.5
-    y = 3.5
+    y = 2.75
     arachne_color  = "#ecae17"
     bq_color = "#455984"
     mixed_color = "#c85327"
@@ -49,11 +49,13 @@ def plot(data: pd.DataFrame, price_type: str, outfile: str, legend: bool):
         ax1.set_xlabel("BigQuery Cost $/TB")
         ax1.set_xticks([0.0, 2.5, 5.0, 7.5, 10.0, 12.5])
 
-    ax1.set_ylabel("Percent Speedup")
-    ax2.set_ylabel("Percent Savings")
+    ax1.set_ylabel("% Speedup")
+    ax2.set_ylabel("% Savings")
     ax1.set_ylim(-30, 35)
     ax2.set_ylim(-5, 90)
-    ax1.set_yticks([-30, -20, -10, 0, 10, 20, 30])
+    # ax1.set_yticks([-30, -20, -10, 0, 10, 20, 30])
+    ax1.set_yticks([-30, -15, 0, 15, 30])
+    ax2.set_yticks([0, 25, 50, 75])
 
 
     if legend:

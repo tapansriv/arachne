@@ -35,8 +35,10 @@ do
     # echo $cmd >> algo_cmds3.txt
     for tbl in ${tpcds_names[@]}
     do
-        cmd="python3 inter_query.py --no_calcite --egress 0.12 --duck --exclude_table $tbl $cluster_size tpcds gcp $p > $p/iq3.2_duck/algo_$tbl.output"
-        # cmd="python3 inter_query.py --no_calcite --egress 0.12 --exclude_table $tbl $cluster_size tpcds gcp $p > $p/iq3.2_no_duck/algo_$tbl.output"
+        # cmd="python3 inter_query.py --no_calcite --egress 0.12 --duck --exclude_table $tbl $cluster_size tpcds gcp $p > $p/iq3.2_duck/algo_$tbl.output"
+        cmd="python3 inter_query.py --no_calcite --egress 0.12 --exclude_table $tbl $cluster_size tpcds gcp $p > $p/iq3.2_no_duck/algo_$tbl.output"
+        # cmd="python3 time_series.py --no_calcite --egress 0.12 --exclude_table $tbl $cluster_size tpcds gcp $p > $p/iq3.2_no_duck/algo_$tbl.output"
+        # cmd="python3 check_plan_costs.py --no_calcite --egress 0.12 --exclude_table $tbl $cluster_size tpcds gcp estimation/100_true $p > $p/iq3.2_no_duck/algo_$tbl.output"
         echo $cmd >> algo_cmds3.txt
     done
 done

@@ -65,7 +65,8 @@ duck_no_cut_color = "#c85327"
 font = {'size' : 19}
 plt.rc('font', **font)
 
-fig = plt.figure(figsize=(6.5,3.5))
+# fig = plt.figure(figsize=(6.5,3.5))
+fig = plt.figure(figsize=(6.5,3))
 ax = fig.subplots()
 # ax.ticklabel_format(axis='x', style='sci', scilimits=(0,0), useMathText=True)
 

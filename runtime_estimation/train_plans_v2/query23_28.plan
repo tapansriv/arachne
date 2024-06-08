@@ -1,0 +1,19 @@
+XN Limit  (cost=1000037833901.05..1000037833901.30 rows=100 width=65)
+  ->  XN Merge  (cost=1000037833901.05..1000037834081.05 rows=72001 width=65)
+        Merge Key: avg(inventory.inv_quantity_on_hand), item.i_product_name, item.i_brand, item.i_class, item.i_category
+        ->  XN Network  (cost=1000037833901.05..1000037834081.05 rows=72001 width=65)
+              Send to leader
+              ->  XN Sort  (cost=1000037833901.05..1000037834081.05 rows=72001 width=65)
+                    Sort Key: avg(inventory.inv_quantity_on_hand), item.i_product_name, item.i_brand, item.i_class, item.i_category
+                    ->  XN HashAggregate  (cost=37827912.10..37828092.11 rows=72001 width=65)
+                          GROUPING SETS((), (i_product_name), (i_product_name, i_brand), (i_product_name, i_brand, i_class), (i_product_name, i_brand, i_class, i_category))
+                          ->  XN Hash Join DS_DIST_NONE  (cost=37825987.66..37827267.97 rows=51531 width=65)
+                                Hash Cond: ("outer".i_item_sk = "inner".inv_item_sk)
+                                ->  XN Seq Scan on item  (cost=0.00..180.00 rows=18000 width=65)
+                                ->  XN Hash  (cost=37825861.93..37825861.93 rows=50291 width=8)
+                                      ->  XN Hash Join DS_BCAST_INNER  (cost=1096.52..37825861.93 rows=50291 width=8)
+                                            Hash Cond: ("outer".inv_date_sk = "inner".d_date_sk)
+                                            ->  XN Seq Scan on inventory  (cost=0.00..117450.00 rows=11745000 width=12)
+                                            ->  XN Hash  (cost=1095.73..1095.73 rows=313 width=4)
+                                                  ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=313 width=4)
+                                                        Filter: ((d_month_seq >= 1200) AND (d_month_seq <= 1211))

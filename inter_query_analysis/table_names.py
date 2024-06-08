@@ -17,3 +17,6 @@ tpcds_names = ["call_center", "catalog_page", "catalog_returns",
 
 tpch_names = ["lineitem", "customer", "nation", "orders", "part", "partsupp", "region", "supplier"]
 
+f = open('opt_test.txt')
+opt_test_tables = [x.strip() for x in f.readlines()]
+f.close()

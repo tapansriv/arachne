@@ -15,7 +15,7 @@ def plot(data: pd.DataFrame, plot_type: str, price_type: str, src: str, outfile:
     fontsize = 19
     markersize = 8
     x = 6.5
-    y = 3.5
+    y = 2.4
     arachne_color  = "#ecae17"
     bq_color = "#455984"
     duck_color = "#a12721"
@@ -56,7 +56,8 @@ def plot(data: pd.DataFrame, plot_type: str, price_type: str, src: str, outfile:
         plt.plot(io_data['Price'], io_data["Percent Diff"], label=f"IO-{c}",
                  marker='D', ms=markersize, c=io_color, zorder=1)
         plt.ylim([-1, 100])
-        plt.ylabel("% Savings over Baseline")
+        plt.yticks([0, 25, 50, 75, 100])
+        plt.ylabel("% Savings")
 
     elif plot_type == "runtime":
         mixed_diff = mixed_data["Baseline Runtime"] - mixed_data["Arachne Runtime"]

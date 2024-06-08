@@ -1,0 +1,26 @@
+XN Limit  (cost=1000004435749.49..1000004435749.50 rows=3 width=26)
+  ->  XN Merge  (cost=1000004435749.49..1000004435749.50 rows=3 width=26)
+        Merge Key: i1.i_product_name
+        ->  XN Network  (cost=1000004435749.49..1000004435749.50 rows=3 width=26)
+              Send to leader
+              ->  XN Sort  (cost=1000004435749.49..1000004435749.50 rows=3 width=26)
+                    Sort Key: i1.i_product_name
+                    ->  XN Unique  (cost=3392655.08..4435749.47 rows=3 width=26)
+                          ->  XN Hash Join DS_BCAST_INNER  (cost=3392655.08..4435749.46 rows=3 width=26)
+                                Hash Cond: (("outer".i_manufact)::text = ("inner".i_manufact)::text)
+                                ->  XN Seq Scan on item i1  (cost=0.00..3060.00 rows=2748 width=41)
+                                      Filter: ((i_manufact_id >= 738) AND (i_manufact_id <= 778) AND (i_manufact IS NOT NULL))
+                                ->  XN Hash  (cost=3392655.08..3392655.08 rows=1 width=93)
+                                      ->  XN Subquery Scan volt_dt_0  (cost=3392655.06..3392655.08 rows=1 width=93)
+                                            ->  XN HashAggregate  (cost=3392655.06..3392655.07 rows=1 width=93)
+                                                  Filter: (count(*) > 0)
+                                                  ->  XN Hash Join DS_DIST_INNER  (cost=29580.14..3392655.06 rows=1 width=93)
+                                                        Inner Dist Key: item.i_manufact
+                                                        Hash Cond: (("outer".i_manufact)::text = ("inner".i_manufact)::text)
+                                                        ->  XN Subquery Scan volt_dt_1  (cost=0.00..3067.03 rows=14 width=93)
+                                                              ->  XN Unique  (cost=0.00..3066.89 rows=14 width=15)
+                                                                    ->  XN Seq Scan on item i1  (cost=0.00..3060.00 rows=2757 width=15)
+                                                                          Filter: ((i_manufact_id >= 738) AND (i_manufact_id <= 778))
+                                                        ->  XN Hash  (cost=29580.00..29580.00 rows=56 width=15)
+                                                              ->  XN Seq Scan on item  (cost=0.00..29580.00 rows=56 width=15)
+                                                                    Filter: ((((((i_color)::text = 'brown'::text) OR ((i_color)::text = 'honeydew'::text)) AND (((i_units)::text = 'Bunch'::text) OR ((i_units)::text = 'Ton'::text)) AND ((i_category)::text = 'Women'::text) AND (((i_size)::text = 'N/A'::text) OR ((i_size)::text = 'small'::text))) OR ((((i_color)::text = 'cyan'::text) OR ((i_color)::text = 'papaya'::text)) AND (((i_units)::text = 'Cup'::text) OR ((i_units)::text = 'Dram'::text)) AND ((i_category)::text = 'Women'::text) AND (((i_size)::text = 'N/A'::text) OR ((i_size)::text = 'small'::text))) OR ((((i_color)::text = 'khaki'::text) OR ((i_color)::text = 'powder'::text)) AND (((i_units)::text = 'Ounce'::text) OR ((i_units)::text = 'Oz'::text)) AND ((i_category)::text = 'Women'::text) AND (((i_size)::text = 'medium'::text) OR ((i_size)::text = 'extra large'::text))) OR ((((i_color)::text = 'midnight'::text) OR ((i_color)::text = 'snow'::text)) AND (((i_units)::text = 'Gross'::text) OR ((i_units)::text = 'Pallet'::text)) AND ((i_category)::text = 'Women'::text) AND (((i_size)::text = 'medium'::text) OR ((i_size)::text = 'extra large'::text))) OR ((((i_color)::text = 'forest'::text) OR ((i_color)::text = 'ghost'::text)) AND (((i_units)::text = 'Bundle'::text) OR ((i_units)::text = 'Lb'::text)) AND ((i_category)::text = 'Men'::text) AND (((i_size)::text = 'medium'::text) OR ((i_size)::text = 'extra large'::text))) OR ((((i_color)::text = 'cornflower'::text) OR ((i_color)::text = 'light'::text)) AND (((i_units)::text = 'Box'::text) OR ((i_units)::text = 'Pound'::text)) AND ((i_category)::text = 'Men'::text) AND (((i_size)::text = 'medium'::text) OR ((i_size)::text = 'extra large'::text))) OR ((((i_color)::text = 'deep'::text) OR ((i_color)::text = 'floral'::text)) AND ((i_size)::text = 'petite'::text) AND ((i_category)::text = 'Men'::text) AND (((i_units)::text = 'N/A'::text) OR ((i_units)::text = 'Dozen'::text))) OR ((((i_color)::text = 'frosted'::text) OR ((i_color)::text = 'orange'::text)) AND ((i_size)::text = 'petite'::text) AND (((i_units)::text = 'Each'::text) OR ((i_units)::text = 'Tbl'::text)) AND ((i_category)::text = 'Men'::text))) AND (i_manufact IS NOT NULL))

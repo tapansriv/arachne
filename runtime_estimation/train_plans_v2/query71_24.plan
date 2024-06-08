@@ -1,0 +1,34 @@
+XN Limit  (cost=2000079032834.35..2000079032834.60 rows=100 width=442)
+  ->  XN Merge  (cost=2000079032834.35..2000079032880.47 rows=18449 width=442)
+        Merge Key: i_category, i_class, i_brand, i_product_name, d_year, d_qoy, d_moy, s_store_id, sumsales, rk
+        ->  XN Network  (cost=2000079032834.35..2000079032880.47 rows=18449 width=442)
+              Send to leader
+              ->  XN Sort  (cost=2000079032834.35..2000079032880.47 rows=18449 width=442)
+                    Sort Key: i_category, i_class, i_brand, i_product_name, d_year, d_qoy, d_moy, s_store_id, sumsales, rk
+                    ->  XN Subquery Scan dw2  (cost=1000079029174.92..1000079031527.12 rows=18449 width=442)
+                          Filter: (rk <= 100)
+                          ->  XN Window  (cost=1000079029174.92..1000079030835.30 rows=55346 width=434)
+                                Partition: i_category
+                                Order: sumsales
+                                ->  XN Sort  (cost=1000079029174.92..1000079029313.28 rows=55346 width=434)
+                                      Sort Key: i_category, sumsales
+                                      ->  XN Network  (cost=79023846.15..79024814.70 rows=55346 width=434)
+                                            Distribute
+                                            ->  XN Subquery Scan dw1  (cost=79023846.15..79024814.70 rows=55346 width=434)
+                                                  ->  XN HashAggregate  (cost=79023846.15..79024261.24 rows=55346 width=105)
+                                                        GROUPING SETS((), (i_category), (i_category, i_class), (i_category, i_class, i_brand), (i_category, i_class, i_brand, i_product_name), (i_category, i_class, i_brand, i_product_name, d_year), (i_category, i_class, i_brand, i_product_name, d_year, d_qoy), (i_category, i_class, i_brand, i_product_name, d_year, d_qoy, d_moy), (i_category, i_class, i_brand, i_product_name, d_year, d_qoy, d_moy, s_store_id))
+                                                        ->  XN Hash Join DS_DIST_NONE  (cost=79023099.67..79023609.74 rows=10507 width=105)
+                                                              Hash Cond: ("outer".i_item_sk = "inner".ss_item_sk)
+                                                              ->  XN Seq Scan on item  (cost=0.00..180.00 rows=18000 width=65)
+                                                              ->  XN Hash  (cost=79023074.04..79023074.04 rows=10254 width=48)
+                                                                    ->  XN Hash Join DS_BCAST_INNER  (cost=1096.67..79023074.04 rows=10254 width=48)
+                                                                          Hash Cond: ("outer".ss_store_sk = "inner".s_store_sk)
+                                                                          ->  XN Hash Join DS_BCAST_INNER  (cost=1096.52..75182837.24 rows=10728 width=32)
+                                                                                Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                                                                                ->  XN Seq Scan on store_sales  (cost=0.00..28804.04 rows=2626352 width=24)
+                                                                                      Filter: ((ss_sold_date_sk IS NOT NULL) AND (ss_store_sk IS NOT NULL))
+                                                                                ->  XN Hash  (cost=1095.73..1095.73 rows=313 width=16)
+                                                                                      ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=313 width=16)
+                                                                                            Filter: ((d_month_seq >= 1207) AND (d_month_seq <= 1218))
+                                                                          ->  XN Hash  (cost=0.12..0.12 rows=12 width=24)
+                                                                                ->  XN Seq Scan on store  (cost=0.00..0.12 rows=12 width=24)

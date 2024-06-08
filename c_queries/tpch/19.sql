@@ -1,7 +1,0 @@
-SELECT SUM("t"."*") AS "revenue"
-FROM (SELECT "l_partkey", "l_extendedprice" * (1 - "l_discount") AS "*", "l_quantity" >= 1 AS ">=", "l_quantity" <= 1 + 10 AS "<=", "l_shipmode" IN ('AIR', 'AIR REG') AS "OR", "l_shipinstruct" = 'DELIVER IN PERSON' AS "=", "l_quantity" >= 10 AS ">=6", "l_quantity" <= 10 + 10 AS "<=7", "l_quantity" >= 20 AS ">=8", "l_quantity" <= 20 + 10 AS "<=9"
-FROM lineitem) AS "t"
-INNER JOIN (SELECT "p_partkey", "p_brand" = 'Brand#12' AS "=", "p_container" IN ('SM BOX', 'SM CASE', 'SM PACK', 'SM PKG') AS "OR", "p_size" >= 1 AS ">=", "p_size" <= 5 AS "<=", "p_brand" = 'Brand#23' AS "=5", "p_container" IN ('MED BAG', 'MED BOX', 'MED PACK', 'MED PKG') AS "OR6", "p_size" <= 10 AS "<=7", "p_brand" = 'Brand#34' AS "=8", "p_container" IN ('LG BOX', 'LG CASE', 'LG PACK', 'LG PKG') AS "OR9", "p_size" <= 15 AS "<=10"
-FROM part) AS "t0" ON "t"."l_partkey" = "t0"."p_partkey" AND "t0"."=" AND ("t0"."OR" AND "t".">=") AND ("t"."<=" AND "t0".">=" AND ("t0"."<=" AND ("t"."OR" AND "t"."="))) OR "t"."l_partkey" = "t0"."p_partkey" AND "t0"."=5" AND ("t0"."OR6" AND "t".">=6") AND ("t"."<=7" AND "t0".">=" AND ("t0"."<=7" AND ("t"."OR" AND "t"."="))) OR "t"."l_partkey" = "t0"."p_partkey" AND "t0"."=8" AND ("t0"."OR9" AND "t".">=8") AND ("t"."<=9" AND "t0".">=" AND ("t0"."<=10" AND ("t"."OR" AND "t"."=")))
-
-;

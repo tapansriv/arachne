@@ -1,0 +1,73 @@
+XN Window  (cost=1000052705280.48..1000052705457.43 rows=11797 width=16)
+  Partition: store_sales.ss_item_sk
+  Order: date_dim.d_date
+  ->  XN Sort  (cost=1000052705280.48..1000052705309.97 rows=11797 width=16)
+        Sort Key: store_sales.ss_item_sk, date_dim.d_date
+        ->  XN HashAggregate  (cost=52704453.14..52704482.64 rows=11797 width=16)
+              ->  XN Hash Join DS_BCAST_INNER  (cost=1096.56..52704364.67 rows=11797 width=16)
+                    Hash Cond: ("outer".ss_sold_date_sk = "inner".d_date_sk)
+                    ->  XN Seq Scan on store_sales  (cost=0.00..28804.04 rows=2747688 width=16)
+                          Filter: (ss_sold_date_sk IS NOT NULL)
+                    ->  XN Hash  (cost=1095.73..1095.73 rows=329 width=8)
+                          ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=329 width=8)
+                                Filter: ((d_month_seq <= 1190) AND (d_month_seq >= 1179))
+
+XN Window  (cost=1000052657536.16..1000052657584.72 rows=3237 width=16)
+  Partition: web_sales.ws_item_sk
+  Order: date_dim.d_date
+  ->  XN Sort  (cost=1000052657536.16..1000052657544.25 rows=3237 width=16)
+        Sort Key: web_sales.ws_item_sk, date_dim.d_date
+        ->  XN Network  (cost=52657339.35..52657347.44 rows=3237 width=16)
+              Distribute
+              ->  XN HashAggregate  (cost=52657339.35..52657347.44 rows=3237 width=16)
+                    ->  XN Hash Join DS_BCAST_INNER  (cost=1096.56..52657315.07 rows=3237 width=16)
+                          Hash Cond: ("outer".ws_sold_date_sk = "inner".d_date_sk)
+                          ->  XN Seq Scan on web_sales  (cost=0.00..7193.84 rows=719384 width=16)
+                          ->  XN Hash  (cost=1095.73..1095.73 rows=329 width=8)
+                                ->  XN Seq Scan on date_dim  (cost=0.00..1095.73 rows=329 width=8)
+                                      Filter: ((d_month_seq <= 1190) AND (d_month_seq >= 1179))
+
+XN HashAggregate  (cost=465498.23..465623.17 rows=49978 width=24)
+  ->  XN Merge Join DS_DIST_NONE  (cost=0.00..370128.98 rows=9536925 width=24)
+        Merge Cond: ("outer".ss_item_sk = "inner".ss_item_sk)
+        Join Filter: ("outer".col3 >= "inner".col3)
+        ->  XN Seq Scan on volt_tt_6193953c22479  (cost=0.00..4997.72 rows=499772 width=24)
+        ->  XN Seq Scan on volt_tt_6193953c22479  (cost=0.00..4997.72 rows=499772 width=20)
+
+XN HashAggregate  (cost=39203.13..39253.33 rows=20079 width=24)
+  ->  XN Merge Join DS_DIST_NONE  (cost=0.00..31688.21 rows=751492 width=24)
+        Merge Cond: ("outer".ws_item_sk = "inner".ws_item_sk)
+        Join Filter: ("outer".col3 >= "inner".col3)
+        ->  XN Seq Scan on volt_tt_6193953c246ab  (cost=0.00..1402.91 rows=140291 width=24)
+        ->  XN Seq Scan on volt_tt_6193953c246ab  (cost=0.00..1402.91 rows=140291 width=20)
+
+XN Window  (cost=1153615347058.53..1153615360802.26 rows=499772 width=32)
+  Partition: CASE WHEN (volt_tt_6193953c26acc.item_sk IS NOT NULL) THEN volt_tt_6193953c26acc.item_sk ELSE volt_tt_6193953c260c0.item_sk END
+  Order: CASE WHEN (volt_tt_6193953c26acc.d_date IS NOT NULL) THEN volt_tt_6193953c26acc.d_date ELSE volt_tt_6193953c260c0.d_date END
+  ->  XN Sort  (cost=1153615347058.53..1153615348307.96 rows=499772 width=32)
+        Sort Key: CASE WHEN (volt_tt_6193953c26acc.item_sk IS NOT NULL) THEN volt_tt_6193953c26acc.item_sk ELSE volt_tt_6193953c260c0.item_sk END, CASE WHEN (volt_tt_6193953c26acc.d_date IS NOT NULL) THEN volt_tt_6193953c26acc.d_date ELSE volt_tt_6193953c260c0.d_date END
+        ->  XN Network  (cost=2104.37..153615299752.83 rows=499772 width=32)
+              Distribute
+              ->  XN Hash Full Join DS_DIST_BOTH  (cost=2104.37..153615299752.83 rows=499772 width=32)
+                    Outer Dist Key: volt_tt_6193953c260c0.item_sk
+                    Inner Dist Key: volt_tt_6193953c26acc.item_sk
+                    Hash Cond: (("outer".item_sk = "inner".item_sk) AND ("outer".d_date = "inner".d_date))
+                    ->  XN Seq Scan on volt_tt_6193953c260c0  (cost=0.00..4997.72 rows=499772 width=16)
+                    ->  XN Hash  (cost=1402.91..1402.91 rows=140291 width=16)
+                          ->  XN Seq Scan on volt_tt_6193953c26acc  (cost=0.00..1402.91 rows=140291 width=16)
+
+XN Limit  (cost=1000001298438.34..1000001298494.08 rows=100 width=40)
+  ->  XN Merge  (cost=1000001298438.34..1000001298995.67 rows=1000 width=40)
+        Merge Key: volt_tt_6193953c28c9d.col0, volt_tt_6193953c28c9d.col1
+        ->  XN Network  (cost=1000001298438.34..1000001298995.67 rows=222931 width=40)
+              Send to leader
+              ->  XN Sort  (cost=1000001298438.34..1000001298995.67 rows=222931 width=40)
+                    Sort Key: volt_tt_6193953c28c9d.col0, volt_tt_6193953c28c9d.col1
+                    ->  XN HashAggregate  (cost=1275848.48..1278635.12 rows=222931 width=40)
+                          Filter: ("max"(cume_sales) > "max"(cume_sales1))
+                          ->  XN Hash Join DS_DIST_NONE  (cost=7663.58..988811.86 rows=14351831 width=40)
+                                Hash Cond: ("outer".col0 = "inner".col0)
+                                Join Filter: ("outer".col4 >= "inner".col4)
+                                ->  XN Seq Scan on volt_tt_6193953c28c9d  (cost=0.00..6130.86 rows=613086 width=32)
+                                ->  XN Hash  (cost=6130.86..6130.86 rows=613086 width=28)
+                                      ->  XN Seq Scan on volt_tt_6193953c28c9d volt_dt_0  (cost=0.00..6130.86 rows=613086 width=28)
