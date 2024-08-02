@@ -1,3 +1,4 @@
+
 if [ $# -ne 4 ]
 then
     echo "not enough arguments"
@@ -9,7 +10,7 @@ src=$2
 cost=$3
 mvmt=$4
 nums=$(cat $file)
-cd sqlconverter
+cd ../sqlconverter
 mvn compile
 
 for i in ${nums[@]}
