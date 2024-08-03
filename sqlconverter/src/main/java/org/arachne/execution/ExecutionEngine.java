@@ -337,7 +337,7 @@ public class ExecutionEngine {
         FileInputStream input;
         try {
             String home = System.getProperty("user.home");
-            input = new FileInputStream(home + "/arachneDB/config/config.properties");
+            input = new FileInputStream(home + "/arachne/config/config.properties");
             credentials.load(input);
         } catch (Exception e) {
             e.printStackTrace();
@@ -355,7 +355,7 @@ public class ExecutionEngine {
         FileInputStream input;
         try {
             String home = System.getProperty("user.home");
-            input = new FileInputStream(home + "/arachneDB/config/config.properties");
+            input = new FileInputStream(home + "/arachne/config/config.properties");
             credentials.load(input);
         } catch (Exception e) {
             e.printStackTrace();

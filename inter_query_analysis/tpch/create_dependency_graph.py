@@ -13,7 +13,7 @@ def get_tables_for_query(qry_key):
     home = os.path.expanduser("~")
 
     print(f"-----{qry_key}-----")
-    f = open(f"{home}/arachneDB/arachne/tests/parquet_queries/{qry_key}.sql")
+    f = open(f"{home}/arachne/arachne/tests/parquet_queries/{qry_key}.sql")
     lines = [l.strip() for l in f.readlines()]
 
     table_names = []

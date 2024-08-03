@@ -6,7 +6,7 @@ import time
 
 key = sys.argv[1]
 home = os.path.expanduser("~")
-f = open(f"{home}/arachneDB/p_queries/{key}.sql")
+f = open(f"{home}/arachne/p_queries/{key}.sql")
 qry = "".join(f.readlines())
 
 os.chdir("/mnt/disks/tpcds/parquet")

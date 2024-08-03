@@ -4,7 +4,7 @@ import sys
 
 dir_ = sys.argv[1]
 home = os.path.expanduser("~")
-fp = open(f"{home}/arachneDB/{dir_}/worked/processed_profile.json")
+fp = open(f"{home}/arachne/{dir_}/worked/processed_profile.json")
 prof = json.load(fp)
 
 for k in sorted(prof):
@@ -15,5 +15,5 @@ for k in sorted(prof):
     print(f"{t} has {num} cuts")
     for i in range(1, num+1):
         key = f"{t}_{i}_1"
-        if not os.path.exists(f"{home}/arachneDB/data/{key}"):
+        if not os.path.exists(f"{home}/arachne/data/{key}"):
             print(key)

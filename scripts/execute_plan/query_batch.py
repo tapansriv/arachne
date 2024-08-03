@@ -36,7 +36,7 @@ if len(query_keys) == 0:
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 if args.cid:
@@ -45,7 +45,7 @@ else:
     cid = "redshift-cluster-1"
 user = config.get('user').data
 
-query_path = f"{home}/arachneDB/custom_workload/redshift_queries/"
+query_path = f"{home}/arachne/custom_workload/redshift_queries/"
 
 queries_text = []
 for q in query_keys: 

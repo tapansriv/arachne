@@ -33,7 +33,7 @@ public class CollectionTests extends ArachneBaseTest {
         RelNode relTree = null;
         ProfileRel relTree2 = null;
         try {
-            String filePath = System.getProperty("user.home") + "/arachneDB/a_queries/" + key + ".sql";
+            String filePath = System.getProperty("user.home") + "/arachne/a_queries/" + key + ".sql";
             String qry = new String(Files.readAllBytes(Paths.get(filePath)));
             qry = qry.replaceAll(";", "");
             String profile_name = key + "/" + key + "_final.json";

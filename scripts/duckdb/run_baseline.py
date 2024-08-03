@@ -13,7 +13,7 @@ def run_c_q(key):
     # con.execute(f"PRAGMA profile_output='/home/tapansriv/{key}_profile.json'")
     os.chdir("/mnt/disks/tpcds/parquet")
 
-    f = open(f"{home}/arachneDB/c_queries/duck/{key}.sql")
+    f = open(f"{home}/arachne/c_queries/duck/{key}.sql")
     orig_qry = "".join(f.readlines())
     start = time.time()
     con.execute(orig_qry)
@@ -29,7 +29,7 @@ def run_original(key):
     # con.execute(f"PRAGMA profile_output='/home/tapansriv/{key}_profile.json'")
     os.chdir("/mnt/disks/tpcds/parquet")
 
-    f = open(f"{home}/arachneDB/p_queries/{key}.sql")
+    f = open(f"{home}/arachne/p_queries/{key}.sql")
     orig_qry = "".join(f.readlines())
     start = time.time()
     con.execute(orig_qry)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     key = sys.argv[1]
     fname = sys.argv[2]
     home = os.path.expanduser("~")
-    print(f"{home}/arachneDB/baseline_1tb/{fname}.json")
+    print(f"{home}/arachne/baseline_1tb/{fname}.json")
 
     runtime = None
     if "_c" in fname:
@@ -51,9 +51,9 @@ if __name__ == '__main__':
         print('orig', flush=True)
         runtime = run_original(key)
     x = None
-    with open(f"{home}/arachneDB/baseline_1tb/{fname}.json") as fp:
+    with open(f"{home}/arachne/baseline_1tb/{fname}.json") as fp:
         x = json.load(fp)
 
     x[key] = runtime
-    with open(f"{home}/arachneDB/baseline_1tb/{fname}.json", "w") as fp:
+    with open(f"{home}/arachne/baseline_1tb/{fname}.json", "w") as fp:
         json.dump(x, fp, indent=4, sort_keys=True)

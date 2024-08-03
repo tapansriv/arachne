@@ -170,13 +170,13 @@ public class ArachneQueryProcessor {
     public static double baselineRuntime(String key, String src, String schemaName) throws Exception {
         JSONParser parser = new JSONParser();
         try {
-            String file; //= System.getProperty("user.home") + "/arachneDB/baseline/" + src + "_baseline.json";
+            String file; //= System.getProperty("user.home") + "/arachne/baseline/" + src + "_baseline.json";
             if (schemaName.equals("tpcds")) {
-                // file = System.getProperty("user.home") + "/arachneDB/baseline_1tb/" + src + "_baseline.json";
-                // file = System.getProperty("user.home") + "/arachneDB/baseline_2tb/" + src + "_baseline_2tb.json";
-                file = System.getProperty("user.home") + "/arachneDB/baseline_10tb/" + src + "_baseline_10tb.json";
+                // file = System.getProperty("user.home") + "/arachne/baseline_1tb/" + src + "_baseline.json";
+                // file = System.getProperty("user.home") + "/arachne/baseline_2tb/" + src + "_baseline_2tb.json";
+                file = System.getProperty("user.home") + "/arachne/baseline_10tb/" + src + "_baseline_10tb.json";
             } else if (schemaName.equals("ldbc")) {
-                file = System.getProperty("user.home") + "/arachneDB/ldbc/baseline/" + src + "_baseline_ldbc_sf100.json";
+                file = System.getProperty("user.home") + "/arachne/ldbc/baseline/" + src + "_baseline_ldbc_sf100.json";
             } else {
                 throw new RuntimeException("Illegal schema name provided; should be tpcds, ldbc");
             }
@@ -209,11 +209,11 @@ public class ArachneQueryProcessor {
         try {
             String file;
             if (schemaName.equals("tpcds")) {
-                // file = System.getProperty("user.home") + "/arachneDB/baseline_1tb/bigquery_baseline.json";
-                // file = System.getProperty("user.home") + "/arachneDB/baseline_2tb/bigquery_baseline_2tb.json";
-                file = System.getProperty("user.home") + "/arachneDB/baseline_10tb/bigquery_baseline_10tb.json";
+                // file = System.getProperty("user.home") + "/arachne/baseline_1tb/bigquery_baseline.json";
+                // file = System.getProperty("user.home") + "/arachne/baseline_2tb/bigquery_baseline_2tb.json";
+                file = System.getProperty("user.home") + "/arachne/baseline_10tb/bigquery_baseline_10tb.json";
             } else if (schemaName.equals("ldbc")) {
-                file = System.getProperty("user.home") + "/arachneDB/ldbc/baseline/bigquery_baseline_ldbc_sf100.json";
+                file = System.getProperty("user.home") + "/arachne/ldbc/baseline/bigquery_baseline_ldbc_sf100.json";
             } else {
                 throw new RuntimeException("Illegal schema name provided; should be tpcds, ldbc");
             }
@@ -254,10 +254,10 @@ public class ArachneQueryProcessor {
             String filePath;
             ArachneSchema schema;
             if (schemaName.equals("tpcds")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/a_queries/" + key + ".sql";
                 schema = Schemas.tpcdsSchema;
             } else if (schemaName.equals("ldbc")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/ldbc/queries/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/ldbc/queries/a_queries/" + key + ".sql";
                 schema = Schemas.ldbcSchema;
             } else {
                 throw new RuntimeException("Illegal schema name provided;");
@@ -300,7 +300,7 @@ public class ArachneQueryProcessor {
                 else if (relTree != null)
                     print("ERROR:", relTree);
             }
-            String fname = System.getProperty("user.home") + "/arachneDB/data/" + key + ".done";
+            String fname = System.getProperty("user.home") + "/arachne/data/" + key + ".done";
             new PrintWriter(fname, "UTF-8").close(); // ensure that in case of exception we stop iterating
             return false;
         }
@@ -314,10 +314,10 @@ public class ArachneQueryProcessor {
             String filePath;
             ArachneSchema schema;
             if (schemaName.equals("tpcds")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/a_queries/" + key + ".sql";
                 schema = Schemas.tpcdsSchema;
             } else if (schemaName.equals("ldbc")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/ldbc/queries/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/ldbc/queries/a_queries/" + key + ".sql";
                 schema = Schemas.ldbcSchema;
             } else {
                 throw new RuntimeException("Illegal schema name provided;");
@@ -376,19 +376,19 @@ public class ArachneQueryProcessor {
             String filePath;
             ArachneSchema schema;
             if (schemaName.equals("tpcds")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/a_queries/" + key + ".sql";
                 schema = Schemas.tpcdsSchema;
             } else if (schemaName.equals("ldbc")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/ldbc/queries/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/ldbc/queries/a_queries/" + key + ".sql";
                 schema = Schemas.ldbcSchema;
             } else if (schemaName.equals("tpch")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/arachne/tests/table_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/arachne/tests/table_queries/" + key + ".sql";
                 schema = Schemas.tpchSchema;
             } else if (schemaName.equals("imdb")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/cockroach/imdb/queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/cockroach/imdb/queries/" + key + ".sql";
                 schema = Schemas.imdbSchema;
             } else if (schemaName.equals("custom")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/prediction/workload/queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/prediction/workload/queries/" + key + ".sql";
                 schema = Schemas.customSchema;
             } else {
                 throw new RuntimeException("Illegal schema name provided;");
@@ -413,17 +413,17 @@ public class ArachneQueryProcessor {
             String filename;
             switch (schemaName) {
                 case "custom":
-                    filename = System.getProperty("user.home") + "/arachneDB/prediction/workload/c_queries/" + key + ".sql";
+                    filename = System.getProperty("user.home") + "/arachne/prediction/workload/c_queries/" + key + ".sql";
                     break;
                 case "tpcds":
-                    filename = System.getProperty("user.home") + "/arachneDB/c_queries/" + typeStr + "/" + key + ".sql";
+                    filename = System.getProperty("user.home") + "/arachne/c_queries/" + typeStr + "/" + key + ".sql";
                     break;
                 case "ldbc":
-                    filename = System.getProperty("user.home") + "/arachneDB/ldbc/queries/c_queries/" + key + ".sql";
+                    filename = System.getProperty("user.home") + "/arachne/ldbc/queries/c_queries/" + key + ".sql";
                     break;
                 case "tpch":
                 case "imdb":
-                    filename = System.getProperty("user.home") + "/arachneDB/c_queries/" + schemaName + "/" + key + ".sql";
+                    filename = System.getProperty("user.home") + "/arachne/c_queries/" + schemaName + "/" + key + ".sql";
                     break;
                 default:
                     throw new RuntimeException("Invalid schema provided");
@@ -477,10 +477,10 @@ public class ArachneQueryProcessor {
             String filePath;
             ArachneSchema schema;
             if (schemaName.equals("tpcds")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/a_queries/" + key + ".sql";
                 schema = Schemas.tpcdsSchema;
             } else if (schemaName.equals("ldbc")) {
-                filePath = System.getProperty("user.home") + "/arachneDB/ldbc/queries/a_queries/" + key + ".sql";
+                filePath = System.getProperty("user.home") + "/arachne/ldbc/queries/a_queries/" + key + ".sql";
                 schema = Schemas.ldbcSchema;
             } else {
                 throw new RuntimeException("Illegal schema name provided;");
@@ -521,7 +521,7 @@ public class ArachneQueryProcessor {
                 print("ERROR:", relTree2);
             else if (relTree != null)
                 print("ERROR:", relTree);
-            String fname = System.getProperty("user.home") + "/arachneDB/data/" + key + ".done";
+            String fname = System.getProperty("user.home") + "/arachne/data/" + key + ".done";
             new PrintWriter(fname, "UTF-8").close(); // ensure that in case of exception we stop iterating
         }
     }

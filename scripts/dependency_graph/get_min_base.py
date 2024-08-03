@@ -3,11 +3,11 @@ import os
 
 home = os.path.expanduser("~")
 
-duck = json.load(open(f"{home}/arachneDB/baseline/duck_baseline.json"))
-duck_c = json.load(open(f"{home}/arachneDB/baseline/duck_c_baseline.json"))
-rs = json.load(open(f"{home}/arachneDB/baseline/rs_baseline.json"))
-rs_c = json.load(open(f"{home}/arachneDB/baseline/rs_c_baseline.json"))
-bq = json.load(open(f"{home}/arachneDB/baseline/bigquery_baseline.json"))
+duck = json.load(open(f"{home}/arachne/baseline/duck_baseline.json"))
+duck_c = json.load(open(f"{home}/arachne/baseline/duck_c_baseline.json"))
+rs = json.load(open(f"{home}/arachne/baseline/rs_baseline.json"))
+rs_c = json.load(open(f"{home}/arachne/baseline/rs_c_baseline.json"))
+bq = json.load(open(f"{home}/arachne/baseline/bigquery_baseline.json"))
 
 keys = rs.keys() & rs_c.keys() & bq.keys()
 print(len(keys))

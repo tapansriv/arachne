@@ -27,7 +27,7 @@ if args.explain:
 
 if args.tpcds:
     os.chdir("/mnt/disks/tpcds/parquet")
-    fname = f"{os.path.expanduser('~')}/arachneDB/p_queries/{args.tpcds}.sql"
+    fname = f"{os.path.expanduser('~')}/arachne/p_queries/{args.tpcds}.sql"
     print(f"Running TPCDS: {fname}")
     try:
         f = open(fname)

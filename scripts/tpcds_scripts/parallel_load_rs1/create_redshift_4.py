@@ -6,7 +6,7 @@ import redshift_connector
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 tables = ["web_sales"]
@@ -29,9 +29,9 @@ cursor = conn.cursor()
 times = {}
 try:
     for tbl in tables:
-        fname = f"{home}/arachneDB/redshift_schema/{tbl}.sql"
+        fname = f"{home}/arachne/redshift_schema/{tbl}.sql"
         # if tbl == "promotion":
-        #     fname = f"{home}/arachneDB/redshift_schema/{tbl}2.sql"
+        #     fname = f"{home}/arachne/redshift_schema/{tbl}2.sql"
         f = open(fname)
         qry = "".join(f.readlines())
         auth = "'arn:aws:iam::552633893236:role/service-role/AmazonRedshift-CommandsAccessRole-20220225T121207' FORMAT AS PARQUET;";

@@ -31,7 +31,7 @@ if args.size == "2":
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 
@@ -47,7 +47,7 @@ load_times = {t: 0 for t in tables}
 
 total_start = time.time()
 for tbl in tables:
-    fname = f"{home}/arachneDB/{schema_folder}/{tbl}.sql"
+    fname = f"{home}/arachne/{schema_folder}/{tbl}.sql"
     f = open(fname)
     qry = "".join(f.readlines())
     start = time.time()

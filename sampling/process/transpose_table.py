@@ -7,13 +7,13 @@ import os
 from table_names import tpcds_names
 
 home = os.path.expanduser("~")
-os.chdir(f"{home}/arachneDB/sampling")
+os.chdir(f"{home}/arachne/sampling")
 
 data_15 = json.load(open("baseline_0.15/outputs_noduck_0.12_1.086_5.json"))
 data_25 = json.load(open("baseline_0.25/outputs_noduck_0.12_1.086_5.json"))
 data_50 = json.load(open("baseline_0.5/outputs_noduck_0.12_1.086_5.json"))
 data_100 = json.load(open(
-        f"{home}/arachneDB/inter_query_analysis/parquet_1000/real_data_rs1/outputs_noduck_0.12_1.086_5.json"))
+        f"{home}/arachne/inter_query_analysis/parquet_1000/real_data_rs1/outputs_noduck_0.12_1.086_5.json"))
 
 datas = [data_15, data_25, data_50, data_100]
 vals = [0.15, 0.25, 0.5, 1.0]

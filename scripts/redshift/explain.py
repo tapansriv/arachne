@@ -20,12 +20,12 @@ else:
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 user = config.get('user').data
 
-query_path = f"{home}/arachneDB/{args.query_path}"
+query_path = f"{home}/arachne/{args.query_path}"
 rs = {}
 
 client = boto3.client('redshift-data')
@@ -73,7 +73,7 @@ print("starting standard query baselines")
 # use glob to get key set
 
 for key in glob.glob(f"{query_path}/*.sql"):
-# for key in ["/home/cc/arachneDB/runtime_estimation/queries/query94_9.sql"]:
+# for key in ["/home/cc/arachne/runtime_estimation/queries/query94_9.sql"]:
     print(f"starting query {key}")
     done = False
     # f = open(f"{query_path}/{key}.sql")

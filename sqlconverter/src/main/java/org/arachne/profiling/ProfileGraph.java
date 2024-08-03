@@ -61,11 +61,11 @@ public class ProfileGraph {
         try {
             String file;
             if (schemaName.equals("tpcds")) {
-                file = System.getProperty("user.home") + "/arachneDB/calcite_profiles/" + filename;
-                // file = System.getProperty("user.home") + "/arachneDB/calcite_profiles/sf2000/" + filename;
-                // file = System.getProperty("user.home") + "/arachneDB/calcite_profiles/sf10tb/" + filename;
+                file = System.getProperty("user.home") + "/arachne/calcite_profiles/" + filename;
+                // file = System.getProperty("user.home") + "/arachne/calcite_profiles/sf2000/" + filename;
+                // file = System.getProperty("user.home") + "/arachne/calcite_profiles/sf10tb/" + filename;
             } else if (schemaName.equals("ldbc")) {
-                file = System.getProperty("user.home") + "/arachneDB/ldbc/profiles/" + filename;
+                file = System.getProperty("user.home") + "/arachne/ldbc/profiles/" + filename;
             } else {
                 throw new RuntimeException("Illegal schema name provided; should be tpcds, ldbc");
             }

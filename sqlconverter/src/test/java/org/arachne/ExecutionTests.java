@@ -28,7 +28,7 @@ public class ExecutionTests {
         FileInputStream input;
         try {
             String home = System.getProperty("user.home");
-            input = new FileInputStream(home + "/arachneDB/config/config.properties");
+            input = new FileInputStream(home + "/arachne/config/config.properties");
             props.load(input);
             String id = props.getProperty("user");
             String secret = props.getProperty("password");
@@ -274,7 +274,7 @@ public class ExecutionTests {
         Class dbDriver = Class.forName("org.duckdb.DuckDBDriver");
         Connection conn = DriverManager.getConnection("jdbc:duckdb:tpcds.db");
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM '/Users/Tapan/arachneDB/sqlconverter/item.parquet' LIMIT 10");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM '/Users/Tapan/arachne/sqlconverter/item.parquet' LIMIT 10");
         // String qry = new StringBuilder().append("COPY ").append(name).append(" TO '").append(name).append(".parquet' (FORMAT 'parquet')").toString();
         // stmt.executeQuery(qry);
 

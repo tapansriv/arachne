@@ -23,8 +23,8 @@ class BaselineManager:
         home = os.path.expanduser("~")
         # self.use_duck = use_duck
         self.use_duck = False
-        # self.duck = json.load(open(f"{home}/arachneDB/baseline/duck_baseline.json"))
-        # self.duck_c = json.load(open(f"{home}/arachneDB/baseline/duck_c_baseline.json"))
+        # self.duck = json.load(open(f"{home}/arachne/baseline/duck_baseline.json"))
+        # self.duck_c = json.load(open(f"{home}/arachne/baseline/duck_c_baseline.json"))
 
         self.rs = json.load(open(f"duckdb_baseline_500.json"))
         self.rs_c = json.load(open(f"duckdb_c_baseline_500.json"))

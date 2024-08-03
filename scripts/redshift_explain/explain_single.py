@@ -8,14 +8,14 @@ if len(sys.argv) < 2:
     exit("Not enough arguments")
 
 home = os.path.expanduser("~")
-basepath = f"{home}/arachneDB/redshift_queries"
-outpath = f"{home}/arachneDB/sql_preopt/rs_std_query_plans"
+basepath = f"{home}/arachne/redshift_queries"
+outpath = f"{home}/arachne/sql_preopt/rs_std_query_plans"
 
 key = sys.argv[1]
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 conn = redshift_connector.connect(

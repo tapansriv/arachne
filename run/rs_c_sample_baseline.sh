@@ -19,5 +19,5 @@ do
         key=0"$i"
     fi
     echo $key
-    python3 run_baseline_sample.py $key $s $name calcite > ~/arachneDB/data/"$key"_"$s".output 2>&1
+    python3 run_baseline_sample.py $key $s $name calcite > ~/arachne/data/"$key"_"$s".output 2>&1
 done

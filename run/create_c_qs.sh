@@ -21,6 +21,6 @@ do
     echo $key
     args="-Dexec.args=\"calcify $src $i\""
     echo $args
-    echo $args > ~/arachneDB/data/$key.output 2>&1 
-    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="calcify $src $schema $i" >> ~/arachneDB/data/$key.output 2>&1
+    echo $args > ~/arachne/data/$key.output 2>&1 
+    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="calcify $src $schema $i" >> ~/arachne/data/$key.output 2>&1
 done

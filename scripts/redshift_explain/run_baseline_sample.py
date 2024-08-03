@@ -10,7 +10,7 @@ import json
 def run_qry(key, name, calcite):
     config = Properties()
     home = os.path.expanduser("~")
-    with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+    with open(f"{home}/arachne/config/config.properties", "rb") as f:
         config.load(f)
 
     conn = redshift_connector.connect(
@@ -24,9 +24,9 @@ def run_qry(key, name, calcite):
     cursor.execute("SET enable_result_cache_for_session TO OFF")
 
     home = os.path.expanduser("~")
-    qfile = f"{home}/arachneDB/redshift_queries/{key}.sql"
+    qfile = f"{home}/arachne/redshift_queries/{key}.sql"
     if calcite: 
-        qfile = f"{home}/arachneDB/c_queries/rs/{key}.sql"
+        qfile = f"{home}/arachne/c_queries/rs/{key}.sql"
 
     f = open(qfile)
 
@@ -61,9 +61,9 @@ if __name__ == '__main__':
     if runtime != -1:
         home = os.path.expanduser("~")
         x = None
-        outfile = f"{home}/arachneDB/data/rs_baseline_1_{s}.json" 
+        outfile = f"{home}/arachne/data/rs_baseline_1_{s}.json" 
         if calcite:
-            outfile = f"{home}/arachneDB/data/rs_c_baseline_1_{s}.json" 
+            outfile = f"{home}/arachne/data/rs_c_baseline_1_{s}.json" 
         try:
             with open(outfile) as fp:
                 x = json.load(fp)

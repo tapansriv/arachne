@@ -9,7 +9,7 @@ import json
 def run_original(key):
     config = Properties()
     home = os.path.expanduser("~")
-    with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+    with open(f"{home}/arachne/config/config.properties", "rb") as f:
         config.load(f)
 
     conn = redshift_connector.connect(
@@ -23,8 +23,8 @@ def run_original(key):
     cursor.execute("SET enable_result_cache_for_session TO OFF")
 
     home = os.path.expanduser("~")
-    f = open(f"{home}/arachneDB/c_queries/rs/{key}.sql")
-    # f = open(f"{home}/arachneDB/redshift_queries/{key}.sql")
+    f = open(f"{home}/arachne/c_queries/rs/{key}.sql")
+    # f = open(f"{home}/arachne/redshift_queries/{key}.sql")
 
     orig_qry = "".join(f.readlines())
     print(orig_qry)
@@ -49,11 +49,11 @@ if __name__ == '__main__':
     if runtime != -1:
         home = os.path.expanduser("~")
         x = None
-        with open(f"{home}/arachneDB/data/rs_c_baseline_4.json") as fp:
+        with open(f"{home}/arachne/data/rs_c_baseline_4.json") as fp:
             x = json.load(fp)
 
         x[key] = runtime
-        with open(f"{home}/arachneDB/data/rs_c_baseline_4.json", "w") as fp:
+        with open(f"{home}/arachne/data/rs_c_baseline_4.json", "w") as fp:
             json.dump(x, fp, indent=4, sort_keys=True)
 
 

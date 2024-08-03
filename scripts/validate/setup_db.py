@@ -7,8 +7,8 @@ if len(sys.argv) < 3:
     exit("Not enough arguments")
 
 home = os.path.expanduser("~")
-basepath = f"{home}/arachneDB/p_queries"
-outpath = f"{home}/arachneDB/data"
+basepath = f"{home}/arachne/p_queries"
+outpath = f"{home}/arachne/data"
 os.chdir("/mnt/disks/tpcds/parquet")
 
 key = sys.argv[1]

@@ -8,7 +8,7 @@ import pandas as pd
 def run_original(key):
     config = Properties()
     home = os.path.expanduser("~")
-    with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+    with open(f"{home}/arachne/config/config.properties", "rb") as f:
         config.load(f)
 
     conn = redshift_connector.connect(
@@ -22,7 +22,7 @@ def run_original(key):
     cursor.execute("SET enable_result_cache_for_session TO OFF")
 
     home = os.path.expanduser("~")
-    f = open(f"{home}/arachneDB/redshift_queries/{key}.sql")
+    f = open(f"{home}/arachne/redshift_queries/{key}.sql")
     orig_qry = "".join(f.readlines())
     print(f"starting original query {key}")
     start = time.time()
@@ -38,7 +38,7 @@ def run_original(key):
 def run_cut(key, num):
     config = Properties()
     home = os.path.expanduser("~")
-    with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+    with open(f"{home}/arachne/config/config.properties", "rb") as f:
         config.load(f)
 
     conn = redshift_connector.connect(
@@ -57,7 +57,7 @@ def run_cut(key, num):
         trial_val = f"{key}_{i}"
         print(f"starting cut query {trial_val}")
 
-        ft = open(f"{home}/arachneDB/redshift_queries/{trial_val}.sql")
+        ft = open(f"{home}/arachne/redshift_queries/{trial_val}.sql")
         q_all = "".join(ft.readlines())
         qs = q_all.split(";")
         qs = [i for i in qs if i.strip()]
@@ -93,7 +93,7 @@ def validate_dfs(df_orig, dfs):
 
 def infer_num_cuts(key):
     home = os.path.expanduser("~")
-    basepath = f"{home}/arachneDB/redshift_queries"
+    basepath = f"{home}/arachne/redshift_queries"
     for i in range(4, 0, -1):
         fname = f"{basepath}/{key}_{i}.sql"
         if os.path.exists(fname):

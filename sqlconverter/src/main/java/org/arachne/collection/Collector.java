@@ -84,8 +84,8 @@ public class Collector extends AbstractCollector {
         this.baselineRuntime = baselineRuntime;
         this.baselineRuntimeCalcite = baselineRuntimeCalcite;
         this.count = 0;
-        String filename = System.getProperty("user.home") + "/arachneDB/data/" + key + ".out";
-        String logfilename = System.getProperty("user.home") + "/arachneDB/data/" + key + ".profile";
+        String filename = System.getProperty("user.home") + "/arachne/data/" + key + ".out";
+        String logfilename = System.getProperty("user.home") + "/arachne/data/" + key + ".profile";
         this.key = key;
         this.pw = new PrintWriter(filename, "UTF-8");
         this.log = new PrintWriter(logfilename, "UTF-8");
@@ -138,7 +138,7 @@ public class Collector extends AbstractCollector {
                 String dbName = "arachne" + i + ".db";
 
                 int j = i+1;
-                String lf = System.getProperty("user.home") + "/arachneDB/data/" + key + "_" + j + ".sql";
+                String lf = System.getProperty("user.home") + "/arachne/data/" + key + "_" + j + ".sql";
                 PrintWriter cut = new PrintWriter(lf, "UTF-8");
                 for (QueryExecutionGraph q : queryList) {
                     String qry = q.getQuery() + ";";

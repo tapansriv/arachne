@@ -20,7 +20,7 @@ queries = [x for x in range(start_ind,end_ind)]
 config = Properties()
 home = os.path.expanduser("~")
 output = {}
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 conn = redshift_connector.connect(
@@ -52,7 +52,7 @@ for num in queries:
         print(f"already ran qry {qry_str}: {output[qry_str]}")
         continue
     try:
-        fname = f"{home}/arachneDB/redshift_queries/{qry_str}.sql"
+        fname = f"{home}/arachne/redshift_queries/{qry_str}.sql"
         f = open(fname)
         qry = "".join(f.readlines())
         print(f"executing qry {qry_str}")
@@ -70,5 +70,5 @@ for num in queries:
 cursor.close()
 conn.close()
 
-with open(f"{home}/arachneDB/out/redshift_times_{start_ind}_{end_ind}.json", "w") as fp:
+with open(f"{home}/arachne/out/redshift_times_{start_ind}_{end_ind}.json", "w") as fp:
     json.dump(output, fp)

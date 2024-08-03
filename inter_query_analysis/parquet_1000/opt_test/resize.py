@@ -23,7 +23,7 @@ parser.add_argument("--num_tables", type=int, default=24, help="Number of tables
 args = parser.parse_args()
 
 home = os.path.expanduser("~")
-os.chdir(f"{home}/arachneDB/inter_query_analysis/parquet_1000/opt_test")
+os.chdir(f"{home}/arachne/inter_query_analysis/parquet_1000/opt_test")
 
 # assert args.complexity <= 1.0 and args.complexity >= 0.0, "Complexity must be float between 0 and 1"
 
@@ -61,7 +61,7 @@ for qkey in query_names:
         res = res | v
     query_bit_vecs[qkey] = res
 
-with open(f"{home}/arachneDB/inter_query_analysis/opt_test.txt", 'w') as fp:
+with open(f"{home}/arachne/inter_query_analysis/opt_test.txt", 'w') as fp:
     fp.write("\n".join(table_names))
 
 with open('rs_baseline.json', 'w') as fp:

@@ -17,11 +17,11 @@ class BaselineManager:
     def __init__(self, egress_cost, use_duck=False):
         home = os.path.expanduser("~")
         self.use_duck = use_duck
-        self.duck = json.load(open(f"{home}/arachneDB/baseline/duck_baseline.json"))
-        self.duck_c = json.load(open(f"{home}/arachneDB/baseline/duck_c_baseline.json"))
-        self.rs = json.load(open(f"{home}/arachneDB/baseline/rs_baseline.json"))
-        self.rs_c = json.load(open(f"{home}/arachneDB/baseline/rs_c_baseline.json"))
-        self.bq = json.load(open(f"{home}/arachneDB/baseline/bigquery_baseline.json"))
+        self.duck = json.load(open(f"{home}/arachne/baseline/duck_baseline.json"))
+        self.duck_c = json.load(open(f"{home}/arachne/baseline/duck_c_baseline.json"))
+        self.rs = json.load(open(f"{home}/arachne/baseline/rs_baseline.json"))
+        self.rs_c = json.load(open(f"{home}/arachne/baseline/rs_c_baseline.json"))
+        self.bq = json.load(open(f"{home}/arachne/baseline/bigquery_baseline.json"))
 
         self.egress_cost = egress_cost
 

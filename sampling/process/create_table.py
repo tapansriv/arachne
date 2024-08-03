@@ -12,18 +12,18 @@ parser.add_argument("--no_calcite", action="store_true", help="No calcite in num
 args = parser.parse_args()
 
 home = os.path.expanduser("~")
-os.chdir(f"{home}/arachneDB/sampling")
+os.chdir(f"{home}/arachne/sampling")
 
 file_15 = "baseline_0.15/outputs_noduck_0.12_1.086_6.25.json"
 file_25 = "baseline_0.25/outputs_noduck_0.12_1.086_6.25.json"
 file_50 = "baseline_0.5/outputs_noduck_0.12_1.086_6.25.json"
-file_100 = f"{home}/arachneDB/inter_query_analysis/parquet_1000/batch_rs1/outputs_noduck_GCP_0.12_1.086_6.25.json"
+file_100 = f"{home}/arachne/inter_query_analysis/parquet_1000/batch_rs1/outputs_noduck_GCP_0.12_1.086_6.25.json"
 
 if args.no_calcite:
     file_15 = "baseline_0.15/outputs_NOCALCITE_noduck_0.12_1.086_6.25.json"
     file_25 = "baseline_0.25/outputs_NOCALCITE_noduck_0.12_1.086_6.25.json"
     file_50 = "baseline_0.5/outputs_NOCALCITE_noduck_0.12_1.086_6.25.json"
-    file_100 = f"{home}/arachneDB/inter_query_analysis/parquet_1000/batch_rs1/outputs_NOCALCITE_noduck_GCP_0.12_1.086_6.25.json"
+    file_100 = f"{home}/arachne/inter_query_analysis/parquet_1000/batch_rs1/outputs_NOCALCITE_noduck_GCP_0.12_1.086_6.25.json"
 
 data_15 = json.load(open(file_15))
 data_25 = json.load(open(file_25))

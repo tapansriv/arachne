@@ -15,7 +15,7 @@ for i in range(len(dirs)):
     x2 = json.load(f2)
     keys = x1.keys() & x2.keys()
     for k in keys:
-        src = f"/Users/tapansriv/arachneDB/custom_workload/redshift_queries/{k}.sql"
+        src = f"/Users/tapansriv/arachne/custom_workload/redshift_queries/{k}.sql"
         dst = f"/Users/tapansriv/multi-cloud-workload/{wrkld}"
         print(src)
         print(dst)

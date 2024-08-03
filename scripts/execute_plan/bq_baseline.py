@@ -36,7 +36,7 @@ query_keys = bq_baselines.keys() & rs_baselines.keys()
 # else:
 #     raise ValueError()
 
-query_path = f"{home}/arachneDB/custom_workload/bq_queries/"
+query_path = f"{home}/arachne/custom_workload/bq_queries/"
 queries = {}
 for key in query_keys:
     qpath = os.path.join(query_path, key + '.sql')

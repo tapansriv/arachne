@@ -67,8 +67,8 @@ public class AlgorithmicCollector extends AbstractCollector {
         this.originalRoot = root; // NOTE: assume root has already had cardinality data attached
         this.schemaName = schemaName;
 
-        String filename = System.getProperty("user.home") + "/arachneDB/data/" + qm.key + ".out";
-        String logfilename = System.getProperty("user.home") + "/arachneDB/data/" + qm.key + ".profile";
+        String filename = System.getProperty("user.home") + "/arachne/data/" + qm.key + ".out";
+        String logfilename = System.getProperty("user.home") + "/arachne/data/" + qm.key + ".profile";
         // this.pw = new PrintWriter(filename, "UTF-8");
         // this.log = new PrintWriter(logfilename, "UTF-8");
         this.pw = new PrintWriter(new FileOutputStream(filename, true)); // append = true
@@ -131,7 +131,7 @@ public class AlgorithmicCollector extends AbstractCollector {
                 this.pw.close();
                 return;
             } else {
-                String fname = System.getProperty("user.home") + "/arachneDB/data/" + qm.key + ".done";
+                String fname = System.getProperty("user.home") + "/arachne/data/" + qm.key + ".done";
                 new PrintWriter(fname, "UTF-8").close(); // ugly, but touch new file to show that we're done to script
             }
         } else {
@@ -265,7 +265,7 @@ public class AlgorithmicCollector extends AbstractCollector {
 
     private void replayPreviousCuts() throws Exception {
         // open file with info
-        String filename = System.getProperty("user.home") + "/arachneDB/data/" + qm.key + ".cut_info";
+        String filename = System.getProperty("user.home") + "/arachne/data/" + qm.key + ".cut_info";
         try {
             FileInputStream fis = new FileInputStream(filename);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -379,7 +379,7 @@ public class AlgorithmicCollector extends AbstractCollector {
         // log sql executed
         try {
             int j = i+1;
-            String lf = System.getProperty("user.home") + "/arachneDB/data/" + qm.key + "_" + j + ".sql";
+            String lf = System.getProperty("user.home") + "/arachne/data/" + qm.key + "_" + j + ".sql";
             PrintWriter cut = new PrintWriter(lf, "UTF-8");
             for (QueryExecutionGraph q : queryList) {
                 String qry = q.getQuery() + ";";
@@ -694,7 +694,7 @@ public class AlgorithmicCollector extends AbstractCollector {
         cutInfo.put("cutNoMovementCost", cutNoMovementCost);
         iterationInformation.put(String.valueOf(iteration), cutInfo);
         try {
-            String filename = System.getProperty("user.home") + "/arachneDB/data/" + qm.key + ".cut_info";
+            String filename = System.getProperty("user.home") + "/arachne/data/" + qm.key + ".cut_info";
             FileOutputStream fos = new FileOutputStream(filename); // default mode is to overwrite not append
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(iterationInformation); // only one hash map will exist in file at any point

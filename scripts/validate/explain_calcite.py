@@ -12,8 +12,8 @@ con = duckdb.connect(f"/mnt/disks/tpcds/dbs/{key}.db")
 home = os.path.expanduser("~")
 os.chdir("/mnt/disks/tpcds/parquet")
 
-basepath = f"{home}/arachneDB/{dir_}"
-outpath = f"{home}/arachneDB/data"
+basepath = f"{home}/arachne/{dir_}"
+outpath = f"{home}/arachne/data"
 
 print(f"starting {key}")
 orig_path = f"{basepath}/{key}.sql"

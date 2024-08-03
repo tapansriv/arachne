@@ -12,10 +12,10 @@ src=$2
 cost=$3
 mvmt=$4
 
-cd ~/arachneDB/sqlconverter
+cd ~/arachne/sqlconverter
 # mvn compile
 
-fname=/home/cc/arachneDB/data/"$key".done
+fname=/home/cc/arachne/data/"$key".done
 
 if [ $key -lt 10 ]
 then
@@ -26,13 +26,13 @@ echo $key
 iter=0
 args="-Dexec.args=\"single $src $key $cost $mvmt $iter\""
 echo $args
-echo $args > ~/arachneDB/data/$key.output 2>&1 
+echo $args > ~/arachne/data/$key.output 2>&1 
 
 while [ ! -f "$fname" ] ;
 do
     args="-Dexec.args=\"single $src $key $cost $mvmt $iter\""
     echo $args
 
-    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $key $cost $mvmt $iter" >> ~/arachneDB/data/$key.output 2>&1
+    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $key $cost $mvmt $iter" >> ~/arachne/data/$key.output 2>&1
     iter=$(($iter+1))
 done

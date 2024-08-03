@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 if args.cid:
@@ -21,9 +21,9 @@ else:
     cid = "redshift-cluster-1"
 user = config.get('user').data
 
-path = f"{home}/arachneDB/inter_query_analysis/parquet_1000/batch_rs4/"
-std_query_path = f"{home}/arachneDB/redshift_queries/"
-calcite_query_path = f"{home}/arachneDB/c_queries/rs/"
+path = f"{home}/arachne/inter_query_analysis/parquet_1000/batch_rs4/"
+std_query_path = f"{home}/arachne/redshift_queries/"
+calcite_query_path = f"{home}/arachne/c_queries/rs/"
 
 rs = json.load(open(path + "rs_baseline.json"))
 rs_c = json.load(open(path + "rs_c_baseline.json"))

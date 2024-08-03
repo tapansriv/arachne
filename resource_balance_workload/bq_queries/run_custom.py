@@ -16,7 +16,7 @@ output = {}
 
 queries = {}
 
-keys = json.load(open("/Users/tapansriv/arachneDB/inter_query_analysis/custom_workload/all/bigquery_baseline.json"))
+keys = json.load(open("/Users/tapansriv/arachne/inter_query_analysis/custom_workload/all/bigquery_baseline.json"))
 
 # files = glob.glob("*.sql")
 files = keys.keys()

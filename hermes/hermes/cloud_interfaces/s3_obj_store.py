@@ -22,7 +22,7 @@ class S3ObjectStore(ObjectStore):
         self._cached_s3_clients = {}
         config = Properties()
         home = os.path.expanduser("~")
-        with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+        with open(f"{home}/arachne/config/config.properties", "rb") as f:
             config.load(f)
         session = boto3.Session(
                 aws_access_key_id=config.get('access_key_id').data, 

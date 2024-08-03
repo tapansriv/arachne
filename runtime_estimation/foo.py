@@ -1,8 +1,8 @@
 import json
 import shutil
 
-pth = "/Users/tapansriv/arachneDB/inter_query_analysis/custom_workload/mixed"
-prefix = "/home/cc/arachneDB/custom_workload/redshift_queries"
+pth = "/Users/tapansriv/arachne/inter_query_analysis/custom_workload/mixed"
+prefix = "/home/cc/arachne/custom_workload/redshift_queries"
 
 custom = json.load(open("baselines/custom_all_sf100.json"))
 mixed = json.load(open("baselines/test_runtimes.json"))

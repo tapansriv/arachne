@@ -20,5 +20,5 @@ do
     fi
 
     echo $key
-    python3 test_cache.py "$key" 0 > ~/arachneDB/data/"$key"
+    python3 test_cache.py "$key" 0 > ~/arachne/data/"$key"
 done

@@ -20,12 +20,12 @@ else:
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 user = config.get('user').data
 
-query_path = f"{home}/arachneDB/{args.query_path}"
+query_path = f"{home}/arachne/{args.query_path}"
 rs = {}
 
 client = boto3.client('redshift-data')

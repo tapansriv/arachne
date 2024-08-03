@@ -10,7 +10,7 @@ con1 = duckdb.connect(f"orig_{key}.db")
 os.chdir("/mnt/disks/tpcds/parquet")
 
 home = os.path.expanduser("~")
-f = open(f"{home}/arachneDB/p_queries/{key}.sql")
+f = open(f"{home}/arachne/p_queries/{key}.sql")
 orig_qry = "".join(f.readlines())
 # orig_qry = f"CREATE TABLE orig AS {orig_qry}"
 print(f"starting original query {key}")
@@ -22,7 +22,7 @@ for i in range(1, num + 1):
     trial_val = f"{key}_{i}"
     con2 = duckdb.connect(f"cut_{trial_val}.db")
 
-    ft = open(f"{home}/arachneDB/p_queries/{trial_val}.sql")
+    ft = open(f"{home}/arachne/p_queries/{trial_val}.sql")
     qry = "".join(ft.readlines())
     print(f"starting cut query {trial_val}")
     res = con2.execute(qry)

@@ -35,9 +35,9 @@ end = time.time()
 runtime = end - start
 print(f"Query {fname} took {runtime} seconds")
 
-outfile = f"/home/tapansriv/arachneDB/ldbc/baseline/duck_baseline_ldbc_sf{sf}.json"
+outfile = f"/home/tapansriv/arachne/ldbc/baseline/duck_baseline_ldbc_sf{sf}.json"
 if calcite:
-    outfile = f"/home/tapansriv/arachneDB/ldbc/baseline/duck_c_baseline_ldbc_sf{sf}.json"
+    outfile = f"/home/tapansriv/arachne/ldbc/baseline/duck_c_baseline_ldbc_sf{sf}.json"
 
 data = None
 try:

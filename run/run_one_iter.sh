@@ -14,10 +14,10 @@ cost=$4
 mvmt=$5
 iter=$6
 
-cd ~/arachneDB/sqlconverter
+cd ~/arachne/sqlconverter
 # mvn compile
 
-fname=~/arachneDB/data/"$key".done
+fname=~/arachne/data/"$key".done
 
 if [ "$schema" == "tpcds" ] 
 then
@@ -30,12 +30,12 @@ echo $key
 
 args="-Dexec.args=\"single $src $schema $key $cost $mvmt $iter\""
 echo $args
-echo $args >> ~/arachneDB/data/$key.output 2>&1 
+echo $args >> ~/arachne/data/$key.output 2>&1 
 
 if [ ! -f "$fname" ] ;
 then
     args="-Dexec.args=\"single $src $schema $key $cost $mvmt $iter\""
     echo $args
 
-    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $schema $key $cost $mvmt $iter" >> ~/arachneDB/data/$key.output 2>&1
+    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $schema $key $cost $mvmt $iter" >> ~/arachne/data/$key.output 2>&1
 fi

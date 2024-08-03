@@ -14,7 +14,7 @@ qry = "".join(f.readlines())
 con = duckdb.connect("/mnt/disks/ldbc/dbs/ldbc.db")
 con.execute(f"pragma memory_limit='185g'")
 con.execute("pragma enable_profiling='json'")
-profile_outfile = f"/home/tapansriv/arachneDB/ldbc/profiles/{fname}_{sf}.json"
+profile_outfile = f"/home/tapansriv/arachne/ldbc/profiles/{fname}_{sf}.json"
 con.execute(f"pragma profile_output='{profile_outfile}'")
 print(f"connected: starting query {fname}")
 

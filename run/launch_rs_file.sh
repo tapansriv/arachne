@@ -23,6 +23,6 @@ do
     echo $key
     args="-Dexec.args=\"single $src $i $cost $mvmt\""
     echo $args
-    echo $args > ~/arachneDB/data/$key.output 2>&1 
-    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $i $cost $mvmt" >> ~/arachneDB/data/$key.output 2>&1
+    echo $args > ~/arachne/data/$key.output 2>&1 
+    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $i $cost $mvmt" >> ~/arachne/data/$key.output 2>&1
 done

@@ -14,7 +14,7 @@ if len(sys.argv) == 3:
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 conn = redshift_connector.connect(
@@ -27,8 +27,8 @@ conn = redshift_connector.connect(
 cursor = conn.cursor()
 
 home = os.path.expanduser("~")
-basepath = f"{home}/arachneDB/redshift_queries"
-outpath = f"{home}/arachneDB/data"
+basepath = f"{home}/arachne/redshift_queries"
+outpath = f"{home}/arachne/data"
 
 num = 0
 for i in range(4, 0, -1):

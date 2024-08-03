@@ -23,11 +23,11 @@ do
     if [ $i -eq 13 ] || [ $i -eq 95 ] || [ $i -eq 49 ] || [ $i -eq 61 ] || [ $i -eq 83 ]
     then
         echo "Skipping $i"
-        echo "Skipping $i" > ~/arachneDB/data/$key.output
+        echo "Skipping $i" > ~/arachne/data/$key.output
         continue
     fi
     args="-Dexec.args=\"single $src $i $cost $mvmt\""
     echo $args
-    echo $args > ~/arachneDB/data/$key.output 2>&1 
-    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $i $cost $mvmt" >> ~/arachneDB/data/$key.output 2>&1
+    echo $args > ~/arachne/data/$key.output 2>&1 
+    mvn exec:java -Dexec.mainClass=org.arachne.ArachneQueryProcessor -Dexec.args="single $src $i $cost $mvmt" >> ~/arachne/data/$key.output 2>&1
 done

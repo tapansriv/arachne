@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 conn = redshift_connector.connect(
@@ -28,7 +28,7 @@ conn = redshift_connector.connect(
 )
 
 if args.tpcds:
-    fname = f"{os.path.expanduser('~')}/arachneDB/redshift_queries/{args.tpcds}.sql"
+    fname = f"{os.path.expanduser('~')}/arachne/redshift_queries/{args.tpcds}.sql"
     print(f"Running TPCDS: {fname}")
     try:
         f = open(fname)

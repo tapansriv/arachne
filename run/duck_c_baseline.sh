@@ -18,5 +18,5 @@ do
         key=0"$i"
     fi
     echo $key
-    python3 run_baseline.py $key $t > ~/arachneDB/data/"$key"_"$t".output 2>&1
+    python3 run_baseline.py $key $t > ~/arachne/data/"$key"_"$t".output 2>&1
 done

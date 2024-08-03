@@ -8,7 +8,7 @@ import pandas as pd
 def run_original(key):
     con1 = duckdb.connect(f"orig_{key}.db")
     home = os.path.expanduser("~")
-    f = open(f"{home}/arachneDB/p_queries/{key}.sql")
+    f = open(f"{home}/arachne/p_queries/{key}.sql")
     orig_qry = "".join(f.readlines())
     print(f"starting original query {key}")
     start = time.time()
@@ -26,7 +26,7 @@ def run_cut(key, num):
         trial_val = f"{key}_{i}"
         con2 = duckdb.connect(f"cut_{trial_val}.db")
 
-        ft = open(f"{home}/arachneDB/p_queries/{trial_val}.sql")
+        ft = open(f"{home}/arachne/p_queries/{trial_val}.sql")
         qry = "".join(ft.readlines())
         print(f"starting cut query {trial_val}")
         start = time.time()

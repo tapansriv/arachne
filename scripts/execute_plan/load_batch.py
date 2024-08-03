@@ -46,7 +46,7 @@ if len(tables) == 0:
 
 config = Properties()
 home = os.path.expanduser("~")
-with open(f"{home}/arachneDB/config/config.properties", "rb") as f:
+with open(f"{home}/arachne/config/config.properties", "rb") as f:
     config.load(f)
 
 
@@ -65,7 +65,7 @@ client = boto3.client('redshift-data')
 create_jobs = {}
 start = time.time()
 for tbl in tables:
-    fname = f"{home}/arachneDB/redshift_schema/{tbl}.sql"
+    fname = f"{home}/arachne/redshift_schema/{tbl}.sql"
     f = open(fname)
     qry = "".join(f.readlines())
     response = client.execute_statement(
